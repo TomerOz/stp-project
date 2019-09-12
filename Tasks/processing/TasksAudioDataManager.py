@@ -68,7 +68,7 @@ class MainAudioProcessor(object):
 		
 
 	def _randomize_sentences(self):
-		''' only for initial randomization - additional shufflinfs will be required whithin each phase.
+		''' only for initial randomization - additional shufflinfs will be required whithin each phase/task.
 		randomizes sentences pointers - ensures:
 		- first four are neutral 
 		- last four are neutral ?

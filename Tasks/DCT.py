@@ -24,7 +24,7 @@ FOREGROUND = "white"
 CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
 DCT_STIMULI_FONT = "david 50 bold"
 DCT_STIMULI = u'XXX'
-FIXATION_TIME = 1000
+FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
 FEEDBACK_COLOR_DURATAION = 300
 ONE_MILISCOND = 1000
 MILISECONDS_BEFORE_END = 500
@@ -50,19 +50,22 @@ AMMOUNT_OF_PRACTICE = 3 # ATTEND TO ITS CREATION
 TRIALS = 20 + AMMOUNT_OF_PRACTICE # ensures all 40 sentences are available at experimental level
 BLOCKS = 2
 CHANGE_BLOCK_TRIAL = int((TRIALS - AMMOUNT_OF_PRACTICE)/BLOCKS) + AMMOUNT_OF_PRACTICE
+BLOCK_CHANGE_WAIT_TIME = 3000
 CATCH_TRIAL_PERCENT = 0.25
 PROPORTION_OF_CORRECT_CATCH = 0.5
 NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS = 4
 
 class DctTask(object):
 	
-	def __init__(self, gui, exp, td):
+	def __init__(self, gui, exp, td, flow):
 		self.gui = gui
 		self.exp = exp
 		self.td = td
+		self.flow = flow
 		self.stimulus_live_text = DCT_STIMULI # to be later updated
 		self.shown_num = None # last number on screen
 		self.key_pressed = None
+		self.block_changed = False # keeps track if lasts block change occured
 		
 	def _getreponse(self, eff=None, key=None):
 		self.td.t1 = time.time()													## END OF TIME RECORD
@@ -73,15 +76,17 @@ class DctTask(object):
 		# unbinding keyboard - to not allow overriding sentences
 		self.gui.unbind("<Right>")
 		self.gui.unbind("<Left>")
+		self._continue()
 		
+	def _continue(self):
 		# trial flow control:
 		if self.td.is_practice:
-			self._give_feedback(key)		
+			self._give_feedback(self.key_pressed)		
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
+		elif self.td.current_trial == CHANGE_BLOCK_TRIAL and not self.block_changed:
+			self.change_block_frame()
 		elif self.td.current_trial in self.td.catch_trials:
 			self.catch_trial() # intiate catch trial
-		elif self.td.current_trial == CHANGE_BLOCK_TRIAL:
-			self.change_block_frame()
 		else:
 			self._trial() # continues to next trial			
 			
@@ -153,11 +158,23 @@ class DctTask(object):
 		else:
 			self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
 		
-		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
-		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
-		self.gui.after(FIXATION_TIME, self._start_audio)
+		
+		
+		if self.td.current_trial <= TRIALS:
+			''' Task is still running'''
+			self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
+			self.gui.after(FIXATION_TIME, self._start_audio)
+		else:		
+			''' Task is over'''
+			print "End - on _tria()"
+			self.flow.second_task()
+			# raise flag of completion
+			# get data frame from sd
 	
 	def change_block_frame(self):
+		print "Block changed"
+		self.block_changed = True
 		self.td.current_block = 2 # updating block
 		block_change_text = u'השלמת את החצי הראשון של המטלה'
 		self.exp.create_frame(
@@ -167,8 +184,10 @@ class DctTask(object):
 								)
 		self.exp.create_label(LABEL_1, CHANGE_BLOCK_FRAME, label_text=block_change_text, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
 		self.exp.create_label(BUTTON_LABEL, CHANGE_BLOCK_FRAME, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
-		self.exp.create_button(CHANGE_BLOCK_FRAME, BUTTON_LABEL, 'next', self._trial)
+		self.exp.create_button(CHANGE_BLOCK_FRAME, BUTTON_LABEL, 'next', self._continue)
 		self.exp.display_frame(CHANGE_BLOCK_FRAME, [LABEL_1, BUTTON_LABEL])
+		self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack_forget()
+		self.gui.after(BLOCK_CHANGE_WAIT_TIME, self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack)
 	
 	def start_task(self):
 		self.td.event_timed_initment() # user dependet initment of the dct data class
@@ -183,7 +202,7 @@ class DctTask(object):
 		self.gui.after(2*k, lambda:self._count_down(num=1))
 		self.gui.after(3*k, self._trial) # experiment was started
 		
-	
+		
 		
 class TaskData(object):
 	''' the data manager of the dct task'''
@@ -350,9 +369,15 @@ class TaskData(object):
 		random.shuffle(self.practice_trials)
 		
 		self.sentences = self.practice_trials + self.sentences # inserting practice trials to the beginig of sentences
-	
 				
 	def updata_current_sentence(self):
-		self.current_sentence = self.sentences[self.current_trial - 1]
-		self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
+		if self.current_trial <= TRIALS:
+			''' Task is still running'''
+			self.current_sentence = self.sentences[self.current_trial - 1]
+			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 		
+		else:		
+			''' Task is over'''
+			print "End - on update"
+			# raise flag of completion
+			# get data frame from sd

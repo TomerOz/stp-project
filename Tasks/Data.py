@@ -110,6 +110,6 @@ class SubjectData(object):
 				
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
-		print 'h'
+		
 		return subject_df
 			

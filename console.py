@@ -47,7 +47,14 @@ def main():
 			self.gui.unbind("<Right>")	
 			menu.show()
 			self.callback(instructions.inst_flow)
-			self.callback(task.start_task)		
+			self.callback(task.start_task)
+
+		def second_task(self, event=None):
+			self.flag = True
+			self.gui.unbind("<Right>")
+			self.gui.unbind("<Left>")
+			self.callback(instructions2.inst_flow)
+			self.callback(task2.start_task)
 	
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
 	exp = Experiment()
@@ -55,9 +62,13 @@ def main():
 	flow = Flow(gui)
 	data_manager = MainAudioProcessor()
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager)
-	td = TaskData(menu, data_manager, phase='training')
-	task = DctTask(gui, exp, td)
+	td_trainig = TaskData(menu, data_manager, phase='training')
+	td_post_training = TaskData(menu, data_manager, phase='post')
+	task = DctTask(gui, exp, td_trainig, flow)
 	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)
+	
+	task2 = DctTask(gui, exp, td_post_training, flow)
+	instructions2 = Instructions(task, gui, exp, flow, IMAGEPATH)
 	
 	gui.bind("<space>", flow.start_exp)
 	gui.state('zoomed')
