@@ -82,6 +82,8 @@ class SubjectData(object):
 		
 		
 	def create_data_frame(self):
+		subject_df = pd.DataFrame()
+		
 		columns = ['subject', 'trial num', 'trial type', 'catch trial type',
 					'block', 'is correct', 'key pressed', 'RT', 'valence',
 					'text', 'duration', 'path', 'sentence num',
@@ -105,3 +107,9 @@ class SubjectData(object):
 					self.gender_col				,
 					self.group_col				,
 				]
+				
+		for i,r in enumerate(rows):
+			subject_df[columns[i]] = pd.Series(r)
+			
+		return subject_df
+			
