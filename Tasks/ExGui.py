@@ -25,7 +25,7 @@ class Experiment(object):
 	
 	def __init__(self, font_color="white", background="black"):
 		self.gui = type(self).EXPERIMENT_GUI
-
+		self.tk = tk
 		user32 = ctypes.windll.user32
 		self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
 		self.x = self.screensize[0] #screen width

@@ -160,17 +160,19 @@ class DctTask(object):
 		
 		
 		
+		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
+		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
+		
 		if self.td.current_trial <= TRIALS:
 			''' Task is still running'''
-			self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
 			''' Task is over'''
 			print "End - on _tria()"
-			self.flow.second_task()
-			# raise flag of completion
 			# get data frame from sd
+			self.td.sd.create_data_frame()
+			# raise flag of completion
+			self.flow.second_task()
 	
 	def change_block_frame(self):
 		print "Block changed"
@@ -207,12 +209,13 @@ class DctTask(object):
 class TaskData(object):
 	''' the data manager of the dct task'''
 	
-	def __init__(self, menu, data_manager, phase=None):
+	def __init__(self, menu, data_manager, subject_data, phase=None):
 		
 		# user data
 		self.menu = menu # contains gender, subject subject's path and group
 		self.phase=phase # base-line \ training \ post trainig \ mab \ dichotic
 		self.data_manager = data_manager # All tasks data manager
+		self.sd = subject_data
 
 		# RT live data
 		self.t0 = 0 # first time point - digit shown
@@ -264,7 +267,7 @@ class TaskData(object):
 		
 		
 		# sd is a subject data instance
-		self.sd = SubjectData(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
+		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
 		
 		self.practice_trials = [] # contain sentences of practivce
 		self._redefine_sentences_according_to_phase(phase=self.phase)

@@ -1,14 +1,10 @@
-
+import os
 import pandas as pd
 
 class SubjectData(object):
 	
-	def __init__(self, subject, group, gender):
-		
-		self.subject = subject
-		self.gender = gender
-		self.group = group
-		
+	def __init__(self):
+	
 		self.subject_col = []
 		self.gender_col = []
 		self.group_col = []
@@ -22,6 +18,7 @@ class SubjectData(object):
 		self.nums_shown_types = []
 		self.catch_trial_types = []
 		self.sentence_instances = [] # valence, text, path, duration etc....
+		self.experimental_phase = []
 		
 		# unpacked sentence properties:
 		self.sentences_valence = []
@@ -30,7 +27,12 @@ class SubjectData(object):
 		self.sentences_duration = []
 		self.sentences_paths = []
 		
+	def add_menu_data(self, subject, group, gender):
+		self.subject = subject
+		self.gender = gender
+		self.group = group
 		
+	
 	def push_data_packge(self, package):
 		recorded_trial = package.current_trial-1
 		sentence = package.sentences[package.current_trial - 2] # see scheme to understand whay I'm taking to steps back
@@ -41,6 +43,7 @@ class SubjectData(object):
 		was_correct = package.last_trial_classification # was last trial correct or not
 		last_rt = package.last_RT # last trial rt
 		num_shown_type = package.num_shown_type
+		phase = package.phase
 		
 		self.trials_nums.append(recorded_trial)
 		self.trials_types.append(trial_type)
@@ -49,6 +52,7 @@ class SubjectData(object):
 		self.pressed_keys.append(last_key)
 		self.RTs.append(last_rt)
 		self.nums_shown_types.append(num_shown_type)
+		self.experimental_phase.append(phase)
 		self.subject_col.append(self.subject)
 		self.gender_col.append(self.gender)
 		self.group_col.append(self.group)
@@ -84,7 +88,7 @@ class SubjectData(object):
 	def create_data_frame(self):
 		subject_df = pd.DataFrame()
 		
-		columns = ['subject', 'trial num', 'trial type', 'catch trial type',
+		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
 					'block', 'is correct', 'key pressed', 'RT', 'valence',
 					'text', 'duration', 'path', 'sentence num',
 					'num shown', 'gender', 'group']
@@ -92,6 +96,7 @@ class SubjectData(object):
 		rows = [
 					self.subject_col			,
 					self.trials_nums			,
+					self.experimental_phase		,
 					self.trials_types			,
 					self.catch_trial_types      ,
 					self.blocks					,
@@ -111,5 +116,9 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
+		subject_dir = 'Data\\Subject_' + str(self.subject)
+		if not os.path.exists(subject_dir):
+			os.mkdir(subject_dir) 
+		subject_df.to_excel(subject_dir + '\\data.xlsx')
 		return subject_df
 			

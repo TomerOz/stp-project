@@ -23,7 +23,6 @@ class Experiment(object):
 	CURRENT_FRAME = None # keeps track on currently displayed frame
 	
 	def __init__(self, font_color="white", background="black"):
-		
 		user32 = ctypes.windll.user32
 		self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
 		self.x = self.screensize[0] #screen width

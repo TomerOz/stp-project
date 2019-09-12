@@ -13,6 +13,7 @@ from Tasks.DCT import DctTask, TaskData
 from Tasks.OpeningMenu import Menu
 from Tasks.processing.wav_lengh import AudioProcessor
 from Tasks.processing.TasksAudioDataManager import MainAudioProcessor
+from Tasks.Data import SubjectData
 
 CALLBACK_WAIT_TIME = 500
 
@@ -60,10 +61,11 @@ def main():
 	exp = Experiment()
 	gui  = exp.EXPERIMENT_GUI
 	flow = Flow(gui)
+	sd = SubjectData()
 	data_manager = MainAudioProcessor()
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager)
-	td_trainig = TaskData(menu, data_manager, phase='training')
-	td_post_training = TaskData(menu, data_manager, phase='post')
+	td_trainig = TaskData(menu, data_manager, sd, phase='training')
+	td_post_training = TaskData(menu, data_manager, sd, phase='post')
 	task = DctTask(gui, exp, td_trainig, flow)
 	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)
 	
