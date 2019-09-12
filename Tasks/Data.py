@@ -87,4 +87,21 @@ class SubjectData(object):
 					'text', 'duration', 'path', 'sentence num',
 					'num shown', 'gender', 'group']
 					
-					
+		rows = [
+					self.subject_col			,
+					self.trials_nums			,
+					self.trials_types			,
+					self.catch_trial_types      ,
+					self.blocks					,
+					self.categorization_scores	,
+					self.pressed_keys			,
+					self.RTs					,
+					self.sentences_valence		,
+					self.sentences_texts		,
+					self.sentences_duration		,
+					self.sentences_paths		,
+					self.sentences_nums			,
+					self.nums_shown_types		,
+					self.gender_col				,
+					self.group_col				,
+				]
