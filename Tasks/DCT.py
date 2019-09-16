@@ -204,8 +204,7 @@ class DctTask(object):
 		self.gui.after(2*k, lambda:self._count_down(num=1))
 		self.gui.after(3*k, self._trial) # experiment was started
 		
-		
-		
+				
 class TaskData(object):
 	''' the data manager of the dct task'''
 	
