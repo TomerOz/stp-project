@@ -40,6 +40,7 @@ class MainAudioProcessor(object):
 		self.sentences = [] # sentences to be used in the current phase - be it pre or post trainig -- updates within program
 		self.neutral_sentences = [] # contain all neutral sentences
 		self.negatives_sentences = [] # contain all negative sentences
+		
 		self.pre_intervention_sentences = []
 		self.post_intervention_sentences = []
 		
@@ -50,6 +51,27 @@ class MainAudioProcessor(object):
 		
 		
 	def _split_train_and_post_trials(self):
+		
+		'''
+			REWRITE THIS FUNCTION AS FOLLOWS:
+				
+				The function should get a number that represent ammount of stp sentences for each category.
+				instead of spliting by half to pre and post training sentences, split into a dictionary with serial 
+				keys to late have meaning (DICHOTIC, NAB, AFACT etc.)
+				
+				Should all sections have the same ammount of sentences?????????????
+				
+				Neutrals and Negatives? always the same ammount
+				
+				
+				Shuffle at the end.
+				
+		'''
+		
+		
+		
+		
+		
 		len_neutrals = len(self.neutral_sentences)
 		len_negatives = len(self.negatives_sentences)
 		

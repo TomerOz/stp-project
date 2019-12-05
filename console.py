@@ -17,9 +17,6 @@ from Tasks.Data import SubjectData
 
 CALLBACK_WAIT_TIME = 500
 
-#AUDIOPATH = r'G:\Shared drives\Amit Bernstein Lab - HIPAA\omertomer\DCT_STP\Subjects'
-#IMAGEPATH = r'G:\Shared drives\Amit Bernstein Lab - HIPAA\omertomer\DCT_STP\Instructions_Pictures'
-
 AUDIOPATH = r'Subjects'
 IMAGEPATH = r'Instructions_Pictures'
 
@@ -57,17 +54,22 @@ def main():
 			self.callback(instructions2.inst_flow)
 			self.callback(task2.start_task)
 	
-	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
-	exp = Experiment()
-	gui  = exp.EXPERIMENT_GUI
-	flow = Flow(gui)
-	sd = SubjectData()
-	data_manager = MainAudioProcessor()
-	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager)
-	td_trainig = TaskData(menu, data_manager, sd, phase='training')
-	td_post_training = TaskData(menu, data_manager, sd, phase='post')
-	task = DctTask(gui, exp, td_trainig, flow)
-	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)
+	
+	
+	
+	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
+	exp = Experiment() # A class instance of experiments buildind
+	gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class
+	flow = Flow(gui) # A class instance that controls the experiment flow
+	sd = SubjectData()	# 
+	data_manager = MainAudioProcessor() # 
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	
+	td_trainig = TaskData(menu, data_manager, sd, phase='training') # A class intance that organizes the data for the DCT task
+	td_post_training = TaskData(menu, data_manager, sd, phase='post') # A class intance that organizes the data for the DCT task
+	task = DctTask(gui, exp, td_trainig, flow) # # A class intance that runs the DCT task
+	
+	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
 	task2 = DctTask(gui, exp, td_post_training, flow)
 	instructions2 = Instructions(task, gui, exp, flow, IMAGEPATH)

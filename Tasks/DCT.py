@@ -158,8 +158,7 @@ class DctTask(object):
 		else:
 			self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
 		
-		
-		
+
 		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
@@ -250,6 +249,7 @@ class TaskData(object):
 		self.audio_files_list = 	self.data_manager.audio_files_list
 		
 		
+		# adresss according to instructinos
 		self.sentences 					= self.data_manager.sentences # sentences to be used in the current phase - be it pre or post trainig -- updates within program
 		self.neutral_sentences 			= self.data_manager.neutral_sentences # contain all neutral sentences
 		self.negatives_sentences 		= self.data_manager.negatives_sentences # contain all negative sentences
