@@ -46,10 +46,6 @@ RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point??
 RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
 MIN_DIGIT = 1
 MAX_DIGIT = 8
-AMMOUNT_OF_PRACTICE = 3 # ATTEND TO ITS CREATION
-TRIALS = 20 + AMMOUNT_OF_PRACTICE # ensures all 40 sentences are available at experimental level
-BLOCKS = 2
-CHANGE_BLOCK_TRIAL = int((TRIALS - AMMOUNT_OF_PRACTICE)/BLOCKS) + AMMOUNT_OF_PRACTICE
 BLOCK_CHANGE_WAIT_TIME = 3000
 CATCH_TRIAL_PERCENT = 0.25
 PROPORTION_OF_CORRECT_CATCH = 0.5
@@ -80,10 +76,10 @@ class DctTask(object):
 		
 	def _continue(self):
 		# trial flow control:
-		if self.td.is_practice:
+		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
-		elif self.td.current_trial == CHANGE_BLOCK_TRIAL and not self.block_changed:
+		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
 		elif self.td.current_trial in self.td.catch_trials:
 			self.catch_trial() # intiate catch trial
@@ -145,7 +141,7 @@ class DctTask(object):
 	# ask math?
 	
 	def _trial(self): # type controls for practice or acttual
-		if self.td.current_trial == CHANGE_BLOCK_TRIAL:
+		if self.td.current_trial == self.td.change_block_trial:
 			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
 			self.exp.display_frame(FRAME_1, [LABEL_1])
 		
@@ -162,7 +158,7 @@ class DctTask(object):
 		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
-		if self.td.current_trial <= TRIALS:
+		if self.td.current_trial <= self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
@@ -207,14 +203,19 @@ class DctTask(object):
 class TaskData(object):
 	''' the data manager of the dct task'''
 	
-	def __init__(self, menu, data_manager, subject_data, phase=None):
+	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		
 		# user data
 		self.menu = menu # contains gender, subject subject's path and group
 		self.phase=phase # base-line \ training \ post trainig \ mab \ dichotic
 		self.data_manager = data_manager # All tasks data manager
 		self.sd = subject_data
-
+		if n_blocks == None:
+			self.n_blocks = 1
+		else:
+			self.n_blocks = n_blocks
+		
+		
 		# RT live data
 		self.t0 = 0 # first time point - digit shown
 		self.t1 = 0 # second time point - response taken
@@ -223,16 +224,15 @@ class TaskData(object):
 		# trial block trackeeping
 		self.current_trial = 0 # first trial starts with a record - so it is intializes current_trial to 1
 		self.current_block = 1
-		self.is_practice = True
 		
 		# selection of trials to insert catch trials
 		self.catch_trials = []
-		self.correct_catch_trials = [] # filled in next function
-		self._create_catch_trials_list()
+		self.correct_catch_trials = [] # filled in function _create_catch_trials_list
+		
 		## add here classfication of this list to correct and incorrect response
 		
 		# current sentence track keeping
-		self.current_sentence = None # continan Sentence current instance
+		self.current_sentence = None # continan current Sentence instance
 		self.current_sentence_path = None # contain path of current sentence audio file
 			
 	def event_timed_initment(self):
@@ -250,29 +250,26 @@ class TaskData(object):
 		
 		
 		# adresss according to instructinos
-		self.sentences 					= self.data_manager.sentences # sentences to be used in the current phase - be it pre or post trainig -- updates within program
-		self.neutral_sentences 			= self.data_manager.neutral_sentences # contain all neutral sentences
-		self.negatives_sentences 		= self.data_manager.negatives_sentences # contain all negative sentences
-		self.pre_intervention_sentences = self.data_manager.pre_intervention_sentences
-		self.post_intervention_sentences = self.data_manager.post_intervention_sentences
+		self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
+		self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
+		self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
 		
-		self.training_neutrals 				= self.data_manager.training_neutrals
-		self.post_training_neutrals         = self.data_manager.post_training_neutrals
-		self.training_negatives             = self.data_manager.training_negatives
-		self.post_training_negatives        = self.data_manager.post_training_negatives
-		
-		self.pre_intervention_sentences     = self.data_manager.pre_intervention_sentences
-		self.post_intervention_sentences    = self.data_manager.post_intervention_sentences
-		
+		self.ammount_of_experimental_trials = len(self.sentences) - self.data_manager.ammount_practice_trials # excluding practice trials
+		self.total_ammount_of_trials =  len(self.sentences) # including practice
 		
 		# sd is a subject data instance
 		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
+		self._create_catch_trials_list()
+		self.change_block_trial = None # To be defined in defin_block_change_trial
+		self.define_block_change_trial()
 		
-		self.practice_trials = [] # contain sentences of practivce
-		self._redefine_sentences_according_to_phase(phase=self.phase)
-		self._get_x_practice_trials() # practice trials are dublicated and added
 		self.updata_current_sentence() # current sentence is set to the first practice trial
 	
+	def define_block_change_trial(self):
+		if self.n_blocks > 1:
+			self.change_block_trial = int(1.0*self.total_ammount_of_trials/self.n_blocks)
+		else:
+			self.change_block_trial
 	
 	def _classify_type_of_num(self, num):
 		if num % 2 == 0:
@@ -281,8 +278,8 @@ class TaskData(object):
 			return ODD
 			
 	def _create_catch_trials_list(self):
-		catch_trials_ammount = int(CATCH_TRIAL_PERCENT*TRIALS)
-		trials = range(AMMOUNT_OF_PRACTICE+2,TRIALS+1) # + 2 so that first two trials are not catch
+		catch_trials_ammount = int(CATCH_TRIAL_PERCENT*self.ammount_of_experimental_trials)
+		trials = range(self.data_manager.ammount_practice_trials+2,self.ammount_of_experimental_trials+1) # + 2 so that first two trials are not catch
 		for i in range(catch_trials_ammount):
 			num = random.sample(trials, 1)[0]
 			trials.remove(num)
@@ -317,9 +314,6 @@ class TaskData(object):
 				else:
 					was_correct = False
 				
-				if self.current_trial > AMMOUNT_OF_PRACTICE:
-					self.is_practice = False
-				
 				print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
 				self.updata_current_sentence()
 				
@@ -347,33 +341,9 @@ class TaskData(object):
 			self.current_trial += 1
 			self.updata_current_sentence()
 		
-	def _redefine_sentences_according_to_phase(self, phase=None):
-		# re definig sentences lists to the current phase -  pre or post training
-		# currently sets to trainnig phase
-		if phase == 'training':
-			self.sentences = self.pre_intervention_sentences
-			self.neutral_sentences = self.training_neutrals
-			self.negatives_sentences = self.training_negatives 
-		elif phase == 'post':
-			self.sentences = self.post_intervention_sentences
-			self.neutral_sentences = self.post_training_neutrals
-			self.negatives_sentences = self.post_training_negatives			
-	
-	def _get_x_practice_trials(self, neutrals=AMMOUNT_OF_PRACTICE, negatives=0):
-		'''
-			after sentences were randomized and insured d neutrals to start with
-			additional x practice trial are added at the beginig
-		'''
-		neutral_practice = random.sample(self.neutral_sentences, neutrals)
-		negative_practice = random.sample(self.negatives_sentences, negatives)
-		
-		self.practice_trials = neutral_practice + negative_practice
-		random.shuffle(self.practice_trials)
-		
-		self.sentences = self.practice_trials + self.sentences # inserting practice trials to the beginig of sentences
-				
+
 	def updata_current_sentence(self):
-		if self.current_trial <= TRIALS:
+		if self.current_trial <= self.total_ammount_of_trials:
 			''' Task is still running'''
 			self.current_sentence = self.sentences[self.current_trial - 1]
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path

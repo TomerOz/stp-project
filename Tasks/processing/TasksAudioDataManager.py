@@ -24,8 +24,19 @@ NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS = 4
 
 class MainAudioProcessor(object):
 	
-	def __init__(self):
-		pass		
+	def __init__(self, phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+		
+		self.phases_names = phases_names # A list of strings representing phases names
+		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
+		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
+		
+		if n_practice_trials == None:
+			self.n_practice_trials=8
+		else:
+			self.n_practice_trials = n_practice_trials
+			
+		self.n_min_practice_trials = 3
+		self.ammount_practice_trials = None # To be determined according to sentences ammopunt relaity 3 or 8
 		
 	def __late_init__(self, menu):	
 		self.menu = menu
@@ -41,67 +52,68 @@ class MainAudioProcessor(object):
 		self.neutral_sentences = [] # contain all neutral sentences
 		self.negatives_sentences = [] # contain all negative sentences
 		
-		self.pre_intervention_sentences = []
-		self.post_intervention_sentences = []
+		self.neu_sentences_by_phase = {} # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
+		self.neg_sentences_by_phase = {} # the same but negative
+		self.sentences_by_phase = {} # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
 		
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
-		self._split_train_and_post_trials()
-		self._randomize_sentences()	# randomization with 4 starter neutrals
+		self._split_senteces_to_phases()
 		
-		
-		
-	def _split_train_and_post_trials(self):
+	def _split_senteces_to_phases(self):
 		
 		'''
-			REWRITE THIS FUNCTION AS FOLLOWS:
-				
-				The function should get a number that represent ammount of stp sentences for each category.
-				instead of spliting by half to pre and post training sentences, split into a dictionary with serial 
-				keys to late have meaning (DICHOTIC, NAB, AFACT etc.)
-				
-				Should all sections have the same ammount of sentences?????????????
-				
-				Neutrals and Negatives? always the same ammount
-				
-				
-				Shuffle at the end.
+		This functions splits the neutral and negative sentences into a requested ammount of phases
 				
 		'''
+		local_neurtrals = [] + self.neutral_sentences
+		local_negatives = [] + self.negatives_sentences
 		
+		n_per_phase_neutrals = int(1.0*len(self.neutral_sentences) / self.n_phases)
+		n_per_phase_negs = int(1.0*len(self.negatives_sentences) / self.n_phases)
 		
+		for phase in self.phases_names:
+			sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
+			sample_negs = random.sample(local_negatives, n_per_phase_negs)
+			
+			self.neu_sentences_by_phase[phase] = sample_neus # +
+			self.neg_sentences_by_phase[phase] = sample_negs # -
+			
+			# Unifing the neutrals and negatives
+			self.sentences_by_phase[phase] = sample_neus + sample_negs
+			
+			# multiplying to fit desired amount of trials in phase
+			rounded_multplying_factor = round(1.0*self.n_trials_by_phase[phase]/len(self.sentences_by_phase[phase]))
+			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] * int(rounded_multplying_factor)
+			
+			# taking 4 of neutral trials and saving them aside, later be added at the begining right after practice
+			sample_of_initial_4_neutrals = random.sample(sample_neus, 4) # for the running mean
+			self.sentences_by_phase[phase] = [e for e in self.sentences_by_phase[phase] if e not in sample_of_initial_4_neutrals] # taking intial 4 from the neutral sentence, later be added
+			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] + sample_of_initial_4_neutrals # becase the former delets these four as many times as the multiplyin factor ddetermines
+			
+			# randimization - CURRENTLY STUPID
+			random.shuffle(self.sentences_by_phase[phase])
+			
+			# Adding practice trials --> cuurently multplying existing neutrasl
+			if len(sample_neus) >= self.n_practice_trials:
+				practice_trials = random.sample(sample_neus, self.n_practice_trials) # 8 is the default number of practice trials
+			else:
+				try:
+					practice_trials = random.sample(sample_neus, self.n_min_practice_trials) # 8 is the default number of practice trials
+				except: 
+					raise Exception("Too little neutrals sentences to sample practice trials")
+			
+			for sent in practice_trials:
+						sent.is_practice = True
+			self.sentences_by_phase[phase] = [] + practice_trials + sample_of_initial_4_neutrals + self.sentences_by_phase[phase]
+			
+			# updating ammount of practice trials
+			self.ammount_practice_trials = len(practice_trials)
+			
+			# Updating the local sentences lists - removing those that were samples
+			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
+			local_negatives = [e for e in local_negatives if e not in sample_negs]
+			
 		
-		
-		
-		len_neutrals = len(self.neutral_sentences)
-		len_negatives = len(self.negatives_sentences)
-		
-		half_nutrals = int(len_neutrals/2.0)
-		half_negatives = int(len_negatives/2.0)
-		
-		self.training_neutrals = self.neutral_sentences[0:half_nutrals]
-		self.post_training_neutrals = self.neutral_sentences[half_nutrals:len_neutrals]
-		self.training_negatives = self.negatives_sentences[0:half_negatives]
-		self.post_training_negatives = self.negatives_sentences[half_negatives:len_negatives]
-		
-		self.pre_intervention_sentences = self.training_neutrals + self.training_negatives
-		random.shuffle(self.pre_intervention_sentences)
-		self.post_intervention_sentences = self.post_training_neutrals + self.post_training_negatives
-		random.shuffle(self.post_intervention_sentences)
-		
-
-	def _randomize_sentences(self):
-		''' only for initial randomization - additional shufflinfs will be required whithin each phase/task.
-		randomizes sentences pointers - ensures:
-		- first four are neutral 
-		- last four are neutral ?
-		'''
-		# taking 4 sentences fot the begining 
-		start_trials = random.sample(self.neutral_sentences, NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS)
-		for s in start_trials:
-			self.sentences.remove(s) #removes 4 start neutrals from all sentences
-		
-		random.shuffle(self.sentences) # shuffeling without 4 starts
-		self.sentences =  start_trials + self.sentences # updating sentences
 
 	def _get_sentence_num(self, file_name):
 		split_1 = file_name.split(SENTENCE)
@@ -135,9 +147,7 @@ class MainAudioProcessor(object):
 		# shuffeling neutral and negative trials
 		random.shuffle(self.neutral_sentences)
 		random.shuffle(self.negatives_sentences)
-		
-		
-	
+			
 class Sentence(object):
 	
 	def __init__(self, text, valence, num, num_in_excel, file_path, sentence_length):
@@ -148,3 +158,4 @@ class Sentence(object):
 		self.file_path = file_path
 		self.sentence_length = sentence_length*ONE_MILISCOND # in miliseconds
 		self.digit_que = int(self.sentence_length-MILISECONDS_BEFORE_END) # time of sentence start
+		self.is_practice = False

@@ -62,12 +62,16 @@ def main():
 	gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class
 	flow = Flow(gui) # A class instance that controls the experiment flow
 	sd = SubjectData()	# 
-	data_manager = MainAudioProcessor() # 
-	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	
-	td_trainig = TaskData(menu, data_manager, sd, phase='training') # A class intance that organizes the data for the DCT task
-	td_post_training = TaskData(menu, data_manager, sd, phase='post') # A class intance that organizes the data for the DCT task
-	task = DctTask(gui, exp, td_trainig, flow) # # A class intance that runs the DCT task
+	data_manager = MainAudioProcessor(
+										phases_names=['Baseline', 'Post'], 
+										n_trials_by_phase={'Baseline':40,'Post':40}, 
+										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+	
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2) # A class intance that organizes the data for the DCT task
+	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
+	task = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	
 	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
