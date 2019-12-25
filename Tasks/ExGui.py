@@ -275,9 +275,9 @@ class Experiment(object):
 			if use_place != False:
 				if label in use_place.keys():
 					if label in type(self).LABELS_BY_FRAMES[frame_name].keys():
-						type(self).LABELS_BY_FRAMES[frame_name][label].place(x = use_place[label][0], y = use_place[label][1], anchor='center')
+						type(self).LABELS_BY_FRAMES[frame_name][label].place(x = use_place[label][0], y = use_place[label][1], anchor='nw')
 					else:
-						type(self).ALL_FRAMES[label].place(x = use_place[label][0], y = use_place[label][1], anchor='center')
+						type(self).ALL_FRAMES[label].place(x = use_place[label][0], y = use_place[label][1], anchor='nw') #this is aimed to deal with frames within frames
 				else: 
 					if label in type(self).LABELS_BY_FRAMES[frame_name].keys():
 						type(self).LABELS_BY_FRAMES[frame_name][label].pack(side=pack_style, expand=1)
