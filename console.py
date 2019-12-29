@@ -16,8 +16,8 @@ from Tasks.OpeningMenu import Menu
 from Tasks.processing.wav_lengh import AudioProcessor
 from Tasks.processing.TasksAudioDataManager import MainAudioProcessor
 from Tasks.Data import SubjectData
+from Tasks.ExpFlow import Flow
 
-CALLBACK_WAIT_TIME = 500
 
 AUDIOPATH = r'Subjects'
 IMAGEPATH = r'Instructions_Pictures'
@@ -25,40 +25,9 @@ IMAGEPATH = r'Instructions_Pictures'
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 
-def main():
-	
-	class Flow(object):
-		def __init__(self, gui):
-			self.flag = False # controling the execution of the function to be called
-			self.gui = gui
-		
-		def callback(self, fanc_to_call, *args):
-			if self.flag:
-				fanc_to_call(*args)
-				self.flag = False
-			else:
-				self.gui.after(CALLBACK_WAIT_TIME, lambda:self.callback(fanc_to_call, *args))
-	
-		def start_exp(self, eff):	# eff is just the irelevant event passed with the binding
-			''' This is the exprimental flow defacto.
-					Any new task or unrealted windo should appear here.
-					Tomer - consider integrating this class inside ExpGui'''
-			
-			self.gui.unbind("<Right>")	
-			menu.show()
-			self.callback(instructions.inst_flow)
-			self.callback(task.start_task)
 
-		def second_task(self, event=None):
-			self.flag = True
-			self.gui.unbind("<Right>")
-			self.gui.unbind("<Left>")
-			self.callback(instructions2.inst_flow)
-			self.callback(task2.start_task)
-	
-	
-	
-	
+
+def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
 	exp = Experiment() # A class instance of experiments buildind
 	gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class

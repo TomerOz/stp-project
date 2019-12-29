@@ -12,7 +12,8 @@ import winsound
 import numpy as np
 
 from Data import SubjectData
-from DCT import DctTask
+from DCT import DctTask, TaskData
+from OpeningMenu import Menu
 
 ## sentences directories and files names
 #SENTENCE_NAME_COL = 'sentence_name'
@@ -60,7 +61,8 @@ from DCT import DctTask
 ## Afact specific constants
 MAIN_FRAME = 'afact_frame'
 FEEDBACK_LABEL = 'feedback_label'
-
+NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
+NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
 class AfactGui(object):
 	
@@ -106,8 +108,7 @@ class AfactGui(object):
 		self.range_of_feedback = range(self.length_of_feedback)
 		
 		self.feedback_canvas.pack()
-		
-		
+				
 	def create_feedback(self, bias_z_score):
 		relative_bias = bias_z_score/self.max_bias_z_score
 		if relative_bias >= 1.0:
@@ -147,13 +148,81 @@ class AfactGui(object):
 		for_animation()
 			
 		
+class AfactTaskData(TaskData):
+	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
+		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
+	
+	def x(self):
+		# following the same procedure of the parent class function
+		self.event_timed_initment()
+		
+		# index of sentences to rearrage
+		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.ammount_practice_trials
+
+		sentences_to_rearrange = self.sentences[i_rearrange:]
+		neutrals = []
+		negatives = []
+		for sentence in sentences_to_rearrange:
+			if sentence.valence == NEGATIVE_SENTENCE:
+				negatives.append(sentence)
+			elif sentence.valence == NEUTRAL_SENTENCE:
+				neutrals.append(sentence)
+		
+
+		# computing ammount of consecutive neutral trials
+		neuteals_cons_trials = len(negatives)
+		one_following = int(neuteals_cons_trials*0.5)
+		two_following = neuteals_cons_trials - one_following
+		n_cons_trials = [1]*one_following + [2]*two_following
+		random.shuffle(n_cons_trials)
+		
+		# match lengths 
+		delta = int(len(negatives)*1.5) - len(neutrals)
+		if delta < 0.0:
+			delta = 0
+		sentencess_cons_tials = neutrals + random.sample(neutrals, delta)
+		
+		
+		ipdb.set_trace()
+		iteration_range = range(len(negatives))
+		# building the task - afact - sentences
+		experiment_sentences = []
+		for i in iteration_range:
+			print i
+			n_cons = n_cons_trials[i]
+			neg = random.sample(negatives, 1)
+			# Removing the sampled sentence:
+			negatives.remove(neg[0])
+			experiment_sentences = experiment_sentences + neg
+			cons_neutrals = random.sample(sentencess_cons_tials, n_cons)
+			# Removing sampled consecutive neutral trials
+			for sen in cons_neutrals:
+				sentencess_cons_tials.remove(sen)
+			# adding consecutive neutral triasl to the sentences of the experiment
+			experiment_sentences = experiment_sentences + cons_neutrals
+		
+		
+		
+		ipdb.set_trace()
+		self.sentences = self.sentences[:i_rearrange] + experiment_sentences# DOES IT NOT INCLUDE THE LAST?
+
+		
+		
+		# Rearranging sentences:
+		
+		
+		#self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
+		#self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
+		#self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
+
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
-		super().__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
+		super(AfactTask, self).__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
 		
 		self.n_lst_neutrals = 4 # defines the number of last n trials to compute running mean
 		self.last_n_trials_RTs = [] # holds last 4 neutral RT's
 		self.running_nutral_mean = None # holding running mean of n last neutrals 
+	
 	
 	def copmute_running_nutral_mean(self, rt, sentence_instance):
 		pass
@@ -196,9 +265,39 @@ def main():
 	
 	
 	from ExGui import Experiment
+	from processing.TasksAudioDataManager import MainAudioProcessor
+	from processing.wav_lengh import AudioProcessor
+	from Data import SubjectData
+	from ExpFlow import Flow
+	print "A"
+	PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
+	PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+	SUBJECT = 'subject'
+	GROUP = 'group'
+	GENDER = 'gender'
+	AUDIOPATH = r'Subjects'
 	
+	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
 	exp = Experiment()
 	gui = exp.gui
+	sd = SubjectData()
+	flow = Flow(gui)
+	
+	data_manager = MainAudioProcessor(
+										phases_names=['Baseline', 'Post'], 
+										n_trials_by_phase={'Baseline':40,'Post':40}, 
+										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	menu.menu_data[SUBJECT] = 1 
+	menu.menu_data[GROUP] = 1 
+	menu.menu_data[GENDER] = 1
+	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
+	data_manager.__late_init__(menu)
+	
+	
+	atd = AfactTaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2)
+	atd.x()
 	
 	afact_gui = AfactGui(gui, exp)
 	afact_gui.create_feedback_canvas()

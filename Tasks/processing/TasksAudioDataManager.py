@@ -19,8 +19,6 @@ MILISECONDS_BEFORE_END = 500
 # task properties
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
-NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS = 4
-
 
 class MainAudioProcessor(object):
 	
@@ -37,7 +35,7 @@ class MainAudioProcessor(object):
 			
 		self.n_min_practice_trials = 3
 		self.ammount_practice_trials = None # To be determined according to sentences ammopunt relaity 3 or 8
-		
+		self.n_start_neutral_trials = 4 # real data trials
 	def __late_init__(self, menu):	
 		self.menu = menu
 		# audio paths and df
@@ -86,7 +84,7 @@ class MainAudioProcessor(object):
 			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] * int(rounded_multplying_factor)
 			
 			# taking 4 of neutral trials and saving them aside, later be added at the begining right after practice
-			sample_of_initial_4_neutrals = random.sample(sample_neus, 4) # for the running mean
+			sample_of_initial_4_neutrals = random.sample(sample_neus, self.n_start_neutral_trials) # for the running mean
 			self.sentences_by_phase[phase] = [e for e in self.sentences_by_phase[phase] if e not in sample_of_initial_4_neutrals] # taking intial 4 from the neutral sentence, later be added
 			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] + sample_of_initial_4_neutrals # becase the former delets these four as many times as the multiplyin factor ddetermines
 			
