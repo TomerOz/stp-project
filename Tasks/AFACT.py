@@ -152,7 +152,7 @@ class AfactTaskData(TaskData):
 	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
 	
-	def x(self):
+	def afact_event_timed_initment(self):
 		# following the same procedure of the parent class function
 		self.event_timed_initment()
 		
@@ -182,8 +182,6 @@ class AfactTaskData(TaskData):
 			delta = 0
 		sentencess_cons_tials = neutrals + random.sample(neutrals, delta)
 		
-		
-		ipdb.set_trace()
 		iteration_range = range(len(negatives))
 		# building the task - afact - sentences
 		experiment_sentences = []
@@ -193,27 +191,20 @@ class AfactTaskData(TaskData):
 			neg = random.sample(negatives, 1)
 			# Removing the sampled sentence:
 			negatives.remove(neg[0])
-			experiment_sentences = experiment_sentences + neg
+			experiment_sentences.append(neg[0])
 			cons_neutrals = random.sample(sentencess_cons_tials, n_cons)
 			# Removing sampled consecutive neutral trials
 			for sen in cons_neutrals:
 				sentencess_cons_tials.remove(sen)
-			# adding consecutive neutral triasl to the sentences of the experiment
-			experiment_sentences = experiment_sentences + cons_neutrals
-		
-		
-		
-		ipdb.set_trace()
-		self.sentences = self.sentences[:i_rearrange] + experiment_sentences# DOES IT NOT INCLUDE THE LAST?
+				# adding consecutive neutral triasl to the sentences of the experiment
+				experiment_sentences.append(sen)
 
+		initals = self.sentences[:i_rearrange] 
+		self.sentences = [] 
+		self.sentences = self.sentences + initals + experiment_sentences# DOES IT NOT INCLUDE THE LAST?
+
+		ipdb.set_trace()
 		
-		
-		# Rearranging sentences:
-		
-		
-		#self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
-		#self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
-		#self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
 
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -227,7 +218,7 @@ class AfactTask(DctTask):
 	def copmute_running_nutral_mean(self, rt, sentence_instance):
 		pass
 		
-	def compute_AFACT_bias(self):
+	def compute_AFACT_bias_z_score(self):
 		pass
 	
 	def show_AFACT_frame(self):
@@ -236,14 +227,12 @@ class AfactTask(DctTask):
 	def _continue(self): 
 	
 		self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
-	
-	
 		''' overridded from the parent dct task'''
 		# trial flow control:
 		if self.td.is_practice:
 			self._give_feedback(self.key_pressed)		
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
-		elif self.td.current_trial == CHANGE_BLOCK_TRIAL and not self.block_changed:
+		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
 		elif self.td.current_trial in self.td.catch_trials:
 			self.catch_trial() # intiate catch trial
@@ -252,7 +241,6 @@ class AfactTask(DctTask):
 
 bias = 2.5
 def main():
-	
 	
 	def change_feedback(event):
 		print event
@@ -285,7 +273,7 @@ def main():
 	
 	data_manager = MainAudioProcessor(
 										phases_names=['Baseline', 'Post'], 
-										n_trials_by_phase={'Baseline':40,'Post':40}, 
+										n_trials_by_phase={'Baseline':160,'Post':40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 
@@ -297,7 +285,7 @@ def main():
 	
 	
 	atd = AfactTaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2)
-	atd.x()
+	atd.afact_event_timed_initment()
 	
 	afact_gui = AfactGui(gui, exp)
 	afact_gui.create_feedback_canvas()

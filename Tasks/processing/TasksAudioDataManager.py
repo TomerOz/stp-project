@@ -57,10 +57,12 @@ class MainAudioProcessor(object):
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
 		
-	def _split_senteces_to_phases(self):
+	def _split_senteces_to_phases(self, phases_distribution_percent_dict=None):
 		
 		'''
 		This functions splits the neutral and negative sentences into a requested ammount of phases
+		
+		 IF U WAN'T THE DIFFERENT PHASES TO NOT HAVE EQUAL AMMOUNT OF UNIQUE SENTENCES JUST SAY SO AND ACT IN THIS PLACE +_+_+_+_+_+_+_+_+_+
 				
 		'''
 		local_neurtrals = [] + self.neutral_sentences
@@ -70,8 +72,18 @@ class MainAudioProcessor(object):
 		n_per_phase_negs = int(1.0*len(self.negatives_sentences) / self.n_phases)
 		
 		for phase in self.phases_names:
-			sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
-			sample_negs = random.sample(local_negatives, n_per_phase_negs)
+			if phases_distribution_percent_dict==None:
+				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
+				sample_negs = random.sample(local_negatives, n_per_phase_negs)
+			else:
+				'''+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_'''
+				n_per_phase_neutrals = int(1.0*len(self.neutral_sentences)*phases_distribution_percent_dict[phase])
+				n_per_phase_negs = int(1.0*len(self.negatives_sentences)*phases_distribution_percent_dict[phase])
+				
+				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
+				sample_negs = random.sample(local_negatives, n_per_phase_negs)
+			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+			
 			
 			self.neu_sentences_by_phase[phase] = sample_neus # +
 			self.neg_sentences_by_phase[phase] = sample_negs # -
@@ -86,7 +98,8 @@ class MainAudioProcessor(object):
 			# taking 4 of neutral trials and saving them aside, later be added at the begining right after practice
 			sample_of_initial_4_neutrals = random.sample(sample_neus, self.n_start_neutral_trials) # for the running mean
 			self.sentences_by_phase[phase] = [e for e in self.sentences_by_phase[phase] if e not in sample_of_initial_4_neutrals] # taking intial 4 from the neutral sentence, later be added
-			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] + sample_of_initial_4_neutrals # becase the former delets these four as many times as the multiplyin factor ddetermines
+			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] + (int(rounded_multplying_factor)-1)*sample_of_initial_4_neutrals # becase the former delets these four as many times as the multiplyin factor ddetermines,
+																											# So it is addedd again according to the multplyin factor-1
 			
 			# randimization - CURRENTLY STUPID
 			random.shuffle(self.sentences_by_phase[phase])
@@ -157,3 +170,11 @@ class Sentence(object):
 		self.sentence_length = sentence_length*ONE_MILISCOND # in miliseconds
 		self.digit_que = int(self.sentence_length-MILISECONDS_BEFORE_END) # time of sentence start
 		self.is_practice = False
+
+	def __str__(self):
+		return 'Sentence {}'.format(self.valence)
+		
+	def __repr__(self):
+		return self.__str__()
+		
+		
