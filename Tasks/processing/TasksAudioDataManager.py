@@ -24,7 +24,7 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
 class MainAudioProcessor(object):
 	
-	def __init__(self, phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+	def __init__(self, phases_names=None, n_trials_by_phase=None, n_practice_trials=None, phases_distribution_percent_dict=None, precent_of_catch_trials=None):
 		
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
@@ -34,10 +34,16 @@ class MainAudioProcessor(object):
 			self.n_practice_trials=8
 		else:
 			self.n_practice_trials = n_practice_trials
-			
+		
+		if precent_of_catch_trials==None	:
+			self.precent_of_catch_trials = 1.0/8.0
+		else:
+			self.precent_of_catch_trials = precent_of_catch_trials
+		
 		self.n_min_practice_trials = 3
-		self.ammount_practice_trials = None # To be determined according to sentences ammopunt relaity 3 or 8
+		self.ammount_practice_trials = {} # To be determined according to sentences ammopunt relaity 3 or 8
 		self.n_start_neutral_trials = 4 # real data trials
+		self.phases_distribution_percent_dict = phases_distribution_percent_dict
 	
 	def __late_init__(self, menu):	
 		self.menu = menu
@@ -59,14 +65,12 @@ class MainAudioProcessor(object):
 		
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
+		self.create_catch_trials()
 		
-	def _split_senteces_to_phases(self, phases_distribution_percent_dict=None):
-		
+	def _split_senteces_to_phases(self):
 		'''
 		This functions splits the neutral and negative sentences into a requested ammount of phases
-		
-		 IF U WAN'T THE DIFFERENT PHASES TO NOT HAVE EQUAL AMMOUNT OF UNIQUE SENTENCES JUST SAY SO AND ACT IN THIS PLACE +_+_+_+_+_+_+_+_+_+
-				
+		 IF U WAN'T THE DIFFERENT PHASES TO NOT HAVE EQUAL AMMOUNT OF UNIQUE SENTENCES JUST SAY SO AND ACT IN THIS PLACE +_+_+_+_+_+_+_+_+_+	
 		'''
 		local_neurtrals = [] + self.neutral_sentences
 		local_negatives = [] + self.negatives_sentences
@@ -75,18 +79,17 @@ class MainAudioProcessor(object):
 		n_per_phase_negs = int(1.0*len(self.negatives_sentences) / self.n_phases)
 		
 		for phase in self.phases_names:
-			if phases_distribution_percent_dict==None:
+			if self.phases_distribution_percent_dict==None:
 				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
 				sample_negs = random.sample(local_negatives, n_per_phase_negs)
 			else:
-				'''+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_'''
-				n_per_phase_neutrals = int(1.0*len(self.neutral_sentences)*phases_distribution_percent_dict[phase])
-				n_per_phase_negs = int(1.0*len(self.negatives_sentences)*phases_distribution_percent_dict[phase])
+			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+				n_per_phase_neutrals = int(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase])
+				n_per_phase_negs = int(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase])
 				
 				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
 				sample_negs = random.sample(local_negatives, n_per_phase_negs)
 			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-			
 			
 			self.neu_sentences_by_phase[phase] = sample_neus # +
 			self.neg_sentences_by_phase[phase] = sample_negs # -
@@ -103,7 +106,6 @@ class MainAudioProcessor(object):
 			self.sentences_by_phase[phase] = [e for e in self.sentences_by_phase[phase] if e not in sample_of_initial_4_neutrals] # taking intial 4 from the neutral sentence, later be added
 			self.sentences_by_phase[phase] = self.sentences_by_phase[phase] + (int(rounded_multplying_factor)-1)*sample_of_initial_4_neutrals # becase the former delets these four as many times as the multiplyin factor ddetermines,
 																											# So it is addedd again according to the multplyin factor-1
-			
 			# randimization - CURRENTLY STUPID
 			random.shuffle(self.sentences_by_phase[phase])
 			
@@ -116,6 +118,10 @@ class MainAudioProcessor(object):
 				except: 
 					raise Exception("Too little neutrals sentences to sample practice trials")
 			
+			# updating ammount of practice trials
+			self.ammount_practice_trials[phase] = len(practice_trials)
+			
+			# Chnging practice trials is_practice to True
 			coopied_practice_trials = [] # in order to create a deepcopy and a new memory location
 			for sent in practice_trials:
 				copied_sent = copy.deepcopy(sent)
@@ -124,15 +130,57 @@ class MainAudioProcessor(object):
 						
 			self.sentences_by_phase[phase] = [] + coopied_practice_trials + sample_of_initial_4_neutrals + self.sentences_by_phase[phase]
 			
-			ipdb.set_trace()
-			# updating ammount of practice trials
-			self.ammount_practice_trials = len(practice_trials)
-			
-			# Updating the local sentences lists - removing those that were samples
+			# Updating the local sentences lists - removing those that were sampled
 			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
 			local_negatives = [e for e in local_negatives if e not in sample_negs]
-		
+			
+	def create_catch_trials(self):
+		for phase in self.phases_names:
+			trials = len(self.sentences_by_phase[phase]) - self.ammount_practice_trials[phase]
+			number_of_catch_trials = int(self.precent_of_catch_trials*trials)
+			corrects = int(number_of_catch_trials/2.0)
+			wrongs = number_of_catch_trials - corrects
+			cs = ['c']*corrects
+			ws = ['w']*wrongs
+			non_catch_trials = [0]*(trials-number_of_catch_trials)
+			all_trials =  cs + ws + non_catch_trials
+			random.shuffle(all_trials)
+			for t in all_trials:
+				print t
+				
+			# fixing to close catches:
+			options = [0, int(len(all_trials)/2.0)]
+			direction = ["normal", "reversed"]
+			ipdb.set_trace()
+			for i, t in enumerate(all_trials): 
+				if i>0:
+					if t!=0: # t is a catch trial
+						if all_trials[i-1] == t:
+							t_to_trnasfer = all_trials.pop(i) # delete and grab to transfer
+							rn = random.randint(0,1)
+							o = options[rn]
+							direct = direction[rn]
+							if direct=="normal":
+								for st_iii,v in enumerate(all_trials[o:]):
+									if st_iii>0:
+										iii = st_iii+o
+										if all_trials[iii-1] == 0 and all_trials[iii+1] == 0:
+											all_trials.insert(iii, t_to_trnasfer)
+							else:
+								for rev_iii,v in enumerate(reversed(all_trials[o:])):
+									if rev_iii>0:
+										iii = -1-rev_iii-o
+										if all_trials[iii-1] == 0 and all_trials[iii+1] == 0:
+											all_trials.insert(iii, t_to_trnasfer)
+			
+			# add practice non-catch trials in the begining
+			ipdb.set_trace()
+			self.ammount_practice_trials[phase]*[0]
+			### RETURN SOMETHIN PHASE SPECIFIC
+			### AND ----> ADAPT THE DCT TASK - CHANGE IT IN GENERAL TO BE BETTER
 
+			
+	
 	def _get_sentence_num(self, file_name):
 		split_1 = file_name.split(SENTENCE)
 		split_2 = split_1[1].split('_')

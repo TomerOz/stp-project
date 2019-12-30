@@ -201,7 +201,6 @@ class AfactTaskData(TaskData):
 		initals = self.sentences[:i_rearrange] 
 		self.sentences = [] 
 		self.sentences = self.sentences + initals + experiment_sentences 
-		ipdb.set_trace()
 
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -226,8 +225,7 @@ class AfactTask(DctTask):
 		self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
 		if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
-			print "was negative"
-			print self.td.sentences[self.td.current_trial-1].valence
+			print "was negative " + self.td.sentences[self.td.current_trial-1].valence
 		
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
@@ -285,7 +283,7 @@ def main():
 	# lab
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
