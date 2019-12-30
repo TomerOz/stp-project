@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 import random
+import ipdb
+import copy
 
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AUDIO_FILES_DIRECTORY = 'audio_files_wav'
@@ -36,6 +38,7 @@ class MainAudioProcessor(object):
 		self.n_min_practice_trials = 3
 		self.ammount_practice_trials = None # To be determined according to sentences ammopunt relaity 3 or 8
 		self.n_start_neutral_trials = 4 # real data trials
+	
 	def __late_init__(self, menu):	
 		self.menu = menu
 		# audio paths and df
@@ -113,17 +116,21 @@ class MainAudioProcessor(object):
 				except: 
 					raise Exception("Too little neutrals sentences to sample practice trials")
 			
+			coopied_practice_trials = [] # in order to create a deepcopy and a new memory location
 			for sent in practice_trials:
-						sent.is_practice = True
-			self.sentences_by_phase[phase] = [] + practice_trials + sample_of_initial_4_neutrals + self.sentences_by_phase[phase]
+				copied_sent = copy.deepcopy(sent)
+				copied_sent.is_practice = True
+				coopied_practice_trials.append(copied_sent)
+						
+			self.sentences_by_phase[phase] = [] + coopied_practice_trials + sample_of_initial_4_neutrals + self.sentences_by_phase[phase]
 			
+			ipdb.set_trace()
 			# updating ammount of practice trials
 			self.ammount_practice_trials = len(practice_trials)
 			
 			# Updating the local sentences lists - removing those that were samples
 			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
 			local_negatives = [e for e in local_negatives if e not in sample_negs]
-			
 		
 
 	def _get_sentence_num(self, file_name):

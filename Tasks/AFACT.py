@@ -186,7 +186,6 @@ class AfactTaskData(TaskData):
 		# building the task - afact - sentences
 		experiment_sentences = []
 		for i in iteration_range:
-			print i
 			n_cons = n_cons_trials[i]
 			neg = random.sample(negatives, 1)
 			# Removing the sampled sentence:
@@ -201,10 +200,8 @@ class AfactTaskData(TaskData):
 
 		initals = self.sentences[:i_rearrange] 
 		self.sentences = [] 
-		self.sentences = self.sentences + initals + experiment_sentences# DOES IT NOT INCLUDE THE LAST?
-
+		self.sentences = self.sentences + initals + experiment_sentences 
 		ipdb.set_trace()
-		
 
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -228,10 +225,14 @@ class AfactTask(DctTask):
 	
 		self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
+		if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
+			print "was negative"
+			print self.td.sentences[self.td.current_trial-1].valence
+		
 		# trial flow control:
-		if self.td.is_practice:
+		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
+			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
 		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
 		elif self.td.current_trial in self.td.catch_trials:
@@ -279,7 +280,14 @@ def main():
 	menu.menu_data[SUBJECT] = 1 
 	menu.menu_data[GROUP] = 1 
 	menu.menu_data[GENDER] = 1
+	
+	
+	# lab
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	# mine
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	
+	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	
@@ -288,14 +296,20 @@ def main():
 	atd.afact_event_timed_initment()
 	
 	afact_gui = AfactGui(gui, exp)
-	afact_gui.create_feedback_canvas()
+	#afact_gui.create_feedback_canvas()
 	#afact_gui.create_feedback(2.8)						# Normal presentation
-	afact_gui.show_feedback_animated(gui,2.5)			# Animated presentation
+	#afact_gui.show_feedback_animated(gui,2.5)			# Animated presentation
 	
-	gui.bind("<Right>", change_feedback)	
-	gui.bind("<Left>", change_feedback)	
 	
-	exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+	afact_task = AfactTask(gui, exp, atd, flow)
+	
+	#gui.bind("<Right>", change_feedback)	
+	#gui.bind("<Left>", change_feedback)	
+	afact_task.start_task()
+	
+	
+	
+	#exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
 	#gui.state('zoomed')
 	exp.run()
 	

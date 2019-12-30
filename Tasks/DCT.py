@@ -147,7 +147,7 @@ class DctTask(object):
 		
 		if self.td.current_trial-1 in self.td.correct_catch_trials:
 			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=True)
-			self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to th correct trial
+			self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to the correct trial
 		elif self.td.current_trial-1 in self.td.catch_trials:
 			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=False)
 			self.td.current_trial-=1
@@ -314,7 +314,7 @@ class TaskData(object):
 				else:
 					was_correct = False
 				
-				print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
+				#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
 				self.updata_current_sentence()
 				
 			elif is_catch_trial:	# last trial was catch
