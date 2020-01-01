@@ -157,7 +157,7 @@ class AfactTaskData(TaskData):
 		self.event_timed_initment()
 		
 		# index of sentences to rearrage
-		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.ammount_practice_trials
+		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.ammount_practice_trials[self.phase]
 
 		sentences_to_rearrange = self.sentences[i_rearrange:]
 		neutrals = []
@@ -224,8 +224,10 @@ class AfactTask(DctTask):
 	
 		self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
-		if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
-			print "was negative " + self.td.sentences[self.td.current_trial-1].valence
+		print self.td.current_trial - 1
+		print self.td.sentences[self.td.current_trial].valence
+		#if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
+		#	print "was negative " + self.td.sentences[self.td.current_trial-1].valence
 		
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
@@ -233,7 +235,7 @@ class AfactTask(DctTask):
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
 		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
-		elif self.td.current_trial in self.td.catch_trials:
+		elif self.td.catch_trials_and_non_catch[self.td.current_trial] != 0: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		else:
 			self._trial() # continues to next trial	
@@ -256,7 +258,7 @@ def main():
 	from processing.wav_lengh import AudioProcessor
 	from Data import SubjectData
 	from ExpFlow import Flow
-	print "A"
+	
 	PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 	PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 	SUBJECT = 'subject'
@@ -272,7 +274,7 @@ def main():
 	
 	data_manager = MainAudioProcessor(
 										phases_names=['Baseline', 'Post'], 
-										n_trials_by_phase={'Baseline':160,'Post':40}, 
+										n_trials_by_phase={'Baseline':60,'Post':40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 
@@ -292,7 +294,6 @@ def main():
 	
 	atd = AfactTaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2)
 	atd.afact_event_timed_initment()
-	
 	afact_gui = AfactGui(gui, exp)
 	#afact_gui.create_feedback_canvas()
 	#afact_gui.create_feedback(2.8)						# Normal presentation

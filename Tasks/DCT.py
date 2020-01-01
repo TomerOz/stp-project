@@ -81,7 +81,7 @@ class DctTask(object):
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
 		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
-		elif self.td.current_trial in self.td.catch_trials:
+		elif self.td.catch_trials_and_non_catch[self.td.current_trial] != 0: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		else:
 			self._trial() # continues to next trial			
@@ -130,11 +130,11 @@ class DctTask(object):
 	
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
-		if self.td.current_trial in self.td.correct_catch_trials:
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.sentences[self.td.current_trial-2].text
+		if self.td.catch_trials_and_non_catch[self.td.current_trial] == "c": # check if correct
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.find_sentence_instance(self.td.current_trial-2).text
 		else:
 			past_sentence = random.randint(0, self.td.current_trial-2) # -1 to ommit the possibility of taking current sentence
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.sentences[past_sentence].text		
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase(past_sentence).text		
 	# ask about last sentence 	
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
@@ -145,10 +145,10 @@ class DctTask(object):
 			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
 			self.exp.display_frame(FRAME_1, [LABEL_1])
 		
-		if self.td.current_trial-1 in self.td.correct_catch_trials:
+		if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "c":
 			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=True)
 			self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to the correct trial
-		elif self.td.current_trial-1 in self.td.catch_trials:
+		elif self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "w":
 			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=False)
 			self.td.current_trial-=1
 		else:
@@ -202,7 +202,6 @@ class DctTask(object):
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
-	
 	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		
 		# user data
@@ -248,18 +247,21 @@ class TaskData(object):
 		self.sentence_inittial_path =  self.data_manager.sentence_inittial_path
 		self.audio_files_list = 	self.data_manager.audio_files_list
 		
-		
 		# adresss according to instructinos
 		self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
 		self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
 		self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
+		self.catch_trials_and_non_catch = self.data_manager.catch_and_non_catch_trials_list_by_phase[self.phase] # contains 0, "c" or "w" - means no cathc, correct catch, wrong ctach
 		
-		self.ammount_of_experimental_trials = len(self.sentences) - self.data_manager.ammount_practice_trials # excluding practice trials
-		self.total_ammount_of_trials =  len(self.sentences) # including practice
+		self.trials_pointers_by_phase 				= self.data_manager.trials_pointers_by_phase[self.phase] 
+		self.trials_types_by_phase 					= self.data_manager.trials_types_by_phase[self.phase]
+		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[phase]
+		
+		self.ammount_of_experimental_trials = len(self.trials_types_by_phase) - self.data_manager.n_practice_trials # excluding practice trials
+		self.total_ammount_of_trials =  len(self.trials_types_by_phase) # including practice
 		
 		# sd is a subject data instance
 		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
-		self._create_catch_trials_list()
 		self.change_block_trial = None # To be defined in defin_block_change_trial
 		self.define_block_change_trial()
 		
@@ -276,22 +278,6 @@ class TaskData(object):
 			return EVEN
 		else:
 			return ODD
-			
-	def _create_catch_trials_list(self):
-		catch_trials_ammount = int(CATCH_TRIAL_PERCENT*self.ammount_of_experimental_trials)
-		trials = range(self.data_manager.ammount_practice_trials+2,self.ammount_of_experimental_trials+1) # + 2 so that first two trials are not catch
-		for i in range(catch_trials_ammount):
-			num = random.sample(trials, 1)[0]
-			trials.remove(num)
-			self.catch_trials.append(num)
-			if num-1 in trials:
-				trials.remove(num-1)
-			if num+1 in trials:
-				trials.remove(num+1)	
-		self.memory_of_catch_trials = [] + self.catch_trials # catch_trials will be changed and this one not.
-		
-		#creating catch trials of correct types
-		self.correct_catch_trials = random.sample(self.catch_trials, int(PROPORTION_OF_CORRECT_CATCH*len(self.catch_trials)))
 				
 	def start_time_record(self):
 		''' This function is called from the show digit function. 
@@ -303,7 +289,6 @@ class TaskData(object):
 		self.last_RT = self.t1 - self.t0 # if now we are on trial 11 tahn last_RT belongs to trial 10
 	
 	def record_trial(self, num_shown, key_pressed, is_catch_trial=False, correct=False):
-		
 		num_shown_type = None # because I want to pass it any way to the data collection
 		if key_pressed!=None: # after first trial
 			if not is_catch_trial: # on regular and practice trials
@@ -315,19 +300,20 @@ class TaskData(object):
 					was_correct = False
 				
 				#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
+				print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, ' correct_catch=', correct,  ' was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
 				self.updata_current_sentence()
 				
 			elif is_catch_trial:	# last trial was catch
-				self.catch_trials.remove(self.current_trial-1)
+				self.catch_trials_and_non_catch[self.current_trial-1] = 0
 				## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
 				if correct:
-					self.correct_catch_trials.remove(self.current_trial-1)
 					was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
 				elif not correct:
 					was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
 				
 				## printing trial data and classification:
-				print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
+				#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
+				print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct
 			
 			# saving key press in order to pass into Data package
 			self.num_shown_type = num_shown_type
@@ -340,12 +326,19 @@ class TaskData(object):
 		else: # on first trial
 			self.current_trial += 1
 			self.updata_current_sentence()
+	
+	def find_sentence_instance(self, trial):
+		trial_type = self.trials_types_by_phase[trial]
+		pointer = self.trials_pointers_by_phase[trial_type][trial]
+		sent = self.sentences_instances_by_type_by_phase[trial_type][pointer]
 		
-
+		return sent
+		# to access a Sentence --> current_trial => trial_type => trial_pinter => sentences_by_phase
+	
 	def updata_current_sentence(self):
 		if self.current_trial <= self.total_ammount_of_trials:
 			''' Task is still running'''
-			self.current_sentence = self.sentences[self.current_trial - 1]
+			self.current_sentence = self.find_sentence_instance(self.current_trial - 1)
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 		
 		else:		

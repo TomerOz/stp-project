@@ -1,13 +1,12 @@
 # from scipy.io import wavfile
 # Fs, x = wavfile.read("ntr_39.wav")
-# print('Duration: ', len(x) / Fs)
+
 
 # import os
 # # os.chdir(foo) # Get into the dir with sound
 # statbuf = os.stat('ntr_27.wav')
 # mbytes = statbuf.st_size / 1024
 # duration = mbytes / 200
-# print(duration)
 
 
 import pandas as pd
@@ -27,7 +26,6 @@ class AudioProcessor(object):
 	def process_audio(self, subject_audio_data):
 		#new column for length of audio file
 		df = pd.read_excel(subject_audio_data + '\\' + self.pre_processed_audio_data)
-		# print(df)
 		col_audio_length = [] #new column with the audio duartion (Sec)
 		col_digit = []
 		
@@ -42,19 +40,15 @@ class AudioProcessor(object):
 					#find sentecne num in audio name
 					ie=file.rfind("e")
 					audio_num= file[ie+1:ie+file[ie:].find('_')]
-					# print(audio_num)
 					if int(sen_num) == int(audio_num):
 						current_recording_file = subject_audio_recordings_dir + '\\' + file
-						#ipdb.set_trace()
 						length = librosa.get_duration(filename=current_recording_file)
 						col_audio_length.append(length)
 			rand_digit = random.randint(1, 8)
 			col_digit.append(rand_digit)
 		
-		# print(c_length,len(c_length))
 		df['length'] = col_audio_length
 		df['timing_digit'] = df['length'] -0.5
-		print(col_digit)
 		df['rand_digit'] = col_digit
 		
 		
