@@ -156,51 +156,42 @@ class AfactTaskData(TaskData):
 		# following the same procedure of the parent class function
 		self.event_timed_initment()
 		
-		# index of sentences to rearrage
-		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.ammount_practice_trials[self.phase]
-
-		sentences_to_rearrange = self.sentences[i_rearrange:]
-		neutrals = []
-		negatives = []
-		for sentence in sentences_to_rearrange:
-			if sentence.valence == NEGATIVE_SENTENCE:
-				negatives.append(sentence)
-			elif sentence.valence == NEUTRAL_SENTENCE:
-				neutrals.append(sentence)
+		# index of sentences to rearrage	
+		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.n_practice_trials
+		trials_to_rearrange = self.trials_types_by_phase[i_rearrange:]
 		
-
-		# computing ammount of consecutive neutral trials
-		neuteals_cons_trials = len(negatives)
-		one_following = int(neuteals_cons_trials*0.5)
-		two_following = neuteals_cons_trials - one_following
-		n_cons_trials = [1]*one_following + [2]*two_following
-		random.shuffle(n_cons_trials)
+		# The following dubles by 1.5 the ammount of neutral trials, this to sumulate
+		# 	a random choise of either 1 or 2 consecutive trials after an ntr
+		half_ammount_of_ntrs = int(round(trials_to_rearrange.count(NEUTRAL_SENTENCE)/2.0))
+		additional_pointers = random.sample(self.trials_pointers_by_phase[NEUTRAL_SENTENCE], half_ammount_of_ntrs)
+		self.trials_pointers_by_phase[NEUTRAL_SENTENCE] = additional_pointers + self.trials_pointers_by_phase[NEUTRAL_SENTENCE]
+		random.shuffle(self.trials_pointers_by_phase[NEUTRAL_SENTENCE])
+		ipdb.set_trace()
 		
-		# match lengths 
-		delta = int(len(negatives)*1.5) - len(neutrals)
-		if delta < 0.0:
-			delta = 0
-		sentencess_cons_tials = neutrals + random.sample(neutrals, delta)
+		cons = [1]*half_ammount_of_ntrs + [2]*half_ammount_of_ntrs
+		random.shuffle(cons)
 		
-		iteration_range = range(len(negatives))
-		# building the task - afact - sentences
-		experiment_sentences = []
-		for i in iteration_range:
-			n_cons = n_cons_trials[i]
-			neg = random.sample(negatives, 1)
-			# Removing the sampled sentence:
-			negatives.remove(neg[0])
-			experiment_sentences.append(neg[0])
-			cons_neutrals = random.sample(sentencess_cons_tials, n_cons)
-			# Removing sampled consecutive neutral trials
-			for sen in cons_neutrals:
-				sentencess_cons_tials.remove(sen)
-				# adding consecutive neutral triasl to the sentences of the experiment
-				experiment_sentences.append(sen)
-
-		initals = self.sentences[:i_rearrange] 
-		self.sentences = [] 
-		self.sentences = self.sentences + initals + experiment_sentences 
+		# ensuring negs always followed by 1 or 2 ntr:
+		trials = []
+		for c in cons:
+			trials.append(NEGATIVE_SENTENCE)
+			trials = trials + [NEUTRAL_SENTENCE]*c
+		
+		self.trials_types_by_phase = self.trials_types_by_phase[:i_rearrange] + trials
+		
+	def find_sentence_instance(self, trial):
+		# find trila by type:
+		###
+		###
+		###
+		trial_type = self.trials_types_by_phase[trial]
+		pointer = self.trials_pointers_by_phase[trial_type][trial]
+		sent = self.sentences_instances_by_type_by_phase[trial_type][pointer]
+		
+		return sent
+		# to access a Sentence --> current_trial => trial_type => trial_pinter => sentences_by_phase
+	
+	
 
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -252,7 +243,6 @@ def main():
 			bias-=0.05
 		afact_gui.create_feedback(bias)
 	
-	
 	from ExGui import Experiment
 	from processing.TasksAudioDataManager import MainAudioProcessor
 	from processing.wav_lengh import AudioProcessor
@@ -274,7 +264,7 @@ def main():
 	
 	data_manager = MainAudioProcessor(
 										phases_names=['Baseline', 'Post'], 
-										n_trials_by_phase={'Baseline':60,'Post':40}, 
+										n_trials_by_phase={'Baseline':55,'Post':40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 

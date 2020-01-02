@@ -255,7 +255,7 @@ class TaskData(object):
 		
 		self.trials_pointers_by_phase 				= self.data_manager.trials_pointers_by_phase[self.phase] 
 		self.trials_types_by_phase 					= self.data_manager.trials_types_by_phase[self.phase]
-		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[phase]
+		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[self.phase]
 		
 		self.ammount_of_experimental_trials = len(self.trials_types_by_phase) - self.data_manager.n_practice_trials # excluding practice trials
 		self.total_ammount_of_trials =  len(self.trials_types_by_phase) # including practice
@@ -328,6 +328,8 @@ class TaskData(object):
 			self.updata_current_sentence()
 	
 	def find_sentence_instance(self, trial):
+		# this function builds on equal ntr-neg trials types.
+		# otherwise, see my solution in its AfacTaskData class
 		trial_type = self.trials_types_by_phase[trial]
 		pointer = self.trials_pointers_by_phase[trial_type][trial]
 		sent = self.sentences_instances_by_type_by_phase[trial_type][pointer]

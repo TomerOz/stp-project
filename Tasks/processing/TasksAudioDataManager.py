@@ -62,10 +62,10 @@ class MainAudioProcessor(object):
 		self.neg_sentences_by_phase = {} # the same but negative
 		self.sentences_by_phase = {} # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
 		
-		self.trials_types_by_phase = {} #  per phase, list of types as strings
-		self.trials_pointers_by_phase = {} # per phase, string of type "ntr", "neg" or "prac" that holds indexes
-		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, sentnece instance
-		# to access a Sentence --> current_trial => trial_type => trial_pinter => sentences_by_phase
+		self.trials_types_by_phase = {} #  per phase, list of TYPES as strings "ntr", "neg" or "prac"
+		self.trials_pointers_by_phase = {} # per phase,type holds INDEXES
+		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, SENTNECE INSTANCE
+		
 		
 		
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
@@ -80,8 +80,8 @@ class MainAudioProcessor(object):
 		local_neurtrals = [] + self.neutral_sentences
 		local_negatives = [] + self.negatives_sentences
 		
-		n_per_phase_neutrals = int(1.0*len(self.neutral_sentences) / self.n_phases)
-		n_per_phase_negs = int(1.0*len(self.negatives_sentences) / self.n_phases)
+		n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences) / self.n_phases))
+		n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
 		
 		for phase in self.phases_names:
 			# Choosing the unique sentences (+ and -) for each phase
@@ -90,11 +90,11 @@ class MainAudioProcessor(object):
 				sample_negs = random.sample(local_negatives, n_per_phase_negs)
 			else:
 			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-				n_per_phase_neutrals = int(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase])
-				n_per_phase_negs = int(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase])
+				n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
+				n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
 				
-				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
-				sample_negs = random.sample(local_negatives, n_per_phase_negs)
+				sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
+				sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
 			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
 			
 			self.neu_sentences_by_phase[phase] = sample_neus # +
@@ -115,19 +115,28 @@ class MainAudioProcessor(object):
 	def _create_trials_pointers_by_phase(self, phase):
 		
 		# rounded_multplying_factor by using it I knpw how many repetition per sentence
-		rounded_multplying_factor = round(1.0*self.n_trials_by_phase[phase]/len(self.sentences_by_phase[phase]))	
-		half_mf = int(rounded_multplying_factor/2.0)
-		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))*half_mf # pointers of neutral sentences
-		negs_pointers = range(len(self.neg_sentences_by_phase[phase]))*half_mf # Ipointers of neutralnegative sentences
+		ammount_unique_sentences = len(self.sentences_by_phase[phase])
+		rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
+		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))*rounded_multplying_factor # pointers of neutral sentences
+		negs_pointers = range(len(self.neg_sentences_by_phase[phase]))*rounded_multplying_factor # Ipointers of neutralnegative sentences
+		
+		if len(neus_pointers)*2 < self.n_trials_by_phase[phase]:
+			delta = int(round((self.n_trials_by_phase[phase] - len(neus_pointers)*2)/2.0))
+			neu_additional_pointers = random.sample(neus_pointers,delta)
+			neg_additional_pointers = random.sample(negs_pointers,delta)
+			neus_pointers = neus_pointers + neu_additional_pointers
+			negs_pointers = negs_pointers + neg_additional_pointers	
+			
 		ammount_of_trials = len(neus_pointers) + len(negs_pointers) # Int number of total ammunt of trials
 		# suffeling:
 		random.shuffle(neus_pointers)
 		random.shuffle(negs_pointers)
 		# creating an all trials dictionary
-		neu = "neu"
-		neg = "neg"
+		neu = NEUTRAL_SENTENCE
+		neg = NEGATIVE_SENTENCE
 		practice = "prac"
-		trials = [neu]*(len(neus_pointers)-4) + [neg]*len(negs_pointers) # -4 is for the intial four neus to be later added
+
+		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 		random.shuffle(trials)
 		
 		# Adding practice trials --> cuurently multplying existing neutrasl
@@ -141,7 +150,7 @@ class MainAudioProcessor(object):
 			practice_trials_sentences.append(dc)
 		# Returning final values
 		prac_neu_or_neg = {practice: practice_trials_pointers, neu : neus_pointers, neg: negs_pointers}
-		trials = [] + [practice]*self.n_practice_trials + [neu]*4 + trials
+		trials = [] + [practice]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
 		
 		self.sentences_instances_by_type_by_phase[phase] = {
 															neu: self.neu_sentences_by_phase[phase], 
@@ -151,10 +160,9 @@ class MainAudioProcessor(object):
 		self.trials_pointers_by_phase[phase] = prac_neu_or_neg
 		self.trials_types_by_phase[phase] = trials
 		
-		ipdb.set_trace()
 	def create_catch_trials(self):
 		for phase in self.phases_names:
-			trials = len(self.sentences_by_phase[phase]) - self.ammount_practice_trials[phase]
+			trials = len(self.trials_types_by_phase[phase]) - self.n_practice_trials
 			number_of_catch_trials = int(self.precent_of_catch_trials*trials)
 			corrects = int(number_of_catch_trials/2.0)
 			wrongs = number_of_catch_trials - corrects
@@ -168,7 +176,7 @@ class MainAudioProcessor(object):
 				# fixing to close catches:
 				all_trials = self._fix_consecutive_trials(all_trials)
 			
-			all_trials = [] + self.ammount_practice_trials[phase]*[0] + all_trials
+			all_trials = [] + self.n_practice_trials*[0] + all_trials
 			
 			self.catch_and_non_catch_trials_list_by_phase[phase] = all_trials
 	
@@ -198,8 +206,6 @@ class MainAudioProcessor(object):
 			return False
 		
 			### AND ----> ADAPT THE DCT TASK - CHANGE IT IN GENERAL TO BE BETTER
-
-			
 	
 	def _get_sentence_num(self, file_name):
 		split_1 = file_name.split(SENTENCE)
