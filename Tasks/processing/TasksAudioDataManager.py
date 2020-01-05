@@ -21,6 +21,7 @@ MILISECONDS_BEFORE_END = 500
 # task properties
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
+AFACT_PHASE = "afact_phase"
 
 class MainAudioProcessor(object):
 	
@@ -65,9 +66,7 @@ class MainAudioProcessor(object):
 		self.trials_types_by_phase = {} #  per phase, list of TYPES as strings "ntr", "neg" or "prac"
 		self.trials_pointers_by_phase = {} # per phase,type holds INDEXES
 		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, SENTNECE INSTANCE
-		
-		
-		
+
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
 		self.create_catch_trials()
@@ -169,17 +168,57 @@ class MainAudioProcessor(object):
 		for sentence in practice_trials_sentences:
 			practice.add_sentence(sentence)
 		
+		ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
 		
-		self.ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
 		
+		# saving final values:
 		self.sentences_instances_by_type_by_phase[phase] = {
 															neu: self.neu_sentences_by_phase[phase], 
 															neg: self.neg_sentences_by_phase[phase], 
 															practice: practice_trials_sentences
 															}
-		self.trials_pointers_by_phase[phase] = prac_neu_or_neg
-		
 		self.trials_types_by_phase[phase] = trials
+		
+		# re arranging trial types according to AFACT demands:
+		if phase == AFACT_PHASE:
+			self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
+		
+	def _afact_trials_rearrange(self, phase, 
+								ammount_of_neutral_trials, 
+								prac_neu_or_neg, 
+								neu, neg):
+		'''
+			This function is executed only if phase is sepcfied exactly as
+			AFACT_PHASE. Then, it rearranges the trials to follow the rule of
+			a neg followed by concecutive one or two ntrs
+			
+		'''
+		# index of sentences to rearrage	
+		i_to_rearrange = self.n_start_neutral_trials + self.n_practice_trials
+		
+		
+		#		The following dubles by 1.5 the ammount of neutral trials, this to sumulate
+		# 	a random choise of either 1 or 2 consecutive trials after an ntr
+		half_ammount_of_ntrs = int(round(ammount_of_neutral_trials/2.0))
+		additional_pointers = random.sample(prac_neu_or_neg[NEUTRAL_SENTENCE], half_ammount_of_ntrs)
+		prac_neu_or_neg[NEUTRAL_SENTENCE] = additional_pointers + prac_neu_or_neg[NEUTRAL_SENTENCE]
+		random.shuffle(prac_neu_or_neg[NEUTRAL_SENTENCE])
+		
+		neu.sentences = []  # deleting existing sentences
+		for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:
+			neu.add_sentence(self.neu_sentences_by_phase[phase][p])
+		
+		cons = [1]*half_ammount_of_ntrs + [2]*half_ammount_of_ntrs
+		random.shuffle(cons)
+		
+		# ensuring negs always followed by 1 or 2 ntr:
+		trials = []
+		for c in cons:
+			trials.append(neu)
+			trials = trials + [neg]*c
+		
+		# saving afact trials
+		self.trials_types_by_phase[phase] = self.trials_types_by_phase[phase][:i_to_rearrange] + trials
 		
 	def create_catch_trials(self):
 		for phase in self.phases_names:

@@ -23,7 +23,7 @@ IMAGEPATH = r'Instructions_Pictures'
 
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-
+AFACT_PHASE = "afact_phase"
 
 
 def main():
@@ -35,8 +35,8 @@ def main():
 	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
 	data_manager = MainAudioProcessor(
-										phases_names=['Baseline', 'Post'], 
-										n_trials_by_phase={'Baseline':40,'Post':40}, 
+										phases_names=[AFACT_PHASE, 'Post'], 
+										n_trials_by_phase={AFACT_PHASE: 40,'Post':40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields

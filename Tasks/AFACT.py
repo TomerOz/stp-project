@@ -63,6 +63,7 @@ MAIN_FRAME = 'afact_frame'
 FEEDBACK_LABEL = 'feedback_label'
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
+AFACT_PHASE = "afact_phase"
 
 class AfactGui(object):
 	
@@ -151,39 +152,14 @@ class AfactGui(object):
 class AfactTaskData(TaskData):
 	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
-	
-	def afact_event_timed_init(self):
-		# following the same procedure of the parent class function
-		self.event_timed_init()
 		
-		# index of sentences to rearrage	
-		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.n_practice_trials
-		trials_to_rearrange = self.trials_types_by_phase[i_rearrange:]
+	def copmute_running_nutral_mean(self, rt, sentence_instance):
+		pass
+		
+	def compute_AFACT_bias_z_score(self):
+		pass
 		
 		
-		
-		#		The following dubles by 1.5 the ammount of neutral trials, this to sumulate
-		# 	a random choise of either 1 or 2 consecutive trials after an ntr
-		half_ammount_of_ntrs = int(round(self.data_manager.ammount_of_neutral_trials/2.0)
-		ipdb.set_trace()
-		additional_pointers = random.sample(self.trials_pointers_by_phase[NEUTRAL_SENTENCE], half_ammount_of_ntrs)
-		self.trials_pointers_by_phase[NEUTRAL_SENTENCE] = additional_pointers + self.trials_pointers_by_phase[NEUTRAL_SENTENCE]
-		random.shuffle(self.trials_pointers_by_phase[NEUTRAL_SENTENCE])
-		
-		for p in self.trials_pointers_by_phase[NEUTRAL_SENTENCE]:
-			neu.add_sentence(self.neutral_sentences[p])
-		
-		cons = [1]*half_ammount_of_ntrs + [2]*half_ammount_of_ntrs
-		random.shuffle(cons)
-		
-		# ensuring negs always followed by 1 or 2 ntr:
-		trials = []
-		for c in cons:
-			trials.append(self.data_manager.trial_type_negatives)
-			trials = trials + [self.data_manager.trial_type_neutrals]*c
-		
-		self.trials_types_by_phase = self.trials_types_by_phase[:i_rearrange] + trials
-	
 
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -192,14 +168,7 @@ class AfactTask(DctTask):
 		self.n_lst_neutrals = 4 # defines the number of last n trials to compute running mean
 		self.last_n_trials_RTs = [] # holds last 4 neutral RT's
 		self.running_nutral_mean = None # holding running mean of n last neutrals 
-	
-	
-	def copmute_running_nutral_mean(self, rt, sentence_instance):
-		pass
 		
-	def compute_AFACT_bias_z_score(self):
-		pass
-	
 	def show_AFACT_frame(self):
 		pass
 		
@@ -255,8 +224,8 @@ def main():
 	flow = Flow()
 	
 	data_manager = MainAudioProcessor(
-										phases_names=['Baseline', 'Post'], 
-										n_trials_by_phase={'Baseline':55,'Post':40}, 
+										phases_names=[AFACT_PHASE, 'Post'], 
+										n_trials_by_phase={AFACT_PHASE: 40,'Post': 40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 
@@ -265,17 +234,17 @@ def main():
 	
 	
 	# lab
-	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	
 	
-	atd = AfactTaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2)
-	atd.afact_event_timed_init()
+	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE, n_blocks=2)
+	atd.event_timed_init()
 	afact_gui = AfactGui(gui, exp)
 	#afact_gui.create_feedback_canvas()
 	#afact_gui.create_feedback(2.8)						# Normal presentation
