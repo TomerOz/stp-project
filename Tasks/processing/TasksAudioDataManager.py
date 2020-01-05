@@ -64,7 +64,6 @@ class MainAudioProcessor(object):
 		self.sentences_by_phase = {} # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
 		
 		self.trials_types_by_phase = {} #  per phase, list of TYPES as strings "ntr", "neg" or "prac"
-		self.trials_pointers_by_phase = {} # per phase,type holds INDEXES
 		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, SENTNECE INSTANCE
 
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
@@ -195,8 +194,6 @@ class MainAudioProcessor(object):
 		'''
 		# index of sentences to rearrage	
 		i_to_rearrange = self.n_start_neutral_trials + self.n_practice_trials
-		
-		
 		#		The following dubles by 1.5 the ammount of neutral trials, this to sumulate
 		# 	a random choise of either 1 or 2 consecutive trials after an ntr
 		half_ammount_of_ntrs = int(round(ammount_of_neutral_trials/2.0))
@@ -214,8 +211,8 @@ class MainAudioProcessor(object):
 		# ensuring negs always followed by 1 or 2 ntr:
 		trials = []
 		for c in cons:
-			trials.append(neu)
-			trials = trials + [neg]*c
+			trials.append(neg)
+			trials = trials + [neu]*c
 		
 		# saving afact trials
 		self.trials_types_by_phase[phase] = self.trials_types_by_phase[phase][:i_to_rearrange] + trials

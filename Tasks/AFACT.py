@@ -174,7 +174,7 @@ class AfactTask(DctTask):
 		
 	def _continue(self): 
 	
-		self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
+		#self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
 		print self.td.current_trial - 1
 		print self.td.sentences[self.td.current_trial].valence
@@ -234,9 +234,9 @@ def main():
 	
 	
 	# lab
-	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
