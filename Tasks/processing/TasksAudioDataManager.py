@@ -37,7 +37,7 @@ class MainAudioProcessor(object):
 			self.n_practice_trials = n_practice_trials
 		
 		if precent_of_catch_trials==None:
-			self.precent_of_catch_trials = 1.0/8.0
+			self.precent_of_catch_trials = 3.0/8.0
 		else:
 			self.precent_of_catch_trials = precent_of_catch_trials
 		
@@ -131,11 +131,11 @@ class MainAudioProcessor(object):
 		random.shuffle(neus_pointers)
 		random.shuffle(negs_pointers)
 		# creating an all trials dictionary
-		neu = TrialType(NEUTRAL_SENTENCE)
-		neg = TrialType(NEGATIVE_SENTENCE)
-		practice = TrialType("prac")
-		
 		PRACTICE_SENTENCE = "prac"
+		sents_by_trials = TrialsSentencesReff()
+		neu = TrialType(NEUTRAL_SENTENCE, sents_by_trials)
+		neg = TrialType(NEGATIVE_SENTENCE, sents_by_trials)
+		practice = TrialType(PRACTICE_SENTENCE, sents_by_trials)
 		# arranging trials:
 		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 		random.shuffle(trials)
@@ -233,7 +233,7 @@ class MainAudioProcessor(object):
 				# fixing to close catches:
 				all_trials = self._fix_consecutive_trials(all_trials)
 			
-			all_trials = [] + self.n_practice_trials*[0] + all_trials
+			all_trials = [] + self.n_practice_trials*[0] + self.n_start_neutral_trials*[0] + all_trials
 			
 			self.catch_and_non_catch_trials_list_by_phase[phase] = all_trials
 	
@@ -297,9 +297,20 @@ class MainAudioProcessor(object):
 		random.shuffle(self.neutral_sentences)
 		random.shuffle(self.negatives_sentences)
 
+class TrialsSentencesReff(object):
+	'''
+		A class that helps keep tracking on sentneces instances that appearded on each trial across trials types
+	'''
+	def __init__(self):
+		self.sentences_instances = []
+		
+	def find_sentence_by_trial(self, trial):
+		return self.sentences_instances[trial]
+
 class TrialType(object):
-	def __init__(self, type):
+	def __init__(self, type, trial_sent_ref):
 		self.type = type
+		self.trial_sent_ref = trial_sent_ref
 		self.index = 0
 		self.sentences = []
 		
@@ -310,8 +321,14 @@ class TrialType(object):
 		return self.sentences[self.index]
 	
 	def next(self):
-		self.index += 1
-	
+		self.save_sentnece_and_trial() # keep tracking on which sentnece was heared on which trial
+		if self.index < len(self.sentences)-1: # holding index on the last sentence
+			self.index += 1
+		print self.trial_sent_ref.sentences_instances
+	def save_sentnece_and_trial(self):
+		self.trial_sent_ref.sentences_instances.append(self.sentences[self.index])
+		
+		
 	def __str__(self):
 		return 'TrialType {}'.format(self.type)
 		

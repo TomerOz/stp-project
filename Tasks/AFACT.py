@@ -15,49 +15,6 @@ from Data import SubjectData
 from DCT import DctTask, TaskData
 from OpeningMenu import Menu
 
-## sentences directories and files names
-#SENTENCE_NAME_COL = 'sentence_name'
-#SUBJECT = 'subject'
-#GROUP = 'group'
-#GENDER = 'gender'
-#
-## gui properties
-#BACKGROUND = "black"
-#FOREGROUND = "white"
-#CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
-#DCT_STIMULI_FONT = "david 50 bold"
-#DCT_STIMULI = u'XXX'
-#FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
-#FEEDBACK_COLOR_DURATAION = 300
-#ONE_MILISCOND = 1000
-#MILISECONDS_BEFORE_END = 500
-#RIGHT ='r'
-#LEFT = 'l'
-#CORRECT = "green"
-#WRONG = "red"
-#FRAME_1 = "first"
-#LABEL_1 = "label_1"
-#CHANGE_BLOCK_FRAME = 'change_block_frame'
-#BUTTON_LABEL = 'button_label'
-#
-## task properties
-#EVEN= 'even'
-#ODD = 'odd'
-#CORRECT_SENTENCE = 1
-#NOT_CORRECT_SENTENCE = 0
-#RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
-#RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
-#MIN_DIGIT = 1
-#MAX_DIGIT = 8
-#AMMOUNT_OF_PRACTICE = 3 # ATTEND TO ITS CREATION
-#TRIALS = 20 + AMMOUNT_OF_PRACTICE # ensures all 40 sentences are available at experimental level
-#BLOCKS = 2
-#CHANGE_BLOCK_TRIAL = int((TRIALS - AMMOUNT_OF_PRACTICE)/BLOCKS) + AMMOUNT_OF_PRACTICE
-#BLOCK_CHANGE_WAIT_TIME = 3000
-#CATCH_TRIAL_PERCENT = 0.25
-#PROPORTION_OF_CORRECT_CATCH = 0.5
-#NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS = 4
-#
 ## Afact specific constants
 MAIN_FRAME = 'afact_frame'
 FEEDBACK_LABEL = 'feedback_label'
@@ -176,8 +133,7 @@ class AfactTask(DctTask):
 	
 		#self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
-		print self.td.current_trial - 1
-		print self.td.sentences[self.td.current_trial].valence
+		
 		#if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
 		#	print "was negative " + self.td.sentences[self.td.current_trial-1].valence
 		
@@ -225,7 +181,7 @@ def main():
 	
 	data_manager = MainAudioProcessor(
 										phases_names=[AFACT_PHASE, 'Post'], 
-										n_trials_by_phase={AFACT_PHASE: 40,'Post': 40}, 
+										n_trials_by_phase={AFACT_PHASE: 30,'Post': 40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 
@@ -234,9 +190,9 @@ def main():
 	
 	
 	# lab
-	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files

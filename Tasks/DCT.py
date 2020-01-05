@@ -131,10 +131,10 @@ class DctTask(object):
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
 		if self.td.catch_trials_and_non_catch[self.td.current_trial] == "c": # check if correct
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.find_sentence_instance(self.td.current_trial-2).text
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-1).text
 		else:
 			past_sentence = random.randint(0, self.td.current_trial-2) # -1 to ommit the possibility of taking current sentence
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.find_sentence_instance(past_sentence).text		
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(past_sentence).text
 	# ask about last sentence 	
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
@@ -264,7 +264,6 @@ class TaskData(object):
 		self.change_block_trial = None # To be defined in defin_block_change_trial
 		self.define_block_change_trial()
 		
-		#self.updata_current_sentence() # current sentence is set to the first practice trial
 	
 	def define_block_change_trial(self):
 		if self.n_blocks > 1:
@@ -320,18 +319,26 @@ class TaskData(object):
 			self.correct = correct
 			self.last_trial_classification = was_correct
 			self.last_key_pressed = key_pressed 
-			self.sd.push_data_packge(self) # saving data
+			
+			#self.sd.push_data_packge(self) # saving data ### FIX DATA SAVING
 		
 		else: # on first trial
 			self.current_trial += 1
-			self.find_sentence_instances() # Avoiding "self.get_next_sentence_instance()" in oreder to not raise index
+			self.updata_current_sentence()
 	
 	def get_next_sentence_instance(self, trial, was_catch=False):
 		trial_type = self.trials_types_by_phase[trial]
 		sent = trial_type.get_current_sentence()
 		if not was_catch:
 			trial_type.next()
-		ipdb.set_trace()
+		
+		print "----------------"
+		print trial_type
+		print trial_type.index
+		print sent
+		print "----------------"
+		if trial_type.index == 6:
+			ipdb.set_trace()
 		return sent
 		
 	def find_sentence_instance(self, trial):
