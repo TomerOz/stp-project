@@ -29,7 +29,7 @@ class MainAudioProcessor(object):
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
 		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
-		
+
 		if n_practice_trials == None:
 			self.n_practice_trials=8
 		else:
@@ -114,12 +114,13 @@ class MainAudioProcessor(object):
 	
 	def _create_trials_pointers_by_phase(self, phase):
 		
-		# rounded_multplying_factor by using it I knpw how many repetition per sentence
+		# rounded_multplying_factor by using it I know how many repetition per sentence
 		ammount_unique_sentences = len(self.sentences_by_phase[phase])
 		rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
 		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))*rounded_multplying_factor # pointers of neutral sentences
 		negs_pointers = range(len(self.neg_sentences_by_phase[phase]))*rounded_multplying_factor # Ipointers of neutralnegative sentences
 		
+		# Checking if multiplying reached the desired ammount of trials
 		if len(neus_pointers)*2 < self.n_trials_by_phase[phase]:
 			delta = int(round((self.n_trials_by_phase[phase] - len(neus_pointers)*2)/2.0))
 			neu_additional_pointers = random.sample(neus_pointers,delta)
@@ -128,14 +129,16 @@ class MainAudioProcessor(object):
 			negs_pointers = negs_pointers + neg_additional_pointers	
 			
 		ammount_of_trials = len(neus_pointers) + len(negs_pointers) # Int number of total ammunt of trials
-		# suffeling:
+		# shuffeling:
 		random.shuffle(neus_pointers)
 		random.shuffle(negs_pointers)
 		# creating an all trials dictionary
-		neu = NEUTRAL_SENTENCE
-		neg = NEGATIVE_SENTENCE
-		practice = "prac"
-
+		neu = TrialType(NEUTRAL_SENTENCE)
+		neg = TrialType(NEGATIVE_SENTENCE)
+		practice = TrialType("prac")
+		
+		PRACTICE_SENTENCE = "prac"
+		# arranging trials:
 		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 		random.shuffle(trials)
 		
@@ -148,9 +151,26 @@ class MainAudioProcessor(object):
 			dc = copy.deepcopy(self.neu_sentences_by_phase[phase][prac_pointer])
 			dc.is_practice = True
 			practice_trials_sentences.append(dc)
-		# Returning final values
-		prac_neu_or_neg = {practice: practice_trials_pointers, neu : neus_pointers, neg: negs_pointers}
+		
+		# Saving final values
+		prac_neu_or_neg = {
+						PRACTICE_SENTENCE: practice_trials_pointers, 
+						NEUTRAL_SENTENCE : neus_pointers, 
+						NEGATIVE_SENTENCE: negs_pointers}
 		trials = [] + [practice]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
+		
+		# Adding sentences to the TrialType instances
+		for p in prac_neu_or_neg[NEGATIVE_SENTENCE]:
+			neg.add_sentence(self.neg_sentences_by_phase[phase][p])
+		
+		for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:
+			neu.add_sentence(self.neu_sentences_by_phase[phase][p])
+		
+		for sentence in practice_trials_sentences:
+			practice.add_sentence(sentence)
+		
+		
+		self.ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
 		
 		self.sentences_instances_by_type_by_phase[phase] = {
 															neu: self.neu_sentences_by_phase[phase], 
@@ -158,6 +178,7 @@ class MainAudioProcessor(object):
 															practice: practice_trials_sentences
 															}
 		self.trials_pointers_by_phase[phase] = prac_neu_or_neg
+		
 		self.trials_types_by_phase[phase] = trials
 		
 	def create_catch_trials(self):
@@ -239,7 +260,28 @@ class MainAudioProcessor(object):
 		# shuffeling neutral and negative trials
 		random.shuffle(self.neutral_sentences)
 		random.shuffle(self.negatives_sentences)
-			
+
+class TrialType(object):
+	def __init__(self, type):
+		self.type = type
+		self.index = 0
+		self.sentences = []
+		
+	def add_sentence(self, sentence):
+		self.sentences.append(sentence)
+		
+	def get_current_sentence(self):
+		return self.sentences[self.index]
+	
+	def next(self):
+		self.index += 1
+	
+	def __str__(self):
+		return 'TrialType {}'.format(self.type)
+		
+	def __repr__(self):
+		return self.__str__()
+	
 class Sentence(object):
 	
 	def __init__(self, text, valence, num, num_in_excel, file_path, sentence_length):

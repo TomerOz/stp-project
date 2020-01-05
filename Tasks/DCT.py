@@ -167,7 +167,7 @@ class DctTask(object):
 			# get data frame from sd
 			self.td.sd.create_data_frame()
 			# raise flag of completion
-			self.flow.second_task()
+			self.flow.next()
 	
 	def change_block_frame(self):
 		print "Block changed"
@@ -187,7 +187,7 @@ class DctTask(object):
 		self.gui.after(BLOCK_CHANGE_WAIT_TIME, self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack)
 	
 	def start_task(self):
-		self.td.event_timed_initment() # user dependet initment of the dct data class
+		self.td.event_timed_init() # user dependet initment of the dct data class
 		self._create_task_label()
 		self.exp.display_frame(FRAME_1, [LABEL_1])
 		
@@ -234,7 +234,7 @@ class TaskData(object):
 		self.current_sentence = None # continan current Sentence instance
 		self.current_sentence_path = None # contain path of current sentence audio file
 			
-	def event_timed_initment(self):
+	def event_timed_init(self):
 		'''
 			This is part of the regular initment process though it is evoked only when 
 			other process are finished like getting menu data from user.
@@ -327,20 +327,20 @@ class TaskData(object):
 			self.current_trial += 1
 			self.updata_current_sentence()
 	
-	def find_sentence_instance(self, trial):
-		# this function builds on equal ntr-neg trials types.
-		# otherwise, see my solution in its AfacTaskData class
+	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]
-		pointer = self.trials_pointers_by_phase[trial_type][trial]
-		sent = self.sentences_instances_by_type_by_phase[trial_type][pointer]
-		
+		sent = trial_type.get_current_sentence()
+		trial_type.next()
 		return sent
-		# to access a Sentence --> current_trial => trial_type => trial_pinter => sentences_by_phase
+		
+	def find_sentence_instance(self, trial):
+		trial_type = self.trials_types_by_phase[trial]
+		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
 		if self.current_trial <= self.total_ammount_of_trials:
 			''' Task is still running'''
-			self.current_sentence = self.find_sentence_instance(self.current_trial - 1)
+			self.current_sentence = self.get_next_sentence_instance(self.current_trial - 1)
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 		
 		else:		

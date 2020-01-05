@@ -17,6 +17,7 @@ class Instructions(object):
 		
 	def start_instrunctions(self):
 		self.gui.bind("<space>", self.next_pic)
+		self.gui.bind("<space>", self.next_pic)
 		self.exp.create_frame("instructions_f", 
 				full_screen=True,
 				background_color=BACKGROUND)
@@ -34,9 +35,4 @@ class Instructions(object):
 			self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
 			self.exp.display_frame("instructions_f", ["instructions_l"])
 		else:
-			self.flow.flag = True
-	
-	def inst_flow(self):
-		self.start_instrunctions()
-		self.gui.bind("<space>", self.next_pic)
-			
+			self.flow.next()

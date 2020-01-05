@@ -28,7 +28,7 @@ class Menu(object):
 		self.exp.create_label('menu_label_3', 'menu_frame', label_bg = BACKGROUND)
 		self.exp.create_label('button_label', 'menu_frame', label_bg = BACKGROUND)
 		
-		self.exp.create_button('menu_frame', 'button_label', 'Start', self.start)
+		self.exp.create_button('menu_frame', 'button_label', 'Start', self.start_button_callback)
 		
 		self.exp.create_question('menu_frame', 'menu_label_1', gender, u'  מגדר ')
 		self.exp.create_question('menu_frame', 'menu_label_2', group, u'  קבוצה')
@@ -44,7 +44,7 @@ class Menu(object):
 	def show(self):
 		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'button_label'], use_place = self.places)
 		
-	def start(self):
+	def start_button_callback(self):
 		self.menu_data[gender] = type(self.exp).ALL_ENTRIES[gender].get()
 		self.menu_data[group] = type(self.exp).ALL_ENTRIES[group].get()
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
@@ -52,5 +52,5 @@ class Menu(object):
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
 		self.data_manager.__late_init__(self)
 		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
-		self.flow.flag =True
+		self.flow.next()
 		

@@ -152,21 +152,26 @@ class AfactTaskData(TaskData):
 	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
 	
-	def afact_event_timed_initment(self):
+	def afact_event_timed_init(self):
 		# following the same procedure of the parent class function
-		self.event_timed_initment()
+		self.event_timed_init()
 		
 		# index of sentences to rearrage	
 		i_rearrange = self.data_manager.n_start_neutral_trials + self.data_manager.n_practice_trials
 		trials_to_rearrange = self.trials_types_by_phase[i_rearrange:]
 		
-		# The following dubles by 1.5 the ammount of neutral trials, this to sumulate
+		
+		
+		#		The following dubles by 1.5 the ammount of neutral trials, this to sumulate
 		# 	a random choise of either 1 or 2 consecutive trials after an ntr
-		half_ammount_of_ntrs = int(round(trials_to_rearrange.count(NEUTRAL_SENTENCE)/2.0))
+		half_ammount_of_ntrs = int(round(self.data_manager.ammount_of_neutral_trials/2.0)
+		ipdb.set_trace()
 		additional_pointers = random.sample(self.trials_pointers_by_phase[NEUTRAL_SENTENCE], half_ammount_of_ntrs)
 		self.trials_pointers_by_phase[NEUTRAL_SENTENCE] = additional_pointers + self.trials_pointers_by_phase[NEUTRAL_SENTENCE]
 		random.shuffle(self.trials_pointers_by_phase[NEUTRAL_SENTENCE])
-		ipdb.set_trace()
+		
+		for p in self.trials_pointers_by_phase[NEUTRAL_SENTENCE]:
+			neu.add_sentence(self.neutral_sentences[p])
 		
 		cons = [1]*half_ammount_of_ntrs + [2]*half_ammount_of_ntrs
 		random.shuffle(cons)
@@ -174,23 +179,10 @@ class AfactTaskData(TaskData):
 		# ensuring negs always followed by 1 or 2 ntr:
 		trials = []
 		for c in cons:
-			trials.append(NEGATIVE_SENTENCE)
-			trials = trials + [NEUTRAL_SENTENCE]*c
+			trials.append(self.data_manager.trial_type_negatives)
+			trials = trials + [self.data_manager.trial_type_neutrals]*c
 		
 		self.trials_types_by_phase = self.trials_types_by_phase[:i_rearrange] + trials
-		
-	def find_sentence_instance(self, trial):
-		# find trila by type:
-		###
-		###
-		###
-		trial_type = self.trials_types_by_phase[trial]
-		pointer = self.trials_pointers_by_phase[trial_type][trial]
-		sent = self.sentences_instances_by_type_by_phase[trial_type][pointer]
-		
-		return sent
-		# to access a Sentence --> current_trial => trial_type => trial_pinter => sentences_by_phase
-	
 	
 
 class AfactTask(DctTask):
@@ -260,7 +252,7 @@ def main():
 	exp = Experiment()
 	gui = exp.gui
 	sd = SubjectData()
-	flow = Flow(gui)
+	flow = Flow()
 	
 	data_manager = MainAudioProcessor(
 										phases_names=['Baseline', 'Post'], 
@@ -273,9 +265,9 @@ def main():
 	
 	
 	# lab
-	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
@@ -283,7 +275,7 @@ def main():
 	
 	
 	atd = AfactTaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2)
-	atd.afact_event_timed_initment()
+	atd.afact_event_timed_init()
 	afact_gui = AfactGui(gui, exp)
 	#afact_gui.create_feedback_canvas()
 	#afact_gui.create_feedback(2.8)						# Normal presentation
@@ -304,43 +296,3 @@ def main():
 	
 if __name__ == '__main__':
 	main()
-	
-	
-	
-	
-	
-# def create_feedback_canvas(self):
-		# '''creates the template background of the feedback object'''
-		
-		# self.exp.create_frame(MAIN_FRAME)
-		# self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
-		# feedback_label_ref = self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL]
-		
-		# self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height)
-		
-		# tick_area = self.height*0.8333333333333334
-		# top_space = int((self.height - tick_area)/2)
-		# bottom_space = tick_area + top_space
-
-		# tick_space = int(tick_area/self.ammount_of_ticks)
-		# tick_middle = int(self.height/2) # inorder ti nake it 0 to 100
-		# all_ticks = range(self.ammount_of_ticks) + [self.ammount_of_ticks] # including zero and max
-		
-		# for i,t in enumerate(all_ticks):
-			# tick = (t*tick_space) + top_space
-			# tick_text = int((self.ammount_of_ticks**2)/2) - i*self.ammount_of_ticks 
-			# tick_text = str(tick)
-			
-			# self.feedback_canvas.create_line(35, tick, 42, tick)
-			# self.feedback_canvas.create_text(20,tick,  text=tick_text, font="David 14") 
-			# print tick
-		
-		# self.feedback_canvas.create_line(42,top_space, 42, bottom_space)
-		
-		
-		# self.canvas.create_text(100,10,fill="darkblue",font="Times 20 italic bold",
-        #               text="Click the bubbles that are multiples of two.")
-		
-		
-		# self.feedback_canvas.create_rectangle(68, tick_middle, 168, self.height-tick_space, fill="#ff0000")
-		# self.feedback_canvas.pack()

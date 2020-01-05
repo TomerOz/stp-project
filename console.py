@@ -5,7 +5,6 @@ import ipdb
 import time
 import random
 import os
-
 from playsound import playsound
 from PIL import Image, ImageTk
 
@@ -31,8 +30,9 @@ def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
 	exp = Experiment() # A class instance of experiments buildind
 	gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class
-	flow = Flow(gui) # A class instance that controls the experiment flow
+	flow = Flow() # A class instance that controls the experiment flow
 	sd = SubjectData()	# 
+	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
 	data_manager = MainAudioProcessor(
 										phases_names=['Baseline', 'Post'], 
@@ -43,11 +43,14 @@ def main():
 	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2) # A class intance that organizes the data for the DCT task
 	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
 	task = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
-	
-	instructions = Instructions(task, gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
-	
-	task2 = DctTask(gui, exp, td_post_training, flow)
-	instructions2 = Instructions(task, gui, exp, flow, IMAGEPATH)
+		
+	tasks = [
+				lambda: menu.show(),
+				lambda: instructions.start_instrunctions(),
+				lambda: task.start_task(),
+				]
+				
+	flow.add_tasks(tasks)
 	
 	gui.bind("<space>", flow.start_exp)
 	gui.state('zoomed')
