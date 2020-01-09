@@ -7,7 +7,12 @@ BACKGROUND_COLOR = 'black'
 FIXATION_LABEL = 'fixation_label'
 FIXATION_STIMULI = '+'
 FIXATION_FONT = 'david 64 bold'
-FOREGROUND_COLOR = 'white'
+FOREGROUND_COLOR = 'white
+
+NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
+NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
+AFACT_PHASE = "afact_phase"
+
 
 class DichoticOneBack(object):
 	
@@ -52,19 +57,51 @@ class DichoticOneBack(object):
 def main():
 	from ExGui import Experiment
 	from processing.TasksAudioDataManager import MainAudioProcessor
+	from processing.wav_lengh import AudioProcessor
+	from Data import SubjectData
+	from ExpFlow import Flow
+	from DCT import TaskData
 	
-	AUDIOPATH = r'C:\Users\tomer\Desktop\dct_dichotic\Subjects'
+	PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
+	PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+	SUBJECT = 'subject'
+	GROUP = 'group'
+	GENDER = 'gender'
+	AUDIOPATH = r'Subjects'
 	
-	class Menu(object):
-		def __init__(self, audiopath):
-			self.audiopath = audiopath
-			self.menu_data = {'gender':'','group':'','subject':1}
-			self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data['subject'])	
-			
-	menu = Menu(AUDIOPATH)
-	data_manager = MainAudioProcessor()
-	data_manager.__late_init__(menu)
+	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
 	exp = Experiment()
+	gui = exp.gui
+	sd = SubjectData()
+	flow = Flow()
+	
+	data_manager = MainAudioProcessor(
+										phases_names=["Dichotic", 'Post'], 
+										n_trials_by_phase={"Dichotic": 40,'Post': 40}, 
+										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	menu.menu_data[SUBJECT] = 1 
+	menu.menu_data[GROUP] = 1 
+	menu.menu_data[GENDER] = 1
+	
+	
+	# lab
+	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	# mine
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	
+	
+	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
+	data_manager.__late_init__(menu)
+	
+	
+	dichotic_task_data = TaskData(menu, data_manager, sd, phase='Dichotic', n_blocks=2)
+	dichotic_task_data.event_timed_init()
+	
+	#gui.bind("<Right>", change_feedback)	
+	#gui.bind("<Left>", change_feedback)	
+	
+	
 	gui = exp.gui
 	dichotic_instance = DichoticOneBack(gui, exp, data_manager)
 	dichotic_instance._create_task_main_frame()

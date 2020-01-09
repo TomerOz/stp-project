@@ -149,6 +149,7 @@ class AfactTask(DctTask):
 			self._trial() # continues to next trial	
 
 bias = 2.5
+
 def main():
 	
 	def change_feedback(event):

@@ -21,7 +21,9 @@ MILISECONDS_BEFORE_END = 500
 # task properties
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
-AFACT_PHASE = "afact_phase"
+
+AFACT_PHASE = "afact_phase"			# in console we must use these contants
+DICHOTIC_PHASE = "dichotic_phase"
 
 class MainAudioProcessor(object):
 	
@@ -182,6 +184,10 @@ class MainAudioProcessor(object):
 		if phase == AFACT_PHASE:
 			self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
 		
+		elif phase == DICHOTIC_PHASE:
+			pass
+			
+			
 	def _afact_trials_rearrange(self, phase, 
 								ammount_of_neutral_trials, 
 								prac_neu_or_neg, 
