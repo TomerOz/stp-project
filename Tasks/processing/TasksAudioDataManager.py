@@ -185,8 +185,9 @@ class MainAudioProcessor(object):
 			self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
 		
 		elif phase == DICHOTIC_PHASE:
+        #OMER
 			pass
-			
+    
 			
 	def _afact_trials_rearrange(self, phase, 
 								ammount_of_neutral_trials, 
