@@ -52,8 +52,8 @@ class Experiment(object):
 									path,
 									resize_to=False,
 									label_text=None, 
-									label_fg='black',
-									label_bg='white',
+									label_fg=None,
+									label_bg=None,
 									label_font='david 28 bold',
 									label_justify='right',
 									blank_label_width=160,
@@ -140,7 +140,7 @@ class Experiment(object):
 						frame_name, 
 						parent=None,
 						full_screen=True,
-						background_color='gray'
+						background_color=None,
 				):
 	
 		''' frame_name should be a string.
@@ -162,16 +162,11 @@ class Experiment(object):
 				
 			frame = tk.Frame(parent)
 		
-			# Default colors definitions:
-		if label_fg == None:
-			label_fg = self.default_frame_fg
+		# Default colors definitions:
+		if background_color == None:
+			background_color = self.default_frame_bg
 		else:
-			label_fg= label_fg
-		
-		if label_bg == None:
-			label_bg = self.default_frame_bg
-		else:
-			label_bg= label_bg
+			background_color= background_color
 		
 		
 		type(self).ALL_FRAMES[frame_name] = frame
@@ -183,8 +178,8 @@ class Experiment(object):
 					label_name,
 					frame_name, 
 					label_text=None, 
-					label_fg='black',
-					label_bg='gray',
+					label_fg=None,
+					label_bg=None,
 					label_font='david 28 bold',
 					label_justify='right',
 					label_width=None,
@@ -195,7 +190,17 @@ class Experiment(object):
 					anchor="center"
 				):
 		
-			
+		# Default colors definitions:
+		if label_fg == None:
+			label_fg = self.default_label_fg
+		else:
+			label_fg= label_fg
+		
+		if label_bg == None:
+			label_bg = self.default_label_bg
+		else:
+			label_bg= label_bg
+		
 		if blank_label == False and image_label == False:
 			
 			label = tk.Label(

@@ -302,7 +302,7 @@ class TaskData(object):
 				self.updata_current_sentence()
 				
 			elif is_catch_trial:	# last trial was catch
-				self.catch_trials_and_non_catch[self.current_trial-1] = 0
+				self.catch_trials_and_non_catch[self.current_trial-1] = 0 # removing last catch trial from list
 				## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
 				if correct:
 					was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE

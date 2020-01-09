@@ -45,7 +45,7 @@ class AfactGui(object):
 		self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
 		feedback_label_ref = self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL]
 		
-		self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height)
+		self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black")
 		
 		tick_area = self.height*0.8333333333333334
 		self.top_space = int((self.height - tick_area)/2)
@@ -62,8 +62,8 @@ class AfactGui(object):
 		
 		self.feedback_canvas.create_rectangle(self.x_middle-50, tick_middle, self.x_middle+50, self.height-self.tick_space, fill="")
 		
-		self.feedback_canvas.create_text(self.x_middle,self.top_space-20,fill="darkblue",font="Thaoma 14 bold",text=u"הטיה גבוה")
-		self.feedback_canvas.create_text(self.x_middle,bottom_space+20,fill="darkblue",font="Thaoma 14 bold",text=u"ללא הטיה")
+		self.feedback_canvas.create_text(self.x_middle,self.top_space-20,fill="lightblue",font="Thaoma 14 bold",text=u"הטיה גבוה")
+		self.feedback_canvas.create_text(self.x_middle,bottom_space+20,fill="lightblue",font="Thaoma 14 bold",text=u"ללא הטיה")
 		self.length_of_feedback = self.height - 2*(self.tick_space)
 		self.range_of_feedback = range(self.length_of_feedback)
 		
@@ -139,20 +139,22 @@ class AfactTask(DctTask):
 		''' overridded from the parent dct task'''
 		
 		
-		
+		x = 0
 		last_sent_valence = self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).valence
-		if self.td.catch_trials_and_non_catch[self.td.current_trial] == 0: # checks if this trial is catch
+		if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == 0: # checks if this trial is catch
 			if last_sent_valence == NEGATIVE_SENTENCE:
 				self.afact_gui.create_feedback(2.8)						
-				self.gui.after(200, lambda:self.afact_gui.show_feedback_animated(self.gui,2.5))
+				self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,2.5))
 				self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
-				self.gui.after(2000, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+				self.gui.after(2000, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
+				self.gui.after(4000, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+				x+=6000
 
 			
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
+			self.gui.after(200+x, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
 		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
 			self.change_block_frame()
 		elif self.td.catch_trials_and_non_catch[self.td.current_trial] != 0: # checks if this trial is catch
@@ -205,7 +207,7 @@ def main():
 	# lab
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
