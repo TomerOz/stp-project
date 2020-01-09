@@ -7,7 +7,7 @@ import random
 import os
 from playsound import playsound
 from PIL import Image, ImageTk
-g
+
 from ExGui import Experiment
 from Tasks.instructions import Instructions
 from Tasks.DCT import DctTask, TaskData
@@ -16,7 +16,7 @@ from Tasks.processing.wav_lengh import AudioProcessor
 from Tasks.processing.TasksAudioDataManager import MainAudioProcessor
 from Tasks.Data import SubjectData
 from Tasks.ExpFlow import Flow
-g
+
 
 AUDIOPATH = r'Subjects'
 IMAGEPATH = r'Instructions_Pictures'
