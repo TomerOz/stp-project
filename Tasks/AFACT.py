@@ -21,6 +21,8 @@ FEEDBACK_LABEL = 'feedback_label'
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
+FRAME_1 = "first"
+LABEL_1 = "label_1"
 
 class AfactGui(object):
 	
@@ -119,8 +121,10 @@ class AfactTaskData(TaskData):
 		
 
 class AfactTask(DctTask):
-	def __init__(self, gui, exp, td, flow):
+	def __init__(self, gui, exp, td, flow, afact_gui):
 		super(AfactTask, self).__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
+		
+		self.afact_gui = afact_gui
 		
 		self.n_lst_neutrals = 4 # defines the number of last n trials to compute running mean
 		self.last_n_trials_RTs = [] # holds last 4 neutral RT's
@@ -134,9 +138,17 @@ class AfactTask(DctTask):
 		#self.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence)
 		''' overridded from the parent dct task'''
 		
-		#if self.td.sentences[self.td.current_trial - 1].valence == NEGATIVE_SENTENCE:
-		#	print "was negative " + self.td.sentences[self.td.current_trial-1].valence
 		
+		
+		last_sent_valence = self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).valence
+		if self.td.catch_trials_and_non_catch[self.td.current_trial] == 0: # checks if this trial is catch
+			if last_sent_valence == NEGATIVE_SENTENCE:
+				self.afact_gui.create_feedback(2.8)						
+				self.gui.after(200, lambda:self.afact_gui.show_feedback_animated(self.gui,2.5))
+				self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+				self.gui.after(2000, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+
+			
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
@@ -191,9 +203,9 @@ def main():
 	
 	
 	# lab
-	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
@@ -203,12 +215,12 @@ def main():
 	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE, n_blocks=2)
 	atd.event_timed_init()
 	afact_gui = AfactGui(gui, exp)
-	#afact_gui.create_feedback_canvas()
+	afact_gui.create_feedback_canvas()
 	#afact_gui.create_feedback(2.8)						# Normal presentation
 	#afact_gui.show_feedback_animated(gui,2.5)			# Animated presentation
 	
 	
-	afact_task = AfactTask(gui, exp, atd, flow)
+	afact_task = AfactTask(gui, exp, atd, flow, afact_gui)
 	
 	#gui.bind("<Right>", change_feedback)	
 	#gui.bind("<Left>", change_feedback)	
@@ -216,7 +228,7 @@ def main():
 	
 	
 	
-	#exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+	
 	#gui.state('zoomed')
 	exp.run()
 	

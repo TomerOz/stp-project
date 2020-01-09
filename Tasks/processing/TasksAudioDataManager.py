@@ -128,7 +128,11 @@ class MainAudioProcessor(object):
 			neus_pointers = neus_pointers + neu_additional_pointers
 			negs_pointers = negs_pointers + neg_additional_pointers	
 			
+		# Adding practice trials --> cuurently multplying existing neutrasl
+		practice_trials_pointers = random.sample(neus_pointers, self.n_practice_trials) # 8 is the default number of practice trials
+		
 		ammount_of_trials = len(neus_pointers) + len(negs_pointers) # Int number of total ammunt of trials
+		
 		# shuffeling:
 		random.shuffle(neus_pointers)
 		random.shuffle(negs_pointers)
@@ -142,8 +146,6 @@ class MainAudioProcessor(object):
 		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 		random.shuffle(trials)
 		
-		# Adding practice trials --> cuurently multplying existing neutrasl
-		practice_trials_pointers = random.sample(neus_pointers, self.n_practice_trials) # 8 is the default number of practice trials
 		
 		# creating new instances with deep copy for practice trials
 		practice_trials_sentences = []

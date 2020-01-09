@@ -32,7 +32,13 @@ class Experiment(object):
 		self.y = self.screensize[1] #screen height
 		self.cx = int(self.screensize[0]*0.5) #screen width center
 		self.cy = int(self.screensize[1]*0.5) #screen hight center
-	
+		
+		self.default_frame_fg = "white"
+		self.default_frame_bg = "black"
+		self.default_label_fg = "white"
+		self.default_label_bg = "black"
+
+		
 	def _full_screen_creator(self, tk_object):
 
 		tk_object.overrideredirect(True)
@@ -64,7 +70,19 @@ class Experiment(object):
 			pic = pic.resize((resize_to[0], resize_to[1]), Image.ANTIALIAS)
 		
 		final_pic = ImageTk.PhotoImage(pic)
+		
+		# Default colors definitions:
+		if label_fg == None:
+			label_fg = self.default_label_fg
+		else:
+			label_fg= label_fg
+		
+		if label_bg == None:
+			label_bg = self.default_label_bg
+		else:
+			label_bg= label_bg
 			
+		
 		self.create_label(
 					label_name,
 					frame_name, 
@@ -143,6 +161,18 @@ class Experiment(object):
 				parent = type(self).EXPERIMENT_GUI
 				
 			frame = tk.Frame(parent)
+		
+			# Default colors definitions:
+		if label_fg == None:
+			label_fg = self.default_frame_fg
+		else:
+			label_fg= label_fg
+		
+		if label_bg == None:
+			label_bg = self.default_frame_bg
+		else:
+			label_bg= label_bg
+		
 		
 		type(self).ALL_FRAMES[frame_name] = frame
 		type(self).ALL_FRAMES[frame_name].configure(background = background_color)
