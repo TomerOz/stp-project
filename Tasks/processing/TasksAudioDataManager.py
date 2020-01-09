@@ -198,8 +198,8 @@ class MainAudioProcessor(object):
 		# 	a random choise of either 1 or 2 consecutive trials after an ntr
 		half_ammount_of_ntrs = int(round(ammount_of_neutral_trials/2.0))
 		additional_pointers = random.sample(prac_neu_or_neg[NEUTRAL_SENTENCE], half_ammount_of_ntrs)
+		random.shuffle(additional_pointers) # to avoid consectuive is not mixed with the rest of trials
 		prac_neu_or_neg[NEUTRAL_SENTENCE] = additional_pointers + prac_neu_or_neg[NEUTRAL_SENTENCE]
-		random.shuffle(prac_neu_or_neg[NEUTRAL_SENTENCE])
 		
 		neu.sentences = []  # deleting existing sentences
 		for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:

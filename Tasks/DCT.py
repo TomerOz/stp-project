@@ -131,9 +131,9 @@ class DctTask(object):
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
 		if self.td.catch_trials_and_non_catch[self.td.current_trial] == "c": # check if correct
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-1).text
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).text
 		else:
-			past_sentence = random.randint(0, self.td.current_trial-2) # -1 to ommit the possibility of taking current sentence
+			past_sentence = random.randint(0, self.td.current_trial-3) # -1 to ommit the possibility of taking current sentence
 			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(past_sentence).text
 	# ask about last sentence 	
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
@@ -337,8 +337,7 @@ class TaskData(object):
 		print trial_type.index
 		print sent
 		print "----------------"
-		if trial_type.index == 6:
-			ipdb.set_trace()
+		
 		return sent
 		
 	def find_sentence_instance(self, trial):
