@@ -2,45 +2,42 @@ import random
 
 NumNegUniqe=20
 NumNeuUniqe=20
-NumBlock = 4
-NumTrials = 10 #per block
-NumOneBack = 4 #per block 
 
-block_dic={}
-#block_dic={b1:{neg=[1,3,8,8,9,4,2,7,7,....],neu=[1,4,4...],b2:{neg=....}...}
+NumBlock=3 
+NumChunk = 4 #per block 
+NumUnique = 10 #per chunk
+NumOneBack = 2 #per chunk
 
-def build_block_dic(NumNegUniqe,NumNeuUniqe,NumBlock,NumTrials,NumOneBack):
-    for i in range(NumBlock):
-        block_dic['block'+str(i+1)]={}
-    for num_block in block_dic.keys():
-        neg_number_lst = random.sample(range(0,NumTrials,2), NumTrials)
-        neu_number_lst = random.sample(range(0,NumTrials,2), NumTrials)
-        OneBackNeg_lst = random.sample(range(1,NumTrials), NumOneBack) 
-        #index 1 to 10 in neg_number_lst (for not begining with repetition in the first sentence), 
-        #bad EXAMPLE! [2,5,3,9]
-        OneBackNeu_lst = random.sample(range(1,NumTrials), NumOneBack)
-        #to talk with Iftach about the repetition!
- 
-        print('neg_number_lst',neg_number_lst, 'OneBackNeg_lst', OneBackNeg_lst)
+
+def build_chunk_dic(NumNegUniqe,NumNeuUniqe,NumChunk,NumUnique,NumOneBack):
+    chunk_dic={}
+    for i in range(NumChunk):
+        chunk_dic['Chunk'+str(i+1)]={} #build 4 keys for 4 chunks
+    for num_chunk in chunk_dic.keys(): #adding the values = 
+        neg_number_lst = random.sample(range(1,NumNegUniqe+1),NumUnique) #10 random numbers (sentences) from 1-20
+        neu_number_lst = random.sample(range(1,NumNeuUniqe+1),NumUnique,)
+        OneBackNeg_index_lst = random.sample(range(2,NumUnique,2), NumOneBack) #2 random index from 2 to 19. repeatition from the third sentence.   
+        OneBackNeu_index_lst = random.sample(range(2,NumUnique,2), NumOneBack) #2 random index from 2 to 19. repeatition from the third sentence.   
+        #OneBack - insert duplication of 2 indexes in neg/neu sentences lists. 
+        [neg_number_lst.insert(i,neg_number_lst[i]) for i in OneBackNeg_index_lst]
+        [neu_number_lst.insert(i,neu_number_lst[i]) for i in OneBackNeu_index_lst]
+
+        chunk_dic[num_chunk] = {'neg':neg_number_lst, 'neu':neu_number_lst}
+    return chunk_dic
     
-        for oneback_index in OneBackNeg_lst:
-            neg_number_lst.insert(oneback_index,neg_number_lst[oneback_index])
-        block_dic[num_block] = neg_number_lst
-        # print('neg_number_lst',neg_number_lst)
+def build_bloc_dic(NumBlock):
+#@#@#@continure here after talking with Iftach about the sequence within block 
+    block_dic={}
+    for i in range(NumBlock):
+        # Left_list = random.sample(#[1,0,0,1]
+        cunk_dic = build_chunk_dic(NumNegUniqe,NumNeuUniqe,NumChunk,NumUnique,NumOneBack)
+        pass
         
-        
-        for oneback_index in OneBackNeu_lst:
-            neu_number_lst.insert(oneback_index,neu_number_lst[oneback_index])
-        block_dic[num_block] = neu_number_lst
-    # for num_oneback in OneBackNeu_lst:
-        # for num in neu_number_lst:
-            # if num == num_oneback:
-               # i =neu_number_lst.index(num)
-               # neu_number_lst.insert(i,num_oneback) 
-        # block_dic[num_block] = neu_number_lst
-#$#$#Ctl+Q
-build_block_dic(NumNegUniqe,NumNeuUniqe,NumBlock,NumTrials,NumOneBack)
-print(block_dic)
+print(build_chunk_dic(NumNegUniqe,NumNeuUniqe,NumChunk,NumUnique,NumOneBack))
+# print(chunk_dic)
+# print(chunk_dic['Chunk1']['neg'])
+
+
             
 
         
