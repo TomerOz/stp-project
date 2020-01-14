@@ -45,7 +45,7 @@ class AfactGui(object):
 		self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
 		feedback_label_ref = self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL]
 		
-		self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black")
+		self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black", highlightbackground="black")
 		
 		tick_area = self.height*0.8333333333333334
 		self.top_space = int((self.height - tick_area)/2)
@@ -145,8 +145,9 @@ class AfactTask(DctTask):
 			if last_sent_valence == NEGATIVE_SENTENCE:
 				self.afact_gui.create_feedback(2.8)						
 				self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,2.5))
-				self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+				self.gui.after(10, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
 				self.gui.after(2000, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
+				self.gui.after(3000, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
 				self.gui.after(4000, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
 				x+=6000
 
@@ -156,11 +157,12 @@ class AfactTask(DctTask):
 			self._give_feedback(self.key_pressed)		
 			self.gui.after(200+x, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
 		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
-			self.change_block_frame()
+			self.gui.after(200+x, self.change_block_frame) # TOMER - PAY ATTENTION TO THIS TIME HERE
 		elif self.td.catch_trials_and_non_catch[self.td.current_trial] != 0: # checks if this trial is catch
-			self.catch_trial() # intiate catch trial
+			self.gui.after(200+x, self.catch_trial) # intiate catch trial
+			
 		else:
-			self._trial() # continues to next trial	
+			self.gui.after(200+x, self._trial) # TOMER - PAY ATTENTION TO THIS TIME HERE
 
 bias = 2.5
 
