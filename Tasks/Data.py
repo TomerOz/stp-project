@@ -35,7 +35,8 @@ class SubjectData(object):
 	
 	def push_data_packge(self, package):
 		recorded_trial = package.current_trial-1
-		sentence = package.sentences[package.current_trial - 2] # see scheme to understand whay I'm taking to steps back
+		sentence = package.last_sentence 
+		
 		block = package.current_block
 		trial_type = self._classify_trial(package.is_catch_trial)
 		

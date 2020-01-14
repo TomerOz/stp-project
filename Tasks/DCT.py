@@ -47,9 +47,6 @@ RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_S
 MIN_DIGIT = 1
 MAX_DIGIT = 8
 BLOCK_CHANGE_WAIT_TIME = 3000
-CATCH_TRIAL_PERCENT = 0.125
-PROPORTION_OF_CORRECT_CATCH = 0.5
-NUM_OF_INTIAL_NEUTRAL_REAL_TRIALS = 4
 
 class DctTask(object):
 	
@@ -131,10 +128,10 @@ class DctTask(object):
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
 		if self.td.catch_trials_and_non_catch[self.td.current_trial] == "c": # check if correct
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).text
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial-1].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).text
 		else:
 			past_sentence = random.randint(0, self.td.current_trial-3) # -1 to ommit the possibility of taking current sentence
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase[self.td.current_trial].trial_sent_ref.find_sentence_by_trial(past_sentence).text
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase[self.td.current_trial-1].trial_sent_ref.find_sentence_by_trial(past_sentence).text
 	# ask about last sentence 	
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
@@ -145,12 +142,15 @@ class DctTask(object):
 			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
 			self.exp.display_frame(FRAME_1, [LABEL_1])
 		
-		if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "c":
-			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=True)
-			self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to the correct trial
-		elif self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "w":
-			self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=False)
-			self.td.current_trial-=1
+		if self.td.current_trial > 0: # not checkig on current_trial = 0 because then it checs current_trial = -1
+			if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "c":
+				self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=True)
+				self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to the correct trial
+			elif self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "w":
+				self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=False)
+				self.td.current_trial-=1
+				
+			else: self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
 		else:
 			self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
 		
@@ -158,7 +158,7 @@ class DctTask(object):
 		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
-		if self.td.current_trial <= self.td.total_ammount_of_trials:
+		if self.td.current_trial-1 <= self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
@@ -168,7 +168,10 @@ class DctTask(object):
 			self.td.sd.create_data_frame()
 			# raise flag of completion
 			self.flow.next()
-	
+	def destroy_change_block_frame_and_continue(self):
+		self.exp.hide_frame(CHANGE_BLOCK_FRAME)
+		self._continue()
+		
 	def change_block_frame(self):
 		print "Block changed"
 		self.block_changed = True
@@ -181,7 +184,7 @@ class DctTask(object):
 								)
 		self.exp.create_label(LABEL_1, CHANGE_BLOCK_FRAME, label_text=block_change_text, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
 		self.exp.create_label(BUTTON_LABEL, CHANGE_BLOCK_FRAME, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
-		self.exp.create_button(CHANGE_BLOCK_FRAME, BUTTON_LABEL, 'next', self._continue)
+		self.exp.create_button(CHANGE_BLOCK_FRAME, BUTTON_LABEL, 'next', self.destroy_change_block_frame_and_continue)
 		self.exp.display_frame(CHANGE_BLOCK_FRAME, [LABEL_1, BUTTON_LABEL])
 		self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack_forget()
 		self.gui.after(BLOCK_CHANGE_WAIT_TIME, self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack)
@@ -198,7 +201,6 @@ class DctTask(object):
 		self.gui.after(k, lambda:self._count_down(num=2))
 		self.gui.after(2*k, lambda:self._count_down(num=1))
 		self.gui.after(3*k, self._trial) # experiment was started
-		
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
@@ -285,7 +287,7 @@ class TaskData(object):
 	
 	def record_time(self):
 		self.last_RT = self.t1 - self.t0 # if now we are on trial 11 tahn last_RT belongs to trial 10
-	
+
 	def record_trial(self, num_shown, key_pressed, is_catch_trial=False, correct=False):
 		num_shown_type = None # because I want to pass it any way to the data collection
 		if key_pressed!=None: # after first trial
@@ -319,18 +321,19 @@ class TaskData(object):
 			self.correct = correct
 			self.last_trial_classification = was_correct
 			self.last_key_pressed = key_pressed 
-			
-			#self.sd.push_data_packge(self) # saving data ### FIX DATA SAVING
+			# saving refference to the sentence instance that its relevant data was recorded
+			self.last_sentence = self.find_sentence_instance(self.current_trial-2) # see scheme to understand whay I'm taking to steps back
+			# saving data 
+			self.sd.push_data_packge(self) 
 		
 		else: # on first trial
 			self.current_trial += 1
 			self.updata_current_sentence()
 	
-	def get_next_sentence_instance(self, trial, was_catch=False):
+	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]
 		sent = trial_type.get_current_sentence()
-		if not was_catch:
-			trial_type.next()
+		trial_type.next()
 		
 		print "----------------"
 		print trial_type
@@ -345,8 +348,8 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		if self.current_trial <= self.total_ammount_of_trials:
-			''' Task is still running'''
+		print "###### UPDATED ######", self.current_trial
+		if self.current_trial <= self.total_ammount_of_trials: # Task is still running
 			self.current_sentence = self.get_next_sentence_instance(self.current_trial - 1)
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 		
