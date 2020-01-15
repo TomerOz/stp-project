@@ -135,29 +135,24 @@ class DctTask(object):
 	# ask about last sentence 	
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
-	# ask math?
 	
-	def _trial(self): # type controls for practice or acttual
+	
+	def _trial(self):
+		'''This function is being called after response to last trial took place.
+				First, it records last trial,
+				Second, it start the next trial'''
+		
 		if self.td.current_trial == self.td.change_block_trial:
 			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
 			self.exp.display_frame(FRAME_1, [LABEL_1])
-		
-		if self.td.current_trial > 0: # not checkig on current_trial = 0 because then it checs current_trial = -1
-			if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "c":
-				self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=True)
-				self.td.current_trial-=1 # after recording last catch - insures next trial is tuned to the correct trial
-			elif self.td.catch_trials_and_non_catch[self.td.current_trial-1] == "w":
-				self.td.record_trial(self.shown_num, self.key_pressed, is_catch_trial=True, correct=False)
-				self.td.current_trial-=1
-				
-			else: self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
 		else:
-			self.td.record_trial(self.shown_num, self.key_pressed)  # raising trial counter by 1
+			self.td.record_trial(self.shown_num, self.key_pressed)
 		
 
 		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
+		# Checking if experiment ended:
 		if self.td.current_trial-1 <= self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
@@ -168,6 +163,7 @@ class DctTask(object):
 			self.td.sd.create_data_frame()
 			# raise flag of completion
 			self.flow.next()
+	
 	def destroy_change_block_frame_and_continue(self):
 		self.exp.hide_frame(CHANGE_BLOCK_FRAME)
 		self._continue()
