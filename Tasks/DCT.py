@@ -64,7 +64,6 @@ class DctTask(object):
 		self.td.t1 = time.time()													## END OF TIME RECORD
 		self.td.record_time()		
 		self.key_pressed = key
-		self.td.current_trial += 1 # raising trial by 1 
 		
 		# unbinding keyboard - to not allow overriding sentences
 		self.gui.unbind("<Right>")
@@ -72,6 +71,8 @@ class DctTask(object):
 		self._continue()
 		
 	def _continue(self):
+		self.td.updata_current_sentence()
+		
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
@@ -196,7 +197,7 @@ class DctTask(object):
 		self.gui.after(t1, lambda:self._count_down(num=3))
 		self.gui.after(k, lambda:self._count_down(num=2))
 		self.gui.after(2*k, lambda:self._count_down(num=1))
-		self.gui.after(3*k, self._trial) # experiment was started
+		self.gui.after(3*k, self._continue) # experiment was started
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
@@ -286,45 +287,43 @@ class TaskData(object):
 
 	def record_trial(self, num_shown, key_pressed, is_catch_trial=False, correct=False):
 		num_shown_type = None # because I want to pass it any way to the data collection
-		if key_pressed!=None: # after first trial
-			if not is_catch_trial: # on regular and practice trials
-				num_shown_type = self._classify_type_of_num(num_shown)
-				answer_type = RESPONSE_LABELS[key_pressed]   #what did the subject answer based on --> #RESPONSE_LABELS = {RIGHT : 'even', LEFT: 'odd'} 	# should be changed at some point
-				if answer_type == num_shown_type:
-					was_correct = True
-				else:
-					was_correct = False
-				
-				#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
-				print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, ' correct_catch=', correct,  ' was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
-				self.updata_current_sentence()
-				
-			elif is_catch_trial:	# last trial was catch
-				self.catch_trials_and_non_catch[self.current_trial-1] = 0 # removing last catch trial from list
-				## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
-				if correct:
-					was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
-				elif not correct:
-					was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
-				
-				## printing trial data and classification:
-				#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
-				print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct
+	
+		if not is_catch_trial: # on regular and practice trials
+			num_shown_type = self._classify_type_of_num(num_shown)
+			answer_type = RESPONSE_LABELS[key_pressed]   #what did the subject answer based on --> #RESPONSE_LABELS = {RIGHT : 'even', LEFT: 'odd'} 	# should be changed at some point
+			if answer_type == num_shown_type:
+				was_correct = True
+			else:
+				was_correct = False
 			
-			# saving key press in order to pass into Data package
-			self.num_shown_type = num_shown_type
-			self.is_catch_trial = is_catch_trial
-			self.correct = correct
-			self.last_trial_classification = was_correct
-			self.last_key_pressed = key_pressed 
-			# saving refference to the sentence instance that its relevant data was recorded
-			self.last_sentence = self.find_sentence_instance(self.current_trial-2) # see scheme to understand whay I'm taking to steps back
-			# saving data 
-			self.sd.push_data_packge(self) 
-		
-		else: # on first trial
-			self.current_trial += 1
+			#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
+			print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, ' correct_catch=', correct,  ' was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
 			self.updata_current_sentence()
+			
+		elif is_catch_trial:	# last trial was catch
+			self.catch_trials_and_non_catch[self.current_trial-1] = 0 # removing last catch trial from list
+			## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
+			if correct:
+				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
+			elif not correct:
+				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
+			
+			## printing trial data and classification:
+			#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
+			print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct
+		
+		# saving key press in order to pass into Data package
+		self.num_shown_type = num_shown_type
+		self.is_catch_trial = is_catch_trial
+		self.correct = correct
+		self.last_trial_classification = was_correct
+		self.last_key_pressed = key_pressed 
+		# saving refference to the sentence instance that its relevant data was recorded
+		self.last_sentence = self.find_sentence_instance(self.current_trial-2) # see scheme to understand whay I'm taking to steps back
+		# saving data 
+		self.sd.push_data_packge(self) 
+	
+		self.td.current_trial += 1 # raising trial by 1 
 	
 	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]
@@ -346,7 +345,7 @@ class TaskData(object):
 	def updata_current_sentence(self):
 		print "###### UPDATED ######", self.current_trial
 		if self.current_trial <= self.total_ammount_of_trials: # Task is still running
-			self.current_sentence = self.get_next_sentence_instance(self.current_trial - 1)
+			self.current_sentence = self.get_next_sentence_instance(self.current_trial)
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 		
 		else:		
