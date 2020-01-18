@@ -60,7 +60,7 @@ class DctTask(object):
 		self.key_pressed = None
 		self.block_changed = False # keeps track if lasts block change occured
 		
-	def _getreponse(self, eff=None, key=None):
+	def _getresponse(self, eff=None, key=None):
 		self.td.t1 = time.time()													## END OF TIME RECORD
 		self.td.record_time()		
 		self.key_pressed = key
@@ -71,15 +71,17 @@ class DctTask(object):
 		self._continue()
 		
 	def _continue(self):
-		self.td.updata_current_sentence()
+		
+		self.td.current_trial += 1 # raising trial by 1 
+		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
 		
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIMR
-		elif self.td.current_trial == self.td.change_block_trial and not self.block_changed:
+			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME
+		elif self.td.current_sentence.is_change_block_trial:
 			self.change_block_frame()
-		elif self.td.catch_trials_and_non_catch[self.td.current_trial] != 0: # checks if this trial is catch
+		elif self.td.current_sentence.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		else:
 			self._trial() # continues to next trial			
@@ -100,8 +102,8 @@ class DctTask(object):
 			self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 				
 	def _bind_keyboard(self):
-		self.gui.bind("<Right>", lambda eff: self._getreponse(eff, key=RIGHT))
-		self.gui.bind("<Left>", lambda eff: self._getreponse(eff,key=LEFT))
+		self.gui.bind("<Right>", lambda eff: self._getresponse(eff, key=RIGHT))
+		self.gui.bind("<Left>", lambda eff: self._getresponse(eff,key=LEFT))
 		
 	def _start_audio(self):
 		playsound(self.td.current_sentence_path, block=False) 						# audio is taken every trial from an updating filename 
@@ -323,7 +325,7 @@ class TaskData(object):
 		# saving data 
 		self.sd.push_data_packge(self) 
 	
-		self.td.current_trial += 1 # raising trial by 1 
+		
 	
 	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]

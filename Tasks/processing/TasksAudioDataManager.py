@@ -28,12 +28,22 @@ DICHOTIC_PHASE = "dichotic_phase"
 
 class MainAudioProcessor(object):
 	
-	def __init__(self, phases_names=None, n_start_neutral_trials =None, n_trials_by_phase=None, n_practice_trials=None, phases_distribution_percent_dict=None, precent_of_catch_trials=None):
+	def __init__(self, 
+						phases_names=None, 
+						n_start_neutral_trials =None, 
+						n_trials_by_phase=None, 
+						n_practice_trials=None, 
+						phases_distribution_percent_dict=None, 
+						precent_of_catch_trials=None, 
+						phases_without_catch_trials=None,
+						n_block_per_phase=None,
+						):
 		
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
 		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
-
+		self.afact_phase = AFACT_PHASE
+		
 		if n_practice_trials == None:
 			self.n_practice_trials=8
 		else:
@@ -43,11 +53,27 @@ class MainAudioProcessor(object):
 			self.precent_of_catch_trials = 3.0/8.0
 		else:
 			self.precent_of_catch_trials = precent_of_catch_trials
+		
 		if n_start_neutral_trials==None:
 			self.n_start_neutral_trials = 4 # real data trials
 		else:
 			self.n_start_neutral_trials = n_start_neutral_trials
+		
+		if phases_without_catch_trials==None:
+			self.phases_without_catch_trials = [] # means that all phases needs catch trials
+		else:
+			self.phases_without_catch_trials = phases_without_catch_trials
 			
+		if n_block_per_phase==None:
+			self.n_block_per_phase = {} # means that all phases have two blocks
+			for phase in self.phases_names:
+				self.n_block_per_phase[phase] = 2
+		else:
+			self.n_block_per_phase = n_block_per_phase 
+			for phase in self.phases_names:
+				if not phase in self.n_block_per_phase:
+					self.n_block_per_phase[phase] = 2 # means that all phases that where not specified, are of two phases
+		
 		self.phases_distribution_percent_dict = phases_distribution_percent_dict
 		
 		self.trial_sentence_refetnce = None # later being created as a class instance of TrialsSentencesReff
@@ -78,9 +104,10 @@ class MainAudioProcessor(object):
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
 		self.create_catch_trials()
-		self.create_catch_trials()
 		self.fill_sentence_trial_refferences()
 		self.insert_catch_trials_trial_types()
+		self.define_change_block_trials_per_phase()
+		self.insert_feedback_trialtypes_on_afact_phase()
 		
 	def _split_senteces_to_phases(self):
 		'''
@@ -272,6 +299,29 @@ class MainAudioProcessor(object):
 			for unique_trialtype in unique_types_reff:
 				unique_trialtype.index = 0
 				
+	def define_change_block_trials_per_phase(self):
+		for phase in self.trials_types_by_phase:
+			if self.n_block_per_phase[phase] > 1: 
+				trials = self.trials_types_by_phase[phase]
+				change_block_trial = int(round((len(trials)-1)/2.0))
+				# following lines asures that change block trial type wouldn't be 
+				# 	before feedback or catch.
+				correction_counter = 0
+				while not trials[change_block_trial+1+correction_counter].is_normal_trial: #
+					correction_counter+=1
+				change_block_trial += correction_counter
+				
+				change_block_trial_type = TrialType("Change_Block")
+				change_block_trial_type.is_normal_trial = False
+				change_block_trial_type.is_change_block_trial = True
+				trials.insert(change_block_trial, change_block_trial_type)
+				
+	def insert_feedback_trialtypes_on_afact_phase(self):
+		self.afact_phase
+		
+		
+		
+		
 	def insert_catch_trials_trial_types(self):
 		for phase in self.phases_names:
 			catch_trials_insertion_counter = 0 # makes sure that pushing (insert) catch trials into the list in 
@@ -293,27 +343,27 @@ class MainAudioProcessor(object):
 						catch.catch_type = False # wrong catch
 					catch.catch_text = sentence.text
 					catch.sentence_num = sentence.num 
-				
-		
+						
 	def create_catch_trials(self):
 		for phase in self.phases_names:
-			trials = len(self.trials_types_by_phase[phase]) - self.n_practice_trials
-			number_of_catch_trials = int(self.precent_of_catch_trials*trials)
-			corrects = int(number_of_catch_trials/2.0)
-			wrongs = number_of_catch_trials - corrects
-			cs = ['c']*corrects
-			ws = ['w']*wrongs
-			non_catch_trials = [0]*(trials-number_of_catch_trials)
-			all_trials =  cs + ws + non_catch_trials
-			random.shuffle(all_trials)
-			
-			while not self._check_no_consecutive_trials(all_trials):
-				# fixing to close catches:
-				all_trials = self._fix_consecutive_trials(all_trials)
-			
-			all_trials = [] + self.n_practice_trials*[0] + self.n_start_neutral_trials*[0] + all_trials
-			
-			self.catch_and_non_catch_trials_list_by_phase[phase] = all_trials	
+			if not phase in self.phases_without_catch_trials:
+				trials = len(self.trials_types_by_phase[phase]) - self.n_practice_trials - self.n_start_neutral_trials
+				number_of_catch_trials = int(self.precent_of_catch_trials*trials)
+				corrects = int(number_of_catch_trials/2.0)
+				wrongs = number_of_catch_trials - corrects
+				cs = ['c']*corrects
+				ws = ['w']*wrongs
+				non_catch_trials = [0]*(trials-number_of_catch_trials)
+				all_trials =  cs + ws + non_catch_trials
+				random.shuffle(all_trials)
+				
+				while not self._check_no_consecutive_trials(all_trials):
+					# fixing to close catches:
+					all_trials = self._fix_consecutive_trials(all_trials)
+				
+				all_trials = [] + self.n_practice_trials*[0] + self.n_start_neutral_trials*[0] + all_trials
+				
+				self.catch_and_non_catch_trials_list_by_phase[phase] = all_trials	
 	
 	def _fix_consecutive_trials(self, all_trials):
 		for i, t in enumerate(all_trials): 
@@ -389,8 +439,14 @@ class TrialType(object):
 		self.type = type
 		self.index = 0
 		self.sentences = []
-		# intended to be used only in cach trials:
+		
+		# trial type boolean
+		self.is_normal_trial = True
+		self.is_change_block_trial = False
+		self.is_afact_feedback = False
 		self.is_catch = False 
+		
+		# only for catch trials - True=Correct, False=Wrong sentence on catch
 		self.catch_type = None # manulally changes to true or false in creation
 		
 	def add_sentence(self, sentence):
