@@ -106,8 +106,8 @@ class MainAudioProcessor(object):
 		self.create_catch_trials()
 		self.fill_sentence_trial_refferences()
 		self.insert_catch_trials_trial_types()
-		self.define_change_block_trials_per_phase()
 		self.insert_feedback_trialtypes_on_afact_phase()
+		self.define_change_block_trials_per_phase()
 		
 	def _split_senteces_to_phases(self):
 		'''
@@ -317,9 +317,18 @@ class MainAudioProcessor(object):
 				trials.insert(change_block_trial, change_block_trial_type)
 				
 	def insert_feedback_trialtypes_on_afact_phase(self):
-		self.afact_phase
-		
-		
+		if self.afact_phase in self.trials_types_by_phase:
+			afact_trials = self.trials_types_by_phase[self.afact_phase]
+			for i, trial in enumerate(afact_trials):
+				if trial.type == NEGATIVE_SENTENCE:
+					feedback_trial_type = TrialType("Feedback_Trial")
+					afact_trials.insert(i+1, feedback_trial_type)
+				
+			
+			
+		else:
+			# No afact phase on this instance
+			pass
 		
 		
 	def insert_catch_trials_trial_types(self):
@@ -341,8 +350,8 @@ class MainAudioProcessor(object):
 					elif trial == "w":	
 						sentence = random.sample(sentences_scope_until_this_catch[:-1], 1)[0] # excluding the last one
 						catch.catch_type = False # wrong catch
-					catch.catch_text = sentence.text
-					catch.sentence_num = sentence.num 
+					# saving sentence text and num
+					catch.catch_sentence = sentence
 						
 	def create_catch_trials(self):
 		for phase in self.phases_names:
@@ -441,19 +450,38 @@ class TrialType(object):
 		self.sentences = []
 		
 		# trial type boolean
-		self.is_normal_trial = True
-		self.is_change_block_trial = False
-		self.is_afact_feedback = False
-		self.is_catch = False 
+		self.is_normal_trial 		= 	True
+		self.is_change_block_trial 	= 	False
+		self.is_afact_feedback 		= 	False
+		self.is_catch 				=	False 
 		
 		# only for catch trials - True=Correct, False=Wrong sentence on catch
+		self.catch_sentence = None
 		self.catch_type = None # manulally changes to true or false in creation
 		
+	def into_false_all_other_bolleans(self, boolean_feature): ### NEEDS TO BE CHECKED & IMPLEMENTED
+		all_booleans = [
+						self.is_normal_trial 		,
+		                self.is_change_block_trial 	,
+		                self.is_afact_feedback 		,
+		                self.is_catch 				,
+						]
+						
+		for b in all_booleans:
+			if id(b) != id(boolean_feature):
+				b = False
+		
+	
 	def add_sentence(self, sentence):
 		self.sentences.append(sentence)
 		
 	def get_current_sentence(self):
-		return self.sentences[self.index]
+		if self.is_normal_trial:
+			return self.sentences[self.index]
+		elif self.is_catch:
+			return self.catch_sentence
+			
+			
 	
 	def next(self):
 		if self.index < len(self.sentences)-1: # holding index on the last sentence

@@ -92,13 +92,13 @@ class DctTask(object):
 		if RESPONSE_LABELS[key] == num_type:
 			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = CORRECT))
 			#self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))  ### color feedback
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "ok"))
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "Correct"))
 			self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)) # text feedback
 		#if wrong
 		else:
 			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = WRONG))
 			#self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text = "not"))
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text = "Wrong"))
 			self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 				
 	def _bind_keyboard(self):
@@ -130,12 +130,7 @@ class DctTask(object):
 	
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
-		if self.td.catch_trials_and_non_catch[self.td.current_trial] == "c": # check if correct
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.trials_types_by_phase[self.td.current_trial-1].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2).text
-		else:
-			past_sentence = random.randint(0, self.td.current_trial-3) # -1 to ommit the possibility of taking current sentence
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  + self.td.trials_types_by_phase[self.td.current_trial-1].trial_sent_ref.find_sentence_by_trial(past_sentence).text
-	# ask about last sentence 	
+			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.catch_text
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
 	
@@ -345,7 +340,6 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		print "###### UPDATED ######", self.current_trial
 		if self.current_trial <= self.total_ammount_of_trials: # Task is still running
 			self.current_sentence = self.get_next_sentence_instance(self.current_trial)
 			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
