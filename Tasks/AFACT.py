@@ -144,19 +144,16 @@ class AfactTask(DctTask):
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
-		x = 0
-		if self.td.catch_trials_and_non_catch[self.td.current_trial-1] == 0: # checks if this trial is catch
-			#ipdb.set_trace()
-			last_sentence = self.td.trials_types_by_phase[self.td.current_trial-1].trial_sent_ref.find_sentence_by_trial(self.td.current_trial-2)
-			self.td.copmute_running_nutral_mean(self.td.last_RT, last_sentence) 
-			self.td.compute_AFACT_bias_z_score(self.td.last_RT, last_sentence)
-			last_sent_valence = last_sentence.valence
-			if last_sent_valence == NEGATIVE_SENTENCE:
-				bias = self.td.last_trial_bias
-				self.gui.after(200, lambda:self.show_AFACT_frame(bias))
-				x+=60
+		
+		
+		
+		
+		self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence) 
+		self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence)
+			
 	
-		self.gui.after(100+x, lambda:super(AfactTask, self)._continue())
+		super(AfactTask, self)._continue()
+		
 		## trial flow control:
 		#if self.td.current_sentence.is_practice:
 		#	self._give_feedback(self.key_pressed)		

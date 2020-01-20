@@ -321,11 +321,12 @@ class MainAudioProcessor(object):
 			afact_trials = self.trials_types_by_phase[self.afact_phase]
 			for i, trial in enumerate(afact_trials):
 				if trial.type == NEGATIVE_SENTENCE:
-					feedback_trial_type = TrialType("Feedback_Trial")
+					feedback_trial_type = TrialType("afact_feedback Trial")
 					afact_trials.insert(i+1, feedback_trial_type)
-				
-			
-			
+					afbt = afact_trials[i+1]
+					afbt.is_afact_feedback = True
+					afbt.is_normal_trial = False
+					afbt.into_false_all_other_bolleans("is_afact_feedback")
 		else:
 			# No afact phase on this instance
 			pass
@@ -344,6 +345,7 @@ class MainAudioProcessor(object):
 					# giving each catch its functionality
 					sentences_scope_until_this_catch = self.sentence_trial_reffs_by_phase[phase].sentences_instances[:i] # excluding this catch
 					catch.is_catch = True
+					catch.is_normal_trial = False
 					if trial == "c":
 						sentence = sentences_scope_until_this_catch[-1] # chosing last sentence
 						catch.catch_type = True # correct catch
@@ -460,16 +462,17 @@ class TrialType(object):
 		self.catch_type = None # manulally changes to true or false in creation
 		
 	def into_false_all_other_bolleans(self, boolean_feature): ### NEEDS TO BE CHECKED & IMPLEMENTED
-		all_booleans = [
-						self.is_normal_trial 		,
-		                self.is_change_block_trial 	,
-		                self.is_afact_feedback 		,
-		                self.is_catch 				,
-						]
+		all_booleans = {
+						"is_normal_trial" 			:self.is_normal_trial 		,
+						"is_change_block_trial" 	:self.is_change_block_trial 	,
+						"is_afact_feedback" 		:self.is_afact_feedback 		,
+						"is_catch" 					:self.is_catch 				,
+						}
 						
+		ipdb.set_trace()
 		for b in all_booleans:
-			if id(b) != id(boolean_feature):
-				b = False
+			if b != boolean_feature:
+				all_booleans[b] = False
 		
 	
 	def add_sentence(self, sentence):

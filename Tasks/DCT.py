@@ -83,6 +83,9 @@ class DctTask(object):
 			self.change_block_frame()
 		elif self.td.current_sentence.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
+		elif self.td.current_sentence.is_afact_feedback:
+			bias = self.td.last_trial_bias
+			self.show_AFACT_frame(bias)
 		else:
 			self._trial() # continues to next trial			
 			
@@ -130,7 +133,7 @@ class DctTask(object):
 	
 	def catch_trial(self):
 		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
-			self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.catch_text
+		self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.text
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
 	
