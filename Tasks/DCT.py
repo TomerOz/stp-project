@@ -83,9 +83,6 @@ class DctTask(object):
 			self.change_block_frame()
 		elif self.td.current_sentence.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
-		elif self.td.current_sentence.is_afact_feedback:
-			bias = self.td.last_trial_bias
-			self.show_AFACT_frame(bias)
 		else:
 			self._trial() # continues to next trial			
 			
@@ -327,6 +324,10 @@ class TaskData(object):
 	
 	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]
+		# saving in TaskData object a refferece to the current TrialType instance
+		self.trial_type_intance = trial_type
+		
+		# returnning the relevant sentence instance
 		sent = trial_type.get_current_sentence()
 		trial_type.next()
 		

@@ -326,7 +326,6 @@ class MainAudioProcessor(object):
 					afbt = afact_trials[i+1]
 					afbt.is_afact_feedback = True
 					afbt.is_normal_trial = False
-					afbt.into_false_all_other_bolleans("is_afact_feedback")
 		else:
 			# No afact phase on this instance
 			pass
