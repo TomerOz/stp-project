@@ -72,16 +72,15 @@ class DctTask(object):
 		
 	def _continue(self):
 		
-		self.td.current_trial += 1 # raising trial by 1 
 		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
 		
 		# trial flow control:
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
 			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME
-		elif self.td.current_sentence.is_change_block_trial:
+		elif self.td.current_trial_type_intance.is_change_block_trial:
 			self.change_block_frame()
-		elif self.td.current_sentence.is_catch: # checks if this trial is catch
+		elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		else:
 			self._trial() # continues to next trial			
@@ -140,10 +139,7 @@ class DctTask(object):
 				First, it records last trial,
 				Second, it start the next trial'''
 		
-		if self.td.current_trial == self.td.change_block_trial:
-			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
-			self.exp.display_frame(FRAME_1, [LABEL_1])
-		else:
+		if self.current_trial > 0:
 			self.td.record_trial(self.shown_num, self.key_pressed)
 		
 
@@ -151,7 +147,7 @@ class DctTask(object):
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
 		# Checking if experiment ended:
-		if self.td.current_trial-1 <= self.td.total_ammount_of_trials:
+		if self.td.current_trial <= self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
@@ -169,7 +165,7 @@ class DctTask(object):
 	def change_block_frame(self):
 		print "Block changed"
 		self.block_changed = True
-		self.td.current_block = 2 # updating block
+		self.td.current_block = 2 # updating block number
 		block_change_text = u'השלמת את החצי הראשון של המטלה'
 		self.exp.create_frame(
 								CHANGE_BLOCK_FRAME, 
@@ -227,6 +223,7 @@ class TaskData(object):
 		## add here classfication of this list to correct and incorrect response
 		
 		# current sentence track keeping
+		self.current_trial_type_intance = None # continan current TrialType instace
 		self.current_sentence = None # continan current Sentence instance
 		self.current_sentence_path = None # contain path of current sentence audio file
 			
@@ -258,15 +255,7 @@ class TaskData(object):
 		# sd is a subject data instance
 		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
 		self.change_block_trial = None # To be defined in defin_block_change_trial
-		self.define_block_change_trial()
 		
-	
-	def define_block_change_trial(self):
-		if self.n_blocks > 1:
-			self.change_block_trial = int(1.0*self.total_ammount_of_trials/self.n_blocks)
-		else:
-			self.change_block_trial
-	
 	def _classify_type_of_num(self, num):
 		if num % 2 == 0:
 			return EVEN
@@ -309,6 +298,7 @@ class TaskData(object):
 			#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
 			print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct
 		
+		
 		# saving key press in order to pass into Data package
 		self.num_shown_type = num_shown_type
 		self.is_catch_trial = is_catch_trial
@@ -318,14 +308,15 @@ class TaskData(object):
 		# saving refference to the sentence instance that its relevant data was recorded
 		self.last_sentence = self.find_sentence_instance(self.current_trial-2) # see scheme to understand whay I'm taking to steps back
 		# saving data 
-		self.sd.push_data_packge(self) 
-	
+		self.sd.push_data_packge(self) 	
 		
+		# last thing that happens before next trial is played
+		self.td.current_trial += 1 # raising trial by 1 
 	
 	def get_next_sentence_instance(self, trial):
 		trial_type = self.trials_types_by_phase[trial]
 		# saving in TaskData object a refferece to the current TrialType instance
-		self.trial_type_intance = trial_type
+		self.current_trial_type_intance = trial_type
 		
 		# returnning the relevant sentence instance
 		sent = trial_type.get_current_sentence()
