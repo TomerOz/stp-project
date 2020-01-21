@@ -123,12 +123,13 @@ class AfactTaskData(TaskData):
 			if len(self.neutral_running_mean) > 4:
 				self.neutral_running_mean = self.neutral_running_mean[1:]
 		
-	def compute_AFACT_bias_z_score(self, rt, sentence_instance):
-		if sentence_instance.valence == NEGATIVE_SENTENCE:
-			running_mean = np.mean(self.neutral_running_mean)
-			running_std = np.std(self.neutral_running_mean)
-			bias = (rt - running_mean)/(1.0*running_std)
-			self.last_trial_bias = bias
+	def compute_AFACT_bias_z_score(self, rt, sentence_instance, current_trial_type_intance):
+		if current_trial_type_intance.is_normal_trial:
+			if sentence_instance.valence == NEGATIVE_SENTENCE:
+				running_mean = np.mean(self.neutral_running_mean)
+				running_std = np.std(self.neutral_running_mean)
+				bias = (rt - running_mean)/(1.0*running_std)
+				self.last_trial_bias = bias
 	
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow, afact_gui):
@@ -208,7 +209,7 @@ def main():
 														], 
 										
 										n_trials_by_phase={
-															AFACT_PHASE: 20,
+															AFACT_PHASE: 4,
 															'Post': 40
 															}, 
 										
@@ -244,6 +245,6 @@ def main():
 	
 	#gui.state('zoomed')
 	exp.run()
-	
+'''	RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point??? '''
 if __name__ == '__main__':
 	main()

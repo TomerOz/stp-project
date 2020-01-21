@@ -151,11 +151,13 @@ class DctTask(object):
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
 		# Checking if experiment ended:
-		if self.td.current_trial <= self.td.total_ammount_of_trials:
+		if self.td.current_trial < self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
 			''' Task is over'''
+			self.gui.unbind("<Right>")
+			self.gui.unbind("<Left>")
 			print "End - on _tria()"
 			# get data frame from sd
 			self.td.sd.create_data_frame()
@@ -164,6 +166,7 @@ class DctTask(object):
 	
 	def destroy_change_block_frame_and_continue(self):
 		self.exp.hide_frame(CHANGE_BLOCK_FRAME)
+		self.exp.display_frame(FRAME_1, [LABEL_1])
 		self._continue()
 		
 	def change_block_frame(self):
@@ -315,6 +318,7 @@ class TaskData(object):
 		print sent
 		print "Current Trial: ", self.current_trial
 		print "Change Block Trial is on: ", self.change_block_trial
+		print "Total ammount of Trials is : ", self.total_ammount_of_trials
 		
 		print "------END--------"
 		
@@ -325,7 +329,8 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		if self.current_trial <= self.total_ammount_of_trials: # Task is still running
+		print self.total_ammount_of_trials
+		if self.current_trial < self.total_ammount_of_trials: # Task is still running
 			trial_type = self.trials_types_by_phase[self.current_trial]
 			# saving in TaskData object a refferece to the current TrialType instance
 			self.current_trial_type_intance = trial_type

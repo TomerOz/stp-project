@@ -191,7 +191,12 @@ class MainAudioProcessor(object):
 			neu_additional_pointers = random.sample(neus_pointers,delta)
 			neg_additional_pointers = random.sample(negs_pointers,delta)
 			neus_pointers = neus_pointers + neu_additional_pointers
-			negs_pointers = negs_pointers + neg_additional_pointers	
+			negs_pointers = negs_pointers + neg_additional_pointers
+
+		elif len(neus_pointers)*2 > self.n_trials_by_phase[phase]:
+			pointers_to_sample = int(round(self.n_trials_by_phase[phase]/2.0))
+			neus_pointers = random.sample(neus_pointers,pointers_to_sample)
+			negs_pointers = random.sample(negs_pointers,pointers_to_sample)
 		
 		# creating an all trials dictionary
 		PRACTICE_SENTENCE = "prac"
@@ -309,7 +314,7 @@ class MainAudioProcessor(object):
 				# following lines asures that change block trial type wouldn't be 
 				# 	before feedback or catch.
 				correction_counter = 0
-				while not trials[change_block_trial+1+correction_counter].is_normal_trial: #
+				while not trials[change_block_trial+correction_counter].is_normal_trial: #
 					correction_counter+=1
 				change_block_trial += correction_counter
 				
