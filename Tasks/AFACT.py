@@ -116,18 +116,20 @@ class AfactTaskData(TaskData):
 		self.neutral_running_mean = [] #  holds last 4 neutral RT's, updated throughout the experiment
 		self.last_trial_bias = None # holding running mean of n last neutrals, to be changed after every neg trial
 
-	def copmute_running_nutral_mean(self, rt, sentence_instance):
-		if sentence_instance.valence == NEUTRAL_SENTENCE:
-			self.neutral_running_mean.append(rt)
-		if len(self.neutral_running_mean) > 4:
-			self.neutral_running_mean = self.neutral_running_mean[1:]
+	def copmute_running_nutral_mean(self, rt, sentence_instance, current_trial_type_intance):
+		if current_trial_type_intance.is_normal_trial: # Avoids; feedbacks, catches, change blocks 
+			if sentence_instance.valence == NEUTRAL_SENTENCE:
+				self.neutral_running_mean.append(rt)
+			if len(self.neutral_running_mean) > 4:
+				self.neutral_running_mean = self.neutral_running_mean[1:]
 		
-	def compute_AFACT_bias_z_score(self, rt, sentence_instance):
-		if sentence_instance.valence == NEGATIVE_SENTENCE:
-			running_mean = np.mean(self.neutral_running_mean)
-			running_std = np.std(self.neutral_running_mean)
-			bias = (rt - running_mean)/(1.0*running_std)
-			self.last_trial_bias = bias
+	def compute_AFACT_bias_z_score(self, rt, sentence_instance, current_trial_type_intance):
+		if current_trial_type_intance.is_normal_trial:
+			if sentence_instance.valence == NEGATIVE_SENTENCE:
+				running_mean = np.mean(self.neutral_running_mean)
+				running_std = np.std(self.neutral_running_mean)
+				bias = (rt - running_mean)/(1.0*running_std)
+				self.last_trial_bias = bias
 	
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow, afact_gui):
@@ -137,33 +139,36 @@ class AfactTask(DctTask):
 	def show_AFACT_frame(self, bias):
 		self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))						
 		self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
-		self.gui.after(10, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
-		self.gui.after(20, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
-		self.gui.after(30, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
-		self.gui.after(40, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+		self.gui.after(100, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
+		self.gui.after(200, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
+		self.gui.after(300, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
+		self.gui.after(400, lambda:self.exp.hide_frame(MAIN_FRAME))
+		self.gui.after(400, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+		self.gui.after(600, self._continue)
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
-		if self.td.current_sentence != None: # Assuring each
-			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence) 
-			self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence)
+		if self.td.current_trial > -1: # after first trial
+			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance	) 
+			self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance)
 			
-		self.td.current_trial += 1 # raising trial by 1 
-		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-		
-		# trial flow control:
-		if self.td.current_sentence.is_practice:
-			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME
-		elif self.td.current_sentence.is_change_block_trial:
-			self.change_block_frame()
-		elif self.td.current_sentence.is_catch: # checks if this trial is catch
-			self.catch_trial() # intiate catch trial
-		elif self.td.current_sentence.is_afact_feedback:
-			bias = self.td.last_trial_bias
-			self.show_AFACT_frame(bias)
-		else:
-			self._trial() # continues to next trial		
+			self.td.current_trial += 1 # raising trial by 1 
+			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+			# trial flow control:
+			
+			if self.td.current_trial_type_intance.is_change_block_trial:
+				self.change_block_frame()
+			elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
+				self.catch_trial() # intiate catch trial
+			elif self.td.current_trial_type_intance.is_afact_feedback:
+				bias = self.td.last_trial_bias
+				self.show_AFACT_frame(bias)
+			else:
+				self._trial() # continues to next trial	
+		else:	# on first trial
+			self.td.current_trial += 1 # raising trial by 1 
+			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+			self._trial() # continues to next trial			
 		
 
 bias = 2.5
@@ -204,7 +209,7 @@ def main():
 														], 
 										
 										n_trials_by_phase={
-															AFACT_PHASE: 20,
+															AFACT_PHASE: 4,
 															'Post': 40
 															}, 
 										
@@ -240,6 +245,6 @@ def main():
 	
 	#gui.state('zoomed')
 	exp.run()
-	
+'''	RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point??? '''
 if __name__ == '__main__':
 	main()

@@ -68,23 +68,31 @@ class DctTask(object):
 		# unbinding keyboard - to not allow overriding sentences
 		self.gui.unbind("<Right>")
 		self.gui.unbind("<Left>")
-		self._continue()
+		self.td.record_trial(self.shown_num, self.key_pressed)
+		
+		# Practice feedback decision
+		if self.td.current_trial_type_intance.is_practice:
+				self._give_feedback(self.key_pressed)		
+				self.gui.after(200, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
+		else:
+			self._continue()
 		
 	def _continue(self):
-		
-		self.td.current_trial += 1 # raising trial by 1 
-		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-		
-		# trial flow control:
-		if self.td.current_sentence.is_practice:
-			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._trial) # TOMER - PAY ATTENTION TO THIS TIME
-		elif self.td.current_sentence.is_change_block_trial:
-			self.change_block_frame()
-		elif self.td.current_sentence.is_catch: # checks if this trial is catch
-			self.catch_trial() # intiate catch trial
-		else:
-			self._trial() # continues to next trial			
+		if self.td.current_trial > -1: # after first trial
+			self.td.current_trial += 1 # raising trial by 1 
+			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+			# trial flow control:
+			
+			if self.td.current_trial_type_intance.is_change_block_trial:
+				self.change_block_frame()
+			elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
+				self.catch_trial() # intiate catch trial
+			else:
+				self._trial() # continues to next trial	
+		else:	# on first trial
+			self.td.current_trial += 1 # raising trial by 1 
+			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+			self._trial() # continues to next trial					
 			
 	def _give_feedback(self, key):
 		num_type = self.td._classify_type_of_num(self.shown_num)
@@ -129,7 +137,6 @@ class DctTask(object):
 		self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=str(num))
 	
 	def catch_trial(self):
-		self.td.record_trial(self.shown_num, self.key_pressed) # records prior regular trial
 		self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.text
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.gui.after(500,self._bind_keyboard)
@@ -139,23 +146,18 @@ class DctTask(object):
 		'''This function is being called after response to last trial took place.
 				First, it records last trial,
 				Second, it start the next trial'''
-		
-		if self.td.current_trial == self.td.change_block_trial:
-			self.exp.hide_frame(CHANGE_BLOCK_FRAME)
-			self.exp.display_frame(FRAME_1, [LABEL_1])
-		else:
-			self.td.record_trial(self.shown_num, self.key_pressed)
-		
 
 		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
 		# Checking if experiment ended:
-		if self.td.current_trial-1 <= self.td.total_ammount_of_trials:
+		if self.td.current_trial < self.td.total_ammount_of_trials:
 			''' Task is still running'''
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
 			''' Task is over'''
+			self.gui.unbind("<Right>")
+			self.gui.unbind("<Left>")
 			print "End - on _tria()"
 			# get data frame from sd
 			self.td.sd.create_data_frame()
@@ -164,12 +166,13 @@ class DctTask(object):
 	
 	def destroy_change_block_frame_and_continue(self):
 		self.exp.hide_frame(CHANGE_BLOCK_FRAME)
+		self.exp.display_frame(FRAME_1, [LABEL_1])
 		self._continue()
 		
 	def change_block_frame(self):
 		print "Block changed"
 		self.block_changed = True
-		self.td.current_block = 2 # updating block
+		self.td.current_block = 2 # updating block number
 		block_change_text = u'השלמת את החצי הראשון של המטלה'
 		self.exp.create_frame(
 								CHANGE_BLOCK_FRAME, 
@@ -217,7 +220,7 @@ class TaskData(object):
 		self.last_RT = 0
 
 		# trial block trackeeping
-		self.current_trial = 0 # first trial starts with a record - so it is intializes current_trial to 1
+		self.current_trial = -1 # task starts by raising this variable by 1 --> assures it starts on Zero
 		self.current_block = 1
 		
 		# selection of trials to insert catch trials
@@ -227,6 +230,7 @@ class TaskData(object):
 		## add here classfication of this list to correct and incorrect response
 		
 		# current sentence track keeping
+		self.current_trial_type_intance = None # continan current TrialType instace
 		self.current_sentence = None # continan current Sentence instance
 		self.current_sentence_path = None # contain path of current sentence audio file
 			
@@ -254,19 +258,10 @@ class TaskData(object):
 		
 		self.ammount_of_experimental_trials = len(self.trials_types_by_phase) - self.data_manager.n_practice_trials # excluding practice trials
 		self.total_ammount_of_trials =  len(self.trials_types_by_phase) # including practice
-		
+		self.change_block_trial = self.data_manager.change_block_trials_by_phase[self.phase]
 		# sd is a subject data instance
 		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
-		self.change_block_trial = None # To be defined in defin_block_change_trial
-		self.define_block_change_trial()
 		
-	
-	def define_block_change_trial(self):
-		if self.n_blocks > 1:
-			self.change_block_trial = int(1.0*self.total_ammount_of_trials/self.n_blocks)
-		else:
-			self.change_block_trial
-	
 	def _classify_type_of_num(self, num):
 		if num % 2 == 0:
 			return EVEN
@@ -282,10 +277,12 @@ class TaskData(object):
 	def record_time(self):
 		self.last_RT = self.t1 - self.t0 # if now we are on trial 11 tahn last_RT belongs to trial 10
 
-	def record_trial(self, num_shown, key_pressed, is_catch_trial=False, correct=False):
+	def record_trial(self, num_shown, key_pressed):
 		num_shown_type = None # because I want to pass it any way to the data collection
 	
-		if not is_catch_trial: # on regular and practice trials
+		
+		if self.current_trial_type_intance.is_normal_trial: # on regular and practice trials			
+			# Checking the subject Digit Classification answer:
 			num_shown_type = self._classify_type_of_num(num_shown)
 			answer_type = RESPONSE_LABELS[key_pressed]   #what did the subject answer based on --> #RESPONSE_LABELS = {RIGHT : 'even', LEFT: 'odd'} 	# should be changed at some point
 			if answer_type == num_shown_type:
@@ -293,49 +290,37 @@ class TaskData(object):
 			else:
 				was_correct = False
 			
-			#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct,  'was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
-			print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, ' correct_catch=', correct,  ' was_correct_digit=', was_correct, 'shown- ', num_shown_type, 'typed-', answer_type ## FOR INFO WHILE EDITING ONLY
-			self.updata_current_sentence()
-			
-		elif is_catch_trial:	# last trial was catch
-			self.catch_trials_and_non_catch[self.current_trial-1] = 0 # removing last catch trial from list
+		elif self.current_trial_type_intance.is_catch:	# on catch trials
 			## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
-			if correct:
+			if self.current_trial_type_intance.catch_type: # when true; its correct catch sentence
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
-			elif not correct:
+			elif not self.current_trial_type_intance.catch_type: # when false; its correct catch sentence
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
-			
-			## printing trial data and classification:
-			#print self.last_RT, self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct, 'typed_accordingly? ',  was_correct ## FOR INFO WHILE EDITING ONLY
-			print self.current_trial-1, ' is_catch_trial = ', is_catch_trial, 'correct_catch=', correct
+					
 		
 		# saving key press in order to pass into Data package
 		self.num_shown_type = num_shown_type
-		self.is_catch_trial = is_catch_trial
-		self.correct = correct
+		self.is_catch_trial = self.current_trial_type_intance.is_catch
+		self.correct = self.current_trial_type_intance.catch_type
 		self.last_trial_classification = was_correct
 		self.last_key_pressed = key_pressed 
-		# saving refference to the sentence instance that its relevant data was recorded
-		self.last_sentence = self.find_sentence_instance(self.current_trial-2) # see scheme to understand whay I'm taking to steps back
 		# saving data 
-		self.sd.push_data_packge(self) 
+		self.sd.push_data_packge(self) 	
 	
-		
-	
-	def get_next_sentence_instance(self, trial):
-		trial_type = self.trials_types_by_phase[trial]
-		# saving in TaskData object a refferece to the current TrialType instance
-		self.trial_type_intance = trial_type
-		
+	def get_next_sentence_instance(self, trial_type):
 		# returnning the relevant sentence instance
 		sent = trial_type.get_current_sentence()
 		trial_type.next()
 		
-		print "----------------"
+		print "#--------------#"
 		print trial_type
 		print trial_type.index
 		print sent
-		print "----------------"
+		print "Current Trial: ", self.current_trial
+		print "Change Block Trial is on: ", self.change_block_trial
+		print "Total ammount of Trials is : ", self.total_ammount_of_trials
+		
+		print "------END--------"
 		
 		return sent
 		
@@ -344,9 +329,16 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		if self.current_trial <= self.total_ammount_of_trials: # Task is still running
-			self.current_sentence = self.get_next_sentence_instance(self.current_trial)
-			self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
+		print self.total_ammount_of_trials
+		if self.current_trial < self.total_ammount_of_trials: # Task is still running
+			trial_type = self.trials_types_by_phase[self.current_trial]
+			# saving in TaskData object a refferece to the current TrialType instance
+			self.current_trial_type_intance = trial_type
+			self.current_sentence = self.get_next_sentence_instance(trial_type)
+			if self.current_trial_type_intance.is_normal_trial:	
+				self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
+			else:
+				self.current_sentence_path = None
 		
 		else:		
 			''' Task is over'''

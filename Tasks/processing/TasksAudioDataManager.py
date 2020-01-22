@@ -77,7 +77,7 @@ class MainAudioProcessor(object):
 		self.phases_distribution_percent_dict = phases_distribution_percent_dict
 		
 		self.trial_sentence_refetnce = None # later being created as a class instance of TrialsSentencesReff
-	
+		
 	def __late_init__(self, menu):	
 		self.menu = menu
 		# audio paths and df
@@ -100,6 +100,7 @@ class MainAudioProcessor(object):
 		self.trials_types_by_phase = {} #  per phase, list of TYPES as strings "ntr", "neg" or "prac"
 		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, SENTNECE INSTANCE
 		self.sentence_trial_reffs_by_phase = {} # contains TrialsSentencesReff instances by phase
+		self.change_block_trials_by_phase = {} # each phase change block trial refference
 
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
@@ -108,7 +109,7 @@ class MainAudioProcessor(object):
 		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
-		
+		ipdb.set_trace()
 	def _split_senteces_to_phases(self):
 		'''
 		This functions splits the neutral and negative sentences into a requested ammount of phases
@@ -190,13 +191,19 @@ class MainAudioProcessor(object):
 			neu_additional_pointers = random.sample(neus_pointers,delta)
 			neg_additional_pointers = random.sample(negs_pointers,delta)
 			neus_pointers = neus_pointers + neu_additional_pointers
-			negs_pointers = negs_pointers + neg_additional_pointers	
+			negs_pointers = negs_pointers + neg_additional_pointers
+
+		elif len(neus_pointers)*2 > self.n_trials_by_phase[phase]:
+			pointers_to_sample = int(round(self.n_trials_by_phase[phase]/2.0))
+			neus_pointers = random.sample(neus_pointers,pointers_to_sample)
+			negs_pointers = random.sample(negs_pointers,pointers_to_sample)
 		
 		# creating an all trials dictionary
 		PRACTICE_SENTENCE = "prac"
 		neu = TrialType(NEUTRAL_SENTENCE)
 		neg = TrialType(NEGATIVE_SENTENCE)
 		practice = TrialType(PRACTICE_SENTENCE)
+		practice.is_practice = True
 		# arranging trials:
 		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 		random.shuffle(trials)
@@ -312,9 +319,12 @@ class MainAudioProcessor(object):
 				# following lines asures that change block trial type wouldn't be 
 				# 	before feedback or catch.
 				correction_counter = 0
-				while not trials[change_block_trial+1+correction_counter].is_normal_trial: #
+				while not trials[change_block_trial+correction_counter].is_normal_trial: #
 					correction_counter+=1
 				change_block_trial += correction_counter
+				
+				# saving a reff of final change block trial number
+				self.change_block_trials_by_phase[phase] = change_block_trial
 				
 				change_block_trial_type = TrialType("Change_Block")
 				change_block_trial_type.is_normal_trial = False
@@ -460,24 +470,11 @@ class TrialType(object):
 		self.is_change_block_trial 	= 	False
 		self.is_afact_feedback 		= 	False
 		self.is_catch 				=	False 
+		self.is_practice 			=	False # Can be True alogside is_normal_trial=True
 		
 		# only for catch trials - True=Correct, False=Wrong sentence on catch
 		self.catch_sentence = None
 		self.catch_type = None # manulally changes to true or false in creation
-		
-	def into_false_all_other_bolleans(self, boolean_feature): ### NEEDS TO BE CHECKED & IMPLEMENTED
-		all_booleans = {
-						"is_normal_trial" 			:self.is_normal_trial 		,
-						"is_change_block_trial" 	:self.is_change_block_trial 	,
-						"is_afact_feedback" 		:self.is_afact_feedback 		,
-						"is_catch" 					:self.is_catch 				,
-						}
-						
-		ipdb.set_trace()
-		for b in all_booleans:
-			if b != boolean_feature:
-				all_booleans[b] = False
-		
 	
 	def add_sentence(self, sentence):
 		self.sentences.append(sentence)
@@ -488,8 +485,7 @@ class TrialType(object):
 		elif self.is_catch:
 			return self.catch_sentence
 			
-			
-	
+
 	def next(self):
 		if self.index < len(self.sentences)-1: # holding index on the last sentence
 			self.index += 1
