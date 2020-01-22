@@ -32,7 +32,13 @@ class Experiment(object):
 		self.y = self.screensize[1] #screen height
 		self.cx = int(self.screensize[0]*0.5) #screen width center
 		self.cy = int(self.screensize[1]*0.5) #screen hight center
-	
+		
+		self.default_frame_fg = "white"
+		self.default_frame_bg = "black"
+		self.default_label_fg = "white"
+		self.default_label_bg = "black"
+
+		
 	def _full_screen_creator(self, tk_object):
 
 		tk_object.overrideredirect(True)
@@ -46,8 +52,8 @@ class Experiment(object):
 									path,
 									resize_to=False,
 									label_text=None, 
-									label_fg='black',
-									label_bg='white',
+									label_fg=None,
+									label_bg=None,
 									label_font='david 28 bold',
 									label_justify='right',
 									blank_label_width=160,
@@ -64,7 +70,19 @@ class Experiment(object):
 			pic = pic.resize((resize_to[0], resize_to[1]), Image.ANTIALIAS)
 		
 		final_pic = ImageTk.PhotoImage(pic)
+		
+		# Default colors definitions:
+		if label_fg == None:
+			label_fg = self.default_label_fg
+		else:
+			label_fg= label_fg
+		
+		if label_bg == None:
+			label_bg = self.default_label_bg
+		else:
+			label_bg= label_bg
 			
+		
 		self.create_label(
 					label_name,
 					frame_name, 
@@ -122,7 +140,7 @@ class Experiment(object):
 						frame_name, 
 						parent=None,
 						full_screen=True,
-						background_color='gray'
+						background_color=None,
 				):
 	
 		''' frame_name should be a string.
@@ -144,6 +162,13 @@ class Experiment(object):
 				
 			frame = tk.Frame(parent)
 		
+		# Default colors definitions:
+		if background_color == None:
+			background_color = self.default_frame_bg
+		else:
+			background_color= background_color
+		
+		
 		type(self).ALL_FRAMES[frame_name] = frame
 		type(self).ALL_FRAMES[frame_name].configure(background = background_color)
 		type(self).LABELS_BY_FRAMES[frame_name] = {}
@@ -153,8 +178,8 @@ class Experiment(object):
 					label_name,
 					frame_name, 
 					label_text=None, 
-					label_fg='black',
-					label_bg='gray',
+					label_fg=None,
+					label_bg=None,
 					label_font='david 28 bold',
 					label_justify='right',
 					label_width=None,
@@ -165,7 +190,17 @@ class Experiment(object):
 					anchor="center"
 				):
 		
-			
+		# Default colors definitions:
+		if label_fg == None:
+			label_fg = self.default_label_fg
+		else:
+			label_fg= label_fg
+		
+		if label_bg == None:
+			label_bg = self.default_label_bg
+		else:
+			label_bg= label_bg
+		
 		if blank_label == False and image_label == False:
 			
 			label = tk.Label(

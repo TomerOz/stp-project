@@ -25,7 +25,7 @@ def build_chunk_dic(NumNegUniqe,NumNeuUniqe,NumChunk,NumUnique,NumOneBack):
         chunk_dic[num_chunk] = {'neg':neg_number_lst, 'neu':neu_number_lst}
     return chunk_dic
     
-def build_bloc_dic(NumBlock):
+def build_blocK_dic(NumBlock):
 #@#@#@continure here after talking with Iftach about the sequence within block 
     block_dic={}
     for i in range(NumBlock):
