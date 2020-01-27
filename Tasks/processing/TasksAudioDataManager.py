@@ -95,7 +95,7 @@ class MainAudioProcessor(object):
 		
 		self.neu_sentences_by_phase = {} # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
 		self.neg_sentences_by_phase = {} # the same but negative
-		self.sentences_by_phase = {} # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
+		self.sentences_by_phase = {} # sentences by phase 
 		
 		self.trials_types_by_phase = {} #  per phase, list of TYPES as strings "ntr", "neg" or "prac"
 		self.sentences_instances_by_type_by_phase = {} # per phase, with index and type, SENTNECE INSTANCE
@@ -109,7 +109,13 @@ class MainAudioProcessor(object):
 		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
-		ipdb.set_trace()
+		
+		## ADD NON-UNIQUE SENTENCES TO DIFFERENT PHASES
+		#### add it to 	self.neu_sentences_by_phase, 
+		####			self.neg_sentences_by_phase,
+		####			self.sentences_by_phase
+		
+		
 	def _split_senteces_to_phases(self):
 		'''
 		This functions splits the neutral and negative sentences into a requested ammount of phases
@@ -250,11 +256,7 @@ class MainAudioProcessor(object):
 		elif phase == DICHOTIC_PHASE:
         #OMER
 			pass
-<<<<<<< HEAD
-    
-=======
->>>>>>> 1a8681e93bb0ea9dc51cc6613d0cb9447c5d8cf6
-			
+	
 	def _afact_trials_rearrange(self, phase, 
 								ammount_of_neutral_trials, 
 								prac_neu_or_neg, 

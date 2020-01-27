@@ -57,6 +57,7 @@ class DichoticOneBack(object):
 def main():
 	from ExGui import Experiment
 	from processing.TasksAudioDataManager import MainAudioProcessor
+	from processing.DichoticDataManager import DichoticTrials
 	from processing.wav_lengh import AudioProcessor
 	from Data import SubjectData
 	from ExpFlow import Flow
@@ -69,6 +70,8 @@ def main():
 	GENDER = 'gender'
 	AUDIOPATH = r'Subjects'
 	
+	DICHOTIC_PHASE_STR = 'dichotic_phase'
+	
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
 	exp = Experiment()
 	gui = exp.gui
@@ -76,7 +79,7 @@ def main():
 	flow = Flow()
 	
 	data_manager = MainAudioProcessor(
-										phases_names=["Dichotic", 'Post'], 
+										phases_names=[DICHOTIC_PHASE_STR, 'Post'], 
 										n_trials_by_phase={"Dichotic": 40,'Post': 40}, 
 										n_practice_trials=4) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
@@ -84,6 +87,7 @@ def main():
 	menu.menu_data[GROUP] = 1 
 	menu.menu_data[GENDER] = 1
 	
+	dt = DichoticTrials(data_manager, DICHOTIC_PHASE_STR)
 	
 	# lab
 	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
@@ -113,50 +117,4 @@ def main():
 	
 if __name__ == "__main__":
 	main()
-
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-#	create_frame(
-#						
-#						self, 
-#						frame_name, # a string of frame name to save refference
-#						parent=None,
-#						full_screen=True,
-#						background_color='gray'
-#				):
-#
-#			
-#	def create_label(
-#					self, 
-#					label_name, # a string of label name to save its refference
-#					frame_name, 
-#					label_text=None, 
-#					label_fg='black', # letters color
-#					label_bg='gray', # background color
-#					label_font='david 28 bold',
-#					label_justify='right',
-#					label_width=None,
-#					label_height=None,
-#					blank_label=False,
-#					image_label=False,
-#					label_image=None,
-#					anchor="center"
-#				):
-#
-#
-#
-#
-#
-#
-#
-#
 		
