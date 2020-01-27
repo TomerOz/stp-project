@@ -37,12 +37,14 @@ class MainAudioProcessor(object):
 						precent_of_catch_trials=None, 
 						phases_without_catch_trials=None,
 						n_block_per_phase=None,
+						dichotic_phase=None,
 						):
 		
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
 		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
 		self.afact_phase = AFACT_PHASE
+		self.dichotic_phase = dichotic_phase
 		
 		if n_practice_trials == None:
 			self.n_practice_trials=8
@@ -73,6 +75,13 @@ class MainAudioProcessor(object):
 			for phase in self.phases_names:
 				if not phase in self.n_block_per_phase:
 					self.n_block_per_phase[phase] = 2 # means that all phases that where not specified, are of two phases
+		
+		if self.dichotic_phase != None: # a dichotic task is requested by user
+			self.n_dichotic_trials = self.n_trials_by_phase[self.dichotic_phase] # saving a refference to the requsted n
+			# removing dichotic from lists and dicts that are unrelevant for further process
+			self.phases_names.remove(self.dichotic_phase)
+			self.n_trials_by_phase.pop(self.dichotic_phase, None)
+			
 		
 		self.phases_distribution_percent_dict = phases_distribution_percent_dict
 		
@@ -109,13 +118,23 @@ class MainAudioProcessor(object):
 		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
+		if self.dichotic_phase != None:
+			self.arrange_dichotic_sentences()
 		
 		## ADD NON-UNIQUE SENTENCES TO DIFFERENT PHASES
 		#### add it to 	self.neu_sentences_by_phase, 
 		####			self.neg_sentences_by_phase,
 		####			self.sentences_by_phase
 		
+	def arrange_dichotic_sentences(self):
+		''' returns the sentences instances relevant to the dichotic task'''
+		# Forcing len of dichotic trials to no more then maximum ammount of negative sentences
+		if self.n_dichotic_trials > len(self.negatives_sentences):
+			self.n_dichotic_trials = len(self.negatives_sentences)
 		
+		self.neu_sentences_by_phase[self.dichotic_phase] = random.sample(self.neutral_sentences, self.n_dichotic_trials)
+		self.neg_sentences_by_phase[self.dichotic_phase] = random.sample(self.negatives_sentences, self.n_dichotic_trials)
+	
 	def _split_senteces_to_phases(self):
 		'''
 		This functions splits the neutral and negative sentences into a requested ammount of phases
@@ -155,6 +174,7 @@ class MainAudioProcessor(object):
 			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
 			local_negatives = [e for e in local_negatives if e not in sample_negs]
 		# AT this point i have unique neus and negs per phase
+	
 	def _create_trials_pointers_by_phase(self, phase):
 		
 		# rounded_multplying_factor by using it I know how many repetition per sentence
@@ -346,8 +366,7 @@ class MainAudioProcessor(object):
 		else:
 			# No afact phase on this instance
 			pass
-		
-		
+				
 	def insert_catch_trials_trial_types(self):
 		for phase in self.phases_names:
 			catch_trials_insertion_counter = 0 # makes sure that pushing (insert) catch trials into the list in 
