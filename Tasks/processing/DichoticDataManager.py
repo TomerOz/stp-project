@@ -30,7 +30,6 @@ class DichoticTrialsManager(object):
 		
 		self.blocks_dicts = []
 		self.create_blocks_of_sentneces_instances()
-		self.create_dichotic_trials()
 		
 	def build_chunk_dic(self):
 		chunk_dic={}
@@ -67,16 +66,7 @@ class DichoticTrialsManager(object):
 					block_dict[chunk]['neu'][i] = self.neu_dichotics_sentences[pointer]
 			
 			self.blocks_dicts.append(block_dict)
-		
-	def create_dichotic_trials(self):
-		for block in self.blocks_dicts:
-			for chunk in block:
-				for valence in block[chunk]:
-					accumelated_timing = 0 # seprate accumlatation of timing for negs and neus
-					for i, sentence in enumerate(block[chunk][valence]):
-						block[chunk][valence][i] = DichoticTrial(sentence, accumelated_timing)
-						accumelated_timing += sentence.sentence_length + 300 # adding 300 miliseconds
-					
+
 
 class DichoticTrial(object):
 	def __init__(self, sentence, accumelated_timing):

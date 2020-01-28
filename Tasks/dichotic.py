@@ -1,5 +1,5 @@
 import pygame as pg
-
+import ipdb
 from playsound import playsound
 
 MAIN_FRAME = 'm_frame'
@@ -58,51 +58,130 @@ class DichoticTaskData(object):
 		
 		self.gui = gui
 		self.data_manager = data_manager
-		self.block = 0
-		self.chunk = 1
-		self.valence = "neg"
 		self.dichotic_data_manager = dichotic_data_manager
 		
-		self.trial = 0
-		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk]["neu"][self.trial].sentence 
-		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk][self.valence][self.trial].sentence 
+		# Task properties
+		self.chunk_neu_start_delay 	= 0
+		self.chunk_neg_start_delay	= 300
+		self.chunck_block_change_wait_time = 1000
+		self.block_change_wait_time_addition = 1000
+		
+		# Dynamic Variables
+		self.block = 0
+		self.chunk = 1
+		self.chunck_channels_completed_counter = 0 # On 2 it changes chunk
+		self.chunk_end_trial = None
+		
+		self.global_trial = 0
+		self.neu_trial = 0
+		self.neg_trial = 0
+		
+		# initialization of current sentecne paths
+		self._initialize_block_chunk()
+		
+		# Binding keyboard
+		self.bind_keyboard()
 		
 		#Sound mixer initialization 
 		pg.mixer.init(frequency=22050, size=-16,channels=2, buffer=4096)
 	
 		# Creating left and right chanels
+		self.neu_channel = pg.mixer.Channel(0)
+		self.neg_channel = pg.mixer.Channel(1)		
+		# right lef volumes of each channel
+		self.left_neg	 = 1.0
+		self.right_neg   = 0.0
+		self.left_neu    = 0.0
+		self.right_neu   = 1.0
 		
-	def start_chunk(self, event):
-		self.play_sentence()
+		self.valence_side = {"r":"neu", "l":"neg"}
+		
+		
+	def _initialize_block_chunk(self):
+		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neu"][self.neu_trial] 
+		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"][self.neg_trial] 
+		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
 	
-	def next_trial(self):
-		self.trial += 1
-		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk]["neu"][self.trial].sentence 
-		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk][self.valence][self.trial].sentence 
+	def get_response(self, event=None):
+		if event.keysym=="Right":
+			print self.current_neu_sentence.num
+			pass
+		elif event.keysym=="Left":
+			print self.current_neg_sentence.num
+			pass
+			
 	
-	def play_sentence(self):
+	def bind_keyboard(self):
+		self.gui.bind("<Right>", self.get_response)	
+		self.gui.bind("<Left>", self.get_response)	
+		
+		
+	def next_chunck_and_or_block(self):
+		self.chunck_channels_completed_counter += 1
+		if self.chunck_channels_completed_counter == 2:
+			self.neu_trial = 0
+			self.neg_trial = 0
+			
+			self.chunck_channels_completed_counter = 0
+			self.chunk += 1
+			print "Chunk {} Ended".format(str(self.chunk-1))
+			
+			if self.chunk == 4:
+				self.next_block() # changing block, otherwise, still within the same block
+			
+			self._initialize_block_chunk()
+			self.gui.after(self.chunck_block_change_wait_time, self.start_chunk)
+		
+		# Otherwise - Don't do anything
+		
+	def next_block(self):
+		print "Chunk {} Ended"
+		self.chunk = 0
+		self.block += 1
+		
+	
+	def start_chunk(self, event=None):
+		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
+		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
+	
+	def next_neu_trial(self):
+		self.neu_trial += 1
+		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk]["neu"][self.neu_trial] 
+		
+	def next_neg_trial(self):
+		self.neg_trial += 1
+		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[0][self.chunk]["neg"][self.neg_trial]
+	
+	def play_neu_sentence(self):	
+		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
+		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
+		self.neu_channel.play(sound_neu)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		self.gui.after(int(self.current_neu_sentence.sentence_length)+300, self.next_neu)
+	
+	def play_neg_sentence(self):
+		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
+		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
+		self.neg_channel.play(sound_neg)
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		
-		left_channel = pg.mixer.Channel(0)
-		sound_left = pg.mixer.Sound(neu_sentence_sound_path)
-		#right_channel = pg.mixer.Channel(2)
-		#sound_right = pg.mixer.Sound(neg_sentence_sound_path)
+		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next_neg)
 		
-		left_channel.play(sound_left)
-		left_channel.set_volume(0, 1.0)
+	def next_neu(self):
+		if self.neu_trial < self.chunk_end_trial:
+			self.next_neu_trial()
+			self.play_neu_sentence()
+		else:
+			self.next_chunck_and_or_block()
 		
-		
-		
-		#self.gui.after(500, lambda: right_channel.play(sound_right))
-		#self.gui.after(500, lambda: 	right_channel.set_volume(0, 0))
-		
-		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next)
-		
-	def next(self):
-		print self.trial
-		self.next_trial()
-		self.play_sentence()
+	def next_neg(self):
+		if self.neg_trial < self.chunk_end_trial:
+			self.next_neg_trial()
+			self.play_neg_sentence()
+		else:
+			self.next_chunck_and_or_block()
 	 
 def main():
 	from ExGui import Experiment
@@ -144,7 +223,7 @@ def main():
 	# lab
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	#menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
