@@ -3,8 +3,10 @@ import pandas as pd
 
 class SubjectData(object):
 	
-	def __init__(self):
+	def __init__(self, full_data_path=None):
 	
+		self.full_data_path = full_data_path
+		
 		self.subject_col = []
 		self.gender_col = []
 		self.group_col = []
@@ -117,7 +119,7 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
-		subject_dir = 'Data\\Subject_' + str(self.subject)
+		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
 		subject_df.to_excel(subject_dir + '\\data.xlsx')

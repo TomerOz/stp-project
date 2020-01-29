@@ -199,7 +199,7 @@ def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
 	exp = Experiment()
 	gui = exp.gui
-	sd = SubjectData()
+	sd = SubjectData(full_data_path=r"C:\Users\HP\Documents\GitHub\stp-project")
 	flow = Flow()
 	
 	data_manager = MainAudioProcessor(

@@ -107,7 +107,6 @@ class DichoticTaskData(object):
 			print self.current_neg_sentence.num
 		elif self.valence_side[event.keysym] == "neu":
 			print self.current_neu_sentence.num
-			
 	
 	def bind_keyboard(self):
 		self.gui.bind("<Right>", self.get_response)	
