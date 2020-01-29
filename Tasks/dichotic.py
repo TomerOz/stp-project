@@ -94,7 +94,7 @@ class DichoticTaskData(object):
 		self.left_neu    = 0.0
 		self.right_neu   = 1.0
 		
-		self.valence_side = {"r":"neu", "l":"neg"}
+		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
 		
 		
 	def _initialize_block_chunk(self):
@@ -103,7 +103,17 @@ class DichoticTaskData(object):
 		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
 	
 	def get_response(self, event=None):
+		
+		if self.valence_side[event.keysym] == "neg":
+			self.current_neg_sentence
+		elif self.valence_side[event.keysym] == "neu":
+			self.current_neu_sentence
+			
+		
+		
+		
 		if event.keysym=="Right":
+			self.valence_side
 			print self.current_neu_sentence.num
 			pass
 		elif event.keysym=="Left":
