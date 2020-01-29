@@ -9,7 +9,7 @@ FIXATION_STIMULI = '+'
 FIXATION_FONT = 'david 64 bold'
 FOREGROUND_COLOR = 'white'
 
-NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
+NEGATIVE_SENTENCE = 'neg'			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
 
@@ -61,7 +61,7 @@ class DichoticTaskData(object):
 		self.dichotic_data_manager = dichotic_data_manager
 		
 		# Task properties
-		self.chunk_neu_start_delay 	= 0
+		self.chunk_neu_start_delay	= 0
 		self.chunk_neg_start_delay	= 300
 		self.chunck_block_change_wait_time = 1000
 		self.block_change_wait_time_addition = 1000
@@ -83,16 +83,16 @@ class DichoticTaskData(object):
 		self.bind_keyboard()
 		
 		#Sound mixer initialization 
-		pg.mixer.init(frequency=22050, size=-16,channels=2, buffer=4096)
+		pg.mixer.init(channels=6)
 	
 		# Creating left and right chanels
 		self.neu_channel = pg.mixer.Channel(0)
-		self.neg_channel = pg.mixer.Channel(1)		
+		self.neg_channel = pg.mixer.Channel(7)		
 		# right lef volumes of each channel
 		self.left_neg	 = 1.0
-		self.right_neg   = 0.0
-		self.left_neu    = 0.0
-		self.right_neu   = 1.0
+		self.right_neg	 = 0.0
+		self.left_neu	 = 0.0
+		self.right_neu	 = 0.0
 		
 		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
 		
@@ -103,18 +103,10 @@ class DichoticTaskData(object):
 		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
 	
 	def get_response(self, event=None):
-		
 		if self.valence_side[event.keysym] == "neg":
 			print self.current_neg_sentence.num
 		elif self.valence_side[event.keysym] == "neu":
 			print self.current_neu_sentence.num
-		if event.keysym=="Right":
-			self.valence_side
-			print self.current_neu_sentence.num
-			pass
-		elif event.keysym=="Left":
-			print self.current_neg_sentence.num
-			pass
 			
 	
 	def bind_keyboard(self):
@@ -131,7 +123,7 @@ class DichoticTaskData(object):
 			self.chunck_channels_completed_counter = 0
 			self.chunk += 1
 			print "Chunk {} Ended".format(str(self.chunk-1))
-			
+      
 			if self.chunk == 4:
 				self.next_block() # changing block, otherwise, still within the same block
 			
@@ -145,10 +137,8 @@ class DichoticTaskData(object):
 		self.chunk = 0
 		self.block += 1
 		
-	
 	def start_chunk(self, event=None):
-		ipdb.set_trace()
-        self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
+		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
 		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
 	
 	def next_neu_trial(self):
@@ -163,16 +153,23 @@ class DichoticTaskData(object):
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
 		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		self.neu_channel.play(sound_neu)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		
 		self.gui.after(int(self.current_neu_sentence.sentence_length)+300, self.next_neu)
 	
 	def play_neg_sentence(self):
 		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
 		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		self.neg_channel.play(sound_neg)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
 		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next_neg)
 		
@@ -228,12 +225,12 @@ def main():
 	
 	dt = DichoticTrialsManager(data_manager, DICHOTIC_PHASE_STR)
 	# lab
-	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path	 = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	menu.updated_audio_path	 = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# Alab
-	menu.updated_audio_path  = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
-    
+	menu.updated_audio_path	 = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	dt.__late_init__()
