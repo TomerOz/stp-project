@@ -105,13 +105,9 @@ class DichoticTaskData(object):
 	def get_response(self, event=None):
 		
 		if self.valence_side[event.keysym] == "neg":
-			self.current_neg_sentence
+			print self.current_neg_sentence.num
 		elif self.valence_side[event.keysym] == "neu":
-			self.current_neu_sentence
-			
-		
-		
-		
+			print self.current_neu_sentence.num
 		if event.keysym=="Right":
 			self.valence_side
 			print self.current_neu_sentence.num
@@ -151,7 +147,8 @@ class DichoticTaskData(object):
 		
 	
 	def start_chunk(self, event=None):
-		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
+		ipdb.set_trace()
+        self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
 		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
 	
 	def next_neu_trial(self):
@@ -234,7 +231,9 @@ def main():
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
 	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
-	
+	# Alab
+	menu.updated_audio_path  = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+    
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	dt.__late_init__()
