@@ -103,13 +103,11 @@ class DichoticTaskData(object):
 		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
 	
 	def get_response(self, event=None):
-		ipdb.set_trace()
 		if self.valence_side[event.keysym] == "neg":
-			self.current_neg_sentence.num
-			self.current_neg_sentence.num
+			print self.current_neg_sentence.num
 		elif self.valence_side[event.keysym] == "neu":
-			self.current_neu_sentence.num
-			
+			print self.current_neu_sentence.num
+		
 	
 	def bind_keyboard(self):
 		self.gui.bind("<Right>", self.get_response)	
@@ -140,7 +138,8 @@ class DichoticTaskData(object):
 		self.block += 1
 		
 	def start_chunk(self, event=None):
-		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
+		ipdb.set_trace()
+        self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
 		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
 	
 	def next_neu_trial(self):
@@ -223,7 +222,9 @@ def main():
 	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
 	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
-	
+	# Alab
+	menu.updated_audio_path  = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+    
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	dt.__late_init__()
