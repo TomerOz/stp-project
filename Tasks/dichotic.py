@@ -103,22 +103,12 @@ class DichoticTaskData(object):
 		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
 	
 	def get_response(self, event=None):
-		
+		ipdb.set_trace()
 		if self.valence_side[event.keysym] == "neg":
-			self.current_neg_sentence
+			self.current_neg_sentence.num
+			self.current_neg_sentence.num
 		elif self.valence_side[event.keysym] == "neu":
-			self.current_neu_sentence
-			
-		
-		
-		
-		if event.keysym=="Right":
-			self.valence_side
-			print self.current_neu_sentence.num
-			pass
-		elif event.keysym=="Left":
-			print self.current_neg_sentence.num
-			pass
+			self.current_neu_sentence.num
 			
 	
 	def bind_keyboard(self):
@@ -149,7 +139,6 @@ class DichoticTaskData(object):
 		self.chunk = 0
 		self.block += 1
 		
-	
 	def start_chunk(self, event=None):
 		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
 		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
