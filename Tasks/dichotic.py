@@ -62,7 +62,7 @@ class DichoticTaskData(object):
 		
 		# Task properties
 		self.chunk_neu_start_delay	= 0
-		self.chunk_neg_start_delay	= 300
+		self.chunk_neg_start_delay	= 500
 		self.chunck_block_change_wait_time = 1000
 		self.block_change_wait_time_addition = 1000
 		
