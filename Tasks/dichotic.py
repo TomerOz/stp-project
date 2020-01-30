@@ -1,5 +1,8 @@
 import pygame as pg
 import ipdb
+import sounddevice as sd
+import soundfile as sf
+
 from playsound import playsound
 
 MAIN_FRAME = 'm_frame'
@@ -83,16 +86,16 @@ class DichoticTaskData(object):
 		self.bind_keyboard()
 		
 		#Sound mixer initialization 
-		pg.mixer.init(channels=6)
+		#pg.mixer.init(channels=6)
 	
 		# Creating left and right chanels
-		self.neu_channel = pg.mixer.Channel(0)
-		self.neg_channel = pg.mixer.Channel(7)		
-		# right lef volumes of each channel
-		self.left_neg	 = 1.0
-		self.right_neg	 = 0.0
-		self.left_neu	 = 0.0
-		self.right_neu	 = 0.0
+		#self.neu_channel = pg.mixer.Channel(0)
+		#self.neg_channel = pg.mixer.Channel(7)		
+		## right lef volumes of each channel
+		#self.left_neg	 = 1.0
+		#self.right_neg	 = 0.0
+		#self.left_neu	 = 0.0
+		#self.right_neu	 = 0.0
 		
 		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
 		
@@ -151,24 +154,45 @@ class DichoticTaskData(object):
 	def play_neu_sentence(self):	
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
-		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
-		self.neu_channel.play(sound_neu)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		a, rate = sf.read(neu_sentence_sound_path)
+		
+		left = 0
+		right = 1
+		a_right = a
+		a_right[:,left] = 0
+		
+		
+		sd.play(a_right[:,right], rate, [1])
+		
+		
+		# Pygame
+		# sound_neu = pg.mixer.Sound(neu_sentence_sound_path)		
+		# self.neu_channel.play(sound_neu)
+		# self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		# self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		
 		self.gui.after(int(self.current_neu_sentence.sentence_length)+300, self.next_neu)
 	
 	def play_neg_sentence(self):
 		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
-		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
-		self.neg_channel.play(sound_neg)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		
+		a, rate = sf.read(neg_sentence_sound_path)
+		
+		left = 0
+		right = 1
+		
+		a_left = a
+		a_left[:,right] = 0
+		
+		
+		sd.play(a_left[:,left], rate, [2])
+		
+		# Pygame
+		#sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
+		#self.neg_channel.play(sound_neg)
+		#self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		#self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
 		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next_neg)
 		
