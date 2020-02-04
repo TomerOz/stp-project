@@ -155,12 +155,16 @@ class DichoticTaskData(object):
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
 		a, rate = sf.read(neu_sentence_sound_path)
-		
+		###omer
+		#b, rate_b = sf.read(neg_sentence_sound_path)
+
 		left = 0
 		right = 1
 		a_right = a
 		a_right[:,left] = 0
-		
+		#a_right[:,left] = b
+
+#idea - for loop on neg and neu chank (12 sent for each ear) 
 		
 		sd.play(a_right[:,right], rate, [1])
 		
