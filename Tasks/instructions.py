@@ -6,9 +6,8 @@ FOREGROUND = "white"
 
 
 class Instructions(object):
-	def __init__(self, dct_task, gui, exp, flow, imagepath):
+	def __init__(self, gui, exp, flow, imagepath):
 		self.current_pic = 0
-		self.dct_task = dct_task
 		self.exp = exp
 		self.gui = gui
 		self.flow = flow
@@ -16,6 +15,7 @@ class Instructions(object):
 		self.instruction_pics = os.listdir(self.imagepath)
 		
 	def start_instrunctions(self):
+		self.current_pic = 0 # for reset
 		self.gui.bind("<space>", self.next_pic)
 		self.gui.bind("<space>", self.next_pic)
 		self.exp.create_frame("instructions_f", 
@@ -35,4 +35,5 @@ class Instructions(object):
 			self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
 			self.exp.display_frame("instructions_f", ["instructions_l"])
 		else:
+			self.exp.hide_frame("instructions_f")
 			self.flow.next()

@@ -19,47 +19,25 @@ AFACT_PHASE = "afact_phase"
 
 class DichoticOneBack(object):
 	
-	def __init__(self, gui, exp, data_manager, dichotic_data_manager):
+	def __init__(self, gui, exp):
 		self.gui = gui
 		self.exp = exp
-		self.data_manager = data_manager
-		
-		self.dtd = DichoticTaskData(dichotic_data_manager, data_manager, gui)
+		self._create_task_main_frame()
 		
 	def _create_task_main_frame(self):
 		'''creating main frame (GUI) and lable to present fixration stimuli'''
 		self.exp.create_frame(MAIN_FRAME, background_color=BACKGROUND_COLOR)
 		self.exp.create_label(FIXATION_LABEL, MAIN_FRAME, label_text=FIXATION_STIMULI, label_font=FIXATION_FONT, label_bg=BACKGROUND_COLOR, label_fg=FOREGROUND_COLOR)
+			
+	def _show_task_main_frame(self):
 		self.exp.display_frame(MAIN_FRAME,[FIXATION_LABEL])
 
-	def _play2tracks(self, event=None):
-		'''activating tow audio channels'''
-		try_sound = self.data_manager.sentence_inittial_path + '\\' + self.data_manager.sentences[0].file_path
-		pg.mixer.init(frequency=44000, size=-16,channels=2, buffer=4096)
-		
-		sound0 = pg.mixer.Sound(try_sound)
-		
-		channel0 = pg.mixer.Channel(0)
-		channel1 = pg.mixer.Channel(1)
-		
-		# Play the sound (that will reset the volume to the default).
-		channel0.play(sound0)
-		
-		# Now change the volume of the specific speakers.
-		# The first argument is the volume of the left speaker and
-		# the second argument is the volume of the right speaker.
-		channel0.set_volume(1.0, 0.0)
-		
-		def x():
-			channel1.set_volume(0.0, 1.0)
-			channel1.play(sound0)
-		self.gui.after(500, x)
-		
-
 class DichoticTaskData(object):
-	def __init__(self, dichotic_data_manager, data_manager, gui):
+	def __init__(self, task_gui, dichotic_data_manager, data_manager, gui, flow):
 		
 		self.gui = gui
+		self.flow = flow
+		self.task_gui = task_gui
 		self.data_manager = data_manager
 		self.dichotic_data_manager = dichotic_data_manager
 		
@@ -79,27 +57,81 @@ class DichoticTaskData(object):
 		self.neu_trial = 0
 		self.neg_trial = 0
 		
-		# initialization of current sentecne paths
-		self._initialize_block_chunk()
-		
 		# Binding keyboard
 		self.bind_keyboard()
+		pg.mixer.init()
 		
-		#Sound mixer initialization 
-		#pg.mixer.init(channels=6)
-	
 		# Creating left and right chanels
-		#self.neu_channel = pg.mixer.Channel(0)
-		#self.neg_channel = pg.mixer.Channel(7)		
-		## right lef volumes of each channel
-		#self.left_neg	 = 1.0
-		#self.right_neg	 = 0.0
-		#self.left_neu	 = 0.0
-		#self.right_neu	 = 0.0
+		self.neu_channel = pg.mixer.Channel(0)
+		self.neg_channel = pg.mixer.Channel(1)		
+		# right lef volumes of each channel
+		self.left_neg	 = 1.0
+		self.right_neg	 = 0.0
+		self.left_neu	 = 0.0
+		self.right_neu	 = 1.0
 		
 		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
 		
+		self.practice_trial = 0
+	
+	def __late_init__(self):
+		# initialization of current sentecne paths
+		self._initialize_block_chunk()
+	
+	
+	## FIRST PRACTICE METHODS: ##
+	def first_practice(self, side=None):
+		if side == "left":
+			self.left_neu	 = 1.0
+			self.right_neu	 = 0.0
+			self.practice_sentences = self.dichotic_data_manager.p1_left_sentences
+		elif side == "right":
+			self.left_neu	 = 0.0
+			self.right_neu	 = 1.0
+			self.practice_sentences = self.dichotic_data_manager.p1_right_sentences
+			
+		self.left_neg	 = 0.0
+		self.right_neg	 = 0.0
 		
+		self.task_gui._show_task_main_frame()
+		
+		self.current_practice_sentence = self.practice_sentences[self.practice_trial]
+		self.play_practice_sentence()
+	
+	def play_practice_sentence(self):
+		prac_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_practice_sentence.file_path
+		sound_prac = pg.mixer.Sound(prac_sentence_sound_path)		
+		self.neu_channel.play(sound_prac)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		
+		self.gui.after(int(self.current_practice_sentence.sentence_length)+300, self.next_practice)
+	
+	def next_practice_trial(self):
+		self.practice_trial += 1
+		self.current_practice_sentence = self.practice_sentences[self.practice_trial]
+
+	def next_practice(self)	:
+		if self.practice_trial < len(self.practice_sentences[self.practice_trial])-1:
+			self.next_practice_trial()
+			self.play_practice_sentence()
+		else:
+			self.flow.next()
+	
+	## SECOND PRACTICE METHODS: ##
+	def second_practice(self):
+		# taking from the main task variables:
+		self.current_neu_sentence
+		self.current_neg_sentence
+		
+	def next_practice_two_neu_trial_right(self):
+	
+	def next_practice_two_neu_trial_left(self):
+
+
+	
+	## MAIN TASK METHODS: ##
 	def _initialize_block_chunk(self):
 		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neu"][self.neu_trial] 
 		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"][self.neg_trial] 
@@ -113,8 +145,7 @@ class DichoticTaskData(object):
 	
 	def bind_keyboard(self):
 		self.gui.bind("<Right>", self.get_response)	
-		self.gui.bind("<Left>", self.get_response)	
-		
+		self.gui.bind("<Left>", self.get_response)		
 		
 	def next_chunck_and_or_block(self):
 		self.chunck_channels_completed_counter += 1
@@ -140,6 +171,14 @@ class DichoticTaskData(object):
 		self.block += 1
 		
 	def start_chunk(self, event=None):
+		# right lef volumes of each channel
+		self.left_neg	 = 1.0
+		self.right_neg	 = 0.0
+		self.left_neu	 = 0.0
+		self.right_neu	 = 1.0
+		
+		self.task_gui._show_task_main_frame()
+		
 		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
 		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
 	
@@ -154,52 +193,30 @@ class DichoticTaskData(object):
 	def play_neu_sentence(self):	
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
-		a, rate = sf.read(neu_sentence_sound_path)
-		###omer
-		#b, rate_b = sf.read(neg_sentence_sound_path)
-
-		left = 0
-		right = 1
-		a_right = a
-		a_right[:,left] = 0
-		#a_right[:,left] = b
-
-#idea - for loop on neg and neu chank (12 sent for each ear) 
-		
-		sd.play(a_right[:,right], rate, [1])
-		
 		
 		# Pygame
-		# sound_neu = pg.mixer.Sound(neu_sentence_sound_path)		
-		# self.neu_channel.play(sound_neu)
-		# self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		# self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)		
+		self.neu_channel.play(sound_neu)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		
+		### should i play silence in the other chanel in each function 	###
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		### 															###
 		
 		self.gui.after(int(self.current_neu_sentence.sentence_length)+300, self.next_neu)
 	
 	def play_neg_sentence(self):
 		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
-		
-		a, rate = sf.read(neg_sentence_sound_path)
-		
-		left = 0
-		right = 1
-		
-		a_left = a
-		a_left[:,right] = 0
-		
-		
-		sd.play(a_left[:,left], rate, [2])
-		
+
 		# Pygame
-		#sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
-		#self.neg_channel.play(sound_neg)
-		#self.neg_channel.set_volume(self.left_neg, self.right_neg)
-		#self.neu_channel.set_volume(self.left_neu, self.right_neu)
+		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
+		self.neg_channel.play(sound_neg)
+		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
 		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next_neg)
-		
+	
 	def next_neu(self):
 		if self.neu_trial < self.chunk_end_trial:
 			self.next_neu_trial()
@@ -254,9 +271,9 @@ def main():
 	# lab
 	menu.updated_audio_path	 = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
-	menu.updated_audio_path	 = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path	 = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# Alab
-	menu.updated_audio_path	 = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path	 = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
@@ -269,17 +286,26 @@ def main():
 	#gui.bind("<Right>", change_feedback)	
 	#gui.bind("<Left>", change_feedback)	
 	
+	dichotic_task_data = DichoticTaskData(dt, data_manager, gui)
+	dichotic_task_data.__late_init__()
 	
 	gui = exp.gui
-	dichotic_instance = DichoticOneBack(gui, exp, data_manager, dt)
-	dichotic_instance._create_task_main_frame()
+	dichotic_instance = DichoticOneBack(gui, exp, data_manager, dt, dichotic_task_data)
 	gui.state('zoomed')# full screen with esc option
 	
-	gui.bind('<space>', dichotic_instance.dtd.start_chunk)
-	#gui.bind('<space>', dichotic_instance._play2tracks)
+	gui.bind('<space>', dichotic_instance.dichotic_task_data.start_chunk)
 	exp.run()
 	
 	
 if __name__ == "__main__":
 	main()
+	# Omer
+	#a, rate = sf.read(neu_sentence_sound_path)
+	#left = 0
+	#right = 1
+	#a_right = a
+	#a_right[:,left] = 0
+	#sd.play(a_right[:,right], rate, [2])
+	
+	# idea - for loop on neg and neu chank (12 sent for each ear) 
 		

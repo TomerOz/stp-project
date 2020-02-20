@@ -10,7 +10,7 @@ group = 	'group'
 subject =	'subject'
 
 class Menu(object):
-	def __init__(self, exp, gui, flow, ap, audiopath, data_manager):
+	def __init__(self, exp, gui, flow, ap, audiopath, data_manager, dichotic_task_data=None):
 		self.exp = exp
 		self.gui = gui
 		self.flow = flow
@@ -18,6 +18,7 @@ class Menu(object):
 		self.audiopath = audiopath
 		self.menu_data = {}
 		self.data_manager = data_manager
+		self.dichotic_task_data = dichotic_task_data
 		self.create_menu()
 		
 	def create_menu(self):
@@ -42,6 +43,7 @@ class Menu(object):
 		'button_label':(self.exp.cx, self.exp.cy+dy*3),
 		}
 	def show(self):
+		self.gui.unbind("<space>")
 		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'button_label'], use_place = self.places)
 		
 	def start_button_callback(self):
@@ -50,7 +52,13 @@ class Menu(object):
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
 		
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
-		self.data_manager.__late_init__(self)
+		
 		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
+		self.data_manager.__late_init__(self)
+		# If dichituc task was given as argument
+		if self.dichotic_task_data != None:
+			self.dichotic_task_data.dichotic_data_manager.__late_init__()
+			self.dichotic_task_data.__late_init__()
+		
 		self.flow.next()
 		

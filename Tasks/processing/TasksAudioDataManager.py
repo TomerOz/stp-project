@@ -147,33 +147,34 @@ class MainAudioProcessor(object):
 		n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
 		
 		for phase in self.phases_names:
-			# Choosing the unique sentences (+ and -) for each phase
-			if self.phases_distribution_percent_dict==None:
-				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
-				sample_negs = random.sample(local_negatives, n_per_phase_negs)
-			else:
-			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-				n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
-				n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
+			if phase != self.dichotic_phase:
+				# Choosing the unique sentences (+ and -) for each phase
+				if self.phases_distribution_percent_dict==None:
+					sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
+					sample_negs = random.sample(local_negatives, n_per_phase_negs)
+				else:
+				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+					n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
+					n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
+					
+					sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
+					sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
+				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
 				
-				sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
-				sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
-			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-			
-			self.neu_sentences_by_phase[phase] = sample_neus # +
-			self.neg_sentences_by_phase[phase] = sample_negs # -
-			# Suffeling
-			random.shuffle(self.neu_sentences_by_phase[phase])
-			random.shuffle(self.neg_sentences_by_phase[phase])
-			# Unifing the neutrals and negatives
-			self.sentences_by_phase[phase] = sample_neus + sample_negs
-			
-			self._create_trials_pointers_by_phase(phase)
-			
-			# Updating the local sentences lists - removing those that were sampled
-			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
-			local_negatives = [e for e in local_negatives if e not in sample_negs]
-		# AT this point i have unique neus and negs per phase
+				self.neu_sentences_by_phase[phase] = sample_neus # +
+				self.neg_sentences_by_phase[phase] = sample_negs # -
+				# Suffeling
+				random.shuffle(self.neu_sentences_by_phase[phase])
+				random.shuffle(self.neg_sentences_by_phase[phase])
+				# Unifing the neutrals and negatives
+				self.sentences_by_phase[phase] = sample_neus + sample_negs
+				
+				self._create_trials_pointers_by_phase(phase)
+				
+				# Updating the local sentences lists - removing those that were sampled
+				local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
+				local_negatives = [e for e in local_negatives if e not in sample_negs]
+			# AT this point i have unique neus and negs per phase
 	
 	def _create_trials_pointers_by_phase(self, phase):
 		

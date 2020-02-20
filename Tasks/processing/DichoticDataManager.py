@@ -2,7 +2,11 @@ import random
 import ipdb
 
 class DichoticTrialsManager(object):
-	def __init__(self, data_manager, dichotic_name_str, n_of_chunks=None, n_of_unique_sentnces=None):
+	def __init__(
+					self, data_manager, dichotic_name_str, 
+					n_of_chunks=None, n_of_unique_sentnces=None,
+					n_trials_practice_one=7, n_trials_practice_two=6,
+					):
 		self.data_manager = data_manager
 		self.dichotic_name_str = dichotic_name_str
 		
@@ -19,17 +23,46 @@ class DichoticTrialsManager(object):
 			self.n_of_unique_sentnces = 10
 		else:
 			self.n_of_unique_sentnces = n_of_unique_sentnces
+			
+		self.n_trials_practice_one = n_trials_practice_one
+		self.n_trials_practice_two = n_trials_practice_two
 
 		
 	def __late_init__(self):
 		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[self.dichotic_name_str]
 		self.neg_dichotics_sentences = self.data_manager.neg_sentences_by_phase[self.dichotic_name_str]
 		
+		# some more shuffeling
+		random.shuffle(self.neu_dichotics_sentences)
+		random.shuffle(self.neg_dichotics_sentences)
+		
 		self.n_of_neu_dichotics = len(self.neu_dichotics_sentences)
 		self.n_of_neg_dichotics = len(self.neg_dichotics_sentences)
 		
 		self.blocks_dicts = []
 		self.create_blocks_of_sentneces_instances()
+		self.prepare_sentences_for_practice()
+	
+	def prepare_sentences_for_practice(self):
+		practice_one_sents = random.sample(self.neu_dichotics_sentences, self.n_trials_practice_one)
+		p1_left_sentences = random.sample(practice_one_sents, int(round(len(practice_one_sents)/2)))
+		p1_right_sentences = [sent for sent in practice_one_sents if sent not in p1_left_sentences]
+		
+		
+		practice_two_sents = random.sample(self.neu_dichotics_sentences, self.n_trials_practice_two)
+		p2_left_sentences = random.sample(practice_two_sents, int(round(len(practice_two_sents)/2)))
+		p2_right_sentences = [sent for sent in practice_two_sents if sent not in p2_left_sentences]
+		
+		# duplicate one sentence and save lists:
+		self.p1_left_sentences = self.duplicate_one_sentence(p1_left_sentences)
+		self.p1_right_sentences = self.duplicate_one_sentence(p1_right_sentences)
+		self.p2_left_sentences = self.duplicate_one_sentence(p2_left_sentences)
+		self.p2_right_sentences = self.duplicate_one_sentence(p2_right_sentences)
+		
+	def duplicate_one_sentence(self, sentences):
+		random_pointer = random.randint(1, len(sentences)-1)
+		sentences.insert(random_pointer, sentences[random_pointer])
+		return sentences
 		
 	def build_chunk_dic(self):
 		chunk_dic={}
@@ -46,11 +79,6 @@ class DichoticTrialsManager(object):
 			
 			chunk_dic[num_chunk] = {'neg':neg_number_lst, 'neu':neu_number_lst}
 			
-		
-		##  OMER --> do you make sure that all the sentence will be eventually used
-		## because how I understand your code - it is possible to sample the same self.n_of_unique_sentnces out of n_of_neg_dichotics
-		## in each chunk
-		
 		return chunk_dic
 	
 			
