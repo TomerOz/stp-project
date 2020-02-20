@@ -21,7 +21,9 @@ from Tasks.dichotic import DichoticOneBack, DichoticTaskData
 
 AUDIOPATH = r'Subjects'
 IMAGEPATH = r'Instructions_Pictures'
-IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic'
+IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
+IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
+IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
 
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
@@ -65,18 +67,21 @@ def main():
 	
 	
 	
-	instructions_dichotic = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC)# controls instructions gui and flow
+	instructions_dichotic_1 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_ONE)# controls instructions gui and flow
+	instructions_dichotic_2 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
+	instructions_dichotic_3 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC)# controls instructions gui and flow
 	
 	
 	
 	tasks = [
 				lambda: menu.show(),
-				#lambda: instructions.start_instrunctions(),
-				#lambda: task.start_task(),
-				lambda:instructions_dichotic.start_instrunctions(),
-				lambda: dichotic_task_data.first_practice(side="left"),
+				lambda:instructions_dichotic_1.start_instrunctions(),
+				lambda: dichotic_task_data.second_practice(),
+				lambda:instructions_dichotic_2.start_instrunctions(),
 				lambda: dichotic_task_data.first_practice(side="right"),
-				lambda:instructions_dichotic.start_instrunctions(),
+				# insert here some silence
+				lambda: dichotic_task_data.first_practice(side="left"),				
+				lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
 				]
 				

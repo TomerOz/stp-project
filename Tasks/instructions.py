@@ -35,5 +35,6 @@ class Instructions(object):
 			self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
 			self.exp.display_frame("instructions_f", ["instructions_l"])
 		else:
+			self.gui.unbind("<space>")
 			self.exp.hide_frame("instructions_f")
 			self.flow.next()
