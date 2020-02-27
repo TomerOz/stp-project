@@ -85,12 +85,12 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				
 				lambda:instructions_dichotic_1.start_instrunctions(),
+				lambda: dichotic_task_data.start_chunk(),
 				lambda: dichotic_task_data.first_practice(side="Left"),				
 				lambda: dichotic_task_data.first_practice(side="Right"),
 				lambda:instructions_dichotic_2.start_instrunctions(),
 				lambda: dichotic_task_data.second_practice(),
 				lambda:instructions_dichotic_3.start_instrunctions(),
-				lambda: dichotic_task_data.start_chunk(),
 				# insert here some silence
 			
 				lambda: instructions_dct_1.start_instrunctions(),

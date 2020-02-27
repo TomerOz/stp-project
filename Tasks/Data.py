@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import time
+import ipdb
 
 class SubjectData(object):
 	
@@ -140,6 +141,7 @@ class DichoticSubjectData(object):
 		self.gender 				= []
 		self.group				 	= []
 		self.blocks				 	= []
+		self.sentence_ids			= []
 		
 		# Currently not parrt of DF - that is for uncertainty regarding their length (multiple presses are allowed)
 		self.trial_response = []
@@ -159,6 +161,7 @@ class DichoticSubjectData(object):
 					"gender",
 					"group",
 					"block",
+					"sentence_id",
 					]
 					
 		rows = [
@@ -173,9 +176,19 @@ class DichoticSubjectData(object):
 				self.gender          	,
 				self.group	            ,
 				self.blocks	            ,
+				self.sentence_ids	    ,
 				]
 	
 		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), "Dichotic")
+		ipdb.set_trace()
+	def insert_responses(self, df):
+		df["Response"] = False
+		for i, response_t in enumerate(self.trial_response_time):
+			response_key = self.trial_response[i]
+			df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response"] = response_key
+		df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\Dichotic.xlsx")
+		
+		
 		ipdb.set_trace()
 	
 	def get_response(self, event=None):
@@ -228,6 +241,7 @@ class DichoticSubjectData(object):
 		self.gender					.append(td.gender)
 		self.group					.append(td.group)
 		self.blocks					.append(td.block)
+		self.sentence_ids			.append(sentence.num)
 		
 def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 		subject_df = pd.DataFrame()
