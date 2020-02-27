@@ -69,30 +69,27 @@ class DctTask(object):
 		self.gui.unbind("<Right>")
 		self.gui.unbind("<Left>")
 		self.td.record_trial(self.shown_num, self.key_pressed)
-		
+
 		# Practice feedback decision
-		if self.td.current_trial_type_intance.is_practice:
-				self._give_feedback(self.key_pressed)		
-				self.gui.after(200, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
+		if self.td.current_sentence.is_practice:
+			self._give_feedback(self.key_pressed)		
+			self.gui.after(200, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
 		else:
 			self._continue()
 		
 	def _continue(self):
-		if self.td.current_trial > -1: # after first trial
-			self.td.current_trial += 1 # raising trial by 1 
-			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-			# trial flow control:
-			
-			if self.td.current_trial_type_intance.is_change_block_trial:
-				self.change_block_frame()
-			elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
-				self.catch_trial() # intiate catch trial
-			else:
-				self._trial() # continues to next trial	
-		else:	# on first trial
-			self.td.current_trial += 1 # raising trial by 1 
-			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-			self._trial() # continues to next trial					
+		self.td.current_trial += 1 # raising trial by 1 
+		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+
+		if self.td.current_trial_type_intance.is_change_block_trial:
+			self.change_block_frame()
+		elif self.td.current_trial_type_intance.is_instructions:
+			self.flow.next()
+		elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
+			self.catch_trial() # intiate catch trial
+		else:
+			self._trial() # continues to next trial	
+					
 			
 	def _give_feedback(self, key):
 		num_type = self.td._classify_type_of_num(self.shown_num)
@@ -186,18 +183,29 @@ class DctTask(object):
 		self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack_forget()
 		self.gui.after(BLOCK_CHANGE_WAIT_TIME, self.exp.LABELS_BY_FRAMES[CHANGE_BLOCK_FRAME][BUTTON_LABEL].pack)
 	
-	def start_task(self):
-		self.td.event_timed_init() # user dependet initment of the dct data class
-		self._create_task_label()
-		self.exp.display_frame(FRAME_1, [LABEL_1])
+	def start_task(self, user_event=None):
 		
-		# count down to experiment task
-		t1 = 0
-		k = ONE_MILISCOND
-		self.gui.after(t1, lambda:self._count_down(num=3))
-		self.gui.after(k, lambda:self._count_down(num=2))
-		self.gui.after(2*k, lambda:self._count_down(num=1))
-		self.gui.after(3*k, self._continue) # experiment was started
+		if self.td.current_trial == -1:
+			self.td.event_timed_init() # user dependet initment of the dct data class
+			self._create_task_label()
+			self.exp.display_frame(FRAME_1, [LABEL_1])
+			
+			# count down to experiment task
+			t1 = 0
+			k = ONE_MILISCOND
+			self.gui.after(t1, lambda:self._count_down(num=3))
+			self.gui.after(k, lambda:self._count_down(num=2))
+			self.gui.after(2*k, lambda:self._count_down(num=1))
+			self.gui.after(3*k, self._continue) # experiment was started
+		
+		else:
+			self.exp.display_frame(FRAME_1, [LABEL_1])
+			t1 = 0
+			k = ONE_MILISCOND
+			self.gui.after(t1, lambda:self._count_down(num=3))
+			self.gui.after(k, lambda:self._count_down(num=2))
+			self.gui.after(2*k, lambda:self._count_down(num=1))
+			self.gui.after(3*k, self._continue) # experiment was started
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
@@ -335,6 +343,7 @@ class TaskData(object):
 			# saving in TaskData object a refferece to the current TrialType instance
 			self.current_trial_type_intance = trial_type
 			self.current_sentence = self.get_next_sentence_instance(trial_type)
+			
 			if self.current_trial_type_intance.is_normal_trial:	
 				self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
 			else:

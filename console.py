@@ -25,6 +25,10 @@ IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
 
+IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
+IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
+IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
+	
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
@@ -51,11 +55,16 @@ def main():
 															AFACT_PHASE: 		40,
 															'Post':				40,
 															}, 
-										n_practice_trials=4,
+										n_practice_trials=8,
 										dichotic_phase = DICHOTIC_PHASE_STR,
 										)
 	
 	dichotic_task_gui = DichoticOneBack(gui, exp)
+	
+	instructions_dct_1 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_1)
+	instructions_dct_2 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_2)
+	instructions_dct_3 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_3)
+	
 	dichotic_data_manager = DichoticTrialsManager(data_manager, DICHOTIC_PHASE_STR)
 	dichotic_task_data = DichoticTaskData(dichotic_task_gui, dichotic_data_manager, data_manager, gui, flow)
 	
@@ -70,11 +79,14 @@ def main():
 	instructions_dichotic_1 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_ONE)# controls instructions gui and flow
 	instructions_dichotic_2 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
 	instructions_dichotic_3 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC)# controls instructions gui and flow
-	
-	
-	
 	tasks = [
 				lambda: menu.show(),
+				lambda: instructions_dct_1.start_instrunctions(),
+				lambda: dct_training.start_task(),
+				lambda: instructions_dct_2.start_instrunctions(),
+				lambda: dct_training.start_task(),
+				lambda: instructions_dct_3.start_instrunctions(),
+				lambda: dct_training.start_task(),
 				lambda:instructions_dichotic_1.start_instrunctions(),
 				lambda: dichotic_task_data.second_practice(),
 				lambda:instructions_dichotic_2.start_instrunctions(),
