@@ -288,7 +288,6 @@ class TaskData(object):
 	def record_trial(self, num_shown, key_pressed):
 		num_shown_type = None # because I want to pass it any way to the data collection
 	
-		
 		if self.current_trial_type_intance.is_normal_trial: # on regular and practice trials			
 			# Checking the subject Digit Classification answer:
 			num_shown_type = self._classify_type_of_num(num_shown)
@@ -302,7 +301,7 @@ class TaskData(object):
 			## COMPUTE RIGHT AND WRONG ACCORDING TO THE CATCH
 			if self.current_trial_type_intance.catch_type: # when true; its correct catch sentence
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
-			elif not self.current_trial_type_intance.catch_type: # when false; its correct catch sentence
+			elif not self.current_trial_type_intance.catch_type: # when false; its wrong catch sentence
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
 					
 		

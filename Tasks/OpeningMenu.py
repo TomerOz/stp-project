@@ -10,15 +10,14 @@ group = 	'group'
 subject =	'subject'
 
 class Menu(object):
-	def __init__(self, exp, gui, flow, ap, audiopath, data_manager, dichotic_task_data=None):
+	def __init__(self, exp, gui, flow, ap, audiopath, data_manager):
 		self.exp = exp
 		self.gui = gui
 		self.flow = flow
+		self.data_manager = data_manager
 		self.ap = ap
 		self.audiopath = audiopath
 		self.menu_data = {}
-		self.data_manager = data_manager
-		self.dichotic_task_data = dichotic_task_data
 		self.create_menu()
 		
 	def create_menu(self):
@@ -52,13 +51,7 @@ class Menu(object):
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
 		
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
-		
-		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
 		self.data_manager.__late_init__(self)
-		# If dichituc task was given as argument
-		if self.dichotic_task_data != None:
-			self.dichotic_task_data.dichotic_data_manager.__late_init__()
-			self.dichotic_task_data.__late_init__()
-		
+		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
 		self.flow.next()
 		

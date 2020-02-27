@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import time
 
 class SubjectData(object):
 	
@@ -33,8 +34,7 @@ class SubjectData(object):
 		self.subject = subject
 		self.gender = gender
 		self.group = group
-		
-	
+			
 	def push_data_packge(self, package):
 		recorded_trial = package.current_trial-1
 		sentence = package.current_sentence 
@@ -86,8 +86,7 @@ class SubjectData(object):
 		self.sentences_duration.append(sentence_length)
 		self.sentences_paths.append(file_path)
 		self.sentences_nums.append(num)
-		
-		
+				
 	def create_data_frame(self):
 		subject_df = pd.DataFrame()
 		
@@ -125,3 +124,120 @@ class SubjectData(object):
 		subject_df.to_excel(subject_dir + '\\data.xlsx')
 		return subject_df
 			
+			
+
+class DichoticSubjectData(object):
+	def __init__(self):
+		
+		self.trial_side 			= []
+		self.trial_number			= []
+		self.trial_phase 			= []
+		self.trial_valence 			= []
+		self.trial_start_time 		= []
+		self.trial_end_time 		= []
+		self.sentences_durations 	= []
+		self.subject 				= []
+		self.gender 				= []
+		self.group				 	= []
+		self.blocks				 	= []
+		
+		# Currently not parrt of DF - that is for uncertainty regarding their length (multiple presses are allowed)
+		self.trial_response = []
+		self.trial_response_time = []
+
+	def create_df(self):
+		
+		columns = [
+					"trial_side",
+					"trial_number",
+					"trial_phase",
+					"trial_valence",
+					"trial_start_time",
+					"trial_end_time",
+					"sentences_durations",
+					"subject",
+					"gender",
+					"group",
+					"block",
+					]
+					
+		rows = [
+				self.trial_side 		,
+				self.trial_number		,
+				self.trial_phase 		,
+				self.trial_valence 		,
+				self.trial_start_time 	,
+				self.trial_end_time 	,
+				self.sentences_durations,
+				self.subject			,
+				self.gender          	,
+				self.group	            ,
+				self.blocks	            ,
+				]
+	
+		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), "Dichotic")
+		ipdb.set_trace()
+	
+	def get_response(self, event=None):
+		self.trial_response_time.append(time.time())
+		self.trial_response.append(event.keysym)
+	
+	def record_trial(self, td, channel=None):
+		if td.task_phase == "First Practice":
+			side = td.practice_one_side
+			trial_number = td.practice_trial
+			sentence = td.current_practice_sentence 
+			start_t = td.practice_1_strat_time
+			end_t = td.practice_1_end_time
+			
+		elif td.task_phase == "Second Practice":
+			side = channel
+			if channel == "Right":
+				trial_number = td.practice_trial_right
+				sentence = td.current_prac_right_sentence
+				start_t = td.practice_2_right_start_time
+				end_t = td.practice_2_right_end_time
+			elif channel == "Left":
+				trial_number = td.practice_trial_left
+				sentence = td.current_prac_left_sentence
+				start_t = td.practice_2_left_start_time 
+				end_t = td.practice_2_left_end_time	
+			
+		elif td.task_phase == "Real Trials":
+			side = td.valence_side.keys()[td.valence_side.values().index(channel)]
+			if channel == "neu":
+				trial_number = td.neu_trial
+				sentence = td.current_neu_sentence
+				start_t = td.real_trials_neu_start_time
+				end_t = td.real_trials_neu_end_time
+			elif channel == "neg":
+				trial_number = td.neg_trial
+				sentence = td.current_neg_sentence
+				start_t = td.real_trials_neg_start_time 
+				end_t = td.real_trials_neg_end_time
+
+		
+		self.trial_side				.append(side)
+		self.trial_number			.append(trial_number)
+		self.trial_phase			.append(td.task_phase)
+		self.trial_valence			.append(sentence.valence)
+		self.trial_start_time		.append(start_t)
+		self.trial_end_time         .append(end_t)
+		self.sentences_durations	.append(sentence.sentence_length)
+		self.subject				.append(td.subject)
+		self.gender					.append(td.gender)
+		self.group					.append(td.group)
+		self.blocks					.append(td.block)
+		
+def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
+		subject_df = pd.DataFrame()
+		for i,r in enumerate(rows):
+			subject_df[cols[i]] = pd.Series(r)
+		
+		subject_dir = os.path.join(destination)
+		if not os.path.exists(subject_dir):
+			os.mkdir(subject_dir) 
+		subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx')
+		return subject_df
+	
+	

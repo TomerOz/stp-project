@@ -65,36 +65,41 @@ def main():
 	instructions_dct_2 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_2)
 	instructions_dct_3 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_3)
 	
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	dichotic_data_manager = DichoticTrialsManager(data_manager, DICHOTIC_PHASE_STR)
-	dichotic_task_data = DichoticTaskData(dichotic_task_gui, dichotic_data_manager, data_manager, gui, flow)
+	dichotic_task_data = DichoticTaskData(dichotic_task_gui, dichotic_data_manager, data_manager, gui, flow, menu)
 	
-	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager, dichotic_task_data=dichotic_task_data) # controls menu gui and imput fields
 	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2) # A class intance that organizes the data for the DCT task
 	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
-	
-	
-	
+		
 	instructions_dichotic_1 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_ONE)# controls instructions gui and flow
 	instructions_dichotic_2 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
 	instructions_dichotic_3 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC)# controls instructions gui and flow
+	
+	
 	tasks = [
 				lambda: menu.show(),
+				lambda: dichotic_data_manager.__late_init__()   ,
+				lambda: dichotic_task_data.__late_init__()      ,
+				
+				lambda:instructions_dichotic_1.start_instrunctions(),
+				lambda: dichotic_task_data.first_practice(side="Left"),				
+				lambda: dichotic_task_data.first_practice(side="Right"),
+				lambda:instructions_dichotic_2.start_instrunctions(),
+				lambda: dichotic_task_data.second_practice(),
+				lambda:instructions_dichotic_3.start_instrunctions(),
+				lambda: dichotic_task_data.start_chunk(),
+				# insert here some silence
+			
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),
 				lambda: instructions_dct_3.start_instrunctions(),
 				lambda: dct_training.start_task(),
-				lambda:instructions_dichotic_1.start_instrunctions(),
-				lambda: dichotic_task_data.second_practice(),
-				lambda:instructions_dichotic_2.start_instrunctions(),
-				lambda: dichotic_task_data.first_practice(side="right"),
-				# insert here some silence
-				lambda: dichotic_task_data.first_practice(side="left"),				
-				lambda:instructions_dichotic_3.start_instrunctions(),
-				lambda: dichotic_task_data.start_chunk(),
+				
 				]
 				
 	flow.add_tasks(tasks)
