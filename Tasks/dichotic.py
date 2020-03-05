@@ -15,7 +15,6 @@ AFACT_PHASE = "afact_phase"
 
 
 class DichoticOneBack(object):
-	
 	def __init__(self, gui, exp, data_manager, dichotic_data_manager):
 		self.gui = gui
 		self.exp = exp
@@ -92,7 +91,7 @@ class DichoticTaskData(object):
 		self.left_neg	 = 1.0
 		self.right_neg	 = 0.0
 		self.left_neu	 = 0.0
-		self.right_neu	 = 0.0
+		self.right_neu	 = 1.0
 		
 		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
 		
@@ -152,8 +151,7 @@ class DichoticTaskData(object):
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
 		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		
 		self.neu_channel.play(sound_neu)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
@@ -163,9 +161,9 @@ class DichoticTaskData(object):
 	def play_neg_sentence(self):
 		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
+		ipdb.set_trace()
 		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
-		self.neu_channel.set_volume(self.left_neu, self.right_neu)
-		self.neg_channel.set_volume(self.left_neg, self.right_neg)
+		
 		self.neg_channel.play(sound_neg)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
@@ -228,7 +226,7 @@ def main():
 	# mine
 	menu.updated_audio_path	 = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# Alab
-	menu.updated_audio_path	 = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path	 = r"C:\Users\psylab6027\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
