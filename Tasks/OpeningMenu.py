@@ -14,10 +14,10 @@ class Menu(object):
 		self.exp = exp
 		self.gui = gui
 		self.flow = flow
+		self.data_manager = data_manager
 		self.ap = ap
 		self.audiopath = audiopath
 		self.menu_data = {}
-		self.data_manager = data_manager
 		self.create_menu()
 		
 	def create_menu(self):
@@ -42,6 +42,7 @@ class Menu(object):
 		'button_label':(self.exp.cx, self.exp.cy+dy*3),
 		}
 	def show(self):
+		self.gui.unbind("<space>")
 		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'button_label'], use_place = self.places)
 		
 	def start_button_callback(self):

@@ -148,28 +148,24 @@ class AfactTask(DctTask):
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
-		if self.td.current_trial > -1: # after first trial
-			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance	) 
+	
+		self.td.current_trial > -1:# ignores first trial
+			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance) 
 			self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance)
-			
-			self.td.current_trial += 1 # raising trial by 1 
-			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-			# trial flow control:
-			
-			if self.td.current_trial_type_intance.is_change_block_trial:
-				self.change_block_frame()
-			elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
-				self.catch_trial() # intiate catch trial
-			elif self.td.current_trial_type_intance.is_afact_feedback:
-				bias = self.td.last_trial_bias
-				self.show_AFACT_frame(bias)
-			else:
-				self._trial() # continues to next trial	
-		else:	# on first trial
-			self.td.current_trial += 1 # raising trial by 1 
-			self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-			self._trial() # continues to next trial			
 		
+		self.td.current_trial += 1 # raising trial by 1 
+		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
+		# trial flow control:
+		
+		if self.td.current_trial_type_intance.is_change_block_trial:
+			self.change_block_frame()
+		elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
+			self.catch_trial() # intiate catch trial
+		elif self.td.current_trial_type_intance.is_afact_feedback:
+			bias = self.td.last_trial_bias
+			self.show_AFACT_frame(bias)
+		else:
+			self._trial() # continues to next trial	
 
 bias = 2.5
 

@@ -26,6 +26,11 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"			# in console we must use these contants
 DICHOTIC_PHASE = "dichotic_phase"
 
+# Instruction pointers
+BEGINING_OF_TAKS  = 0
+AFTER_PRACTICE_1  = 6
+AFTER_PRACTICE_2  = 11
+
 class MainAudioProcessor(object):
 	
 	def __init__(self, 
@@ -46,13 +51,15 @@ class MainAudioProcessor(object):
 		self.afact_phase = AFACT_PHASE
 		self.dichotic_phase = dichotic_phase
 		
+		self.first_phase = "Baseline"
+		
 		if n_practice_trials == None:
 			self.n_practice_trials=8
 		else:
 			self.n_practice_trials = n_practice_trials
 		
 		if precent_of_catch_trials==None:
-			self.precent_of_catch_trials = 3.0/8.0
+			self.precent_of_catch_trials = 1.0/8.0
 		else:
 			self.precent_of_catch_trials = precent_of_catch_trials
 		
@@ -118,6 +125,7 @@ class MainAudioProcessor(object):
 		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
+		self.insert_instructions_trial_types()
 		if self.dichotic_phase != None:
 			self.arrange_dichotic_sentences()
 		
@@ -147,36 +155,36 @@ class MainAudioProcessor(object):
 		n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
 		
 		for phase in self.phases_names:
-			# Choosing the unique sentences (+ and -) for each phase
-			if self.phases_distribution_percent_dict==None:
-				sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
-				sample_negs = random.sample(local_negatives, n_per_phase_negs)
-			else:
-			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-				n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
-				n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
+			if phase != self.dichotic_phase:
+				# Choosing the unique sentences (+ and -) for each phase
+				if self.phases_distribution_percent_dict==None:
+					sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
+					sample_negs = random.sample(local_negatives, n_per_phase_negs)
+				else:
+				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+					n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
+					n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
+					
+					sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
+					sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
+				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
 				
-				sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
-				sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
-			# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-			
-			self.neu_sentences_by_phase[phase] = sample_neus # +
-			self.neg_sentences_by_phase[phase] = sample_negs # -
-			# Suffeling
-			random.shuffle(self.neu_sentences_by_phase[phase])
-			random.shuffle(self.neg_sentences_by_phase[phase])
-			# Unifing the neutrals and negatives
-			self.sentences_by_phase[phase] = sample_neus + sample_negs
-			
-			self._create_trials_pointers_by_phase(phase)
-			
-			# Updating the local sentences lists - removing those that were sampled
-			local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
-			local_negatives = [e for e in local_negatives if e not in sample_negs]
-		# AT this point i have unique neus and negs per phase
+				self.neu_sentences_by_phase[phase] = sample_neus # +
+				self.neg_sentences_by_phase[phase] = sample_negs # -
+				# Suffeling
+				random.shuffle(self.neu_sentences_by_phase[phase])
+				random.shuffle(self.neg_sentences_by_phase[phase])
+				# Unifing the neutrals and negatives
+				self.sentences_by_phase[phase] = sample_neus + sample_negs
+				
+				self._create_trials_pointers_by_phase(phase)
+				
+				# Updating the local sentences lists - removing those that were sampled
+				local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
+				local_negatives = [e for e in local_negatives if e not in sample_negs]
+			# AT this point i have unique neus and negs per phase
 	
 	def _create_trials_pointers_by_phase(self, phase):
-		
 		# rounded_multplying_factor by using it I know how many repetition per sentence
 		ammount_unique_sentences = len(self.sentences_by_phase[phase])
 		rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
@@ -184,7 +192,7 @@ class MainAudioProcessor(object):
 		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))
 		negs_pointers = range(len(self.neg_sentences_by_phase[phase]))
 		# Adding practice trials --> cuurently multplying existing neutrasl
-		practice_trials_pointers = random.sample(neus_pointers, self.n_practice_trials) # 8 is the default number of practice trials
+		practice_trials_pointers = random.sample(self.neutral_sentences, self.n_practice_trials) # 8 is the default number of practice trials
 		# first shuffeling of originals:
 		random.shuffle(neus_pointers)
 		random.shuffle(negs_pointers)
@@ -236,9 +244,14 @@ class MainAudioProcessor(object):
 		
 		# creating new instances with deep copy for practice trials
 		practice_trials_sentences = []
-		for prac_pointer in practice_trials_pointers:
-			dc = copy.deepcopy(self.neu_sentences_by_phase[phase][prac_pointer])
-			dc.is_practice = True
+		
+		for i, prac_sentence in enumerate(practice_trials_pointers):
+			dc = copy.deepcopy(prac_sentence)
+			if i < self.n_practice_trials/2:
+				# making sure first four have feedback and the rest doesn't
+				dc.is_practice = True
+			else:
+				dc.is_practice = False
 			practice_trials_sentences.append(dc)
 		
 		# Saving final values
@@ -389,6 +402,29 @@ class MainAudioProcessor(object):
 						catch.catch_type = False # wrong catch
 					# saving sentence text and num
 					catch.catch_sentence = sentence
+					
+					# adding practice catch trials
+			index_practice_2_strat_trial = int(self.n_practice_trials*0.75)
+			index_practice_2_end_trial = self.n_practice_trials
+			practice_with_catch = range(index_practice_2_strat_trial, index_practice_2_end_trial)
+			catch_counter = 0
+			for prac_catch_index in practice_with_catch:
+				catch = TrialType("prac_{}-Catch Trial".format(str(prac_catch_index+1)))
+				catch.is_catch = True
+				catch.is_normal_trial = False
+				self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
+				catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
+				self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
+				catch_counter += 1
+			
+	def insert_instructions_trial_types(self):
+		# absolute numbers of instructions that build on 8 practice trials
+		# see constants above
+		instructions = TrialType("Instructions")
+		instructions.is_normal_trial = False
+		instructions.is_instructions = True
+		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_1, instructions)
+		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_2, instructions)
 						
 	def create_catch_trials(self):
 		for phase in self.phases_names:
@@ -492,10 +528,12 @@ class TrialType(object):
 		self.is_afact_feedback 		= 	False
 		self.is_catch 				=	False 
 		self.is_practice 			=	False # Can be True alogside is_normal_trial=True
+		self.is_instructions = False
 		
 		# only for catch trials - True=Correct, False=Wrong sentence on catch
 		self.catch_sentence = None
 		self.catch_type = None # manulally changes to true or false in creation
+		
 	
 	def add_sentence(self, sentence):
 		self.sentences.append(sentence)
