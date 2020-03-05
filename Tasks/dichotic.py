@@ -19,7 +19,6 @@ AFACT_PHASE = "afact_phase"
 
 
 class DichoticOneBack(object):
-	
 	def __init__(self, gui, exp):
 		self.gui = gui
 		self.exp = exp
@@ -288,9 +287,7 @@ class DichoticTaskData(object):
 		self.real_trials_neu_start_time = 	time.time()
 		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
-		
-		# Pygame
-		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)		
+		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
 		self.neu_channel.play(sound_neu)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
@@ -304,8 +301,6 @@ class DichoticTaskData(object):
 		self.real_trials_neg_start_time = 	time.time()
 		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
-
-		# Pygame
 		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
 		self.neg_channel.play(sound_neg)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
