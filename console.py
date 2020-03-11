@@ -28,7 +28,7 @@ IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
 IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
 IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
 IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
-IMAGEPATH_DICHOTIC_BREAK=''
+IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
 	
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
@@ -64,15 +64,6 @@ def main():
 	instructions_dct_1 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_1)
 	instructions_dct_2 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_2)
 	instructions_dct_3 = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_3)
-	
-	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
-	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE_STR)
-	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu)
-	
-	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2) # A class intance that organizes the data for the DCT task
-	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
-	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
-	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 		
 	instructions_dichotic_1 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_ONE)# controls instructions gui and flow
 	instructions_dichotic_2 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
@@ -80,17 +71,26 @@ def main():
 	instructions_dichotic_break = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_BREAK)# controls instructions gui and flow
 	
 	
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE_STR)
+	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
+	
+	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=2) # A class intance that organizes the data for the DCT task
+	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
+	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
+	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
+	
 	tasks = [
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				
 				lambda:instructions_dichotic_1.start_instrunctions(),
-				lambda: dichotic_task_data.first_practice(side="Left"),				
-				lambda: dichotic_task_data.first_practice(side="Right"),
-				lambda:instructions_dichotic_2.start_instrunctions(),
-				lambda: dichotic_task_data.second_practice(),
-				lambda:instructions_dichotic_3.start_instrunctions(),
+				#lambda: dichotic_task_data.first_practice(side="Left"),				
+				#lambda: dichotic_task_data.first_practice(side="Right"),
+				#lambda:instructions_dichotic_2.start_instrunctions(),
+				#lambda: dichotic_task_data.second_practice(),
+				#lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
 				# insert here some silence
 			

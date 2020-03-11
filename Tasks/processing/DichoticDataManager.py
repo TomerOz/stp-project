@@ -1,6 +1,11 @@
 import random
 import ipdb
-#OMER - maybe we should mover all the parameters upper?
+
+DEFAULT_NUMBER_OF_BLOCKS = 3
+DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
+DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
+DEFAULT_NUMBER_OF_N_BACK = 2
+
 class DichoticTrialsManager(object):
 	def __init__(
 					self, gui, flow, data_manager, dichotic_name_str, 
@@ -14,16 +19,16 @@ class DichoticTrialsManager(object):
 		self.dichotic_name_str = dichotic_name_str
 		
 		# Task properties:
-		self.n_one_back = 2
-		self.n_blocks=3
+		self.n_one_back = DEFAULT_NUMBER_OF_N_BACK
+		self.n_blocks = DEFAULT_NUMBER_OF_BLOCKS
 		
 		if n_of_chunks==None:
-			self.n_of_chunks = 4
+			self.n_of_chunks = DEFAULT_NUMBER_OF_CHUNCKS
 		else:
 			self.n_of_chunks = n_of_chunks
 		
 		if n_of_unique_sentnces==None:
-			self.n_of_unique_sentnces = 10
+			self.n_of_unique_sentnces = DEFAULT_NUMBER_OF_UNIQUE_SENTENCES
 		else:
 			self.n_of_unique_sentnces = n_of_unique_sentnces
 			

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import pygame as pg
 import ipdb
 #import sounddevice as sd
@@ -17,6 +20,7 @@ FOREGROUND_COLOR = 'white'
 NEGATIVE_SENTENCE = 'neg'			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
+BLOCK_BREAK_TIME = 10000
 
 
 class DichoticOneBack(object):
@@ -34,7 +38,7 @@ class DichoticOneBack(object):
 		self.exp.display_frame(MAIN_FRAME,[FIXATION_LABEL])
 
 class DichoticTaskData(object):
-	def __init__(self, exp, flow, task_gui, dichotic_data_manager, data_manager, gui, menu):
+	def __init__(self, exp, flow, task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break):
 		
 		self.gui = gui
 		self.flow = flow
@@ -43,6 +47,7 @@ class DichoticTaskData(object):
 		self.menu = menu
 		self.data_manager = data_manager
 		self.dichotic_data_manager = dichotic_data_manager
+		self.instructions_dichotic_break = instructions_dichotic_break
 		
 		# managing this subject task data:
 		self.dst = DichoticSubjectData()
@@ -98,19 +103,18 @@ class DichoticTaskData(object):
 		self.left_neg = self.dichotic_data_manager.list_of_chanks_ears_volumes[self.chunk-1]
 		self.right_neu = self.left_neg
 		self.right_neg = not self.left_neg
-		self.left_neu = self.right_neu
-		
+		self.left_neu = self.right_neg
+	
 		self.left_neg = float(self.left_neg)
 		self.left_neu = float(self.left_neu)
 		self.right_neg = float(self.right_neg)
 		self.right_neu = float(self.right_neu)
 		
+		
 		if self.left_neg == 1.0:
 			self.valence_side = {"Right":"neu","Left":"neg"}
 		else:
 			self.valence_side = {"Right":"neg","Left":"neu"}
-				
-		ipdb.set_trace()
 		
 	def __late_init__(self):
 		# initialization of current sentecne paths
@@ -264,16 +268,17 @@ class DichoticTaskData(object):
 			self.dst.create_df()
 			
 			print "Chunk {} Ended".format(str(self.chunk-1))
-      
-			if self.chunk == 4:
+			
+			block_break = 0
+			if self.chunk == self.dichotic_data_manager.n_of_chunks+1:
+				block_break = BLOCK_BREAK_TIME
 				self.next_block() # changing block, otherwise, still within the same block
-				self.break_frame.show_instruction
-				
-				
-			self.change_chunk_ear()
-			self._initialize_block_chunk()
-			self.gui.after(self.chunck_block_change_wait_time, self.start_chunk)
-		
+				self.instructions_dichotic_break.get_task_continue_function(self.start_chunk)
+				self.instructions_dichotic_break.present_simple_picture_frame(block_break, message_text=u"עברו 30 שניות, ניתן ללחוץ על מקש רווח על מנת להמשיך")
+			else:
+				self.gui.after(self.chunck_block_change_wait_time + block_break, self.start_chunk)
+
+						
 		else: # Otherwise - Don't do anything	
 			pass
 		
@@ -285,11 +290,8 @@ class DichoticTaskData(object):
 	def start_chunk(self, event=None):
 		self.task_phase = "Real Trials"
 		# right lef volumes of each channel
-		self.left_neg	 = 1.0
-		self.right_neg	 = 0.0
-		self.left_neu	 = 0.0
-		self.right_neu	 = 1.0
 		self._initialize_block_chunk()
+		self.change_chunk_ear()
 		self.task_gui._show_task_main_frame()
 		
 		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
