@@ -244,7 +244,7 @@ class DichoticTaskData(object):
 			self.chunck_channels_completed_counter = 0
 			self.chunk += 1
 			
-			self.dst.create_df()
+			self.dst.create_df() # TEMPORARY
 			
 			print "Chunk {} Ended".format(str(self.chunk-1))
       
