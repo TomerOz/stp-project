@@ -34,10 +34,11 @@ class DichoticOneBack(object):
 		self.exp.display_frame(MAIN_FRAME,[FIXATION_LABEL])
 
 class DichoticTaskData(object):
-	def __init__(self, task_gui, dichotic_data_manager, data_manager, gui, flow, menu):
+	def __init__(self, exp, flow, task_gui, dichotic_data_manager, data_manager, gui, menu):
 		
 		self.gui = gui
 		self.flow = flow
+		self.exp = exp
 		self.task_gui = task_gui
 		self.menu = menu
 		self.data_manager = data_manager
@@ -117,7 +118,8 @@ class DichoticTaskData(object):
 		self.gender = self.menu.menu_data['gender']
 		self.group = self.menu.menu_data['group']
 		self._initialize_block_chunk()
-	
+		self.gui.after(100, self.flow.next)
+
 	########################################################################################################################
 	## FIRST PRACTICE METHODS: ##
 	
@@ -265,9 +267,9 @@ class DichoticTaskData(object):
       
 			if self.chunk == 4:
 				self.next_block() # changing block, otherwise, still within the same block
-			
-			
-			# omer - update sides
+				self.break_frame.show_instruction
+				
+				
 			self.change_chunk_ear()
 			self._initialize_block_chunk()
 			self.gui.after(self.chunck_block_change_wait_time, self.start_chunk)

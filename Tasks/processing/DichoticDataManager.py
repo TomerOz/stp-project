@@ -3,11 +3,14 @@ import ipdb
 #OMER - maybe we should mover all the parameters upper?
 class DichoticTrialsManager(object):
 	def __init__(
-					self, data_manager, dichotic_name_str, 
+					self, gui, flow, data_manager, dichotic_name_str, 
 					n_of_chunks=None, n_of_unique_sentnces=None,
 					n_trials_practice_one=7, n_trials_practice_two=6,
 					):
+		
 		self.data_manager = data_manager
+		self.flow = flow
+		self.gui = gui
 		self.dichotic_name_str = dichotic_name_str
 		
 		# Task properties:
@@ -26,7 +29,7 @@ class DichoticTrialsManager(object):
 			
 		self.n_trials_practice_one = n_trials_practice_one
 		self.n_trials_practice_two = n_trials_practice_two
-
+		
 		
 	def __late_init__(self):
 		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[self.dichotic_name_str]
@@ -42,7 +45,8 @@ class DichoticTrialsManager(object):
 		self.blocks_dicts = []
 		self.create_blocks_of_sentneces_instances()
 		self.prepare_sentences_for_practice()
-	
+		self.gui.after(100, self.flow.next)
+		
 	def prepare_sentences_for_practice(self):
 		practice_one_sents = random.sample(self.neu_dichotics_sentences, self.n_trials_practice_one)
 		p1_left_sentences = random.sample(practice_one_sents, int(round(len(practice_one_sents)/2)))
