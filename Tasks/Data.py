@@ -140,6 +140,7 @@ class DichoticSubjectData(object):
 		self.gender 				= []
 		self.group				 	= []
 		self.blocks				 	= []
+		self.chunk				 	= []
 		
 		# Currently not parrt of DF - that is for uncertainty regarding their length (multiple presses are allowed)
 		self.trial_response = []
@@ -159,6 +160,7 @@ class DichoticSubjectData(object):
 					"gender",
 					"group",
 					"block",
+					"chunk",
 					]
 					
 		rows = [
@@ -173,6 +175,7 @@ class DichoticSubjectData(object):
 				self.gender          	,
 				self.group	            ,
 				self.blocks	            ,
+				self.chunk	            ,
 				]
 	
 		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), "Dichotic")
@@ -228,6 +231,7 @@ class DichoticSubjectData(object):
 		self.gender					.append(td.gender)
 		self.group					.append(td.group)
 		self.blocks					.append(td.block)
+		self.chunk					.append(td.chunk)
 		
 def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 		subject_df = pd.DataFrame()

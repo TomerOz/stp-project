@@ -5,6 +5,7 @@ import ipdb
 import time
 from playsound import playsound
 from Data import DichoticSubjectData
+import random
 
 MAIN_FRAME = 'm_frame'
 BACKGROUND_COLOR = 'black'
@@ -68,13 +69,7 @@ class DichoticTaskData(object):
 		# Creating left and right chanels
 		self.neu_channel = pg.mixer.Channel(0)
 		self.neg_channel = pg.mixer.Channel(1)		
-		# right lef volumes of each channel
-		self.left_neg	 = 1.0
-		self.right_neg	 = 0.0
-		self.left_neu	 = 0.0
-		self.right_neu	 = 1.0
-		
-		self.valence_side = {"Right":"neu", "Left":"neg"} # will be updated in every Chunck Change # "Right" & "Left" are equivalent to event.keysym
+	
 		self.practice_one_side = None
 		
 		self.practice_1_strat_time = None
@@ -97,6 +92,24 @@ class DichoticTaskData(object):
 		self.pressing_monitor_right = False
 		self.pressing_monitor_neu = False
 		self.pressing_monitor_neg = False
+		
+	def change_chunk_ear(self):
+		self.left_neg = self.dichotic_data_manager.list_of_chanks_ears_volumes[self.chunk-1]
+		self.right_neu = self.left_neg
+		self.right_neg = not self.left_neg
+		self.left_neu = self.right_neu
+		
+		self.left_neg = float(self.left_neg)
+		self.left_neu = float(self.left_neu)
+		self.right_neg = float(self.right_neg)
+		self.right_neu = float(self.right_neu)
+		
+		if self.left_neg == 1.0:
+			self.valence_side = {"Right":"neu","Left":"neg"}
+		else:
+			self.valence_side = {"Right":"neg","Left":"neu"}
+				
+		ipdb.set_trace()
 		
 	def __late_init__(self):
 		# initialization of current sentecne paths
@@ -156,10 +169,9 @@ class DichoticTaskData(object):
 	def second_practice(self):
 		self.task_phase = "Second Practice" # Real Trials
 		# Channels volume
-		self.left_neg	 = 1.0
-		self.right_neg	 = 0.0
-		self.left_neu	 = 0.0
-		self.right_neu	 = 1.0
+		self.dichotic_data_manager.create_list_of_chanks_ears_volumes()	
+		self.change_chunk_ear()
+		
 		self.practice_trial_left = 0
 		self.practice_trial_right = 0
 		self.current_prac_left_sentence  =  self.dichotic_data_manager.p2_left_sentences[self.practice_trial_left]
@@ -230,7 +242,9 @@ class DichoticTaskData(object):
 		self.current_neu_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neu"][self.neu_trial] 
 		self.current_neg_sentence = self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"][self.neg_trial] 
 		self.chunk_end_trial = len(self.dichotic_data_manager.blocks_dicts[self.block][self.chunk]["neg"])-1
-			
+		
+		self.dichotic_data_manager.create_list_of_chanks_ears_volumes()	
+	
 	def bind_keyboard(self):
 		self.gui.bind("<Right>", self.dst.get_response)	
 		self.gui.bind("<Left>", self.dst.get_response)		
@@ -243,14 +257,18 @@ class DichoticTaskData(object):
 			
 			self.chunck_channels_completed_counter = 0
 			self.chunk += 1
-			
-			self.dst.create_df() # TEMPORARY
+
+			# Temporary data saving
+			self.dst.create_df()
 			
 			print "Chunk {} Ended".format(str(self.chunk-1))
       
 			if self.chunk == 4:
 				self.next_block() # changing block, otherwise, still within the same block
 			
+			
+			# omer - update sides
+			self.change_chunk_ear()
 			self._initialize_block_chunk()
 			self.gui.after(self.chunck_block_change_wait_time, self.start_chunk)
 		
@@ -259,7 +277,7 @@ class DichoticTaskData(object):
 		
 	def next_block(self):
 		print "Chunk {} Ended"
-		self.chunk = 0
+		self.chunk = 1
 		self.block += 1
 		
 	def start_chunk(self, event=None):
