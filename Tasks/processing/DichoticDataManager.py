@@ -1,32 +1,40 @@
 import random
 import ipdb
 
+DEFAULT_NUMBER_OF_BLOCKS = 3
+DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
+DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
+DEFAULT_NUMBER_OF_N_BACK = 2
+
 class DichoticTrialsManager(object):
 	def __init__(
-					self, data_manager, dichotic_name_str, 
+					self, gui, flow, data_manager, dichotic_name_str, 
 					n_of_chunks=None, n_of_unique_sentnces=None,
 					n_trials_practice_one=7, n_trials_practice_two=6,
 					):
+		
 		self.data_manager = data_manager
+		self.flow = flow
+		self.gui = gui
 		self.dichotic_name_str = dichotic_name_str
 		
 		# Task properties:
-		self.n_one_back = 2
-		self.n_blocks=3
+		self.n_one_back = DEFAULT_NUMBER_OF_N_BACK
+		self.n_blocks = DEFAULT_NUMBER_OF_BLOCKS
 		
 		if n_of_chunks==None:
-			self.n_of_chunks = 4
+			self.n_of_chunks = DEFAULT_NUMBER_OF_CHUNCKS
 		else:
 			self.n_of_chunks = n_of_chunks
 		
 		if n_of_unique_sentnces==None:
-			self.n_of_unique_sentnces = 10
+			self.n_of_unique_sentnces = DEFAULT_NUMBER_OF_UNIQUE_SENTENCES
 		else:
 			self.n_of_unique_sentnces = n_of_unique_sentnces
 			
 		self.n_trials_practice_one = n_trials_practice_one
 		self.n_trials_practice_two = n_trials_practice_two
-
+		
 		
 	def __late_init__(self):
 		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[self.dichotic_name_str]
@@ -42,7 +50,8 @@ class DichoticTrialsManager(object):
 		self.blocks_dicts = []
 		self.create_blocks_of_sentneces_instances()
 		self.prepare_sentences_for_practice()
-	
+		self.gui.after(100, self.flow.next)
+		
 	def prepare_sentences_for_practice(self):
 		practice_one_sents = random.sample(self.neu_dichotics_sentences, self.n_trials_practice_one)
 		p1_left_sentences = random.sample(practice_one_sents, int(round(len(practice_one_sents)/2)))
@@ -94,6 +103,11 @@ class DichoticTrialsManager(object):
 					block_dict[chunk]['neu'][i] = self.neu_dichotics_sentences[pointer]
 			
 			self.blocks_dicts.append(block_dict)
+			
+	def create_list_of_chanks_ears_volumes(self): #[0,0,1,1] - for 4 chanks, each is 0 or 1 is for left_neg
+			list_of_chanks_ears = [0]*(self.n_of_chunks/2) + [1]*(self.n_of_chunks/2)
+			random.shuffle(list_of_chanks_ears)
+			self.list_of_chanks_ears_volumes = list_of_chanks_ears
 
 
 class DichoticTrial(object):

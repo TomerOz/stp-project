@@ -1,9 +1,10 @@
 import os
 import pandas as pd
 import time
+import ipdb
 
 class SubjectData(object):
-	
+
 	def __init__(self, full_data_path=None):
 	
 		self.full_data_path = full_data_path
@@ -118,6 +119,7 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
+		ipdb.set_trace()
 		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
@@ -125,7 +127,6 @@ class SubjectData(object):
 		return subject_df
 			
 			
-
 class DichoticSubjectData(object):
 	def __init__(self):
 		
@@ -140,11 +141,11 @@ class DichoticSubjectData(object):
 		self.gender 				= []
 		self.group				 	= []
 		self.blocks				 	= []
-		
+		self.sentence_ids			= []
+
 		# Currently not parrt of DF - that is for uncertainty regarding their length (multiple presses are allowed)
 		self.trial_response = []
 		self.trial_response_time = []
-
 	def create_df(self):
 		
 		columns = [
@@ -159,8 +160,9 @@ class DichoticSubjectData(object):
 					"gender",
 					"group",
 					"block",
+					"sentence_id",
 					]
-					
+
 		rows = [
 				self.trial_side 		,
 				self.trial_number		,
@@ -173,11 +175,32 @@ class DichoticSubjectData(object):
 				self.gender          	,
 				self.group	            ,
 				self.blocks	            ,
+				self.sentence_ids	    ,
 				]
-	
+
 		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), "Dichotic")
-		ipdb.set_trace()
+		self.insert_responses(df)
 	
+	def insert_responses(self, df):
+		
+		df["Response_Left"] = False
+		df["Response_Left_time"] = False
+		df["Response_Right"] = False
+		df["Response_Right_time"] = False
+		
+		# Adding time stamp and pressed key on the intersection between trial start and end that corresponds to the time stamp
+		for i, response_t in enumerate(self.trial_response_time):
+			response_key = self.trial_response[i]
+			if response_key == "Left":
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left"] = response_key
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left_time"] = response_t
+			elif response_key == "Right":
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right"] = response_key
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right_time"] = response_t
+				
+				
+		df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\Dichotic.xlsx")
+
 	def get_response(self, event=None):
 		self.trial_response_time.append(time.time())
 		self.trial_response.append(event.keysym)
@@ -215,7 +238,6 @@ class DichoticSubjectData(object):
 				sentence = td.current_neg_sentence
 				start_t = td.real_trials_neg_start_time 
 				end_t = td.real_trials_neg_end_time
-
 		
 		self.trial_side				.append(side)
 		self.trial_number			.append(trial_number)
@@ -228,7 +250,8 @@ class DichoticSubjectData(object):
 		self.gender					.append(td.gender)
 		self.group					.append(td.group)
 		self.blocks					.append(td.block)
-		
+		self.sentence_ids			.append(sentence.num)
+
 def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 		subject_df = pd.DataFrame()
 		for i,r in enumerate(rows):
@@ -239,5 +262,4 @@ def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 			os.mkdir(subject_dir) 
 		subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx')
 		return subject_df
-	
 	
