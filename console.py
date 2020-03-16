@@ -63,6 +63,7 @@ def main():
 															'Post':				N_POST_TRIALS,
 															}, 
 										n_practice_trials=N_PRACTICE_TRIALS,
+										phases_without_catch_trials = AFACT_PHASE,
 										dichotic_phase = DICHOTIC_PHASE_STR,
 										)
 	
