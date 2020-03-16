@@ -119,6 +119,7 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
+		ipdb.set_trace()
 		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
@@ -181,10 +182,23 @@ class DichoticSubjectData(object):
 		self.insert_responses(df)
 	
 	def insert_responses(self, df):
-		df["Response"] = False
+		
+		df["Response_Left"] = False
+		df["Response_Left_time"] = False
+		df["Response_Right"] = False
+		df["Response_Right_time"] = False
+		
+		# Adding time stamp and pressed key on the intersection between trial start and end that corresponds to the time stamp
 		for i, response_t in enumerate(self.trial_response_time):
 			response_key = self.trial_response[i]
-			df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response"] = response_key
+			if response_key == "Left":
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left"] = response_key
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left_time"] = response_t
+			elif response_key == "Right":
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right"] = response_key
+				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right_time"] = response_t
+				
+				
 		df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\Dichotic.xlsx")
 
 	def get_response(self, event=None):
