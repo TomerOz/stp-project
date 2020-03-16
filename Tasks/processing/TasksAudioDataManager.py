@@ -129,10 +129,7 @@ class MainAudioProcessor(object):
 		if self.dichotic_phase != None:
 			self.arrange_dichotic_sentences()
 		
-		## ADD NON-UNIQUE SENTENCES TO DIFFERENT PHASES
-		#### add it to 	self.neu_sentences_by_phase, 
-		####			self.neg_sentences_by_phase,
-		####			self.sentences_by_phase
+		ipdb.set_trace()
 		
 	def arrange_dichotic_sentences(self):
 		''' returns the sentences instances relevant to the dichotic task'''

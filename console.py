@@ -34,6 +34,13 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'
+
+N_BASELINE_TRIALS = 10
+N_POST_TRIALS = 10
+N_AFACT_TRIALS = 20
+N_DICHOTIC_TRIALS = 20
+N_PRACTICE_TRIALS = 8
+
 def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
 	exp = Experiment() # A class instance of experiments buildind
@@ -50,12 +57,12 @@ def main():
 														'Post',
 														], 
 										n_trials_by_phase={
-															DICHOTIC_PHASE_STR: 20,
-															'Baseline':			10,
-															AFACT_PHASE: 		40,
-															'Post':				40,
+															DICHOTIC_PHASE_STR: N_DICHOTIC_TRIALS,
+															'Baseline':			N_BASELINE_TRIALS,
+															AFACT_PHASE: 		N_AFACT_TRIALS,
+															'Post':				N_POST_TRIALS,
 															}, 
-										n_practice_trials=8,
+										n_practice_trials=N_PRACTICE_TRIALS,
 										dichotic_phase = DICHOTIC_PHASE_STR,
 										)
 	
