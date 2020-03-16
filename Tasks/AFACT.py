@@ -107,8 +107,7 @@ class AfactGui(object):
 			if self.current_i_of_bias+1 != len(self.range_of_biases_until_bias):
 				gui.after(20,for_animation)
 		for_animation()
-			
-		
+					
 class AfactTaskData(TaskData):
 	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
 		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
