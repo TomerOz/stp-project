@@ -129,10 +129,7 @@ class MainAudioProcessor(object):
 		if self.dichotic_phase != None:
 			self.arrange_dichotic_sentences()
 		
-		## ADD NON-UNIQUE SENTENCES TO DIFFERENT PHASES
-		#### add it to 	self.neu_sentences_by_phase, 
-		####			self.neg_sentences_by_phase,
-		####			self.sentences_by_phase
+		ipdb.set_trace()
 		
 	def arrange_dichotic_sentences(self):
 		''' returns the sentences instances relevant to the dichotic task'''
@@ -383,27 +380,27 @@ class MainAudioProcessor(object):
 	def insert_catch_trials_trial_types(self):
 		for phase in self.phases_names:
 			catch_trials_insertion_counter = 0 # makes sure that pushing (insert) catch trials into the list in 
-										# in various i's (in the following for) is aimed at the original place
-			for i, trial in enumerate(self.catch_and_non_catch_trials_list_by_phase[phase]):
-				if trial !=0:
-					# pushing catch trials to their location on the phase trials
-					catch = TrialType("{}-Catch Trial".format(trial))
-					self.trials_types_by_phase[phase].insert(i+catch_trials_insertion_counter, catch)
-					catch_trials_insertion_counter += 1
-					# giving each catch its functionality
-					sentences_scope_until_this_catch = self.sentence_trial_reffs_by_phase[phase].sentences_instances[:i] # excluding this catch
-					catch.is_catch = True
-					catch.is_normal_trial = False
-					if trial == "c":
-						sentence = sentences_scope_until_this_catch[-1] # chosing last sentence
-						catch.catch_type = True # correct catch
-					elif trial == "w":	
-						sentence = random.sample(sentences_scope_until_this_catch[:-1], 1)[0] # excluding the last one
-						catch.catch_type = False # wrong catch
-					# saving sentence text and num
-					catch.catch_sentence = sentence
-					
-					# adding practice catch trials
+			if not phase in self.phases_without_catch_trials:							# in various i's (in the following for) is aimed at the original place
+				for i, trial in enumerate(self.catch_and_non_catch_trials_list_by_phase[phase]):
+					if trial !=0:
+						# pushing catch trials to their location on the phase trials
+						catch = TrialType("{}-Catch Trial".format(trial))
+						self.trials_types_by_phase[phase].insert(i+catch_trials_insertion_counter, catch)
+						catch_trials_insertion_counter += 1
+						# giving each catch its functionality
+						sentences_scope_until_this_catch = self.sentence_trial_reffs_by_phase[phase].sentences_instances[:i] # excluding this catch
+						catch.is_catch = True
+						catch.is_normal_trial = False
+						if trial == "c":
+							sentence = sentences_scope_until_this_catch[-1] # chosing last sentence
+							catch.catch_type = True # correct catch
+						elif trial == "w":	
+							sentence = random.sample(sentences_scope_until_this_catch[:-1], 1)[0] # excluding the last one
+							catch.catch_type = False # wrong catch
+						# saving sentence text and num
+						catch.catch_sentence = sentence
+						
+						# adding practice catch trials
 			index_practice_2_strat_trial = int(self.n_practice_trials*0.75)
 			index_practice_2_end_trial = self.n_practice_trials
 			practice_with_catch = range(index_practice_2_strat_trial, index_practice_2_end_trial)

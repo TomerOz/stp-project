@@ -5,7 +5,7 @@ import ipdb
 
 class SubjectData(object):
 
-	def __init__(self, full_data_path=None):
+	def __init__(self, full_data_path=""):
 	
 		self.full_data_path = full_data_path
 		
@@ -119,8 +119,7 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
-		ipdb.set_trace()
-		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + str(self.subject))
+		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + self.experimental_phase[0] + '_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
 		subject_df.to_excel(subject_dir + '\\data.xlsx')
