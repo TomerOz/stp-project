@@ -13,14 +13,21 @@ import random
 MAIN_FRAME = 'm_frame'
 BACKGROUND_COLOR = 'black'
 FIXATION_LABEL = 'fixation_label'
-FIXATION_STIMULI = '+'
-FIXATION_FONT = 'david 64 bold'
 FOREGROUND_COLOR = 'white'
 
 NEGATIVE_SENTENCE = 'neg'			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
+FIXATION_STIMULI = '+'
+
+# To params:
+FIXATION_FONT = 'david 64 bold'
 BLOCK_BREAK_TIME = 10000
+CHUNK_NEU_START_DELAY	= 0
+CHUNK_NEG_START_DELAY	= 500
+CHUNCK_BLOCK_CHANGE_WAIT_TIME = 1000
+BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
+BETWEEN_SENTENCES_DELAY = 300
 
 
 class DichoticOneBack(object):
@@ -52,12 +59,12 @@ class DichoticTaskData(object):
 		# managing this subject task data:
 		self.dst = DichoticSubjectData()
 	
-		# Task properties
-		self.chunk_neu_start_delay	= 0
-		self.chunk_neg_start_delay	= 500
-		self.chunck_block_change_wait_time = 1000
-		self.block_change_wait_time_addition = 1000
-		
+		# Task properties		
+		self.chunk_neu_start_delay	= CHUNK_NEU_START_DELAY
+		self.chunk_neg_start_delay	= CHUNK_NEG_START_DELAY
+		self.chunck_block_change_wait_time = CHUNCK_BLOCK_CHANGE_WAIT_TIME
+		self.block_change_wait_time_addition = BLOCK_CHANGE_WAIT_TIME_ADDITION
+
 		# Dynamic Variables
 		self.block = 0
 		self.chunk = 1
@@ -154,7 +161,7 @@ class DichoticTaskData(object):
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		
-		self.gui.after(int(self.current_practice_sentence.sentence_length)+300, self.next_practice)
+		self.gui.after(int(self.current_practice_sentence.sentence_length)+BETWEEN_SENTENCES_DELAY, self.next_practice)
 	
 	def next_practice_trial(self):
 		self.practice_trial += 1
@@ -196,7 +203,7 @@ class DichoticTaskData(object):
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		
-		self.gui.after(int(self.current_prac_left_sentence.sentence_length)+300, self.next_prac_two_left)
+		self.gui.after(int(self.current_prac_left_sentence.sentence_length)+BETWEEN_SENTENCES_DELAY, self.next_prac_two_left)
 	
 	def play_prac_two_right(self):
 		self.practice_2_right_start_time = time.time()
@@ -206,7 +213,7 @@ class DichoticTaskData(object):
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
-		self.gui.after(int(self.current_prac_right_sentence.sentence_length)+300, self.next_prac_two_right)
+		self.gui.after(int(self.current_prac_right_sentence.sentence_length)+BETWEEN_SENTENCES_DELAY, self.next_prac_two_right)
 
 	def next_practice_two_neu_trial_left(self):
 		self.practice_trial_left += 1
@@ -317,7 +324,7 @@ class DichoticTaskData(object):
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		### 															###
 		
-		self.gui.after(int(self.current_neu_sentence.sentence_length)+300, self.next_neu)
+		self.gui.after(int(self.current_neu_sentence.sentence_length)+BETWEEN_SENTENCES_DELAY, self.next_neu)
 	
 	def play_neg_sentence(self):
 		self.real_trials_neg_start_time = 	time.time()
@@ -328,7 +335,7 @@ class DichoticTaskData(object):
 		self.neg_channel.set_volume(self.left_neg, self.right_neg)
 		self.neu_channel.set_volume(self.left_neu, self.right_neu)
 		
-		self.gui.after(int(self.current_neg_sentence.sentence_length)+300, self.next_neg)
+		self.gui.after(int(self.current_neg_sentence.sentence_length)+BETWEEN_SENTENCES_DELAY, self.next_neg)
 	
 	def next_neu(self):
 		self.real_trials_neu_end_time = 	time.time()

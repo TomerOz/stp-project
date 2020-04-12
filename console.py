@@ -83,7 +83,7 @@ def main():
 	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE_STR)
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
 	
-	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline', n_blocks=1) # A class intance that organizes the data for the DCT task
+	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline') # A class intance that organizes the data for the DCT task
 	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
