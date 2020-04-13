@@ -256,10 +256,8 @@ class MainAudioProcessor(object):
 			if i < self.n_practice_trials/2:
 				# making sure first four have feedback and the rest doesn't
 				dc.is_practice = True
-				dc.trial_phase = "practice 1"
 			else:
 				dc.is_practice = False
-				dc.trial_phase = "practice 2"
 			practice_trials_sentences.append(dc)
 		
 		# Saving final values
@@ -421,9 +419,7 @@ class MainAudioProcessor(object):
 				catch.is_catch = True
 				catch.is_normal_trial = False
 				self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
-				# Ctach sentence is currently always the one before catch trials - thus always correct
 				catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
-				catch.catch_type = True # stands for correct catch trials
 				self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
 				catch_counter += 1
 			
@@ -539,7 +535,7 @@ class TrialType(object):
 		self.is_catch 				=	False 
 		self.is_practice 			=	False # Can be True alogside is_normal_trial=True
 		self.is_instructions = False
-		self.trial_phase = "Real Trial"
+		
 		# only for catch trials - True=Correct, False=Wrong sentence on catch
 		self.catch_sentence = None
 		self.catch_type = None # manulally changes to true or false in creation
