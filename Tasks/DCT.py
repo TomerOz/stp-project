@@ -311,6 +311,7 @@ class TaskData(object):
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == CORRECT_SENTENCE
 			elif not self.current_trial_type_intance.catch_type: # when false; its wrong catch sentence
 				was_correct = RESPONSE_LABELS_ON_CATCH_TRIALS[key_pressed] == NOT_CORRECT_SENTENCE
+			
 					
 		
 		# saving key press in order to pass into Data package
@@ -319,6 +320,8 @@ class TaskData(object):
 		self.correct = self.current_trial_type_intance.catch_type
 		self.last_trial_classification = was_correct
 		self.last_key_pressed = key_pressed 
+		self.is_normal_trial = self.current_trial_type_intance.is_normal_trial
+		
 		# saving data 
 		self.sd.push_data_packge(self) 	
 	
