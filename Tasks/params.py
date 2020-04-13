@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-##TODO - decide on the 
 #Console
 
 AUDIOPATH = r'Subjects'
@@ -104,18 +103,24 @@ BLOCK_CHANGE_WAIT_TIME = 3000
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 #Dichotic
-
 MAIN_FRAME = 'm_frame'
 BACKGROUND_COLOR = 'black'
 FIXATION_LABEL = 'fixation_label'
-FIXATION_STIMULI = '+'
-FIXATION_FONT = 'david 64 bold'
 FOREGROUND_COLOR = 'white'
 
 NEGATIVE_SENTENCE = 'neg'			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
+FIXATION_STIMULI = '+'
+
+
+FIXATION_FONT = 'david 64 bold'
 BLOCK_BREAK_TIME = 10000
+CHUNK_NEU_START_DELAY	= 0
+CHUNK_NEG_START_DELAY	= 500
+CHUNCK_BLOCK_CHANGE_WAIT_TIME = 1000
+BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
+BETWEEN_SENTENCES_DELAY = 300
 
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
