@@ -18,18 +18,26 @@ SUBJECT = 'subject'
 GROUP = 'group'
 GENDER = 'gender'
 
+# To Params:
+FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
+PRACTICE_FEEDBACK_DURATAION = 300
+ONE_SECOND = 1000
+MILISECONDS_BEFORE_END = 500
+MIN_DIGIT = 1
+MAX_DIGIT = 8
+BLOCK_CHANGE_WAIT_TIME = 3000
+CATCH_TRIAL_RESPONSE_DELAY = 500
+DCT_STIMULI = u'XXX'
+CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
+DCT_STIMULI_FONT = "david 50 bold"
+RIGHT ='r'
+LEFT = 'l'
+RIGHT_RESPONSE_KEY = "<Right>"
+LEFT_RESPONSE_KEY = "<Left>"
+
 # gui properties
 BACKGROUND = "black"
 FOREGROUND = "white"
-CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
-DCT_STIMULI_FONT = "david 50 bold"
-DCT_STIMULI = u'XXX'
-FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
-FEEDBACK_COLOR_DURATAION = 300
-ONE_MILISCOND = 1000
-MILISECONDS_BEFORE_END = 500
-RIGHT ='r'
-LEFT = 'l'
 CORRECT = "green"
 WRONG = "red"
 FRAME_1 = "first"
@@ -44,9 +52,6 @@ CORRECT_SENTENCE = 1
 NOT_CORRECT_SENTENCE = 0
 RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
 RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
-MIN_DIGIT = 1
-MAX_DIGIT = 8
-BLOCK_CHANGE_WAIT_TIME = 3000
 
 class DctTask(object):
 	
@@ -59,21 +64,21 @@ class DctTask(object):
 		self.shown_num = None # last number on screen
 		self.key_pressed = None
 		self.block_changed = False # keeps track if lasts block change occured
-		
+	
 	def _getresponse(self, eff=None, key=None):
 		self.td.t1 = time.time()													## END OF TIME RECORD
 		self.td.record_time()		
 		self.key_pressed = key
 		
 		# unbinding keyboard - to not allow overriding sentences
-		self.gui.unbind("<Right>")
-		self.gui.unbind("<Left>")
+		self.gui.unbind(RIGHT_RESPONSE_KEY)
+		self.gui.unbind(LEFT_RESPONSE_KEY)
 		self.td.record_trial(self.shown_num, self.key_pressed)
 
 		# Practice feedback decision
 		if self.td.current_sentence.is_practice:
 			self._give_feedback(self.key_pressed)		
-			self.gui.after(200, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
+			self.gui.after(PRACTICE_FEEDBACK_DURATAION, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
 		else:
 			self._continue()
 		
@@ -81,6 +86,7 @@ class DctTask(object):
 		self.td.current_trial += 1 # raising trial by 1 
 		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
 
+		### TOMER-OMER - if changing block is not nessecary, shut down this if
 		if self.td.current_trial_type_intance.is_change_block_trial:
 			self.change_block_frame()
 		elif self.td.current_trial_type_intance.is_instructions:
@@ -95,19 +101,19 @@ class DctTask(object):
 		# if correct
 		if RESPONSE_LABELS[key] == num_type:
 			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = CORRECT))
-			#self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))  ### color feedback
+			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))  ### color feedback
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "Correct"))
-			self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)) # text feedback
+			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)) # text feedback
 		#if wrong
 		else:
 			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = WRONG))
-			#self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))
+			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text = "Wrong"))
-			self.gui.after(FEEDBACK_COLOR_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
+			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 				
 	def _bind_keyboard(self):
-		self.gui.bind("<Right>", lambda eff: self._getresponse(eff, key=RIGHT))
-		self.gui.bind("<Left>", lambda eff: self._getresponse(eff,key=LEFT))
+		self.gui.bind(RIGHT_RESPONSE_KEY, lambda eff: self._getresponse(eff, key=RIGHT))
+		self.gui.bind(LEFT_RESPONSE_KEY, lambda eff: self._getresponse(eff,key=LEFT))
 		
 	def _start_audio(self):
 		playsound(self.td.current_sentence_path, block=False) 						# audio is taken every trial from an updating filename 
@@ -135,7 +141,7 @@ class DctTask(object):
 	def catch_trial(self):
 		self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.text
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
-		self.gui.after(500,self._bind_keyboard)
+		self.gui.after(CATCH_TRIAL_RESPONSE_DELAY,self._bind_keyboard)
 		
 	def _trial(self):
 		'''This function is being called after response to last trial took place.
@@ -151,8 +157,8 @@ class DctTask(object):
 			self.gui.after(FIXATION_TIME, self._start_audio)
 		else:		
 			''' Task is over'''
-			self.gui.unbind("<Right>")
-			self.gui.unbind("<Left>")
+			self.gui.unbind(RIGHT_RESPONSE_KEY)
+			self.gui.unbind(LEFT_RESPONSE_KEY)
 			print "End - on _tria()"
 			# get data frame from sd
 			self.td.sd.create_data_frame()
@@ -165,6 +171,9 @@ class DctTask(object):
 		self._continue()
 		
 	def change_block_frame(self):
+		''' To be cancelled in Omer
+		Check if i need it to AFACT'''
+		
 		print "Block changed"
 		self.block_changed = True
 		self.td.current_block = 2 # updating block number
@@ -190,35 +199,34 @@ class DctTask(object):
 			
 			# count down to experiment task
 			t1 = 0
-			k = ONE_MILISCOND
-			self.gui.after(t1, lambda:self._count_down(num=3))
-			self.gui.after(k, lambda:self._count_down(num=2))
-			self.gui.after(2*k, lambda:self._count_down(num=1))
-			self.gui.after(3*k, self._continue) # experiment was started
+			# COUNTDOWN OPTION
+			#k = ONE_SECOND
+			#self.gui.after(t1, lambda:self._count_down(num=3))
+			#self.gui.after(k, lambda:self._count_down(num=2))
+			#self.gui.after(2*k, lambda:self._count_down(num=1))
+			#self.gui.after(3*k, self._continue) # experiment was started
+			self.gui.after(t1, self._continue) # experiment was started
 		
 		else:
 			self.exp.display_frame(FRAME_1, [LABEL_1])
 			t1 = 0
-			k = ONE_MILISCOND
-			self.gui.after(t1, lambda:self._count_down(num=3))
-			self.gui.after(k, lambda:self._count_down(num=2))
-			self.gui.after(2*k, lambda:self._count_down(num=1))
-			self.gui.after(3*k, self._continue) # experiment was started
+			# COUNTDOWN OPTION
+			#k = ONE_SECOND
+			#self.gui.after(t1, lambda:self._count_down(num=3))
+			#self.gui.after(k, lambda:self._count_down(num=2))
+			#self.gui.after(2*k, lambda:self._count_down(num=1))
+			#self.gui.after(3*k, self._continue) # experiment was started
+			self.gui.after(t1, self._continue) # experiment was started
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
-	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
+	def __init__(self, menu, data_manager, subject_data, phase=None):
 		
 		# user data
 		self.menu = menu # contains gender, subject subject's path and group
 		self.phase=phase # base-line \ training \ post trainig \ mab \ dichotic
 		self.data_manager = data_manager # All tasks data manager
 		self.sd = subject_data
-		if n_blocks == None:
-			self.n_blocks = 1
-		else:
-			self.n_blocks = n_blocks
-		
 		
 		# RT live data
 		self.t0 = 0 # first time point - digit shown
