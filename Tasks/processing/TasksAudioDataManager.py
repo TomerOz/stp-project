@@ -5,38 +5,40 @@ import ipdb
 import copy
 import numpy as np
 
-PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-AUDIO_FILES_DIRECTORY = 'audio_files_wav'
+from .. import params 
 
-## PARAMS: ---- Some of the followings need to go to params...
+# # PARAMS:
+# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+# AUDIO_FILES_DIRECTORY = 'audio_files_wav'
 
-# sentences excel column names
-LENGTH_COL = 'length'
-SENTENCE_TEXT = 'sentContent'
-SENTENCE_VALENCE = 'SentenceType'
-SENTENCE_NUM = 'TAPlistNumber'
-SENTENCE = 'sentence'
 
-ONE_SECOND = 1000
-MILISECONDS_BEFORE_END = 500
+# # sentences excel column names
+# LENGTH_COL = 'length'
+# SENTENCE_TEXT = 'sentContent'
+# SENTENCE_VALENCE = 'SentenceType'
+# SENTENCE_NUM = 'TAPlistNumber'
+# SENTENCE = 'sentence'
 
-# task properties
-NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
-NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
+# ONE_SECOND = 1000
+# MILISECONDS_BEFORE_END = 500
 
-AFACT_PHASE = "afact_phase"			# in console we must use these contants
-DICHOTIC_PHASE = "dichotic_phase"
+# # task properties
+# NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
+# NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
-# Instruction pointers
-BEGINING_OF_TAKS  = 0
-AFTER_PRACTICE_1  = 6
-AFTER_PRACTICE_2  = 11
+# AFACT_PHASE = "afact_phase"			# in console we must use these contants
+# DICHOTIC_PHASE = "dichotic_phase"
 
-# THE FOLLOWINGS SPECIFIES "DEFAULS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
-DEFAULT_N_PRACTICE_TRIALS = 8
-DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
-DEFAULT_N_START_NEUTRAL_TRIALS = 4
-DEFAULT_N_BLOCK_PER_PHASE = 2
+# # Instruction pointers
+# BEGINING_OF_TAKS  = 0
+# AFTER_PRACTICE_1  = 6
+# AFTER_PRACTICE_2  = 11
+
+# # THE FOLLOWINGS SPECIFIES "DEFAULS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
+# DEFAULT_N_PRACTICE_TRIALS = 8
+# DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
+# DEFAULT_N_START_NEUTRAL_TRIALS = 4
+# DEFAULT_N_BLOCK_PER_PHASE = 2
 
 class MainAudioProcessor(object):
 	

@@ -19,27 +19,29 @@ from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
 
-AUDIOPATH = r'Subjects'
-IMAGEPATH = r'Instructions_Pictures'
-IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
-IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
-IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
+from Tasks import params 
 
-IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
-IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
-IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
-IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
+# AUDIOPATH = r'Subjects'
+# IMAGEPATH = r'Instructions_Pictures'
+# IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
+# IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
+# IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
+
+# IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
+# IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
+# IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
+# IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
 	
-PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-AFACT_PHASE = "afact_phase"
-DICHOTIC_PHASE_STR = 'dichotic_phase'
+# PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
+# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+# AFACT_PHASE = "afact_phase"
+# DICHOTIC_PHASE_STR = 'dichotic_phase'
 
-N_BASELINE_TRIALS = 10
-N_POST_TRIALS = 10
-N_AFACT_TRIALS = 20
-N_DICHOTIC_TRIALS = 20
-N_PRACTICE_TRIALS = 8
+# N_BASELINE_TRIALS = 10
+# N_POST_TRIALS = 10
+# N_AFACT_TRIALS = 20
+# N_DICHOTIC_TRIALS = 20
+# N_PRACTICE_TRIALS = 8
 
 def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data

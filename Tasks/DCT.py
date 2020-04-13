@@ -11,47 +11,49 @@ from PIL import Image, ImageTk
 import winsound
 
 from Data import SubjectData
+import params
 
-# sentences directories and files names
-SENTENCE_NAME_COL = 'sentence_name'
-SUBJECT = 'subject'
-GROUP = 'group'
-GENDER = 'gender'
+#moved to params
+# # sentences directories and files names
+# SENTENCE_NAME_COL = 'sentence_name'
+# SUBJECT = 'subject'
+# GROUP = 'group'
+# GENDER = 'gender'
 
-# To Params:
-FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
-PRACTICE_FEEDBACK_DURATAION = 300
-ONE_SECOND = 1000
-MILISECONDS_BEFORE_END = 500
-MIN_DIGIT = 1
-MAX_DIGIT = 8
-BLOCK_CHANGE_WAIT_TIME = 3000
-CATCH_TRIAL_RESPONSE_DELAY = 500
-DCT_STIMULI = u'XXX'
-CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
-DCT_STIMULI_FONT = "david 50 bold"
-RIGHT ='r'
-LEFT = 'l'
-RIGHT_RESPONSE_KEY = "<Right>"
-LEFT_RESPONSE_KEY = "<Left>"
+# # To Params:
+# FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
+# PRACTICE_FEEDBACK_DURATAION = 300
+# ONE_SECOND = 1000
+# MILISECONDS_BEFORE_END = 500
+# MIN_DIGIT = 1
+# MAX_DIGIT = 8
+# BLOCK_CHANGE_WAIT_TIME = 3000
+# CATCH_TRIAL_RESPONSE_DELAY = 500
+# DCT_STIMULI = u'XXX'
+# CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
+# DCT_STIMULI_FONT = "david 50 bold"
+# RIGHT ='r'
+# LEFT = 'l'
+# RIGHT_RESPONSE_KEY = "<Right>"
+# LEFT_RESPONSE_KEY = "<Left>"
 
-# gui properties
-BACKGROUND = "black"
-FOREGROUND = "white"
-CORRECT = "green"
-WRONG = "red"
-FRAME_1 = "first"
-LABEL_1 = "label_1"
-CHANGE_BLOCK_FRAME = 'change_block_frame'
-BUTTON_LABEL = 'button_label'
+# # gui properties
+# BACKGROUND = "black"
+# FOREGROUND = "white"
+# CORRECT = "green"
+# WRONG = "red"
+# FRAME_1 = "first"
+# LABEL_1 = "label_1"
+# CHANGE_BLOCK_FRAME = 'change_block_frame'
+# BUTTON_LABEL = 'button_label'
 
-# task properties
-EVEN= 'even'
-ODD = 'odd'
-CORRECT_SENTENCE = 1
-NOT_CORRECT_SENTENCE = 0
-RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
-RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
+# # task properties
+# EVEN= 'even'
+# ODD = 'odd'
+# CORRECT_SENTENCE = 1
+# NOT_CORRECT_SENTENCE = 0
+# RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
+# RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
 
 class DctTask(object):
 	
