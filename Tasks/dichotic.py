@@ -22,6 +22,8 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
 BLOCK_BREAK_TIME = 10000
 
+PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
+PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 
 class DichoticOneBack(object):
 	def __init__(self, gui, exp):
@@ -361,8 +363,8 @@ def main():
 	from DCT import TaskData
 	from OpeningMenu import Menu
 	
-	PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-	PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+	pre_processed_audio_df = PRE_PROCESSED_AUDIO_DF
+	processed_audio_df = PROCESSED_AUDIO_DF # file name containing audio data after processing ready for dct-stp task
 	SUBJECT = 'subject'
 	GROUP = 'group'
 	GENDER = 'gender'
@@ -370,7 +372,7 @@ def main():
 	
 	DICHOTIC_PHASE_STR = 'dichotic_phase' # a single name to be usef in both data_manager and dichotic data manager
 	
-	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
+	ap = AudioProcessor(pre_processed_audio_df, processed_audio_df)
 	exp = Experiment()
 	gui = exp.gui
 	sd = SubjectData()
@@ -419,13 +421,4 @@ def main():
 	
 if __name__ == "__main__":
 	main()
-	# Omer
-	#a, rate = sf.read(neu_sentence_sound_path)
-	#left = 0
-	#right = 1
-	#a_right = a
-	#a_right[:,left] = 0
-	#sd.play(a_right[:,right], rate, [2])
 	
-	# idea - for loop on neg and neu chank (12 sent for each ear) 
-		
