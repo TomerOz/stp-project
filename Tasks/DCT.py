@@ -10,8 +10,8 @@ from playsound import playsound
 from PIL import Image, ImageTk
 import winsound
 
-from Data import SubjectData
-from params import *
+from .Data import SubjectData
+from .params import *
 
 #moved to params
 # sentences directories and files names
@@ -161,7 +161,7 @@ class DctTask(object):
 			''' Task is over'''
 			self.gui.unbind(RIGHT_RESPONSE_KEY)
 			self.gui.unbind(LEFT_RESPONSE_KEY)
-			print "End - on _tria()"
+			#print "End - on _tria()"
 			# get data frame from sd
 			self.td.sd.create_data_frame()
 			# raise flag of completion
@@ -176,7 +176,7 @@ class DctTask(object):
 		''' To be cancelled in Omer
 		Check if i need it to AFACT'''
 		
-		print "Block changed"
+		#print "Block changed"
 		self.block_changed = True
 		self.td.current_block = 2 # updating block number
 		block_change_text = u'השלמת את החצי הראשון של המטלה'
@@ -334,15 +334,15 @@ class TaskData(object):
 		sent = trial_type.get_current_sentence()
 		trial_type.next()
 		
-		print "#--------------#"
-		print trial_type
-		print trial_type.index
-		print sent
-		print "Current Trial: ", self.current_trial
-		print "Change Block Trial is on: ", self.change_block_trial
-		print "Total ammount of Trials is : ", self.total_ammount_of_trials
-		
-		print "------END--------"
+		#print "#--------------#"
+		#print trial_type
+		#print trial_type.index
+		#print sent
+		#print "Current Trial: ", self.current_trial
+		#print "Change Block Trial is on: ", self.change_block_trial
+		#print "Total ammount of Trials is : ", self.total_ammount_of_trials
+		#
+		#print "------END--------"
 		
 		return sent
 		
@@ -351,7 +351,7 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		print self.total_ammount_of_trials
+		#print self.total_ammount_of_trials
 		if self.current_trial < self.total_ammount_of_trials: # Task is still running
 			trial_type = self.trials_types_by_phase[self.current_trial]
 			# saving in TaskData object a refferece to the current TrialType instance
@@ -365,6 +365,6 @@ class TaskData(object):
 		
 		else:		
 			''' Task is over'''
-			print "End - on update"
+			#print "End - on update"
 			# raise flag of completion
 			# get data frame from sd

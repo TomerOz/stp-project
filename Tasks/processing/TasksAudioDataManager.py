@@ -196,8 +196,8 @@ class MainAudioProcessor(object):
 		ammount_unique_sentences = len(self.sentences_by_phase[phase])
 		rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
 		# creating intial pointers
-		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))
-		negs_pointers = range(len(self.neg_sentences_by_phase[phase]))
+		neus_pointers = list(range(len(self.neu_sentences_by_phase[phase])))
+		negs_pointers = list(range(len(self.neg_sentences_by_phase[phase])))
 		# Adding practice trials --> cuurently multplying existing neutrasl
 		practice_trials_pointers = random.sample(self.neutral_sentences, self.n_practice_trials) # 8 is the default number of practice trials
 		# first shuffeling of originals:
@@ -208,7 +208,7 @@ class MainAudioProcessor(object):
 		lists_of_additional_neus_pointers = []
 		lists_of_additional_negs_pointers = []
 		ammount_of_additions = rounded_multplying_factor-1
-		for i in range(ammount_of_additions):
+		for i in list(range(ammount_of_additions)):
 			additional_neus_pointers = [] + neus_pointers
 			additional_negs_pointers = [] + negs_pointers
 			# shuffeling:
@@ -321,7 +321,7 @@ class MainAudioProcessor(object):
 		
 		# smpelinG initial ntr trials pointer to be added IN FEW LINES AHEAD
 		neu.sentences = []  # deleting existing sentences
-		neus_pointers = range(len(self.neu_sentences_by_phase[phase]))
+		neus_pointers = list(range(len(self.neu_sentences_by_phase[phase])))
 		ntr_pointers_for_initial_trials = random.sample(neus_pointers, self.n_start_neutral_trials)
 		# in afact beacuse every neg trials follows by additional 1-2 ntr, the initial windows should be additional
 		for p in ntr_pointers_for_initial_trials:
@@ -345,8 +345,8 @@ class MainAudioProcessor(object):
 	def fill_sentence_trial_refferences(self):
 		for phase in self.phases_names:
 			self.sentence_trial_reffs_by_phase[phase] = TrialsSentencesReff()
-			trial_types = self.trials_types_by_phase[phase]
-			unique_types_reff = np.unique(trial_types)
+			trial_types = self.trials_types_by_phase[phase]	 
+			unique_types_reff = pd.Series(trial_types).unique()
 			for trial in trial_types:
 				self.sentence_trial_reffs_by_phase[phase].sentences_instances.append(trial.sentences[trial.index])
 				trial.index += 1
@@ -415,7 +415,7 @@ class MainAudioProcessor(object):
 						# adding practice catch trials
 			index_practice_2_strat_trial = int(self.n_practice_trials*0.75)
 			index_practice_2_end_trial = self.n_practice_trials
-			practice_with_catch = range(index_practice_2_strat_trial, index_practice_2_end_trial)
+			practice_with_catch = list(range(index_practice_2_strat_trial, index_practice_2_end_trial))
 			catch_counter = 0
 			for prac_catch_index in practice_with_catch:
 				catch = TrialType("prac_{}-Catch Trial".format(str(prac_catch_index+1)))
@@ -477,7 +477,7 @@ class MainAudioProcessor(object):
 	def _check_no_consecutive_trials(self, all_trials):
 		# add practice non-catch trials in the begining
 		counter = 0
-		for i in range(len(all_trials)): 
+		for i in list(range(len(all_trials))): 
 			if all_trials[i] !=0: 
 				if i+1 != len(all_trials):
 					if all_trials[i+1] != 0:
@@ -498,7 +498,7 @@ class MainAudioProcessor(object):
 		for sentence in self.audio_files_list:
 			sentences_nums.append(self._get_sentence_num(sentence))
 		
-		for i in range(len(self.audio_df)):
+		for i in list(range(len(self.audio_df))):
 			text = self.audio_df.loc[i, SENTENCE_TEXT]
 			valence = self.audio_df.loc[i, SENTENCE_VALENCE]
 			num_in_excel = self.audio_df.loc[i, SENTENCE_NUM]
@@ -574,7 +574,7 @@ class TrialType(object):
 
 class Sentence(object):	
 	def __init__(self, text, valence, num, num_in_excel, file_path, sentence_length):
-		self.text = unicode(text)
+		self.text = u"" + text
 		self.valence = valence
 		self.num = num
 		self.num_in_excel = num_in_excel

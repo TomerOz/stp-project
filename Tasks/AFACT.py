@@ -11,9 +11,9 @@ from PIL import Image, ImageTk
 import winsound
 import numpy as np
 
-from Data import SubjectData
-from DCT import DctTask, TaskData
-from OpeningMenu import Menu
+from .Data import SubjectData
+from .DCT import DctTask, TaskData
+from .OpeningMenu import Menu
 
 ## Afact specific constants
 MAIN_FRAME = 'afact_frame'
@@ -65,7 +65,7 @@ class AfactGui(object):
 		self.feedback_canvas.create_text(self.x_middle,self.top_space-20,fill="lightblue",font="Thaoma 14 bold",text=u"הטיה גבוה")
 		self.feedback_canvas.create_text(self.x_middle,bottom_space+20,fill="lightblue",font="Thaoma 14 bold",text=u"ללא הטיה")
 		self.length_of_feedback = self.height - 2*(self.tick_space)
-		self.range_of_feedback = range(self.length_of_feedback)
+		self.range_of_feedback = list(range(self.length_of_feedback))
 		
 		self.feedback_canvas.pack()
 				

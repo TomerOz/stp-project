@@ -7,10 +7,10 @@ import ipdb
 #import soundfile as sf
 import time
 from playsound import playsound
-from Data import DichoticSubjectData
+from .Data import DichoticSubjectData
 import random
 
-from params import *
+from .params import *
 #*#*#*#moved to params 
 # MAIN_FRAME = 'm_frame'
 # BACKGROUND_COLOR = 'black'
@@ -279,7 +279,7 @@ class DichoticTaskData(object):
 			# Temporary data saving
 			self.dst.create_df()
 			
-			print "Chunk {} Ended".format(str(self.chunk-1))
+			#print "Chunk {} Ended".format(str(self.chunk-1))
 			
 			block_break = 0
 			if self.chunk == self.dichotic_data_manager.n_of_chunks+1:
@@ -295,7 +295,7 @@ class DichoticTaskData(object):
 			pass
 		
 	def next_block(self):
-		print "Chunk {} Ended"
+		#print "Chunk {} Ended"
 		self.chunk = 1
 		self.block += 1
 		
@@ -320,7 +320,7 @@ class DichoticTaskData(object):
 	
 	def play_neu_sentence(self):	
 		self.real_trials_neu_start_time = 	time.time()
-		print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
+		#print "neu - ",self.neu_trial, " ---- ", self.current_neu_sentence.num
 		neu_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neu_sentence.file_path
 		sound_neu = pg.mixer.Sound(neu_sentence_sound_path)
 		self.neu_channel.play(sound_neu)
@@ -334,7 +334,7 @@ class DichoticTaskData(object):
 	
 	def play_neg_sentence(self):
 		self.real_trials_neg_start_time = 	time.time()
-		print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
+		#print "neg - ",self.neg_trial, " ---- ", self.current_neg_sentence.num
 		neg_sentence_sound_path = self.data_manager.sentence_inittial_path + '\\' + self.current_neg_sentence.file_path
 		sound_neg = pg.mixer.Sound(neg_sentence_sound_path)
 		self.neg_channel.play(sound_neg)

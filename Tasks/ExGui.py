@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import Tkinter as tk
+import tkinter as tk
 from PIL import Image, ImageTk
 import ctypes
 

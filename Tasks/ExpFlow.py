@@ -13,4 +13,4 @@ class Flow(object):
 				self.tasks_lambdas_list[self.current_index]()
 				self.current_index += 1
 			else:
-				print "The End"
+				print("The End")
