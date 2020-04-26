@@ -3,6 +3,12 @@ import pandas as pd
 import time
 import ipdb
 
+
+#to params
+#builds on the response key to be right/left arrows.
+DICHOTIC_LEFT_KEYSYM = 'Left'
+DICHOTIC_RIGHT_KEYSYM = 'Right'
+
 class SubjectData(object):
 
 	def __init__(self, full_data_path=""):
@@ -196,10 +202,10 @@ class DichoticSubjectData(object):
 		# Adding time stamp and pressed key on the intersection between trial start and end that corresponds to the time stamp
 		for i, response_t in enumerate(self.trial_response_time):
 			response_key = self.trial_response[i]
-			if response_key == "Left":
+			if response_key == DICHOTIC_LEFT_KEYSYM: 
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left"] = response_key
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left_time"] = response_t
-			elif response_key == "Right":
+			elif response_key == DICHOTIC_RIGHT_KEYSYM:
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right"] = response_key
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right_time"] = response_t
 				
