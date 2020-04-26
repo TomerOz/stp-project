@@ -1,16 +1,21 @@
 import random
 import ipdb
 
-DEFAULT_NUMBER_OF_BLOCKS = 3
-DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
-DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
-DEFAULT_NUMBER_OF_N_BACK = 2
+from .. import params 
+
+# To Params:
+# DEFAULT_NUMBER_OF_BLOCKS = 3
+# DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
+# DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
+# DEFAULT_NUMBER_OF_N_BACK = 2
+# N_TRIALS_PRACTICE_ONE = 7
+# N_TRIALS_PRACTICE_TWO = 6
 
 class DichoticTrialsManager(object):
 	def __init__(
 					self, gui, flow, data_manager, dichotic_name_str, 
 					n_of_chunks=None, n_of_unique_sentnces=None,
-					n_trials_practice_one=7, n_trials_practice_two=6,
+					n_trials_practice_one=N_TRIALS_PRACTICE_ONE, n_trials_practice_two=N_TRIALS_PRACTICE_TWO,
 					):
 		
 		self.data_manager = data_manager

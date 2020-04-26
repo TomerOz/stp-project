@@ -5,31 +5,40 @@ import ipdb
 import copy
 import numpy as np
 
-PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-AUDIO_FILES_DIRECTORY = 'audio_files_wav'
+from .. import params 
+
+# # PARAMS:
+# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+# AUDIO_FILES_DIRECTORY = 'audio_files_wav'
 
 
-# sentences excel column names
-LENGTH_COL = 'length'
-SENTENCE_TEXT = 'sentContent'
-SENTENCE_VALENCE = 'SentenceType'
-SENTENCE_NUM = 'TAPlistNumber'
-SENTENCE = 'sentence'
+# # sentences excel column names
+# LENGTH_COL = 'length'
+# SENTENCE_TEXT = 'sentContent'
+# SENTENCE_VALENCE = 'SentenceType'
+# SENTENCE_NUM = 'TAPlistNumber'
+# SENTENCE = 'sentence'
 
-ONE_MILISCOND = 1000
-MILISECONDS_BEFORE_END = 500
+# ONE_SECOND = 1000
+# MILISECONDS_BEFORE_END = 500
 
-# task properties
-NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
-NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
+# # task properties
+# NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
+# NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
-AFACT_PHASE = "afact_phase"			# in console we must use these contants
-DICHOTIC_PHASE = "dichotic_phase"
+# AFACT_PHASE = "afact_phase"			# in console we must use these contants
+# DICHOTIC_PHASE = "dichotic_phase"
 
-# Instruction pointers
-BEGINING_OF_TAKS  = 0
-AFTER_PRACTICE_1  = 6
-AFTER_PRACTICE_2  = 11
+# # Instruction pointers
+# BEGINING_OF_TAKS  = 0
+# AFTER_PRACTICE_1  = 6
+# AFTER_PRACTICE_2  = 11
+
+# # THE FOLLOWINGS SPECIFIES "DEFAULS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
+# DEFAULT_N_PRACTICE_TRIALS = 8
+# DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
+# DEFAULT_N_START_NEUTRAL_TRIALS = 4
+# DEFAULT_N_BLOCK_PER_PHASE = 2
 
 class MainAudioProcessor(object):
 	
@@ -54,17 +63,17 @@ class MainAudioProcessor(object):
 		self.first_phase = "Baseline"
 		
 		if n_practice_trials == None:
-			self.n_practice_trials=8
+			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
 		else:
 			self.n_practice_trials = n_practice_trials
 		
 		if precent_of_catch_trials==None:
-			self.precent_of_catch_trials = 1.0/8.0
+			self.precent_of_catch_trials = DEFAULT_CATCH_TRIALS_RATIO
 		else:
 			self.precent_of_catch_trials = precent_of_catch_trials
 		
 		if n_start_neutral_trials==None:
-			self.n_start_neutral_trials = 4 # real data trials
+			self.n_start_neutral_trials = DEFAULT_N_START_NEUTRAL_TRIALS # real data trials
 		else:
 			self.n_start_neutral_trials = n_start_neutral_trials
 		
@@ -76,12 +85,12 @@ class MainAudioProcessor(object):
 		if n_block_per_phase==None:
 			self.n_block_per_phase = {} # means that all phases have two blocks
 			for phase in self.phases_names:
-				self.n_block_per_phase[phase] = 2
+				self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE
 		else:
 			self.n_block_per_phase = n_block_per_phase 
 			for phase in self.phases_names:
 				if not phase in self.n_block_per_phase:
-					self.n_block_per_phase[phase] = 2 # means that all phases that where not specified, are of two phases
+					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of two phases
 		
 		if self.dichotic_phase != None: # a dichotic task is requested by user
 			self.n_dichotic_trials = self.n_trials_by_phase[self.dichotic_phase] # saving a refference to the requsted n
@@ -560,7 +569,7 @@ class Sentence(object):
 		self.num = num
 		self.num_in_excel = num_in_excel
 		self.file_path = file_path
-		self.sentence_length = sentence_length*ONE_MILISCOND # in miliseconds
+		self.sentence_length = sentence_length*ONE_SECOND # in miliseconds
 		self.digit_que = int(self.sentence_length-MILISECONDS_BEFORE_END) # time of sentence start
 		self.is_practice = False
 

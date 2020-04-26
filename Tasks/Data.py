@@ -3,6 +3,12 @@ import pandas as pd
 import time
 import ipdb
 
+
+#to params
+#builds on the response key to be right/left arrows.
+DICHOTIC_LEFT_KEYSYM = 'Left'
+DICHOTIC_RIGHT_KEYSYM = 'Right'
+
 class SubjectData(object):
 
 	def __init__(self, full_data_path=""):
@@ -23,6 +29,7 @@ class SubjectData(object):
 		self.catch_trial_types = []
 		self.sentence_instances = [] # valence, text, path, duration etc....
 		self.experimental_phase = []
+		self.trials_phases = [] # practice or real trials
 		
 		# unpacked sentence properties:
 		self.sentences_valence = []
@@ -43,6 +50,7 @@ class SubjectData(object):
 		block = package.current_block
 		trial_type = self._classify_trial(package.is_catch_trial)
 		
+		
 		last_key = package.last_key_pressed # last key press
 		was_correct = package.last_trial_classification # was last trial correct or not
 		last_rt = package.last_RT # last trial rt
@@ -60,6 +68,9 @@ class SubjectData(object):
 		self.subject_col.append(self.subject)
 		self.gender_col.append(self.gender)
 		self.group_col.append(self.group)
+		self.trials_phases.append(package.current_trial_type_intance.trial_phase)
+		
+		
 		
 		if trial_type == 'catch':
 			self.catch_trial_types.append(package.correct)
@@ -68,7 +79,7 @@ class SubjectData(object):
 		
 		self.sentence_instances.append(sentence)
 		self.unpack_sentences_data(sentence)
-	
+			
 	def _classify_trial(self, is_catch_trial):
 		if is_catch_trial:
 			return 'catch'
@@ -94,7 +105,7 @@ class SubjectData(object):
 		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
 					'block', 'is correct', 'key pressed', 'RT', 'valence',
 					'text', 'duration', 'path', 'sentence num',
-					'num shown', 'gender', 'group']
+					'num shown', 'gender', 'group', 'trials_phases']
 					
 		rows = [
 					self.subject_col			,
@@ -114,6 +125,7 @@ class SubjectData(object):
 					self.nums_shown_types		,
 					self.gender_col				,
 					self.group_col				,
+					self.trials_phases			,
 				]
 				
 		for i,r in enumerate(rows):
@@ -190,10 +202,10 @@ class DichoticSubjectData(object):
 		# Adding time stamp and pressed key on the intersection between trial start and end that corresponds to the time stamp
 		for i, response_t in enumerate(self.trial_response_time):
 			response_key = self.trial_response[i]
-			if response_key == "Left":
+			if response_key == DICHOTIC_LEFT_KEYSYM: 
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left"] = response_key
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Left_time"] = response_t
-			elif response_key == "Right":
+			elif response_key == DICHOTIC_RIGHT_KEYSYM:
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right"] = response_key
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right_time"] = response_t
 				
