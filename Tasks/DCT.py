@@ -14,7 +14,7 @@ from Data import SubjectData
 import params
 
 #moved to params
-# # sentences directories and files names
+# sentences directories and files names
 # SENTENCE_NAME_COL = 'sentence_name'
 # SUBJECT = 'subject'
 # GROUP = 'group'
