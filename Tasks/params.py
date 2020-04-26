@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+##TODO - to add desctiption 
+
 #Console
 
 AUDIOPATH = r'Subjects'
@@ -25,9 +27,9 @@ N_AFACT_TRIALS = 20
 N_DICHOTIC_TRIALS = 20
 N_PRACTICE_TRIALS = 8
 
+
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #Task audio data manager 
-##TODO - to add desctiption 
 
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AUDIO_FILES_DIRECTORY = 'audio_files_wav'
@@ -70,18 +72,25 @@ SUBJECT = 'subject'
 GROUP = 'group'
 GENDER = 'gender'
 
-#DCT gui properties
-BACKGROUND = "black"
-FOREGROUND = "white"
+FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
+PRACTICE_FEEDBACK_DURATAION = 300
+ONE_SECOND = 1000
+MILISECONDS_BEFORE_END = 500
+MIN_DIGIT = 1
+MAX_DIGIT = 8
+BLOCK_CHANGE_WAIT_TIME = 3000
+CATCH_TRIAL_RESPONSE_DELAY = 500
+DCT_STIMULI = u'XXX'
 CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
 DCT_STIMULI_FONT = "david 50 bold"
-DCT_STIMULI = u'XXX'
-FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
-FEEDBACK_COLOR_DURATAION = 300
-ONE_MILISCOND = 1000
-MILISECONDS_BEFORE_END = 500
 RIGHT ='r'
 LEFT = 'l'
+RIGHT_RESPONSE_KEY = "<Shift_R>" #even
+LEFT_RESPONSE_KEY = "<Shift_L>" #odd
+
+#DCT gui properties 
+BACKGROUND = "black"
+FOREGROUND = "white"
 CORRECT = "green"
 WRONG = "red"
 FRAME_1 = "first"
@@ -113,11 +122,13 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
 FIXATION_STIMULI = '+'
 
+DICHOTIC_RIGHT_KEY = "<Right>"
+DICHOTIC_LEFT_KEY = "<Left>"
 
 FIXATION_FONT = 'david 64 bold'
 BLOCK_BREAK_TIME = 10000
 CHUNK_NEU_START_DELAY	= 0
-CHUNK_NEG_START_DELAY	= 500
+CHUNK_NEG_START_DELAY	= 0 #no delay
 CHUNCK_BLOCK_CHANGE_WAIT_TIME = 1000
 BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
 BETWEEN_SENTENCES_DELAY = 300
@@ -133,4 +144,9 @@ DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
 DEFAULT_NUMBER_OF_N_BACK = 2
 N_TRIALS_PRACTICE_ONE = 7
 N_TRIALS_PRACTICE_TWO = 6
+
+#Data 
+#builds on the response key to be right/left arrows. (keysym - TK)
+DICHOTIC_LEFT_KEYSYM = 'Left'
+DICHOTIC_RIGHT_KEYSYM = 'Right'
 

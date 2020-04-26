@@ -20,7 +20,7 @@ import params
 # GROUP = 'group'
 # GENDER = 'gender'
 
-# # To Params:
+# To Params:
 # FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
 # PRACTICE_FEEDBACK_DURATAION = 300
 # ONE_SECOND = 1000
