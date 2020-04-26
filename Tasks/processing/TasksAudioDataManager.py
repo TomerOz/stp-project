@@ -359,7 +359,7 @@ class MainAudioProcessor(object):
 		for phase in self.trials_types_by_phase:
 			if self.n_block_per_phase[phase] > 1: 
 				trials = self.trials_types_by_phase[phase]
-				change_block_trial = int(round((len(trials)-1)/2.0))
+				change_block_trial = self.n_practice_trials + int(round((len(trials)-1 - self.n_practice_trials)/2.0))
 				# following lines asures that change block trial type wouldn't be 
 				# 	before feedback or catch.
 				correction_counter = 0
@@ -538,7 +538,8 @@ class TrialType(object):
 		self.sentences = []
 		
 		# trial type boolean
-		self.trial_phase = "Real Trial"
+		self.trial_phase 			=   "Real Trial"
+		self.is_normal_trial 		= 	True
 		self.is_change_block_trial 	= 	False
 		self.is_afact_feedback 		= 	False
 		self.is_catch 				=	False 

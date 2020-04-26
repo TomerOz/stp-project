@@ -67,7 +67,8 @@ def main():
 										n_practice_trials=N_PRACTICE_TRIALS,
 										phases_without_catch_trials = AFACT_PHASE,
 										dichotic_phase = DICHOTIC_PHASE_STR,
-										# define --> n_block_per_phase = {task : n of blocks}
+										n_block_per_phase = {"Baseline" : 2},
+										# define --> n_block_per_phase = {phase_name : n_of_blocks}
 										# in order to control ammount of blocks for a specific phase
 										)
 	
