@@ -19,7 +19,7 @@ from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
 
-from Tasks import params 
+from Tasks.params import *
 
 # AUDIOPATH = r'Subjects'
 # IMAGEPATH = r'Instructions_Pictures'
@@ -67,6 +67,8 @@ def main():
 										n_practice_trials=N_PRACTICE_TRIALS,
 										phases_without_catch_trials = AFACT_PHASE,
 										dichotic_phase = DICHOTIC_PHASE_STR,
+										# define --> n_block_per_phase = {task : n of blocks}
+										# in order to control ammount of blocks for a specific phase
 										)
 	
 	dichotic_task_gui = DichoticOneBack(gui, exp)

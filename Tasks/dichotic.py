@@ -10,8 +10,7 @@ from playsound import playsound
 from Data import DichoticSubjectData
 import random
 
-import params
-
+from params import *
 #*#*#*#moved to params 
 # MAIN_FRAME = 'm_frame'
 # BACKGROUND_COLOR = 'black'
@@ -307,8 +306,9 @@ class DichoticTaskData(object):
 		self.change_chunk_ear()
 		self.task_gui._show_task_main_frame()
 		
-		self.gui.after(self.chunk_neu_start_delay, self.play_neu_sentence)
-		self.gui.after(self.chunk_neg_start_delay, self.play_neg_sentence)
+		self.gui.after(self.chunk_neu_start_delay + CHUNK_INITIAL_SILENCE, self.play_neu_sentence)
+		self.gui.after(self.chunk_neg_start_delay + CHUNK_INITIAL_SILENCE, self.play_neg_sentence)
+		# CHUNK_INITIAL_SILENCE is currently set on 0 if set on what ever needed in params
 	
 	def next_neu_trial(self):
 		self.neu_trial += 1

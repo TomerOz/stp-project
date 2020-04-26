@@ -5,7 +5,8 @@ import ipdb
 import copy
 import numpy as np
 
-from .. import params 
+from Tasks.params import *
+
 
 # # PARAMS:
 # PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
@@ -256,8 +257,10 @@ class MainAudioProcessor(object):
 			if i < self.n_practice_trials/2:
 				# making sure first four have feedback and the rest doesn't
 				dc.is_practice = True
+				dc.trial_phase = "practice 1"
 			else:
 				dc.is_practice = False
+				dc.trial_phase = "practice 2"
 			practice_trials_sentences.append(dc)
 		
 		# Saving final values
@@ -419,9 +422,15 @@ class MainAudioProcessor(object):
 				catch.is_catch = True
 				catch.is_normal_trial = False
 				self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
+				# Ctach sentence is currently always the one before catch trials - thus always correct
 				catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
+				catch.catch_type = True # stands for correct catch trials
+				
 				self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
 				catch_counter += 1
+				
+								
+				
 			
 	def insert_instructions_trial_types(self):
 		# absolute numbers of instructions that build on 8 practice trials
@@ -529,7 +538,7 @@ class TrialType(object):
 		self.sentences = []
 		
 		# trial type boolean
-		self.is_normal_trial 		= 	True
+		self.trial_phase = "Real Trial"
 		self.is_change_block_trial 	= 	False
 		self.is_afact_feedback 		= 	False
 		self.is_catch 				=	False 

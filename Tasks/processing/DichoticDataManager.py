@@ -1,7 +1,7 @@
 import random
 import ipdb
 
-from .. import params 
+from ..params import *
 
 # To Params:
 # DEFAULT_NUMBER_OF_BLOCKS = 3

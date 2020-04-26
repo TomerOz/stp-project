@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 import winsound
 
 from Data import SubjectData
-import params
+from params import *
 
 #moved to params
 # sentences directories and files names
@@ -274,7 +274,10 @@ class TaskData(object):
 		
 		self.ammount_of_experimental_trials = len(self.trials_types_by_phase) - self.data_manager.n_practice_trials # excluding practice trials
 		self.total_ammount_of_trials =  len(self.trials_types_by_phase) # including practice
-		self.change_block_trial = self.data_manager.change_block_trials_by_phase[self.phase]
+		if self.phase in self.data_manager.change_block_trials_by_phase:
+			self.change_block_trial = self.data_manager.change_block_trials_by_phase[self.phase]
+		else: # in case of onlu one block
+			self.change_block_trial = None
 		# sd is a subject data instance
 		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
 		
@@ -320,7 +323,8 @@ class TaskData(object):
 		self.correct = self.current_trial_type_intance.catch_type
 		self.last_trial_classification = was_correct
 		self.last_key_pressed = key_pressed 
-		self.is_normal_trial = self.current_trial_type_intance.is_normal_trial
+		self.trial_phase = self.current_trial_type_intance.trial_phase
+
 		
 		# saving data 
 		self.sd.push_data_packge(self) 	
