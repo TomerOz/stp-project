@@ -10,6 +10,7 @@ IMAGEPATH = r'Instructions_Pictures'
 IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
+IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
 IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
 IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
@@ -21,11 +22,13 @@ PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data a
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'
 
-N_BASELINE_TRIALS = 10
-N_POST_TRIALS = 10
+
+# controls ammount of truals of the different phases
+N_BASELINE_TRIALS = 20 # in digit baseline
+N_POST_TRIALS = 10 # in digit post intervention
 N_AFACT_TRIALS = 20
-N_DICHOTIC_TRIALS = 20
-N_PRACTICE_TRIALS = 8
+N_DICHOTIC_TRIALS = 20 
+N_PRACTICE_TRIALS = 8 # in digit and afact
 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
@@ -57,11 +60,11 @@ BEGINING_OF_TAKS  = 0
 AFTER_PRACTICE_1  = 6
 AFTER_PRACTICE_2  = 11
 
-# THE FOLLOWINGS SPECIFIES "DEFAULS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
+# THE FOLLOWINGS SPECIFIES "DEFAULTS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
 DEFAULT_N_PRACTICE_TRIALS = 8
 DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
 DEFAULT_N_START_NEUTRAL_TRIALS = 4
-DEFAULT_N_BLOCK_PER_PHASE = 2
+DEFAULT_N_BLOCK_PER_PHASE = 1
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
@@ -130,6 +133,7 @@ FIXATION_FONT = 'david 64 bold'
 BLOCK_BREAK_TIME = 10000
 CHUNK_NEU_START_DELAY	= 0
 CHUNK_NEG_START_DELAY	= 0 #no delay
+CHUNK_INITIAL_SILENCE  	= 0 # TODO - chekc if it is also in Iftach's
 CHUNCK_BLOCK_CHANGE_WAIT_TIME = 1000
 BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
 BETWEEN_SENTENCES_DELAY = 300

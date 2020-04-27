@@ -1,7 +1,7 @@
 import random
 import ipdb
 
-from .. import params 
+from ..params import *
 
 # To Params:
 # DEFAULT_NUMBER_OF_BLOCKS = 3
@@ -80,13 +80,13 @@ class DichoticTrialsManager(object):
 		
 	def build_chunk_dic(self):
 		chunk_dic={}
-		for i in range(self.n_of_chunks):
+		for i in list(range(self.n_of_chunks)):
 			chunk_dic[i+1]={} #build 4 keys for 4 chunks
 		for num_chunk in chunk_dic.keys(): #adding the values = 
-			neg_number_lst = random.sample(range(self.n_of_neg_dichotics),self.n_of_unique_sentnces) #10 random numbers (sentences) from 1-20
-			neu_number_lst = random.sample(range(self.n_of_neu_dichotics),self.n_of_unique_sentnces)
-			OneBackNeg_index_lst = random.sample(range(2,self.n_of_unique_sentnces,2), self.n_one_back) #2 random index from 2 to 19. repeatition from the third sentence.   
-			OneBackNeu_index_lst = random.sample(range(2,self.n_of_unique_sentnces,2), self.n_one_back) #2 random index from 2 to 19. repeatition from the third sentence.   
+			neg_number_lst = random.sample(list(range(self.n_of_neg_dichotics)),self.n_of_unique_sentnces) #10 random numbers (sentences) from 1-20
+			neu_number_lst = random.sample(list(range(self.n_of_neu_dichotics)),self.n_of_unique_sentnces)
+			OneBackNeg_index_lst = random.sample(list(range(2,self.n_of_unique_sentnces,2)), self.n_one_back) #2 random index from 2 to 19. repeatition from the third sentence.   
+			OneBackNeu_index_lst = random.sample(list(range(2,self.n_of_unique_sentnces,2)), self.n_one_back) #2 random index from 2 to 19. repeatition from the third sentence.   
 			#OneBack - insert duplication of 2 indexes in neg/neu sentences lists. 
 			[neg_number_lst.insert(i,neg_number_lst[i]) for i in OneBackNeg_index_lst]
 			[neu_number_lst.insert(i,neu_number_lst[i]) for i in OneBackNeu_index_lst]
@@ -98,7 +98,7 @@ class DichoticTrialsManager(object):
 			
 	def create_blocks_of_sentneces_instances(self):
 		# trial_types = TrialType()
-		for i in range(self.n_blocks):
+		for i in list(range(self.n_blocks)):
 			block_dict = self.build_chunk_dic()
 			for chunk in block_dict:
 				for i, pointer in enumerate(block_dict[chunk]['neg']):
@@ -110,7 +110,7 @@ class DichoticTrialsManager(object):
 			self.blocks_dicts.append(block_dict)
 			
 	def create_list_of_chanks_ears_volumes(self): #[0,0,1,1] - for 4 chanks, each is 0 or 1 is for left_neg
-			list_of_chanks_ears = [0]*(self.n_of_chunks/2) + [1]*(self.n_of_chunks/2)
+			list_of_chanks_ears = [0]*(int(self.n_of_chunks/2)) + [1]*(int(self.n_of_chunks/2))
 			random.shuffle(list_of_chanks_ears)
 			self.list_of_chanks_ears_volumes = list_of_chanks_ears
 

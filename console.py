@@ -19,7 +19,7 @@ from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
 
-from Tasks import params 
+from Tasks.params import *
 
 # AUDIOPATH = r'Subjects'
 # IMAGEPATH = r'Instructions_Pictures'
@@ -67,6 +67,9 @@ def main():
 										n_practice_trials=N_PRACTICE_TRIALS,
 										phases_without_catch_trials = AFACT_PHASE,
 										dichotic_phase = DICHOTIC_PHASE_STR,
+										n_block_per_phase = {"Baseline" : 2},
+										# define --> n_block_per_phase = {phase_name : n_of_blocks}
+										# in order to control ammount of blocks for a specific phase
 										)
 	
 	dichotic_task_gui = DichoticOneBack(gui, exp)
@@ -90,6 +93,8 @@ def main():
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 	
+	instructions_end_of_experiment = Instructions(gui, exp, flow, IMAGEPATH_END_OF_EXPERIMENT)# controls instructions gui and flow
+	
 	tasks = [
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
@@ -97,6 +102,9 @@ def main():
 				
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),
+				
+				lambda: instructions_end_of_experiment.start_instrunctions(),
+				
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),
 				lambda: instructions_dct_3.start_instrunctions(),

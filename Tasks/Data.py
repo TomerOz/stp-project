@@ -68,7 +68,7 @@ class SubjectData(object):
 		self.subject_col.append(self.subject)
 		self.gender_col.append(self.gender)
 		self.group_col.append(self.group)
-		self.trials_phases.append(package.current_trial_type_intance.trial_phase)
+		self.trials_phases.append(package.trial_phase)
 		
 		
 		
