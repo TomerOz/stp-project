@@ -110,7 +110,7 @@ class DichoticTrialsManager(object):
 			self.blocks_dicts.append(block_dict)
 			
 	def create_list_of_chanks_ears_volumes(self): #[0,0,1,1] - for 4 chanks, each is 0 or 1 is for left_neg
-			list_of_chanks_ears = [0]*(self.n_of_chunks/2) + [1]*(self.n_of_chunks/2)
+			list_of_chanks_ears = [0]*(int(self.n_of_chunks/2)) + [1]*(int(self.n_of_chunks/2))
 			random.shuffle(list_of_chanks_ears)
 			self.list_of_chanks_ears_volumes = list_of_chanks_ears
 

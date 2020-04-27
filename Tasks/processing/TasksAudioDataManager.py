@@ -139,8 +139,6 @@ class MainAudioProcessor(object):
 		if self.dichotic_phase != None:
 			self.arrange_dichotic_sentences()
 		
-		ipdb.set_trace()
-		
 	def arrange_dichotic_sentences(self):
 		''' returns the sentences instances relevant to the dichotic task'''
 		# Forcing len of dichotic trials to no more then maximum ammount of negative sentences

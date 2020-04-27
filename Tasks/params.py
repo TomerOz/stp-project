@@ -10,6 +10,7 @@ IMAGEPATH = r'Instructions_Pictures'
 IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
+IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
 IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
 IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'

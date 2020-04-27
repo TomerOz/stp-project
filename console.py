@@ -93,6 +93,8 @@ def main():
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 	
+	instructions_end_of_experiment = Instructions(gui, exp, flow, IMAGEPATH_END_OF_EXPERIMENT)# controls instructions gui and flow
+	
 	tasks = [
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
@@ -100,6 +102,9 @@ def main():
 				
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),
+				
+				lambda: instructions_end_of_experiment.start_instrunctions(),
+				
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),
 				lambda: instructions_dct_3.start_instrunctions(),
