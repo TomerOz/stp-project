@@ -82,6 +82,8 @@ def main():
 	instructions_dichotic_2 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
 	instructions_dichotic_3 = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC)# controls instructions gui and flow
 	instructions_dichotic_break = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_BREAK)# controls instructions gui and flow
+	instructions_dichotic_end = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_END)# controls instructions gui and flow
+	
 	
 	
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
@@ -104,6 +106,7 @@ def main():
 				lambda: dct_training.start_task(),
 				
 				lambda: instructions_end_of_experiment.start_instrunctions(),
+				lambda: instructions_end_of_experiment.instructions_dichotic_end(),
 				
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),
@@ -117,6 +120,8 @@ def main():
 				#lambda: dichotic_task_data.second_practice(),
 				#lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
+				lambda: instructions_end_of_experiment.instructions_dichotic_end(),
+				lambda: instructions_end_of_experiment.start_instrunctions(),
 				# insert here some silence
 			
 				
