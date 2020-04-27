@@ -232,7 +232,7 @@ class Experiment(object):
 				type(self).LABELS_BY_FRAMES[frame_name] = {label_name : label}
 		
 		elif image_label == True:
-			label_with_image = tk.Label(type(self).ALL_FRAMES[frame_name], image=label_image, bg = 'gray')
+			label_with_image = tk.Label(type(self).ALL_FRAMES[frame_name], image=label_image, bg = 'black')
 			label_with_image.image = label_image
 			if frame_name in type(self).ALL_FRAMES.keys():
 				type(self).LABELS_BY_FRAMES[frame_name][label_name] = label_with_image

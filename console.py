@@ -86,6 +86,7 @@ def main():
 	
 	
 	
+	
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE_STR)
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
@@ -94,6 +95,8 @@ def main():
 	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
+	
+	instructions_digit_end = Instructions(gui, exp, flow, IMAGEPATH_DIGIT_END)# controls instructions gui and flow
 	
 	instructions_end_of_experiment = Instructions(gui, exp, flow, IMAGEPATH_END_OF_EXPERIMENT)# controls instructions gui and flow
 	
@@ -106,7 +109,7 @@ def main():
 				lambda: dct_training.start_task(),
 				
 				lambda: instructions_end_of_experiment.start_instrunctions(),
-				lambda: instructions_end_of_experiment.instructions_dichotic_end(),
+				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),

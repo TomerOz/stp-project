@@ -10,8 +10,9 @@ IMAGEPATH = r'Instructions_Pictures'
 IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
-IMAGEPATH_DICHOTIC_END = r'C:\Users\HP\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\DichoticInst4'
 
+IMAGEPATH_DICHOTIC_END = r"C:\Users\HP\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
+IMAGEPATH_DIGIT_END =  r"C:\Users\HP\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
 
 IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
@@ -27,7 +28,7 @@ DICHOTIC_PHASE_STR = 'dichotic_phase'
 
 
 # controls ammount of truals of the different phases
-N_BASELINE_TRIALS = 20 # in digit baseline
+N_BASELINE_TRIALS = 10 # in digit baseline
 N_POST_TRIALS = 10 # in digit post intervention
 N_AFACT_TRIALS = 20
 N_DICHOTIC_TRIALS = 20 

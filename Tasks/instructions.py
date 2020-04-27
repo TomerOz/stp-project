@@ -15,7 +15,14 @@ class Instructions(object):
 		self.imagepath = imagepath
 		self.instruction_pics = os.listdir(self.imagepath)
 		
-	def start_instrunctions(self):
+		
+	def start_instrunctions(self, break_time=None):
+		# defining break time
+		if break_time == None:
+			self.break_time = 0
+		else:
+			self.break_time = break_time
+			
 		self.current_pic = 0 # for reset
 		self.gui.bind("<space>", self.next_pic)
 		self.gui.bind("<space>", self.next_pic)
@@ -27,6 +34,7 @@ class Instructions(object):
 		self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
 		
 		self.exp.display_frame("instructions_f", ["instructions_l"])
+		
 	
 	def show_message(self, text):
 		self.exp.LABELS_BY_FRAMES["instructions_f"]["instructions_l"].destroy()	
@@ -64,5 +72,13 @@ class Instructions(object):
 			self.exp.display_frame("instructions_f", ["instructions_l"])
 		else:
 			self.gui.unbind("<space>")
-			self.exp.hide_frame("instructions_f")
-			self.flow.next()
+			if self.break_time == 0:
+				self.exp.hide_frame("instructions_f")
+				self.flow.next()
+			else:
+				self.gui.after(self.break_time, lambda: self.gui.bind("<space>", self.flow.next))
+				self.gui.after(self.break_time, lambda: self.exp.hide_frame("instructions_f"))
+				
+				
+				
+			
