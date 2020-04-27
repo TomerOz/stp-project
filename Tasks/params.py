@@ -66,7 +66,7 @@ DEFAULT_N_BLOCK_PER_PHASE = 2
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 #DCT
-DEFAULS_N_BLOCK_PER_PHASE = 1
+DEFAULS_N_BLOCK_PER_PHASE = 1 #for AFACT. 
 # sentences directories and files names
 SENTENCE_NAME_COL = 'sentence_name'
 SUBJECT = 'subject'
