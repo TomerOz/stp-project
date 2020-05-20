@@ -7,40 +7,6 @@ import numpy as np
 
 from Tasks.params import *
 
-
-# # PARAMS:
-# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-# AUDIO_FILES_DIRECTORY = 'audio_files_wav'
-
-
-# # sentences excel column names
-# LENGTH_COL = 'length'
-# SENTENCE_TEXT = 'sentContent'
-# SENTENCE_VALENCE = 'SentenceType'
-# SENTENCE_NUM = 'TAPlistNumber'
-# SENTENCE = 'sentence'
-
-# ONE_SECOND = 1000
-# MILISECONDS_BEFORE_END = 500
-
-# # task properties
-# NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
-# NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
-
-# AFACT_PHASE = "afact_phase"			# in console we must use these contants
-# DICHOTIC_PHASE = "dichotic_phase"
-
-# # Instruction pointers
-# BEGINING_OF_TAKS  = 0
-# AFTER_PRACTICE_1  = 6
-# AFTER_PRACTICE_2  = 11
-
-# # THE FOLLOWINGS SPECIFIES "DEFAULS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
-# DEFAULT_N_PRACTICE_TRIALS = 8
-# DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
-# DEFAULT_N_START_NEUTRAL_TRIALS = 4
-# DEFAULT_N_BLOCK_PER_PHASE = 2
-
 class MainAudioProcessor(object):
 	
 	def __init__(self, 
@@ -48,7 +14,7 @@ class MainAudioProcessor(object):
 						n_start_neutral_trials =None, 
 						n_trials_by_phase=None, 
 						n_practice_trials=None, 
-						phases_distribution_percent_dict=None, 
+						pre_defined_distribution_dict=None, 
 						precent_of_catch_trials=None, 
 						phases_without_catch_trials=None,
 						n_block_per_phase=None,
@@ -100,7 +66,7 @@ class MainAudioProcessor(object):
 			self.n_trials_by_phase.pop(self.dichotic_phase, None)
 			
 		
-		self.phases_distribution_percent_dict = phases_distribution_percent_dict
+		self.pre_defined_distribution_dict = pre_defined_distribution_dict
 		
 		self.trial_sentence_refetnce = None # later being created as a class instance of TrialsSentencesReff
 		
@@ -156,37 +122,91 @@ class MainAudioProcessor(object):
 		local_neurtrals = [] + self.neutral_sentences
 		local_negatives = [] + self.negatives_sentences
 		
-		n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences) / self.n_phases))
-		n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
+		'''
+		phases_names = [
+						"BASELINE",
+						"afact",
+						"post",
+						"dicotic",
+						
+						]
+						
+		pre_defined_distribution_dict = {
+										"BASELINE": 13,
+										"post": 7,
+										afact: 20
+										dicotic : 20
+											
+									}
+				
 		
+		pre_post_pairs = {
+				"BASELINE" : "Post",
+				"Afact" : None,
+				"Dichotic-pre" : "Dichotic-post",
+				}
+		'''
+		
+		post_phases_to_ignore = []	
 		for phase in self.phases_names:
 			if phase != self.dichotic_phase:
 				# Choosing the unique sentences (+ and -) for each phase
-				if self.phases_distribution_percent_dict==None:
+				if self.pre_defined_distribution_dict==None:
+					n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences) / self.n_phases))
+					n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
+				
 					sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
 					sample_negs = random.sample(local_negatives, n_per_phase_negs)
-				else:
-				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ phases_distribution_percent_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-					n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences)*self.phases_distribution_percent_dict[phase]))
-					n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences)*self.phases_distribution_percent_dict[phase]))
 					
-					sample_neus = 	random.sample(local_neurtrals, n_per_phase_neutrals)
-					sample_negs = 	random.sample(local_negatives, n_per_phase_negs)
+					
+					self.neu_sentences_by_phase[phase] = sample_neus # +
+					self.neg_sentences_by_phase[phase] = sample_negs # -
+					# Suffeling
+					random.shuffle(self.neu_sentences_by_phase[phase])
+					random.shuffle(self.neg_sentences_by_phase[phase])
+					
+					# Unifing the neutrals and negatives
+					self.sentences_by_phase[phase] = sample_neus + sample_negs
+					
+					self._create_trials_pointers_by_phase(phase)
+					
+					# Updating the local sentences lists - removing those that were sampled
+					local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
+					local_negatives = [e for e in local_negatives if e not in sample_negs]
+					
+				else:
+				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ pre_defined_distribution_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
+					if phase not in post_phases_to_ignore:
+						# check if phase has pre-post couple:
+						if pre_post_pairs[phase] != None
+						current_pre_phase = phase
+						current_post_phase = pre_post_pairs[phase]
+						post_phases_to_ignore.append(current_post_phase)
+						
+						n_pre = pre_defined_distribution_dict[self.phase]
+						n_post = pre_defined_distribution_dict[current_post_phase]
+						
+						#self.OMERS_SENTENCES_ALLOCATION_ALGORYTHM(
+						
+						elif pre_post_pairs[phase] == None:
+							current_pre_phase = phase
+							
+							self.neu_sentences_by_phase[phase] = sample_neus # +
+							self.neg_sentences_by_phase[phase] = sample_negs # -
+							# Suffeling
+							random.shuffle(self.neu_sentences_by_phase[phase])
+							random.shuffle(self.neg_sentences_by_phase[phase])
+							
+							# Unifing the neutrals and negatives
+							self.sentences_by_phase[phase] = sample_neus + sample_negs
+							
+							self._create_trials_pointers_by_phase(phase)
+							
+							# Updating the local sentences lists - removing those that were sampled
+							local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
+							local_negatives = [e for e in local_negatives if e not in sample_negs]
 				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
 				
-				self.neu_sentences_by_phase[phase] = sample_neus # +
-				self.neg_sentences_by_phase[phase] = sample_negs # -
-				# Suffeling
-				random.shuffle(self.neu_sentences_by_phase[phase])
-				random.shuffle(self.neg_sentences_by_phase[phase])
-				# Unifing the neutrals and negatives
-				self.sentences_by_phase[phase] = sample_neus + sample_negs
-				
-				self._create_trials_pointers_by_phase(phase)
-				
-				# Updating the local sentences lists - removing those that were sampled
-				local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
-				local_negatives = [e for e in local_negatives if e not in sample_negs]
 			# AT this point i have unique neus and negs per phase
 	
 	def _create_trials_pointers_by_phase(self, phase):
