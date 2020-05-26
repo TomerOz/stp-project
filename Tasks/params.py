@@ -20,8 +20,11 @@ IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\d
 IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
 IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
 IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
-	
-PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
+
+##temporary - for allocation -
+PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
+
+# PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'

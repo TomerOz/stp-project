@@ -22,7 +22,7 @@ class AudioProcessor(object):
 	def __init__(self, pre_processed_audio_data, processed_audio_df):
 		self.pre_processed_audio_data = pre_processed_audio_data
 		self.processed_audio_df = processed_audio_df
-		
+
 	def process_audio(self, subject_audio_data):
 		#new column for length of audio file
 		df = pd.read_excel(subject_audio_data + '\\' + self.pre_processed_audio_data)
@@ -53,6 +53,10 @@ class AudioProcessor(object):
 		
 		
 		df.to_excel(subject_audio_data + '\\' + self.processed_audio_df)
+
+	def phase_allocation(self,subject_audio_data): #new column with phase name
+		df = pd.read_excel(subject_audio_data + '\\' + self.pre_processed_audio_data)
+		###copy here the algorithm??
 
 def main():
 	pass
