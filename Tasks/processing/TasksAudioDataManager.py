@@ -115,99 +115,87 @@ class MainAudioProcessor(object):
 		self.neg_sentences_by_phase[self.dichotic_phase] = random.sample(self.negatives_sentences, self.n_dichotic_trials)
 	
 	def _split_senteces_to_phases(self):
-		'''
-		This functions splits the neutral and negative sentences into a requested ammount of phases
-		 IF U WAN'T THE DIFFERENT PHASES TO NOT HAVE EQUAL AMMOUNT OF UNIQUE SENTENCES JUST SAY SO AND ACT IN THIS PLACE +_+_+_+_+_+_+_+_+_+	
-		'''
-		local_neurtrals = [] + self.neutral_sentences
-		local_negatives = [] + self.negatives_sentences
+		'''the function gets a matrix for sentecnes per task and phase, and 80 subject data,
+			and allocate the sentences for each session'''
 		
-		'''
-		phases_names = [
-						"BASELINE",
-						"afact",
-						"post",
-						"dicotic",
-						
-						]
-						
-		pre_defined_distribution_dict = {
-										"BASELINE": 13,
-										"post": 7,
-										afact: 20
-										dicotic : 20
-											
-									}
-				
+		SUBJECT_DATA = self.audio_path + '\\' + r'audio_data.xlsx'
+		ALLOCATION_PLAN =  r'Sentences_Allocation_Omer.xlsx'
+
+
+		#read files
+		subject_data = pd.read_excel(SUBJECT_DATA)
+		allocation_plan = pd.read_excel(ALLOCATION_PLAN)
+
+		#@#@# To talk with Tomer if he thinks it's nesecery!
+		# #allocate even index to digit and odd to dicthotic
+		# for i in subject_data['FileNumber']:
+		#     if (i%2) == 0: #even
+		#         subject_data.at[i-1,'Tasks']= 'Digit'
+		#     else:
+		#         subject_data.at[i-1,'Tasks'] = 'Dichotic'
+
+		#read allocation plan
+		Digit_before = allocation_plan.iloc[0, 2]
+		Digit_after = allocation_plan.iloc[0, 3]
+		Digit_before_after = allocation_plan.iloc[0, 4]
+
+		Dichotic_before = allocation_plan.iloc[1, 2]
+		Dichotic_after = allocation_plan.iloc[1, 3]
+		Dichotic_before_after = allocation_plan.iloc[1, 4]
+
+		#split data to neg/neu
+		data_neg = subject_data[subject_data['SentenceType'] == 'neg']
+		data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
 		
-		pre_post_pairs = {
-				"BASELINE" : "Post",
-				"Afact" : None,
-				"Dichotic-pre" : "Dichotic-post",
-				}
-		'''
+		dic_phases_number = {}
+		n_list= [Digit_before, Digit_after, Digit_before_after, Dichotic_before, Dichotic_after, Dichotic_before_after]
 		
-		post_phases_to_ignore = []	
-		for phase in self.phases_names:
-			if phase != self.dichotic_phase:
-				# Choosing the unique sentences (+ and -) for each phase
-				if self.pre_defined_distribution_dict==None:
-					n_per_phase_neutrals = 	int(round(1.0*len(self.neutral_sentences) / self.n_phases))
-					n_per_phase_negs = 		int(round(1.0*len(self.negatives_sentences) / self.n_phases))
-				
-					sample_neus =  random.sample(local_neurtrals, n_per_phase_neutrals)
-					sample_negs = random.sample(local_negatives, n_per_phase_negs)
-					
-					
-					self.neu_sentences_by_phase[phase] = sample_neus # +
-					self.neg_sentences_by_phase[phase] = sample_negs # -
-					# Suffeling
-					random.shuffle(self.neu_sentences_by_phase[phase])
-					random.shuffle(self.neg_sentences_by_phase[phase])
-					
-					# Unifing the neutrals and negatives
-					self.sentences_by_phase[phase] = sample_neus + sample_negs
-					
-					self._create_trials_pointers_by_phase(phase)
-					
-					# Updating the local sentences lists - removing those that were sampled
-					local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
-					local_negatives = [e for e in local_negatives if e not in sample_negs]
-					
-				else:
-				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_ pre_defined_distribution_dict expected to be a dictionariy of percents (floats) +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-					if phase not in post_phases_to_ignore:
-						# check if phase has pre-post couple:
-						if pre_post_pairs[phase] != None
-						current_pre_phase = phase
-						current_post_phase = pre_post_pairs[phase]
-						post_phases_to_ignore.append(current_post_phase)
-						
-						n_pre = pre_defined_distribution_dict[self.phase]
-						n_post = pre_defined_distribution_dict[current_post_phase]
-						
-						#self.OMERS_SENTENCES_ALLOCATION_ALGORYTHM(
-						
-						elif pre_post_pairs[phase] == None:
-							current_pre_phase = phase
+		n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
+		
+		for i in range(len(n_list)):
+			dic_phases_number[n_str_list[i]]= n_list[i]
+
+		print(dic_phases_number)
+		for c,data in enumerate([data_neg, data_ntr]):
+			index_list = list(range(len(data)))
+			for k in dic_phases_number.keys():				
+				sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
+				print(sample_index_list)
+				for i in sample_index_list:
+					index_list.remove(i)
+					if c==1:
+						subject_data.at[i,'Phases'] = k
+					else:
+						subject_data.at[i+40,'Phases'] = k
+
+		print(subject_data['Phases'])
+		
+		self.phases_relations = 
+							{
+							"Digit_before_after" : ["Digit_after","Digit_before"]
 							
-							self.neu_sentences_by_phase[phase] = sample_neus # +
-							self.neg_sentences_by_phase[phase] = sample_negs # -
-							# Suffeling
-							random.shuffle(self.neu_sentences_by_phase[phase])
-							random.shuffle(self.neg_sentences_by_phase[phase])
-							
-							# Unifing the neutrals and negatives
-							self.sentences_by_phase[phase] = sample_neus + sample_negs
-							
-							self._create_trials_pointers_by_phase(phase)
-							
-							# Updating the local sentences lists - removing those that were sampled
-							local_neurtrals = [e for e in local_neurtrals if e not in sample_neus]
-							local_negatives = [e for e in local_negatives if e not in sample_negs]
-				# +_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_
-				
-			# AT this point i have unique neus and negs per phase
+							}
+		
+		for sentence in self.sentecnes:
+			sentence_phase = subject_data[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phase"]
+			if sentence_phase in self.phases_relations:
+				# a sentence that repeats on before and after
+				for phase in self.phases_relations[sentence_phase]:
+					self.sentences_by_phase.setdefault(phase, []).append(sentence)
+			else:
+				# an exclusive by phase and task sentence
+				self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
+		
+		##self._create_trials_pointers_by_phase(phase)
+		# AT this point i have unique neus and negs per phase
+		ipdb.set_trace()
+		#subject_data.to_excel('audio_data_TasksPhases.xlsx')
+		# split to neutral and negative
+		
+		####################################################################
+		# Unifing the neutrals and negatives
+		##self.sentences_by_phase[phase] = sample_neus + sample_negs
+	
 	
 	def _create_trials_pointers_by_phase(self, phase):
 		# rounded_multplying_factor by using it I know how many repetition per sentence
@@ -608,3 +596,4 @@ class Sentence(object):
 		return self.__str__()
 		
 		
+			sentence_phase = subject_data[subject_data[] == sentence.num_in_excel, "Phases"]
