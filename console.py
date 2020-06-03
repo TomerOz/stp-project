@@ -105,18 +105,18 @@ def main():
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
-				lambda: instructions_dct_1.start_instrunctions(),
-				lambda: dct_training.start_task(),
 				
-				lambda: instructions_dct_2.start_instrunctions(),
-				lambda: dct_training.start_task(),
-				lambda: instructions_dct_3.start_instrunctions(),
-				lambda: dct_training.start_task(),
+				#lambda: instructions_dct_1.start_instrunctions(),
+				#lambda: dct_training.start_task(),
+				#lambda: instructions_dct_2.start_instrunctions(),
+				#lambda: dct_training.start_task(),
+				#lambda: instructions_dct_3.start_instrunctions(),
+				#lambda: dct_training.start_task(),
+				#
+				#lambda: instructions_end_of_experiment.start_instrunctions(),
+				#lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				
-				lambda: instructions_end_of_experiment.start_instrunctions(),
-				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
-				
-				lambda:instructions_dichotic_1.start_instrunctions(),
+				#lambda:instructions_dichotic_1.start_instrunctions(),
 				#lambda: dichotic_task_data.first_practice(side="Left"),				
 				#lambda: dichotic_task_data.first_practice(side="Right"),
 				#lambda:instructions_dichotic_2.start_instrunctions(),

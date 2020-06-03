@@ -238,7 +238,10 @@ class DichoticSubjectData(object):
 				end_t = td.practice_2_left_end_time	
 			
 		elif td.task_phase == "Real Trials":
-			side = td.valence_side.keys()[td.valence_side.values().index(channel)]
+			valence_side_keys_list = [*td.valence_side.keys()]
+			valence_side_values_list = [*td.valence_side.values()]
+			side = valence_side_keys_list[valence_side_values_list.index(channel)]
+			
 			if channel == "neu":
 				trial_number = td.neu_trial
 				sentence = td.current_neu_sentence
