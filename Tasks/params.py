@@ -62,6 +62,13 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"			# in console we must use these contants
 DICHOTIC_PHASE = "dichotic_phase"
 
+DIGIT_PRE = "DIGIT_PRE"
+DIGIT_POST = "DIGIT_POST" 
+
+DICHOTIC_PRE = "DICHOTIC_PRE"
+DICHOTIC_POST = "DICHOTIC_POST"
+
+
 # Instruction pointers
 BEGINING_OF_TAKS  = 0
 AFTER_PRACTICE_1  = 6

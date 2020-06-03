@@ -51,7 +51,7 @@ class Menu(object):
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
 		
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
-		self.data_manager.__late_init__(self)
 		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
+		self.data_manager.__late_init__(self)
 		self.flow.next()
 		

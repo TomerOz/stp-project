@@ -47,13 +47,13 @@ class AudioProcessor(object):
 			rand_digit = random.randint(1, 8)
 			col_digit.append(rand_digit)
 		
-		df['length'] = col_audio_length
+		
+		df['length'] = pd.Series(col_audio_length)
 		df['timing_digit'] = df['length'] -0.5
 		df['rand_digit'] = col_digit
 		
 		
 		df.to_excel(subject_audio_data + '\\' + self.processed_audio_df)
-
 	def phase_allocation(self,subject_audio_data): #new column with phase name
 		df = pd.read_excel(subject_audio_data + '\\' + self.pre_processed_audio_data)
 		###copy here the algorithm??

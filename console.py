@@ -51,23 +51,24 @@ def main():
 	sd = SubjectData()	# 
 	instructions = Instructions(gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
+	
+	
+	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)
+	phases_names = [DIGIT_PRE, DIGIT_POST, DICHOTIC_PRE, DICHOTIC_POST]
+	
+	
 	data_manager = MainAudioProcessor(
-										phases_names=[
-														DICHOTIC_PHASE_STR, 
-														'Baseline',
-														AFACT_PHASE, 
-														'Post',
-														], 
+										phases_names=phases_names,
 										n_trials_by_phase={
-															DICHOTIC_PHASE_STR: N_DICHOTIC_TRIALS,
-															'Baseline':			N_BASELINE_TRIALS,
-															AFACT_PHASE: 		N_AFACT_TRIALS,
-															'Post':				N_POST_TRIALS,
+															DIGIT_PRE: 			80, # 40 neutrals and 40 negtaives
+															DIGIT_POST:			80,
+															DICHOTIC_PRE:		120, # unrelevant - because the code deletes it 	
+															DICHOTIC_POST: 		120,
 															}, 
 										n_practice_trials=N_PRACTICE_TRIALS,
-										phases_without_catch_trials = AFACT_PHASE,
-										dichotic_phase = DICHOTIC_PHASE_STR,
-										n_block_per_phase = {"Baseline" : 2},
+										phases_without_catch_trials = [DICHOTIC_PRE, DICHOTIC_POST, AFACT_PHASE],
+										dichotic_phases = [DICHOTIC_PRE, DICHOTIC_POST],
+										#n_block_per_phase = {"Baseline" : 2},
 										# define --> n_block_per_phase = {phase_name : n_of_blocks}
 										# in order to control ammount of blocks for a specific phase
 										)
@@ -85,14 +86,14 @@ def main():
 	instructions_dichotic_end = Instructions(gui, exp, flow, IMAGEPATH_DICHOTIC_END)# controls instructions gui and flow
 	
 	
-	
-	
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
-	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE_STR)
+	
+	# maybe duplicate it for pre and post - AT THE MOMENT ITS ONLY "PRE"
+	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE)
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
 	
-	td_trainig = TaskData(menu, data_manager, sd, phase='Baseline') # A class intance that organizes the data for the DCT task
-	td_post_training = TaskData(menu, data_manager, sd, phase='Post') # A class intance that organizes the data for the DCT task
+	td_trainig = TaskData(menu, data_manager, sd, phase=DIGIT_PRE) # A class intance that organizes the data for the DCT task
+	td_post_training = TaskData(menu, data_manager, sd, phase=DIGIT_POST) # A class intance that organizes the data for the DCT task
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 	
@@ -104,17 +105,16 @@ def main():
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
-				
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),
-				
-				lambda: instructions_end_of_experiment.start_instrunctions(),
-				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				
 				lambda: instructions_dct_2.start_instrunctions(),
 				lambda: dct_training.start_task(),
 				lambda: instructions_dct_3.start_instrunctions(),
 				lambda: dct_training.start_task(),
+				
+				lambda: instructions_end_of_experiment.start_instrunctions(),
+				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				
 				lambda:instructions_dichotic_1.start_instrunctions(),
 				#lambda: dichotic_task_data.first_practice(side="Left"),				
@@ -123,8 +123,9 @@ def main():
 				#lambda: dichotic_task_data.second_practice(),
 				#lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
-				lambda: instructions_end_of_experiment.instructions_dichotic_end(),
+				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				lambda: instructions_end_of_experiment.start_instrunctions(),
+				
 				# insert here some silence
 			
 				

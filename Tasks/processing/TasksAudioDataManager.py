@@ -18,16 +18,16 @@ class MainAudioProcessor(object):
 						precent_of_catch_trials=None, 
 						phases_without_catch_trials=None,
 						n_block_per_phase=None,
-						dichotic_phase=None,
+						dichotic_phases=None,
 						):
 		
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
 		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
 		self.afact_phase = AFACT_PHASE
-		self.dichotic_phase = dichotic_phase
+		self.dichotic_phases = dichotic_phases
 		
-		self.first_phase = "Baseline"
+		self.first_phase = DIGIT_PRE
 		
 		if n_practice_trials == None:
 			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
@@ -59,11 +59,13 @@ class MainAudioProcessor(object):
 				if not phase in self.n_block_per_phase:
 					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of two phases
 		
-		if self.dichotic_phase != None: # a dichotic task is requested by user
-			self.n_dichotic_trials = self.n_trials_by_phase[self.dichotic_phase] # saving a refference to the requsted n
-			# removing dichotic from lists and dicts that are unrelevant for further process
-			self.phases_names.remove(self.dichotic_phase)
-			self.n_trials_by_phase.pop(self.dichotic_phase, None)
+		if False:
+			if self.dichotic_phases != None: # a dichotic task is requested by user
+				for dichotic_phase in self.dichotic_phases:
+					self.n_dichotic_trials = self.n_trials_by_phase[dichotic_phase] # saving a refference to the requsted n
+					# removing dichotic from lists and dicts that are unrelevant for further process
+					self.phases_names.remove(dichotic_phase)
+					self.n_trials_by_phase.pop(dichotic_phase, None)
 			
 		
 		self.pre_defined_distribution_dict = pre_defined_distribution_dict
@@ -96,23 +98,14 @@ class MainAudioProcessor(object):
 
 		self.process_sentences_data() # sentence are read from excel and located at dir an classified by valence *HERE PRE LOAD SHOULD HAPPEN*
 		self._split_senteces_to_phases()
+		self._create_trials_pointers_by_phase()
 		self.create_catch_trials()
 		self.fill_sentence_trial_refferences()
 		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
 		self.insert_instructions_trial_types()
-		if self.dichotic_phase != None:
-			self.arrange_dichotic_sentences()
 		
-	def arrange_dichotic_sentences(self):
-		''' returns the sentences instances relevant to the dichotic task'''
-		# Forcing len of dichotic trials to no more then maximum ammount of negative sentences
-		if self.n_dichotic_trials > len(self.negatives_sentences):
-			self.n_dichotic_trials = len(self.negatives_sentences)
-		
-		self.neu_sentences_by_phase[self.dichotic_phase] = random.sample(self.neutral_sentences, self.n_dichotic_trials)
-		self.neg_sentences_by_phase[self.dichotic_phase] = random.sample(self.negatives_sentences, self.n_dichotic_trials)
 	
 	def _split_senteces_to_phases(self):
 		'''the function gets a matrix for sentecnes per task and phase, and 80 subject data,
@@ -148,8 +141,9 @@ class MainAudioProcessor(object):
 		data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
 		
 		dic_phases_number = {}
-		n_list= [Digit_before, Digit_after, Digit_before_after, Dichotic_before, Dichotic_after, Dichotic_before_after]
+		n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
 		
+		# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
 		n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
 		
 		for i in range(len(n_list)):
@@ -170,140 +164,136 @@ class MainAudioProcessor(object):
 
 		print(subject_data['Phases'])
 		
-		self.phases_relations = 
-							{
-							"Digit_before_after" : ["Digit_after","Digit_before"]
-							
+		self.phases_relations = {
+							"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
+							"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
 							}
+		sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
 		
-		for sentence in self.sentecnes:
-			sentence_phase = subject_data[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phase"]
+		for sentence in self.sentences:
+			sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
 			if sentence_phase in self.phases_relations:
 				# a sentence that repeats on before and after
 				for phase in self.phases_relations[sentence_phase]:
 					self.sentences_by_phase.setdefault(phase, []).append(sentence)
+					sentence_valence_dicts[sentence.valence].setdefault(phase, []).append(sentence)
 			else:
 				# an exclusive by phase and task sentence
 				self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
+				sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
 		
 		##self._create_trials_pointers_by_phase(phase)
 		# AT this point i have unique neus and negs per phase
-		ipdb.set_trace()
-		#subject_data.to_excel('audio_data_TasksPhases.xlsx')
-		# split to neutral and negative
-		
-		####################################################################
-		# Unifing the neutrals and negatives
-		##self.sentences_by_phase[phase] = sample_neus + sample_negs
 	
-	
-	def _create_trials_pointers_by_phase(self, phase):
-		# rounded_multplying_factor by using it I know how many repetition per sentence
-		ammount_unique_sentences = len(self.sentences_by_phase[phase])
-		rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
-		# creating intial pointers
-		neus_pointers = list(range(len(self.neu_sentences_by_phase[phase])))
-		negs_pointers = list(range(len(self.neg_sentences_by_phase[phase])))
-		# Adding practice trials --> cuurently multplying existing neutrasl
-		practice_trials_pointers = random.sample(self.neutral_sentences, self.n_practice_trials) # 8 is the default number of practice trials
-		# first shuffeling of originals:
-		random.shuffle(neus_pointers)
-		random.shuffle(negs_pointers)
-		
-		# creating additional pointers to fit desired amount of trials
-		lists_of_additional_neus_pointers = []
-		lists_of_additional_negs_pointers = []
-		ammount_of_additions = rounded_multplying_factor-1
-		for i in list(range(ammount_of_additions)):
-			additional_neus_pointers = [] + neus_pointers
-			additional_negs_pointers = [] + negs_pointers
-			# shuffeling:
-			random.shuffle(additional_neus_pointers)
-			random.shuffle(additional_neus_pointers)
-			# adding to a list of lists
-			lists_of_additional_neus_pointers.append(additional_neus_pointers)
-			lists_of_additional_negs_pointers.append(additional_negs_pointers)
+	def _create_trials_pointers_by_phase(self):
+		for phase in self.phases_names:
+			if phase not in self.dichotic_phases:
+				# rounded_multplying_factor by using it I know how many repetition per sentence
+				ammount_unique_sentences = len(self.sentences_by_phase[phase])
+				rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
+				# creating intial pointers
+				neus_pointers = list(range(len(self.neu_sentences_by_phase[phase])))
+				negs_pointers = list(range(len(self.neg_sentences_by_phase[phase])))
+				# Adding practice trials --> cuurently multplying existing neutrasl
+				practice_trials_pointers = random.sample(self.neutral_sentences, self.n_practice_trials) # 8 is the default number of practice trials
+				# first shuffeling of originals:
+				random.shuffle(neus_pointers)
+				random.shuffle(negs_pointers)
 				
-		# adding additional with intial
-		for additional_neus in lists_of_additional_neus_pointers:
-			neus_pointers = neus_pointers + additional_neus
-			
-		for additional_negs in lists_of_additional_negs_pointers:
-			negs_pointers = negs_pointers + additional_negs
-		
-		
-		# Checking if multiplying reached the desired ammount of trials
-		if len(neus_pointers)*2 < self.n_trials_by_phase[phase]:
-			delta = int(round((self.n_trials_by_phase[phase] - len(neus_pointers)*2)/2.0))
-			neu_additional_pointers = random.sample(neus_pointers,delta)
-			neg_additional_pointers = random.sample(negs_pointers,delta)
-			neus_pointers = neus_pointers + neu_additional_pointers
-			negs_pointers = negs_pointers + neg_additional_pointers
+				# creating additional pointers to fit desired amount of trials
+				lists_of_additional_neus_pointers = []
+				lists_of_additional_negs_pointers = []
+				ammount_of_additions = rounded_multplying_factor-1
+				for i in list(range(ammount_of_additions)):
+					additional_neus_pointers = [] + neus_pointers
+					additional_negs_pointers = [] + negs_pointers
+					# shuffeling:
+					random.shuffle(additional_neus_pointers)
+					random.shuffle(additional_neus_pointers)
+					# adding to a list of lists
+					lists_of_additional_neus_pointers.append(additional_neus_pointers)
+					lists_of_additional_negs_pointers.append(additional_negs_pointers)
+						
+				# adding additional with intial
+				for additional_neus in lists_of_additional_neus_pointers:
+					neus_pointers = neus_pointers + additional_neus
+					
+				for additional_negs in lists_of_additional_negs_pointers:
+					negs_pointers = negs_pointers + additional_negs
+				
+				
+				# Checking if multiplying reached the desired ammount of trials
+				if len(neus_pointers)*2 < self.n_trials_by_phase[phase]:
+					delta = int(round((self.n_trials_by_phase[phase] - len(neus_pointers)*2)/2.0))
+					neu_additional_pointers = random.sample(neus_pointers,delta)
+					neg_additional_pointers = random.sample(negs_pointers,delta)
+					neus_pointers = neus_pointers + neu_additional_pointers
+					negs_pointers = negs_pointers + neg_additional_pointers
 
-		elif len(neus_pointers)*2 > self.n_trials_by_phase[phase]:
-			pointers_to_sample = int(round(self.n_trials_by_phase[phase]/2.0))
-			neus_pointers = random.sample(neus_pointers,pointers_to_sample)
-			negs_pointers = random.sample(negs_pointers,pointers_to_sample)
-		
-		# creating an all trials dictionary
-		PRACTICE_SENTENCE = "prac"
-		neu = TrialType(NEUTRAL_SENTENCE)
-		neg = TrialType(NEGATIVE_SENTENCE)
-		practice = TrialType(PRACTICE_SENTENCE)
-		practice.is_practice = True
-		# arranging trials:
-		trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
-		random.shuffle(trials)
-		
-		# creating new instances with deep copy for practice trials
-		practice_trials_sentences = []
-		
-		for i, prac_sentence in enumerate(practice_trials_pointers):
-			dc = copy.deepcopy(prac_sentence)
-			if i < self.n_practice_trials/2:
-				# making sure first four have feedback and the rest doesn't
-				dc.is_practice = True
-				dc.trial_phase = "practice 1"
-			else:
-				dc.is_practice = False
-				dc.trial_phase = "practice 2"
-			practice_trials_sentences.append(dc)
-		
-		# Saving final values
-		prac_neu_or_neg = {
-						PRACTICE_SENTENCE: practice_trials_pointers, 
-						NEUTRAL_SENTENCE : neus_pointers, 
-						NEGATIVE_SENTENCE: negs_pointers}
-		trials = [] + [practice]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
-		
-		# Adding sentences to the TrialType instances
-		for p in prac_neu_or_neg[NEGATIVE_SENTENCE]:
-			neg.add_sentence(self.neg_sentences_by_phase[phase][p])
-		
-		for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:
-			neu.add_sentence(self.neu_sentences_by_phase[phase][p])
-		
-		for sentence in practice_trials_sentences:
-			practice.add_sentence(sentence)
-		
-		ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
-		
-		
-		# saving final values:
-		self.sentences_instances_by_type_by_phase[phase] = {
-															neu: self.neu_sentences_by_phase[phase], 
-															neg: self.neg_sentences_by_phase[phase], 
-															practice: practice_trials_sentences
-															}
-		self.trials_types_by_phase[phase] = trials
-		
-		# re arranging trial types according to AFACT demands:
-		if phase == AFACT_PHASE:
-			self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
-		
-		elif phase == DICHOTIC_PHASE:
-        #OMER
-			pass
+				elif len(neus_pointers)*2 > self.n_trials_by_phase[phase]:
+					pointers_to_sample = int(round(self.n_trials_by_phase[phase]/2.0))
+					neus_pointers = random.sample(neus_pointers,pointers_to_sample)
+					negs_pointers = random.sample(negs_pointers,pointers_to_sample)
+				
+				# creating an all trials dictionary
+				PRACTICE_SENTENCE = "prac"
+				neu = TrialType(NEUTRAL_SENTENCE)
+				neg = TrialType(NEGATIVE_SENTENCE)
+				practice = TrialType(PRACTICE_SENTENCE)
+				practice.is_practice = True
+				# arranging trials:
+				trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
+				random.shuffle(trials)
+				
+				# creating new instances with deep copy for practice trials
+				practice_trials_sentences = []
+				
+				for i, prac_sentence in enumerate(practice_trials_pointers):
+					dc = copy.deepcopy(prac_sentence)
+					if i < self.n_practice_trials/2:
+						# making sure first four have feedback and the rest doesn't
+						dc.is_practice = True
+						dc.trial_phase = "practice 1"
+					else:
+						dc.is_practice = False
+						dc.trial_phase = "practice 2"
+					practice_trials_sentences.append(dc)
+				
+				# Saving final values
+				prac_neu_or_neg = {
+								PRACTICE_SENTENCE: practice_trials_pointers, 
+								NEUTRAL_SENTENCE : neus_pointers, 
+								NEGATIVE_SENTENCE: negs_pointers}
+				trials = [] + [practice]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
+				
+				# Adding sentences to the TrialType instances
+				for p in prac_neu_or_neg[NEGATIVE_SENTENCE]:
+					neg.add_sentence(self.neg_sentences_by_phase[phase][p])
+				
+				for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:
+					neu.add_sentence(self.neu_sentences_by_phase[phase][p])
+				
+				for sentence in practice_trials_sentences:
+					practice.add_sentence(sentence)
+				
+				ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
+				
+				
+				# saving final values:
+				self.sentences_instances_by_type_by_phase[phase] = {
+																	neu: self.neu_sentences_by_phase[phase], 
+																	neg: self.neg_sentences_by_phase[phase], 
+																	practice: practice_trials_sentences
+																	}
+				self.trials_types_by_phase[phase] = trials
+				
+				# re arranging trial types according to AFACT demands:
+				if phase == AFACT_PHASE:
+					self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
+				
+				elif phase == DICHOTIC_PHASE:
+				#OMER
+					pass
 	
 	def _afact_trials_rearrange(self, phase, 
 								ammount_of_neutral_trials, 
@@ -350,17 +340,18 @@ class MainAudioProcessor(object):
 	
 	def fill_sentence_trial_refferences(self):
 		for phase in self.phases_names:
-			self.sentence_trial_reffs_by_phase[phase] = TrialsSentencesReff()
-			trial_types = self.trials_types_by_phase[phase]	 
-			unique_types_reff = pd.Series(trial_types).unique()
-			for trial in trial_types:
-				self.sentence_trial_reffs_by_phase[phase].sentences_instances.append(trial.sentences[trial.index])
-				trial.index += 1
-			
-			# reseting indexes back on 0
-			for unique_trialtype in unique_types_reff:
-				unique_trialtype.index = 0
+			if phase not in self.dichotic_phases:
+				self.sentence_trial_reffs_by_phase[phase] = TrialsSentencesReff()
+				trial_types = self.trials_types_by_phase[phase]	 
+				unique_types_reff = pd.Series(trial_types).unique()
+				for trial in trial_types:
+					self.sentence_trial_reffs_by_phase[phase].sentences_instances.append(trial.sentences[trial.index])
+					trial.index += 1
 				
+				# reseting indexes back on 0
+				for unique_trialtype in unique_types_reff:
+					unique_trialtype.index = 0
+					
 	def define_change_block_trials_per_phase(self):
 		for phase in self.trials_types_by_phase:
 			if self.n_block_per_phase[phase] > 1: 
@@ -419,25 +410,22 @@ class MainAudioProcessor(object):
 						catch.catch_sentence = sentence
 						
 						# adding practice catch trials
-			index_practice_2_strat_trial = int(self.n_practice_trials*0.75)
-			index_practice_2_end_trial = self.n_practice_trials
-			practice_with_catch = list(range(index_practice_2_strat_trial, index_practice_2_end_trial))
-			catch_counter = 0
-			for prac_catch_index in practice_with_catch:
-				catch = TrialType("prac_{}-Catch Trial".format(str(prac_catch_index+1)))
-				catch.is_catch = True
-				catch.is_normal_trial = False
-				self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
-				# Ctach sentence is currently always the one before catch trials - thus always correct
-				catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
-				catch.catch_type = True # stands for correct catch trials
-				
-				self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
-				catch_counter += 1
-				
-								
-				
-			
+				index_practice_2_strat_trial = int(self.n_practice_trials*0.75)
+				index_practice_2_end_trial = self.n_practice_trials
+				practice_with_catch = list(range(index_practice_2_strat_trial, index_practice_2_end_trial))
+				catch_counter = 0
+				for prac_catch_index in practice_with_catch:
+					catch = TrialType("prac_{}-Catch Trial".format(str(prac_catch_index+1)))
+					catch.is_catch = True
+					catch.is_normal_trial = False
+					self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
+					# Ctach sentence is currently always the one before catch trials - thus always correct
+					catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
+					catch.catch_type = True # stands for correct catch trials
+					
+					self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
+					catch_counter += 1
+						
 	def insert_instructions_trial_types(self):
 		# absolute numbers of instructions that build on 8 practice trials
 		# see constants above
@@ -588,6 +576,7 @@ class Sentence(object):
 		self.sentence_length = sentence_length*ONE_SECOND # in miliseconds
 		self.digit_que = int(self.sentence_length-MILISECONDS_BEFORE_END) # time of sentence start
 		self.is_practice = False
+		
 
 	def __str__(self):
 		return 'Sentence {} - {}'.format(self.valence, str(self.num))
@@ -595,5 +584,3 @@ class Sentence(object):
 	def __repr__(self):
 		return self.__str__()
 		
-		
-			sentence_phase = subject_data[subject_data[] == sentence.num_in_excel, "Phases"]

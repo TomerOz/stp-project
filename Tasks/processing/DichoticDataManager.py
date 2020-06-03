@@ -95,7 +95,6 @@ class DichoticTrialsManager(object):
 			
 		return chunk_dic
 	
-			
 	def create_blocks_of_sentneces_instances(self):
 		# trial_types = TrialType()
 		for i in list(range(self.n_blocks)):
