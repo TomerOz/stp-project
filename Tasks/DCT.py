@@ -78,7 +78,7 @@ class DctTask(object):
 		self.td.record_trial(self.shown_num, self.key_pressed)
 
 		# Practice feedback decision
-		if self.td.current_sentence.is_practice:
+		if self.td.current_trial_type_intance.is_practice:
 			self._give_feedback(self.key_pressed)		
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
 		else:
@@ -324,7 +324,6 @@ class TaskData(object):
 		self.last_trial_classification = was_correct
 		self.last_key_pressed = key_pressed 
 		self.trial_phase = self.current_trial_type_intance.trial_phase
-
 		
 		# saving data 
 		self.sd.push_data_packge(self) 	
@@ -334,15 +333,16 @@ class TaskData(object):
 		sent = trial_type.get_current_sentence()
 		trial_type.next()
 		
-		#print "#--------------#"
-		#print trial_type
-		#print trial_type.index
-		#print sent
-		#print "Current Trial: ", self.current_trial
-		#print "Change Block Trial is on: ", self.change_block_trial
-		#print "Total ammount of Trials is : ", self.total_ammount_of_trials
-		#
-		#print "------END--------"
+		print("#--------------#")
+		print("Current Trial: ", self.current_trial)
+		print("Change Block Trial is on: ", self.change_block_trial)
+		print("Total ammount of Trials is : ", self.total_ammount_of_trials)
+		print(trial_type)
+		print(trial_type.index)
+		print("Is it practice: ", self.current_trial_type_intance.is_practice)
+		print("Trial phase: ", self.current_trial_type_intance.trial_phase)
+		
+		print("------END--------")
 		
 		return sent
 		

@@ -42,11 +42,12 @@ class Menu(object):
 		'menu_label_1':(self.exp.cx, self.exp.cy-dy),
 		'menu_label_2':(self.exp.cx, self.exp.cy),
 		'menu_label_3':(self.exp.cx, self.exp.cy+dy),
-		'button_label':(self.exp.cx, self.exp.cy+dy*3),
+		'menu_label_4':(self.exp.cx, self.exp.cy+(2*dy)),
+		'button_label':(self.exp.cx, self.exp.cy+dy*4),
 		}
 	def show(self):
 		self.gui.unbind("<space>")
-		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'button_label'], use_place = self.places)
+		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'menu_label_4', 'button_label'], use_place = self.places)
 		
 	def start_button_callback(self):
 		self.menu_data[gender] = type(self.exp).ALL_ENTRIES[gender].get()

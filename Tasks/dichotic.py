@@ -277,18 +277,20 @@ class DichoticTaskData(object):
 			self.chunck_channels_completed_counter = 0
 			self.chunk += 1
 
-			# Temporary data saving
-			self.dst.create_df()
-			
 			#print "Chunk {} Ended".format(str(self.chunk-1))
 			
 			block_break = 0
-			if self.chunk == self.dichotic_data_manager.n_of_chunks+1:
+			if self.chunk == self.dichotic_data_manager.n_of_chunks+1 and self.block < LAST_DICOTHIC_BLOCK: # Moving towards next block
 				block_break = BLOCK_BREAK_TIME
 				self.next_block() # changing block, otherwise, still within the same block
 				self.instructions_dichotic_break.get_task_continue_function(self.start_chunk)
 				self.instructions_dichotic_break.present_simple_picture_frame(block_break, message_text=u"עברו 30 שניות, ניתן ללחוץ על מקש רווח על מנת להמשיך")
-			else:
+			
+			elif self.block == LAST_DICOTHIC_BLOCK: # Task is finished
+				self.dst.create_df()
+				self.flow.next()
+			
+			else: # Just another chunk
 				self.gui.after(self.chunck_block_change_wait_time + block_break, self.start_chunk)
 
 						
