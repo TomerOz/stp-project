@@ -279,7 +279,7 @@ class TaskData(object):
 		else: # in case of onlu one block
 			self.change_block_trial = None
 		# sd is a subject data instance
-		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER])
+		self.sd.add_menu_data(self.menu.menu_data[SUBJECT], self.menu.menu_data[GROUP], self.menu.menu_data[GENDER], self.menu.menu_data[SESSION])
 		
 	def _classify_type_of_num(self, num):
 		if num % 2 == 0:

@@ -18,6 +18,7 @@ class SubjectData(object):
 		self.subject_col = []
 		self.gender_col = []
 		self.group_col = []
+		self.session_col = []
 		
 		self.trials_nums = []
 		self.trials_types = [] # catch or (relase LOL) normal
@@ -38,10 +39,11 @@ class SubjectData(object):
 		self.sentences_duration = []
 		self.sentences_paths = []
 		
-	def add_menu_data(self, subject, group, gender):
+	def add_menu_data(self, subject, group, gender, session):
 		self.subject = subject
 		self.gender = gender
 		self.group = group
+		self.session = session
 			
 	def push_data_packge(self, package):
 		recorded_trial = package.current_trial-1
@@ -68,6 +70,8 @@ class SubjectData(object):
 		self.subject_col.append(self.subject)
 		self.gender_col.append(self.gender)
 		self.group_col.append(self.group)
+		self.session_col.append(self.session)
+		
 		self.trials_phases.append(package.trial_phase)
 		
 		
@@ -105,7 +109,7 @@ class SubjectData(object):
 		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
 					'block', 'is correct', 'key pressed', 'RT', 'valence',
 					'text', 'duration', 'path', 'sentence num',
-					'num shown', 'gender', 'group', 'trials_phases']
+					'num shown', 'gender', 'group', 'session', 'trials_phases']
 					
 		rows = [
 					self.subject_col			,
@@ -125,6 +129,7 @@ class SubjectData(object):
 					self.nums_shown_types		,
 					self.gender_col				,
 					self.group_col				,
+					self.session_col			,
 					self.trials_phases			,
 				]
 				
@@ -151,12 +156,14 @@ class DichoticSubjectData(object):
 		self.subject 				= []
 		self.gender 				= []
 		self.group				 	= []
+		self.session			 	= []
 		self.blocks				 	= []
 		self.sentence_ids			= []
 
 		# Currently not parrt of DF - that is for uncertainty regarding their length (multiple presses are allowed)
 		self.trial_response = []
 		self.trial_response_time = []
+	
 	def create_df(self):
 		
 		columns = [
@@ -170,6 +177,7 @@ class DichoticSubjectData(object):
 					"subject",
 					"gender",
 					"group",
+					"session",
 					"block",
 					"sentence_id",
 					]
@@ -185,6 +193,7 @@ class DichoticSubjectData(object):
 				self.subject			,
 				self.gender          	,
 				self.group	            ,
+				self.session            ,
 				self.blocks	            ,
 				self.sentence_ids	    ,
 				]
@@ -263,6 +272,7 @@ class DichoticSubjectData(object):
 		self.subject				.append(td.subject)
 		self.gender					.append(td.gender)
 		self.group					.append(td.group)
+		self.session				.append(td.session)
 		self.blocks					.append(td.block)
 		self.sentence_ids			.append(sentence.num)
 

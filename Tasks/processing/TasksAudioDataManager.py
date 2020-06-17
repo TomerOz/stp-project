@@ -19,14 +19,16 @@ class MainAudioProcessor(object):
 						phases_without_catch_trials=None,
 						n_block_per_phase=None,
 						dichotic_phases=None,
+						phases_relations=None,
+						
 						):
-		
+						
 		self.phases_names = phases_names # A list of strings representing phases names
 		self.n_phases = len(self.phases_names) # Ammount of experimentatl phases to split sentence to
 		self.n_trials_by_phase = n_trials_by_phase # ammount of trials per phase - a dictionary -  determines how many sentence repetition should occur
 		self.afact_phase = AFACT_PHASE
 		self.dichotic_phases = dichotic_phases
-		
+		self.phases_relations = phases_relations				
 		self.first_phase = DIGIT_PRE
 		
 		if n_practice_trials == None:
@@ -119,14 +121,6 @@ class MainAudioProcessor(object):
 		subject_data = pd.read_excel(SUBJECT_DATA)
 		allocation_plan = pd.read_excel(ALLOCATION_PLAN)
 
-		#@#@# To talk with Tomer if he thinks it's nesecery!
-		# #allocate even index to digit and odd to dicthotic
-		# for i in subject_data['FileNumber']:
-		#     if (i%2) == 0: #even
-		#         subject_data.at[i-1,'Tasks']= 'Digit'
-		#     else:
-		#         subject_data.at[i-1,'Tasks'] = 'Dichotic'
-
 		#read allocation plan
 		Digit_before = allocation_plan.iloc[0, 2]
 		Digit_after = allocation_plan.iloc[0, 3]
@@ -164,10 +158,7 @@ class MainAudioProcessor(object):
 
 		print(subject_data['Phases'])
 		
-		self.phases_relations = {
-							"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
-							"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
-							}
+		
 		sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
 		
 		for sentence in self.sentences:

@@ -56,6 +56,10 @@ def main():
 	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)
 	phases_names = [DIGIT_PRE, DIGIT_POST, DICHOTIC_PRE, DICHOTIC_POST]
 	
+	phases_relations = {
+							"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
+							"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
+							}
 	
 	data_manager = MainAudioProcessor(
 										phases_names=phases_names,
@@ -68,6 +72,7 @@ def main():
 										n_practice_trials=N_PRACTICE_TRIALS,
 										phases_without_catch_trials = [DICHOTIC_PRE, DICHOTIC_POST, AFACT_PHASE],
 										dichotic_phases = [DICHOTIC_PRE, DICHOTIC_POST],
+										phases_relations = phases_relations,
 										#n_block_per_phase = {"Baseline" : 2},
 										# define --> n_block_per_phase = {phase_name : n_of_blocks}
 										# in order to control ammount of blocks for a specific phase

@@ -41,7 +41,7 @@ N_PRACTICE_TRIALS = 8 # in digit and afact
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #Task audio data manager 
 
-PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
+PROCESSED_AUDIO_DF = 'processed_audio_df.xlsx' # file name containing audio data after processing ready for dct-stp task
 AUDIO_FILES_DIRECTORY = 'audio_files_wav'
 
 # sentences excel column names
@@ -89,6 +89,7 @@ SENTENCE_NAME_COL = 'sentence_name'
 SUBJECT = 'subject'
 GROUP = 'group'
 GENDER = 'gender'
+SESSION = 'session'
 
 FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
 PRACTICE_FEEDBACK_DURATAION = 300

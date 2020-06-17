@@ -133,6 +133,7 @@ class DichoticTaskData(object):
 		self.subject = self.menu.menu_data['subject']
 		self.gender = self.menu.menu_data['gender']
 		self.group = self.menu.menu_data['group']
+		self.session = self.menu.menu_data[SESSION]
 		self._initialize_block_chunk()
 		self.gui.after(100, self.flow.next)
 
