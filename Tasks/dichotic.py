@@ -285,13 +285,13 @@ class DichoticTaskData(object):
 			#print "Chunk {} Ended".format(str(self.chunk-1))
 			
 			block_break = 0
-			if self.chunk == self.dichotic_data_manager.n_of_chunks+1 and self.block < self.n_blocks: # Moving towards next block
+			if self.chunk == self.dichotic_data_manager.n_of_chunks+1 and self.block < self.n_blocks-1: # Moving towards next block
 				block_break = BLOCK_BREAK_TIME
 				self.next_block() # changing block, otherwise, still within the same block
 				self.instructions_dichotic_break.get_task_continue_function(self.start_chunk)
 				self.instructions_dichotic_break.present_simple_picture_frame(block_break, message_text=u"עברו 30 שניות, ניתן ללחוץ על מקש רווח על מנת להמשיך")
 			
-			elif self.block == self.n_blocks: # Task is finished
+			elif self.block == self.n_blocks-1: # Task is finished
 				self.dst.create_df()
 				self.flow.next()
 			

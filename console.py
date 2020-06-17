@@ -111,12 +111,12 @@ def main():
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
-				lambda: instructions_dct_1.start_instrunctions(),
-				lambda: dct_training.start_task(),
-				lambda: instructions_dct_2.start_instrunctions(),
-				lambda: dct_training.start_task(),
-				lambda: instructions_dct_3.start_instrunctions(),
-				lambda: dct_training.start_task(),
+				#lambda: instructions_dct_1.start_instrunctions(),
+				#lambda: dct_training.start_task(),
+				#lambda: instructions_dct_2.start_instrunctions(),
+				#lambda: dct_training.start_task(),
+				#lambda: instructions_dct_3.start_instrunctions(),
+				#lambda: dct_training.start_task(),
 				#
 				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				#
