@@ -50,7 +50,7 @@ class DichoticOneBack(object):
 		self.exp.display_frame(MAIN_FRAME,[FIXATION_LABEL])
 
 class DichoticTaskData(object):
-	def __init__(self, exp, flow, task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break):
+	def __init__(self, exp, flow, task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break, n_blocks=None):
 		
 		self.gui = gui
 		self.flow = flow
@@ -60,6 +60,11 @@ class DichoticTaskData(object):
 		self.data_manager = data_manager
 		self.dichotic_data_manager = dichotic_data_manager
 		self.instructions_dichotic_break = instructions_dichotic_break
+		
+		if n_blocks == None:
+			self.n_blocks = DEFAULT_NUMBER_OF_BLOCKS
+		else:
+			self.n_blocks = n_blocks
 		
 		# managing this subject task data:
 		self.dst = DichoticSubjectData()
@@ -277,18 +282,20 @@ class DichoticTaskData(object):
 			self.chunck_channels_completed_counter = 0
 			self.chunk += 1
 
-			# Temporary data saving
-			self.dst.create_df()
-			
 			#print "Chunk {} Ended".format(str(self.chunk-1))
 			
 			block_break = 0
-			if self.chunk == self.dichotic_data_manager.n_of_chunks+1:
+			if self.chunk == self.dichotic_data_manager.n_of_chunks+1 and self.block < self.n_blocks-1: # Moving towards next block
 				block_break = BLOCK_BREAK_TIME
 				self.next_block() # changing block, otherwise, still within the same block
 				self.instructions_dichotic_break.get_task_continue_function(self.start_chunk)
 				self.instructions_dichotic_break.present_simple_picture_frame(block_break, message_text=u"עברו 30 שניות, ניתן ללחוץ על מקש רווח על מנת להמשיך")
-			else:
+			
+			elif self.block == self.n_blocks-1: # Task is finished
+				self.dst.create_df()
+				self.flow.next()
+			
+			else: # Just another chunk
 				self.gui.after(self.chunck_block_change_wait_time + block_break, self.start_chunk)
 
 						

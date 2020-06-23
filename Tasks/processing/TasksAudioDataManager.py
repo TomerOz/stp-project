@@ -227,35 +227,46 @@ class MainAudioProcessor(object):
 					negs_pointers = random.sample(negs_pointers,pointers_to_sample)
 				
 				# creating an all trials dictionary
-				PRACTICE_SENTENCE = "prac"
+				PRACTICE_SENTENCE = "prac_1"
+				PRACTICE_SENTENCE_2 = "prac_2"
+				
 				neu = TrialType(NEUTRAL_SENTENCE)
 				neg = TrialType(NEGATIVE_SENTENCE)
-				practice = TrialType(PRACTICE_SENTENCE)
-				practice.is_practice = True
+				practice_1 = TrialType(PRACTICE_SENTENCE)
+				practice_2 = TrialType(PRACTICE_SENTENCE_2)
+				
+				practice_1.is_practice = True # Controls for feedback -  on prac 1 --> providing feedback
+				practice_1.trial_phase = "practice 1"
+				practice_2.is_practice = False # Controls for feedback -  on prac 2 --> no feedback
+				practice_2.trial_phase = "practice 2"
+				
+				
 				# arranging trials:
 				trials = [neu]*(len(neus_pointers)-self.n_start_neutral_trials) + [neg]*len(negs_pointers) # - n_start_neutral_trials is for the intial four neus to be later added
 				random.shuffle(trials)
 				
 				# creating new instances with deep copy for practice trials
-				practice_trials_sentences = []
+				practice_trials_sentences = [] + practice_trials_pointers
 				
-				for i, prac_sentence in enumerate(practice_trials_pointers):
-					dc = copy.deepcopy(prac_sentence)
-					if i < self.n_practice_trials/2:
-						# making sure first four have feedback and the rest doesn't
-						dc.is_practice = True
-						dc.trial_phase = "practice 1"
-					else:
-						dc.is_practice = False
-						dc.trial_phase = "practice 2"
-					practice_trials_sentences.append(dc)
+				#for i, prac_sentence in enumerate(practice_trials_pointers):
+				#	#dc = copy.deepcopy(prac_sentence)
+				#	#if i < self.n_practice_trials/2:
+				#	#	# making sure first four have feedback and the rest doesn't
+				#	#	dc.is_practice = True
+				#	#	dc.trial_phase = "practice 1"
+				#	#else:
+				#	#	dc.is_practice = False
+				#	#	dc.trial_phase = "practice 2"
+				#	practice_trials_sentences.append(dc)
 				
 				# Saving final values
+				
 				prac_neu_or_neg = {
 								PRACTICE_SENTENCE: practice_trials_pointers, 
 								NEUTRAL_SENTENCE : neus_pointers, 
 								NEGATIVE_SENTENCE: negs_pointers}
-				trials = [] + [practice]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
+				
+				#trials = [] + [practice_1]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
 				
 				# Adding sentences to the TrialType instances
 				for p in prac_neu_or_neg[NEGATIVE_SENTENCE]:
@@ -264,17 +275,22 @@ class MainAudioProcessor(object):
 				for p in prac_neu_or_neg[NEUTRAL_SENTENCE]:
 					neu.add_sentence(self.neu_sentences_by_phase[phase][p])
 				
-				for sentence in practice_trials_sentences:
-					practice.add_sentence(sentence)
+				for i, sentence in enumerate(practice_trials_sentences):
+					if i < self.n_practice_trials/2:
+						practice_1.add_sentence(sentence)
+					else:
+						practice_2.add_sentence(sentence)
 				
 				ammount_of_neutral_trials = len(neu.sentences) # saving a reffernce to the ammount of neutral setnences
 				
+				trials = [] + [practice_1]*len(practice_1.sentences) + [practice_2]*len(practice_2.sentences) + [neu]*self.n_start_neutral_trials + trials
 				
 				# saving final values:
 				self.sentences_instances_by_type_by_phase[phase] = {
 																	neu: self.neu_sentences_by_phase[phase], 
 																	neg: self.neg_sentences_by_phase[phase], 
-																	practice: practice_trials_sentences
+																	practice_1: practice_1.sentences,
+																	practice_2: practice_2.sentences
 																	}
 				self.trials_types_by_phase[phase] = trials
 				
@@ -405,16 +421,19 @@ class MainAudioProcessor(object):
 				index_practice_2_end_trial = self.n_practice_trials
 				practice_with_catch = list(range(index_practice_2_strat_trial, index_practice_2_end_trial))
 				catch_counter = 0
-				for prac_catch_index in practice_with_catch:
+				
+				for i, prac_catch_index in enumerate(practice_with_catch):
 					catch = TrialType("prac_{}-Catch Trial".format(str(prac_catch_index+1)))
 					catch.is_catch = True
 					catch.is_normal_trial = False
 					self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
 					# Ctach sentence is currently always the one before catch trials - thus always correct
-					catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
+					#catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
+					catch_sentence = self.trials_types_by_phase[phase][prac_catch_index+catch_counter].sentences[i + 2] # first two sentences of practice two have no catch
 					catch.catch_type = True # stands for correct catch trials
 					
 					self.trials_types_by_phase[phase][prac_catch_index+1+catch_counter].catch_sentence = catch_sentence
+					
 					catch_counter += 1
 						
 	def insert_instructions_trial_types(self):

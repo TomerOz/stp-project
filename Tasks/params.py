@@ -154,10 +154,8 @@ BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
 BETWEEN_SENTENCES_DELAY = 300
 
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 
 #DichoticDataManager 
-
 DEFAULT_NUMBER_OF_BLOCKS = 3
 DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
 DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
