@@ -1,0 +1,130 @@
+show dbs
+use admin
+show dbs
+use admin
+db.users.find()
+db.user.find()
+show dbs
+use users
+use users
+db.users.insert({ identifier: 100, name: "Ben Ben-Tzion", userHash:"48dnJKnHg23499834rtjS" })
+show users
+db.find()
+db.users.find()
+show dbs
+use users
+show dbs
+use users
+db.users.find()
+show dbs
+use users
+db.users.find()
+db.users.insert({identifier:1000, name: "Omer Dar", userHash:"48dnJKS9834rtjS98342qNjU"})
+show dbs
+use users
+db.users.find()
+use users
+db.users.find()
+show dbs
+use users
+db.find()
+db.users.find()
+show dbs
+use users
+db.users.find
+db.users.find()
+show dbs
+use users
+db.users.find()
+show dbs
+use test
+db.test.find()
+db.test.users.find()
+show collections
+db.users.find()
+show dbs
+use stp
+show dbs
+use stp
+db.users.find()
+show dbs
+use users
+db.dropDatabase()
+show dbs
+use test
+db.dropDatabase()
+show dbs
+use stp
+db.users.find()
+show dbs
+use stp
+show dbs
+use stp
+db.collection.find({userHash: "A8247J2234"})
+db.collection.find({"userHash": "A8247J2234"})
+db.getCollectionNames()
+db.stp.getCollectionNames()
+show collections
+db
+db.getCollectionNames()
+db.users
+db.collection.find()
+db.users.collection.find()
+db.collection('users').find()
+db.collection('users').find({})
+use stp
+db.collection('users').find({})
+db.collection.find()
+db.collection.find({})
+use stp
+db.collection.find()
+db.collection.find({})
+db.runCommand( { listCollections: 1.0, authorizedCollections: true, nameOnly: true } )
+use stp
+db.runCommand( { listCollections: 1.0, authorizedCollections: true, nameOnly: true } )
+db.collection.find({userHash: "A8247J2234"})
+db.users.find()
+db.users.find({ "userHash" : "A8247J2234" })
+db.users.find(ObjectID('5ef3377be70c721bdefa752c'))
+db.users.collection.update()
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { subDocument: {_id: 5ef3377be70c721bdefa752c} } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { "_id":"5ef3377be70c721bdefa752c" } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { stp: {$elementMatch: {questionID: "110"}}  } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { stp: {$elemMatch: {questionID: "110"}}  } } )
+db.users.find(ObjectID('5ef3377be70c721bdefa752c'))
+db.users.find({ "userHash" : "A8247J2234" })
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { stp: {$elemMatch: {questionID: 110}}  } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { stp: {questionID: 110}}  } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pull: { stp: {questionID: 110}}  } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { stp: 1}}  } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { stp: 1 } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { "stp": 1 } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { stp: 1 } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { stp: 2 } } )
+db.users.collection.update( {"userHash": "A8247J2234"}, { $pop: { stp: -1 } } )
+db.users.find({ "userHash" : "A8247J2234" })
+db.removeArrayElement.find().pretty()
+db.users.find().pretty()
+db.users.find( {userHash: "A8247J2234"} ).pretty()
+db.users.find( {userHash: "A8247J2234"} )
+use stp
+db.users.findOne({ userHash: "A8247J2234" })
+db.users.findOne({ userHash: "A8247J2234" }).stp
+db.users.update({ userHash: "A8247J2234" }, { $pull: {questionID:110} })
+db.users.update({ userHash: "A8247J2234" }, { $pull: {"questionID":110} })
+db.users.update({ userHash: "A8247J2234" }, { $pull: {"questionID":"110"} })
+db.users.findOne({ userHash: "A8247J2234" }).stp
+db.users.update({ userHash: "A8247J2234" }, { $pop: {stp:1} })
+db.users.findOne({ userHash: "A8247J2234" }).stp
+db.users.update({ userHash: "A8247J2234" }, { $pop: {stp:-1} })
+db.users.findOne({ userHash: "A8247J2234" }).stp
+db.users.update({ userHash: "A8247J2234" }, { $pop: {stp:-1} })
+use stp
+db.users.update({ userHash: "A8247J2234" }, { $pop: {stp:-1} })
+db.users.update({ userHash: "A7078P8583" }, { $pop: {stp:-1} })
+db
+db
+show dbs
+use stp
+db.getCollectionNames()
+db.users.find()

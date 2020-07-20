@@ -1,0 +1,1373 @@
+2020-06-09T08:59:13: PM2 log: ===============================================================================
+2020-06-09T08:59:13: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-09T08:59:13: PM2 log: Time                 : Tue Jun 09 2020 08:59:13 GMT+0000 (UTC)
+2020-06-09T08:59:13: PM2 log: PM2 version          : 4.4.0
+2020-06-09T08:59:13: PM2 log: Node.js version      : 8.10.0
+2020-06-09T08:59:13: PM2 log: Current arch         : x64
+2020-06-09T08:59:13: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-09T08:59:13: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-09T08:59:13: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-09T08:59:13: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-09T08:59:13: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-09T08:59:13: PM2 log: Worker Interval      : 30000
+2020-06-09T08:59:13: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-09T08:59:13: PM2 log: Concurrent actions   : 2
+2020-06-09T08:59:13: PM2 log: SIGTERM timeout      : 1600
+2020-06-09T08:59:13: PM2 log: ===============================================================================
+2020-06-09T08:59:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T08:59:13: PM2 log: App [index:0] online
+2020-06-09T09:01:01: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+2020-06-09T09:01:01: PM2 log: Deleting process 0
+2020-06-09T09:01:01: PM2 log: Stopping app:index id:0
+2020-06-09T09:01:01: PM2 log: App [index:0] exited with code [0] via signal [SIGHUP]
+2020-06-09T09:01:01: PM2 log: pid=1593 msg=process killed
+2020-06-09T09:01:01: PM2 log: Exited peacefully
+2020-06-09T09:02:35: PM2 log: ===============================================================================
+2020-06-09T09:02:35: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-09T09:02:35: PM2 log: Time                 : Tue Jun 09 2020 09:02:35 GMT+0000 (UTC)
+2020-06-09T09:02:35: PM2 log: PM2 version          : 4.4.0
+2020-06-09T09:02:35: PM2 log: Node.js version      : 8.10.0
+2020-06-09T09:02:35: PM2 log: Current arch         : x64
+2020-06-09T09:02:35: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-09T09:02:35: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-09T09:02:35: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-09T09:02:35: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-09T09:02:35: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-09T09:02:35: PM2 log: Worker Interval      : 30000
+2020-06-09T09:02:35: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-09T09:02:35: PM2 log: Concurrent actions   : 2
+2020-06-09T09:02:35: PM2 log: SIGTERM timeout      : 1600
+2020-06-09T09:02:35: PM2 log: ===============================================================================
+2020-06-09T09:02:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T09:02:36: PM2 log: App [index:0] online
+2020-06-09T09:04:07: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+2020-06-09T09:04:07: PM2 log: Deleting process 0
+2020-06-09T09:04:07: PM2 log: Stopping app:index id:0
+2020-06-09T09:04:07: PM2 log: App [index:0] exited with code [0] via signal [SIGHUP]
+2020-06-09T09:04:07: PM2 log: pid=1447 msg=process killed
+2020-06-09T09:04:07: PM2 log: Exited peacefully
+2020-06-09T09:05:09: PM2 log: ===============================================================================
+2020-06-09T09:05:09: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-09T09:05:09: PM2 log: Time                 : Tue Jun 09 2020 09:05:09 GMT+0000 (UTC)
+2020-06-09T09:05:09: PM2 log: PM2 version          : 4.4.0
+2020-06-09T09:05:09: PM2 log: Node.js version      : 8.10.0
+2020-06-09T09:05:09: PM2 log: Current arch         : x64
+2020-06-09T09:05:09: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-09T09:05:09: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-09T09:05:09: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-09T09:05:09: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-09T09:05:09: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-09T09:05:09: PM2 log: Worker Interval      : 30000
+2020-06-09T09:05:09: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-09T09:05:09: PM2 log: Concurrent actions   : 2
+2020-06-09T09:05:09: PM2 log: SIGTERM timeout      : 1600
+2020-06-09T09:05:09: PM2 log: ===============================================================================
+2020-06-09T09:05:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T09:05:36: PM2 log: App [index:0] online
+2020-06-09T09:06:08: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+2020-06-09T09:06:08: PM2 log: Deleting process 0
+2020-06-09T09:06:08: PM2 log: Stopping app:index id:0
+2020-06-09T09:06:08: PM2 log: App [index:0] exited with code [0] via signal [SIGHUP]
+2020-06-09T09:06:08: PM2 log: pid=1431 msg=process killed
+2020-06-09T09:06:08: PM2 log: Exited peacefully
+2020-06-09T09:06:48: PM2 log: ===============================================================================
+2020-06-09T09:06:48: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-09T09:06:48: PM2 log: Time                 : Tue Jun 09 2020 09:06:48 GMT+0000 (UTC)
+2020-06-09T09:06:48: PM2 log: PM2 version          : 4.4.0
+2020-06-09T09:06:48: PM2 log: Node.js version      : 8.10.0
+2020-06-09T09:06:48: PM2 log: Current arch         : x64
+2020-06-09T09:06:48: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-09T09:06:48: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-09T09:06:48: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-09T09:06:48: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-09T09:06:48: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-09T09:06:48: PM2 log: Worker Interval      : 30000
+2020-06-09T09:06:48: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-09T09:06:48: PM2 log: Concurrent actions   : 2
+2020-06-09T09:06:48: PM2 log: SIGTERM timeout      : 1600
+2020-06-09T09:06:48: PM2 log: ===============================================================================
+2020-06-09T09:06:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T09:06:48: PM2 log: App [index:0] online
+2020-06-09T09:16:38: PM2 log: Stopping app:index id:0
+2020-06-09T09:16:38: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T09:16:38: PM2 log: pid=1342 msg=process killed
+2020-06-09T09:16:38: PM2 log: PM2 successfully stopped
+2020-06-09T09:17:18: PM2 log: ===============================================================================
+2020-06-09T09:17:18: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-09T09:17:18: PM2 log: Time                 : Tue Jun 09 2020 09:17:18 GMT+0000 (UTC)
+2020-06-09T09:17:18: PM2 log: PM2 version          : 4.4.0
+2020-06-09T09:17:18: PM2 log: Node.js version      : 8.10.0
+2020-06-09T09:17:18: PM2 log: Current arch         : x64
+2020-06-09T09:17:18: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-09T09:17:18: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-09T09:17:18: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-09T09:17:18: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-09T09:17:18: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-09T09:17:18: PM2 log: Worker Interval      : 30000
+2020-06-09T09:17:18: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-09T09:17:18: PM2 log: Concurrent actions   : 2
+2020-06-09T09:17:18: PM2 log: SIGTERM timeout      : 1600
+2020-06-09T09:17:18: PM2 log: ===============================================================================
+2020-06-09T09:17:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T09:17:18: PM2 log: App [index:0] online
+2020-06-09T23:32:28: PM2 log: Stopping app:index id:0
+2020-06-09T23:32:28: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:32:28: PM2 log: pid=1311 msg=process killed
+2020-06-09T23:32:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:32:28: PM2 log: App [index:0] online
+2020-06-09T23:37:36: PM2 log: Stopping app:index id:0
+2020-06-09T23:37:36: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:37:36: PM2 log: pid=4550 msg=process killed
+2020-06-09T23:37:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:37:36: PM2 log: App [index:0] online
+2020-06-09T23:40:06: PM2 log: Stopping app:index id:0
+2020-06-09T23:40:06: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:40:06: PM2 log: pid=4591 msg=process killed
+2020-06-09T23:40:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:06: PM2 log: App [index:0] online
+2020-06-09T23:40:07: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:07: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:07: PM2 log: App [index:0] online
+2020-06-09T23:40:09: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:09: PM2 log: App [index:0] online
+2020-06-09T23:40:10: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:10: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:10: PM2 log: App [index:0] online
+2020-06-09T23:40:11: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:11: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:11: PM2 log: App [index:0] online
+2020-06-09T23:40:12: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:12: PM2 log: App [index:0] online
+2020-06-09T23:40:13: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:13: PM2 log: App [index:0] online
+2020-06-09T23:40:14: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:14: PM2 log: App [index:0] online
+2020-06-09T23:40:16: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:16: PM2 log: App [index:0] online
+2020-06-09T23:40:17: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:17: PM2 log: App [index:0] online
+2020-06-09T23:40:18: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:18: PM2 log: App [index:0] online
+2020-06-09T23:40:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:19: PM2 log: App [index:0] online
+2020-06-09T23:40:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:20: PM2 log: App [index:0] online
+2020-06-09T23:40:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:21: PM2 log: App [index:0] online
+2020-06-09T23:40:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:23: PM2 log: App [index:0] online
+2020-06-09T23:40:24: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:24: PM2 log: App [index:0] online
+2020-06-09T23:40:25: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:25: PM2 log: App [index:0] online
+2020-06-09T23:40:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:26: PM2 log: App [index:0] online
+2020-06-09T23:40:27: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:27: PM2 log: App [index:0] online
+2020-06-09T23:40:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:29: PM2 log: App [index:0] online
+2020-06-09T23:40:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:30: PM2 log: App [index:0] online
+2020-06-09T23:40:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:31: PM2 log: App [index:0] online
+2020-06-09T23:40:32: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:32: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:32: PM2 log: App [index:0] online
+2020-06-09T23:40:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:33: PM2 log: App [index:0] online
+2020-06-09T23:40:34: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:34: PM2 log: App [index:0] online
+2020-06-09T23:40:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:36: PM2 log: App [index:0] online
+2020-06-09T23:40:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:37: PM2 log: App [index:0] online
+2020-06-09T23:40:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:38: PM2 log: App [index:0] online
+2020-06-09T23:40:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:39: PM2 log: App [index:0] online
+2020-06-09T23:40:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:40: PM2 log: App [index:0] online
+2020-06-09T23:40:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:41: PM2 log: App [index:0] online
+2020-06-09T23:40:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:43: PM2 log: App [index:0] online
+2020-06-09T23:40:44: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:44: PM2 log: App [index:0] online
+2020-06-09T23:40:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:45: PM2 log: App [index:0] online
+2020-06-09T23:40:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:46: PM2 log: App [index:0] online
+2020-06-09T23:40:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:47: PM2 log: App [index:0] online
+2020-06-09T23:40:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:48: PM2 log: App [index:0] online
+2020-06-09T23:40:50: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:50: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:50: PM2 log: App [index:0] online
+2020-06-09T23:40:51: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:51: PM2 log: App [index:0] online
+2020-06-09T23:40:52: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:52: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:52: PM2 log: App [index:0] online
+2020-06-09T23:40:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:53: PM2 log: App [index:0] online
+2020-06-09T23:40:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:54: PM2 log: App [index:0] online
+2020-06-09T23:40:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:56: PM2 log: App [index:0] online
+2020-06-09T23:40:57: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:57: PM2 log: App [index:0] online
+2020-06-09T23:40:58: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:58: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:58: PM2 log: App [index:0] online
+2020-06-09T23:40:59: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:40:59: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:40:59: PM2 log: App [index:0] online
+2020-06-09T23:41:00: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:00: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:00: PM2 log: App [index:0] online
+2020-06-09T23:41:01: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:01: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:01: PM2 log: App [index:0] online
+2020-06-09T23:41:03: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:03: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:03: PM2 log: App [index:0] online
+2020-06-09T23:41:04: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:04: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:04: PM2 log: App [index:0] online
+2020-06-09T23:41:05: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:05: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:05: PM2 log: App [index:0] online
+2020-06-09T23:41:06: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:06: PM2 log: App [index:0] online
+2020-06-09T23:41:07: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:07: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:07: PM2 log: App [index:0] online
+2020-06-09T23:41:08: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:08: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:08: PM2 log: App [index:0] online
+2020-06-09T23:41:10: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:10: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:10: PM2 log: App [index:0] online
+2020-06-09T23:41:11: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:11: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:11: PM2 log: App [index:0] online
+2020-06-09T23:41:12: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:12: PM2 log: App [index:0] online
+2020-06-09T23:41:13: PM2 log: Stopping app:index id:0
+2020-06-09T23:41:13: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:41:13: PM2 log: pid=6150 msg=process killed
+2020-06-09T23:41:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:13: PM2 log: App [index:0] online
+2020-06-09T23:41:14: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:14: PM2 log: App [index:0] online
+2020-06-09T23:41:15: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:15: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:15: PM2 log: App [index:0] online
+2020-06-09T23:41:17: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:17: PM2 log: App [index:0] online
+2020-06-09T23:41:18: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:18: PM2 log: App [index:0] online
+2020-06-09T23:41:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:19: PM2 log: App [index:0] online
+2020-06-09T23:41:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:20: PM2 log: App [index:0] online
+2020-06-09T23:41:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:21: PM2 log: App [index:0] online
+2020-06-09T23:41:22: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:22: PM2 log: App [index:0] online
+2020-06-09T23:41:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:23: PM2 log: App [index:0] online
+2020-06-09T23:41:25: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:25: PM2 log: App [index:0] online
+2020-06-09T23:41:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:26: PM2 log: App [index:0] online
+2020-06-09T23:41:28: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:28: PM2 log: App [index:0] online
+2020-06-09T23:41:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:29: PM2 log: App [index:0] online
+2020-06-09T23:41:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:30: PM2 log: App [index:0] online
+2020-06-09T23:41:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:31: PM2 log: App [index:0] online
+2020-06-09T23:41:32: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:32: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:32: PM2 log: App [index:0] online
+2020-06-09T23:41:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:33: PM2 log: App [index:0] online
+2020-06-09T23:41:35: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:35: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:35: PM2 log: App [index:0] online
+2020-06-09T23:41:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:36: PM2 log: App [index:0] online
+2020-06-09T23:41:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:37: PM2 log: App [index:0] online
+2020-06-09T23:41:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:38: PM2 log: App [index:0] online
+2020-06-09T23:41:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:39: PM2 log: App [index:0] online
+2020-06-09T23:41:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:40: PM2 log: App [index:0] online
+2020-06-09T23:41:42: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:42: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:42: PM2 log: App [index:0] online
+2020-06-09T23:41:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:43: PM2 log: App [index:0] online
+2020-06-09T23:41:44: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:44: PM2 log: App [index:0] online
+2020-06-09T23:41:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:45: PM2 log: App [index:0] online
+2020-06-09T23:41:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:46: PM2 log: App [index:0] online
+2020-06-09T23:41:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:47: PM2 log: App [index:0] online
+2020-06-09T23:41:50: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:50: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:50: PM2 log: App [index:0] online
+2020-06-09T23:41:51: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:51: PM2 log: App [index:0] online
+2020-06-09T23:41:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:41:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:41:54: PM2 log: App [index:0] online
+2020-06-09T23:42:39: PM2 log: Stopping app:index id:0
+2020-06-09T23:42:39: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:42:40: PM2 log: pid=7026 msg=process killed
+2020-06-09T23:42:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:42:40: PM2 log: App [index:0] online
+2020-06-09T23:44:04: PM2 log: Stopping app:index id:0
+2020-06-09T23:44:04: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:44:04: PM2 log: pid=7083 msg=process killed
+2020-06-09T23:44:04: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:44:04: PM2 log: App [index:0] online
+2020-06-09T23:44:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:44:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:44:33: PM2 log: App [index:0] online
+2020-06-09T23:44:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:44:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:44:37: PM2 log: App [index:0] online
+2020-06-09T23:45:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:45:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:45:21: PM2 log: App [index:0] online
+2020-06-09T23:45:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:45:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:45:23: PM2 log: App [index:0] online
+2020-06-09T23:45:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:45:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:45:31: PM2 log: App [index:0] online
+2020-06-09T23:46:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:46:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:46:30: PM2 log: App [index:0] online
+2020-06-09T23:46:44: PM2 log: Stopping app:index id:0
+2020-06-09T23:46:44: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-09T23:46:44: PM2 log: pid=7369 msg=process killed
+2020-06-09T23:46:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:46:44: PM2 log: App [index:0] online
+2020-06-09T23:46:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-09T23:46:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-09T23:46:48: PM2 log: App [index:0] online
+2020-06-10T07:47:28: PM2 log: Stopping app:index id:0
+2020-06-10T07:47:28: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T07:47:28: PM2 log: pid=7447 msg=process killed
+2020-06-10T07:47:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T07:47:28: PM2 log: App [index:0] online
+2020-06-10T07:54:19: PM2 log: Stopping app:index id:0
+2020-06-10T07:54:19: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T07:54:19: PM2 log: pid=14806 msg=process killed
+2020-06-10T07:54:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T07:54:19: PM2 log: App [index:0] online
+2020-06-10T07:58:19: PM2 log: Stopping app:index id:0
+2020-06-10T07:58:19: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T07:58:19: PM2 log: pid=14966 msg=process killed
+2020-06-10T07:58:19: PM2 log: PM2 successfully stopped
+2020-06-10T07:58:57: PM2 log: ===============================================================================
+2020-06-10T07:58:57: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-10T07:58:57: PM2 log: Time                 : Wed Jun 10 2020 07:58:57 GMT+0000 (UTC)
+2020-06-10T07:58:57: PM2 log: PM2 version          : 4.4.0
+2020-06-10T07:58:57: PM2 log: Node.js version      : 8.10.0
+2020-06-10T07:58:57: PM2 log: Current arch         : x64
+2020-06-10T07:58:57: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-10T07:58:57: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-10T07:58:57: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-10T07:58:57: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-10T07:58:57: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-10T07:58:57: PM2 log: Worker Interval      : 30000
+2020-06-10T07:58:57: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-10T07:58:57: PM2 log: Concurrent actions   : 2
+2020-06-10T07:58:57: PM2 log: SIGTERM timeout      : 1600
+2020-06-10T07:58:57: PM2 log: ===============================================================================
+2020-06-10T07:58:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T07:58:57: PM2 log: App [index:0] online
+2020-06-10T08:04:15: PM2 log: Stopping app:index id:0
+2020-06-10T08:04:15: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:04:16: PM2 log: pid=1235 msg=process killed
+2020-06-10T08:04:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:04:16: PM2 log: App [index:0] online
+2020-06-10T08:20:25: PM2 log: Stopping app:index id:0
+2020-06-10T08:20:25: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:20:25: PM2 log: pid=2060 msg=process killed
+2020-06-10T08:20:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:20:25: PM2 log: App [index:0] online
+2020-06-10T08:25:46: PM2 log: Stopping app:index id:0
+2020-06-10T08:25:46: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:25:46: PM2 log: pid=2287 msg=process killed
+2020-06-10T08:25:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:25:46: PM2 log: App [index:0] online
+2020-06-10T08:27:14: PM2 log: Stopping app:index id:0
+2020-06-10T08:27:14: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:27:14: PM2 log: pid=2352 msg=process killed
+2020-06-10T08:27:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:27:14: PM2 log: App [index:0] online
+2020-06-10T08:28:26: PM2 log: Stopping app:index id:0
+2020-06-10T08:28:26: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:28:26: PM2 log: pid=2417 msg=process killed
+2020-06-10T08:28:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:28:26: PM2 log: App [index:0] online
+2020-06-10T08:30:06: PM2 log: Stopping app:index id:0
+2020-06-10T08:30:06: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:30:06: PM2 log: pid=2479 msg=process killed
+2020-06-10T08:35:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:35:37: PM2 log: App [index:0] online
+2020-06-10T08:35:56: PM2 log: Stopping app:index id:0
+2020-06-10T08:35:56: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:35:57: PM2 log: pid=2609 msg=process killed
+2020-06-10T08:57:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:57:44: PM2 log: App [index:0] online
+2020-06-10T08:59:06: PM2 log: Stopping app:index id:0
+2020-06-10T08:59:06: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T08:59:06: PM2 log: pid=2844 msg=process killed
+2020-06-10T08:59:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T08:59:06: PM2 log: App [index:0] online
+2020-06-10T09:02:05: PM2 log: Stopping app:index id:0
+2020-06-10T09:02:05: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T09:02:05: PM2 log: pid=2895 msg=process killed
+2020-06-10T09:02:05: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T09:02:05: PM2 log: App [index:0] online
+2020-06-10T09:06:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T09:06:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T09:06:43: PM2 log: App [index:0] online
+2020-06-10T09:07:16: PM2 log: Stopping app:index id:0
+2020-06-10T09:07:16: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T09:07:16: PM2 log: pid=3057 msg=process killed
+2020-06-10T09:07:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T09:07:16: PM2 log: App [index:0] online
+2020-06-10T09:08:11: PM2 log: Stopping app:index id:0
+2020-06-10T09:08:11: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T09:08:11: PM2 log: pid=3093 msg=process killed
+2020-06-10T09:08:11: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T09:08:11: PM2 log: App [index:0] online
+2020-06-10T18:47:04: PM2 log: Stopping app:index id:0
+2020-06-10T18:47:05: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T18:47:05: PM2 log: pid=3135 msg=process killed
+2020-06-10T18:47:32: PM2 log: PM2 successfully stopped
+2020-06-10T18:48:12: PM2 log: ===============================================================================
+2020-06-10T18:48:12: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-10T18:48:12: PM2 log: Time                 : Wed Jun 10 2020 18:48:12 GMT+0000 (UTC)
+2020-06-10T18:48:12: PM2 log: PM2 version          : 4.4.0
+2020-06-10T18:48:12: PM2 log: Node.js version      : 8.10.0
+2020-06-10T18:48:12: PM2 log: Current arch         : x64
+2020-06-10T18:48:12: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-10T18:48:12: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-10T18:48:12: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-10T18:48:12: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-10T18:48:12: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-10T18:48:12: PM2 log: Worker Interval      : 30000
+2020-06-10T18:48:12: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-10T18:48:12: PM2 log: Concurrent actions   : 2
+2020-06-10T18:48:12: PM2 log: SIGTERM timeout      : 1600
+2020-06-10T18:48:12: PM2 log: ===============================================================================
+2020-06-10T18:48:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:12: PM2 log: App [index:0] online
+2020-06-10T18:48:15: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:15: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:15: PM2 log: App [index:0] online
+2020-06-10T18:48:16: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:16: PM2 log: App [index:0] online
+2020-06-10T18:48:17: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:17: PM2 log: App [index:0] online
+2020-06-10T18:48:18: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:18: PM2 log: App [index:0] online
+2020-06-10T18:48:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:19: PM2 log: App [index:0] online
+2020-06-10T18:48:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:20: PM2 log: App [index:0] online
+2020-06-10T18:48:22: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:22: PM2 log: App [index:0] online
+2020-06-10T18:48:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:23: PM2 log: App [index:0] online
+2020-06-10T18:48:24: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:24: PM2 log: App [index:0] online
+2020-06-10T18:48:25: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:25: PM2 log: App [index:0] online
+2020-06-10T18:48:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:26: PM2 log: App [index:0] online
+2020-06-10T18:48:28: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:28: PM2 log: App [index:0] online
+2020-06-10T18:48:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:29: PM2 log: App [index:0] online
+2020-06-10T18:48:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:30: PM2 log: App [index:0] online
+2020-06-10T18:48:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:31: PM2 log: App [index:0] online
+2020-06-10T18:48:32: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:32: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:32: PM2 log: App [index:0] online
+2020-06-10T18:48:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:34: PM2 log: App [index:0] online
+2020-06-10T18:48:34: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:34: PM2 log: App [index:0] online
+2020-06-10T18:48:35: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:35: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:35: PM2 log: App [index:0] online
+2020-06-10T18:48:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:37: PM2 log: App [index:0] online
+2020-06-10T18:48:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:38: PM2 log: App [index:0] online
+2020-06-10T18:48:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:39: PM2 log: App [index:0] online
+2020-06-10T18:48:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:40: PM2 log: App [index:0] online
+2020-06-10T18:48:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:41: PM2 log: App [index:0] online
+2020-06-10T18:48:42: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:42: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:42: PM2 log: App [index:0] online
+2020-06-10T18:48:44: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:44: PM2 log: App [index:0] online
+2020-06-10T18:48:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:45: PM2 log: App [index:0] online
+2020-06-10T18:48:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:46: PM2 log: App [index:0] online
+2020-06-10T18:48:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:47: PM2 log: App [index:0] online
+2020-06-10T18:48:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:48: PM2 log: App [index:0] online
+2020-06-10T18:48:49: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:49: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:49: PM2 log: App [index:0] online
+2020-06-10T18:48:51: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:51: PM2 log: App [index:0] online
+2020-06-10T18:48:52: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:52: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:52: PM2 log: App [index:0] online
+2020-06-10T18:48:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:53: PM2 log: App [index:0] online
+2020-06-10T18:48:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:54: PM2 log: App [index:0] online
+2020-06-10T18:48:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:56: PM2 log: App [index:0] online
+2020-06-10T18:48:57: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:57: PM2 log: App [index:0] online
+2020-06-10T18:48:58: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:58: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:58: PM2 log: App [index:0] online
+2020-06-10T18:48:59: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:48:59: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:48:59: PM2 log: App [index:0] online
+2020-06-10T18:49:00: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:00: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:00: PM2 log: App [index:0] online
+2020-06-10T18:49:02: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:02: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:02: PM2 log: App [index:0] online
+2020-06-10T18:49:03: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:03: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:03: PM2 log: App [index:0] online
+2020-06-10T18:49:04: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:04: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:04: PM2 log: App [index:0] online
+2020-06-10T18:49:06: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:06: PM2 log: App [index:0] online
+2020-06-10T18:49:07: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:07: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:07: PM2 log: App [index:0] online
+2020-06-10T18:49:08: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:08: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:08: PM2 log: App [index:0] online
+2020-06-10T18:49:09: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:09: PM2 log: App [index:0] online
+2020-06-10T18:49:11: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:11: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:11: PM2 log: App [index:0] online
+2020-06-10T18:49:12: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:12: PM2 log: App [index:0] online
+2020-06-10T18:49:13: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:13: PM2 log: App [index:0] online
+2020-06-10T18:49:14: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:14: PM2 log: App [index:0] online
+2020-06-10T18:49:15: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:15: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:15: PM2 log: App [index:0] online
+2020-06-10T18:49:16: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:16: PM2 log: App [index:0] online
+2020-06-10T18:49:18: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:18: PM2 log: App [index:0] online
+2020-06-10T18:49:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:19: PM2 log: App [index:0] online
+2020-06-10T18:49:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:20: PM2 log: App [index:0] online
+2020-06-10T18:49:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:21: PM2 log: App [index:0] online
+2020-06-10T18:49:22: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:22: PM2 log: App [index:0] online
+2020-06-10T18:49:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:23: PM2 log: App [index:0] online
+2020-06-10T18:49:24: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:24: PM2 log: App [index:0] online
+2020-06-10T18:49:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:26: PM2 log: App [index:0] online
+2020-06-10T18:49:27: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:27: PM2 log: App [index:0] online
+2020-06-10T18:49:28: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:28: PM2 log: App [index:0] online
+2020-06-10T18:49:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:29: PM2 log: App [index:0] online
+2020-06-10T18:49:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:30: PM2 log: App [index:0] online
+2020-06-10T18:49:32: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:32: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:32: PM2 log: App [index:0] online
+2020-06-10T18:49:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:33: PM2 log: App [index:0] online
+2020-06-10T18:49:34: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:34: PM2 log: App [index:0] online
+2020-06-10T18:49:35: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:35: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:35: PM2 log: App [index:0] online
+2020-06-10T18:49:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:36: PM2 log: App [index:0] online
+2020-06-10T18:49:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:37: PM2 log: App [index:0] online
+2020-06-10T18:49:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:39: PM2 log: App [index:0] online
+2020-06-10T18:49:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:40: PM2 log: App [index:0] online
+2020-06-10T18:49:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:41: PM2 log: App [index:0] online
+2020-06-10T18:49:42: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:42: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:42: PM2 log: App [index:0] online
+2020-06-10T18:49:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:43: PM2 log: App [index:0] online
+2020-06-10T18:49:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:45: PM2 log: App [index:0] online
+2020-06-10T18:49:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:46: PM2 log: App [index:0] online
+2020-06-10T18:49:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:47: PM2 log: App [index:0] online
+2020-06-10T18:49:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:48: PM2 log: App [index:0] online
+2020-06-10T18:49:49: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:49: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:49: PM2 log: App [index:0] online
+2020-06-10T18:49:51: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:51: PM2 log: App [index:0] online
+2020-06-10T18:49:52: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:52: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:52: PM2 log: App [index:0] online
+2020-06-10T18:49:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:53: PM2 log: App [index:0] online
+2020-06-10T18:49:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:54: PM2 log: App [index:0] online
+2020-06-10T18:49:55: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:55: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:55: PM2 log: App [index:0] online
+2020-06-10T18:49:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:56: PM2 log: App [index:0] online
+2020-06-10T18:49:58: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:58: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:58: PM2 log: App [index:0] online
+2020-06-10T18:49:59: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:49:59: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:49:59: PM2 log: App [index:0] online
+2020-06-10T18:50:00: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:00: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:00: PM2 log: App [index:0] online
+2020-06-10T18:50:01: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:01: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:01: PM2 log: App [index:0] online
+2020-06-10T18:50:02: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:02: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:02: PM2 log: App [index:0] online
+2020-06-10T18:50:03: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:03: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:03: PM2 log: App [index:0] online
+2020-06-10T18:50:05: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:05: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:05: PM2 log: App [index:0] online
+2020-06-10T18:50:06: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:06: PM2 log: App [index:0] online
+2020-06-10T18:50:07: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:07: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:07: PM2 log: App [index:0] online
+2020-06-10T18:50:08: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:08: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:08: PM2 log: App [index:0] online
+2020-06-10T18:50:09: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:09: PM2 log: App [index:0] online
+2020-06-10T18:50:11: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:11: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:11: PM2 log: App [index:0] online
+2020-06-10T18:50:12: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:12: PM2 log: App [index:0] online
+2020-06-10T18:50:13: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:13: PM2 log: App [index:0] online
+2020-06-10T18:50:14: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:14: PM2 log: App [index:0] online
+2020-06-10T18:50:15: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:15: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:15: PM2 log: App [index:0] online
+2020-06-10T18:50:17: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:17: PM2 log: App [index:0] online
+2020-06-10T18:50:18: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:18: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:18: PM2 log: App [index:0] online
+2020-06-10T18:50:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:19: PM2 log: App [index:0] online
+2020-06-10T18:50:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:20: PM2 log: App [index:0] online
+2020-06-10T18:50:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:21: PM2 log: App [index:0] online
+2020-06-10T18:50:22: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:22: PM2 log: App [index:0] online
+2020-06-10T18:50:24: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:24: PM2 log: App [index:0] online
+2020-06-10T18:50:25: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:25: PM2 log: App [index:0] online
+2020-06-10T18:50:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:26: PM2 log: App [index:0] online
+2020-06-10T18:50:27: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:27: PM2 log: App [index:0] online
+2020-06-10T18:50:28: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:28: PM2 log: App [index:0] online
+2020-06-10T18:50:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:29: PM2 log: App [index:0] online
+2020-06-10T18:50:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:31: PM2 log: App [index:0] online
+2020-06-10T18:50:32: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:32: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:32: PM2 log: App [index:0] online
+2020-06-10T18:50:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:33: PM2 log: App [index:0] online
+2020-06-10T18:50:34: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:34: PM2 log: App [index:0] online
+2020-06-10T18:50:35: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:35: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:35: PM2 log: App [index:0] online
+2020-06-10T18:50:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:36: PM2 log: App [index:0] online
+2020-06-10T18:50:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:38: PM2 log: App [index:0] online
+2020-06-10T18:50:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:39: PM2 log: App [index:0] online
+2020-06-10T18:50:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:40: PM2 log: App [index:0] online
+2020-06-10T18:50:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:41: PM2 log: App [index:0] online
+2020-06-10T18:50:42: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:42: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:42: PM2 log: App [index:0] online
+2020-06-10T18:50:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:43: PM2 log: App [index:0] online
+2020-06-10T18:50:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:45: PM2 log: App [index:0] online
+2020-06-10T18:50:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:46: PM2 log: App [index:0] online
+2020-06-10T18:50:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:47: PM2 log: App [index:0] online
+2020-06-10T18:50:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:48: PM2 log: App [index:0] online
+2020-06-10T18:50:49: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:49: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:49: PM2 log: App [index:0] online
+2020-06-10T18:50:50: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:50: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:50: PM2 log: App [index:0] online
+2020-06-10T18:50:52: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:52: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:52: PM2 log: App [index:0] online
+2020-06-10T18:50:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:53: PM2 log: App [index:0] online
+2020-06-10T18:50:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:54: PM2 log: App [index:0] online
+2020-06-10T18:50:55: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:55: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:55: PM2 log: App [index:0] online
+2020-06-10T18:50:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:56: PM2 log: App [index:0] online
+2020-06-10T18:50:57: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:57: PM2 log: App [index:0] online
+2020-06-10T18:50:59: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:50:59: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:50:59: PM2 log: App [index:0] online
+2020-06-10T18:51:00: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:00: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:00: PM2 log: App [index:0] online
+2020-06-10T18:51:01: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:01: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:01: PM2 log: App [index:0] online
+2020-06-10T18:51:02: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:02: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:02: PM2 log: App [index:0] online
+2020-06-10T18:51:03: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:03: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:03: PM2 log: App [index:0] online
+2020-06-10T18:51:04: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:04: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:04: PM2 log: App [index:0] online
+2020-06-10T18:51:06: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:06: PM2 log: App [index:0] online
+2020-06-10T18:51:07: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:07: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:07: PM2 log: App [index:0] online
+2020-06-10T18:51:08: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:08: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:08: PM2 log: App [index:0] online
+2020-06-10T18:51:09: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:09: PM2 log: App [index:0] online
+2020-06-10T18:51:10: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:10: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:10: PM2 log: App [index:0] online
+2020-06-10T18:51:12: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:12: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:12: PM2 log: App [index:0] online
+2020-06-10T18:51:13: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:13: PM2 log: App [index:0] online
+2020-06-10T18:51:14: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:14: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:14: PM2 log: App [index:0] online
+2020-06-10T18:51:15: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:15: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:15: PM2 log: App [index:0] online
+2020-06-10T18:51:16: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:16: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:16: PM2 log: App [index:0] online
+2020-06-10T18:51:17: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:17: PM2 log: App [index:0] online
+2020-06-10T18:51:19: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:19: PM2 log: App [index:0] online
+2020-06-10T18:51:20: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:20: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:20: PM2 log: App [index:0] online
+2020-06-10T18:51:21: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:21: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:21: PM2 log: App [index:0] online
+2020-06-10T18:51:22: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:22: PM2 log: App [index:0] online
+2020-06-10T18:51:23: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:23: PM2 log: App [index:0] online
+2020-06-10T18:51:24: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:24: PM2 log: App [index:0] online
+2020-06-10T18:51:26: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:26: PM2 log: App [index:0] online
+2020-06-10T18:51:27: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:27: PM2 log: App [index:0] online
+2020-06-10T18:51:28: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:28: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:28: PM2 log: App [index:0] online
+2020-06-10T18:51:29: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:29: PM2 log: App [index:0] online
+2020-06-10T18:51:30: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:30: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:30: PM2 log: App [index:0] online
+2020-06-10T18:51:31: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:31: PM2 log: App [index:0] online
+2020-06-10T18:51:33: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:33: PM2 log: App [index:0] online
+2020-06-10T18:51:34: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:34: PM2 log: App [index:0] online
+2020-06-10T18:51:35: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:35: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:35: PM2 log: App [index:0] online
+2020-06-10T18:51:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:36: PM2 log: App [index:0] online
+2020-06-10T18:51:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:37: PM2 log: App [index:0] online
+2020-06-10T18:51:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:38: PM2 log: App [index:0] online
+2020-06-10T18:51:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:40: PM2 log: App [index:0] online
+2020-06-10T18:51:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:41: PM2 log: App [index:0] online
+2020-06-10T18:51:42: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:42: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:42: PM2 log: App [index:0] online
+2020-06-10T18:51:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:43: PM2 log: App [index:0] online
+2020-06-10T18:51:44: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:44: PM2 log: App [index:0] online
+2020-06-10T18:51:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:46: PM2 log: App [index:0] online
+2020-06-10T18:51:47: PM2 log: Stopping app:index id:0
+2020-06-10T18:51:47: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T18:51:47: PM2 log: pid=6185 msg=process killed
+2020-06-10T18:51:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:47: PM2 log: App [index:0] online
+2020-06-10T18:51:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:48: PM2 log: App [index:0] online
+2020-06-10T18:51:49: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:49: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:49: PM2 log: App [index:0] online
+2020-06-10T18:51:50: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:50: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:50: PM2 log: App [index:0] online
+2020-06-10T18:51:52: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:52: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:52: PM2 log: App [index:0] online
+2020-06-10T18:51:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:53: PM2 log: App [index:0] online
+2020-06-10T18:51:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:54: PM2 log: App [index:0] online
+2020-06-10T18:51:55: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:55: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:55: PM2 log: App [index:0] online
+2020-06-10T18:51:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:56: PM2 log: App [index:0] online
+2020-06-10T18:51:57: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:51:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:51:57: PM2 log: App [index:0] online
+2020-06-10T18:51:59: PM2 log: Stopping app:index id:0
+2020-06-10T18:51:59: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T18:51:59: PM2 log: pid=6452 msg=process killed
+2020-06-10T18:53:34: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:34: PM2 log: App [index:0] online
+2020-06-10T18:53:36: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:36: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:36: PM2 log: App [index:0] online
+2020-06-10T18:53:37: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:37: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:37: PM2 log: App [index:0] online
+2020-06-10T18:53:38: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:38: PM2 log: App [index:0] online
+2020-06-10T18:53:39: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:39: PM2 log: App [index:0] online
+2020-06-10T18:53:40: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:40: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:40: PM2 log: App [index:0] online
+2020-06-10T18:53:41: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:41: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:41: PM2 log: App [index:0] online
+2020-06-10T18:53:43: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:43: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:43: PM2 log: App [index:0] online
+2020-06-10T18:53:44: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:44: PM2 log: App [index:0] online
+2020-06-10T18:53:45: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:45: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:45: PM2 log: App [index:0] online
+2020-06-10T18:53:46: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:46: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:46: PM2 log: App [index:0] online
+2020-06-10T18:53:47: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:47: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:47: PM2 log: App [index:0] online
+2020-06-10T18:53:48: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:48: PM2 log: App [index:0] online
+2020-06-10T18:53:50: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:50: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:50: PM2 log: App [index:0] online
+2020-06-10T18:53:51: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:51: PM2 log: App [index:0] online
+2020-06-10T18:53:53: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:53: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:53: PM2 log: App [index:0] online
+2020-06-10T18:53:54: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:54: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:54: PM2 log: App [index:0] online
+2020-06-10T18:53:55: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:55: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:55: PM2 log: App [index:0] online
+2020-06-10T18:53:56: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:56: PM2 log: App [index:0] online
+2020-06-10T18:53:57: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:57: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:57: PM2 log: App [index:0] online
+2020-06-10T18:53:58: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:53:58: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:53:58: PM2 log: App [index:0] online
+2020-06-10T18:54:00: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:00: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:00: PM2 log: App [index:0] online
+2020-06-10T18:54:01: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:01: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:01: PM2 log: App [index:0] online
+2020-06-10T18:54:02: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:02: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:02: PM2 log: App [index:0] online
+2020-06-10T18:54:04: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:04: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:04: PM2 log: App [index:0] online
+2020-06-10T18:54:06: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:06: PM2 log: App [index:0] online
+2020-06-10T18:54:09: PM2 log: App [index:0] exited with code [1] via signal [SIGINT]
+2020-06-10T18:54:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:09: PM2 log: App [index:0] online
+2020-06-10T18:54:27: PM2 log: Stopping app:index id:0
+2020-06-10T18:54:27: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-10T18:54:27: PM2 log: pid=7207 msg=process killed
+2020-06-10T18:54:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-10T18:54:27: PM2 log: App [index:0] online
+2020-06-13T13:47:16: PM2 log: Stopping app:index id:0
+2020-06-13T13:47:16: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-13T13:47:17: PM2 log: pid=7264 msg=process killed
+2020-06-13T13:47:17: PM2 log: App [index:0] starting in -fork mode-
+2020-06-13T13:47:17: PM2 log: App [index:0] online
+2020-06-13T13:54:29: PM2 log: Stopping app:index id:0
+2020-06-13T13:54:29: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-13T13:54:29: PM2 log: pid=15262 msg=process killed
+2020-06-13T13:54:30: PM2 log: PM2 successfully stopped
+2020-06-13T13:55:13: PM2 log: ===============================================================================
+2020-06-13T13:55:13: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-13T13:55:13: PM2 log: Time                 : Sat Jun 13 2020 13:55:13 GMT+0000 (UTC)
+2020-06-13T13:55:13: PM2 log: PM2 version          : 4.4.0
+2020-06-13T13:55:13: PM2 log: Node.js version      : 8.10.0
+2020-06-13T13:55:13: PM2 log: Current arch         : x64
+2020-06-13T13:55:13: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-13T13:55:13: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-13T13:55:13: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-13T13:55:13: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-13T13:55:13: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-13T13:55:13: PM2 log: Worker Interval      : 30000
+2020-06-13T13:55:13: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-13T13:55:13: PM2 log: Concurrent actions   : 2
+2020-06-13T13:55:13: PM2 log: SIGTERM timeout      : 1600
+2020-06-13T13:55:13: PM2 log: ===============================================================================
+2020-06-13T13:55:13: PM2 log: App [index:0] starting in -fork mode-
+2020-06-13T13:55:13: PM2 log: App [index:0] online
+2020-06-16T20:33:39: PM2 log: Stopping app:index id:0
+2020-06-16T20:33:39: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-16T20:33:39: PM2 log: pid=1231 msg=process killed
+2020-06-16T20:33:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-16T20:33:39: PM2 log: App [index:0] online
+2020-06-16T20:57:26: PM2 log: Stopping app:index id:0
+2020-06-16T20:57:26: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-16T20:57:26: PM2 log: pid=12811 msg=process killed
+2020-06-16T20:57:26: PM2 log: App [index:0] starting in -fork mode-
+2020-06-16T20:57:26: PM2 log: App [index:0] online
+2020-06-16T21:02:48: PM2 log: Stopping app:index id:0
+2020-06-16T21:02:48: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-16T21:02:48: PM2 log: pid=13076 msg=process killed
+2020-06-16T21:02:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-16T21:02:48: PM2 log: App [index:0] online
+2020-06-17T12:45:25: PM2 log: Stopping app:index id:0
+2020-06-17T12:45:25: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-17T12:45:25: PM2 log: pid=13229 msg=process killed
+2020-06-17T12:45:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-17T12:45:25: PM2 log: App [index:0] online
+2020-06-22T20:06:48: PM2 log: Stopping app:index id:0
+2020-06-22T20:06:48: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-22T20:06:48: PM2 log: pid=19837 msg=process killed
+2020-06-22T20:06:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-22T20:06:48: PM2 log: App [index:0] online
+2020-06-24T08:36:38: PM2 log: Stopping app:index id:0
+2020-06-24T08:36:38: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T08:36:38: PM2 log: pid=1584 msg=process killed
+2020-06-24T08:36:38: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T08:36:38: PM2 log: App [index:0] online
+2020-06-24T09:04:19: PM2 log: Stopping app:index id:0
+2020-06-24T09:04:19: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T09:04:19: PM2 log: pid=6762 msg=process killed
+2020-06-24T09:04:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T09:04:19: PM2 log: App [index:0] online
+2020-06-24T12:19:50: PM2 log: Stopping app:index id:0
+2020-06-24T12:19:50: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T12:19:51: PM2 log: pid=7134 msg=process killed
+2020-06-24T12:19:51: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T12:19:51: PM2 log: App [index:0] online
+2020-06-24T12:43:26: PM2 log: Stopping app:index id:0
+2020-06-24T12:43:27: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T12:43:27: PM2 log: pid=7747 msg=process killed
+2020-06-24T12:43:27: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T12:43:27: PM2 log: App [index:0] online
+2020-06-24T15:37:29: PM2 log: Stopping app:index id:0
+2020-06-24T15:37:29: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T15:37:29: PM2 log: pid=7915 msg=process killed
+2020-06-24T15:37:29: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T15:37:29: PM2 log: App [index:0] online
+2020-06-24T16:39:56: PM2 log: Stopping app:index id:0
+2020-06-24T16:39:56: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T16:39:56: PM2 log: pid=8957 msg=process killed
+2020-06-24T16:39:56: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T16:39:56: PM2 log: App [index:0] online
+2020-06-24T17:15:22: PM2 log: Stopping app:index id:0
+2020-06-24T17:15:22: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T17:15:22: PM2 log: pid=9250 msg=process killed
+2020-06-24T17:15:22: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T17:15:22: PM2 log: App [index:0] online
+2020-06-24T17:23:23: PM2 log: Stopping app:index id:0
+2020-06-24T17:23:23: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T17:23:23: PM2 log: pid=9519 msg=process killed
+2020-06-24T17:23:23: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T17:23:23: PM2 log: App [index:0] online
+2020-06-24T17:33:09: PM2 log: Stopping app:index id:0
+2020-06-24T17:33:09: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T17:33:09: PM2 log: pid=9666 msg=process killed
+2020-06-24T17:33:09: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T17:33:09: PM2 log: App [index:0] online
+2020-06-24T17:36:24: PM2 log: Stopping app:index id:0
+2020-06-24T17:36:24: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T17:36:24: PM2 log: pid=9828 msg=process killed
+2020-06-24T17:36:24: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T17:36:24: PM2 log: App [index:0] online
+2020-06-24T19:17:48: PM2 log: Stopping app:index id:0
+2020-06-24T19:17:48: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T19:17:48: PM2 log: pid=9875 msg=process killed
+2020-06-24T19:17:48: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T19:17:48: PM2 log: App [index:0] online
+2020-06-24T21:09:00: PM2 log: Stopping app:index id:0
+2020-06-24T21:09:00: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T21:09:01: PM2 log: pid=10358 msg=process killed
+2020-06-24T21:09:01: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T21:09:01: PM2 log: App [index:0] online
+2020-06-24T21:43:19: PM2 log: Stopping app:index id:0
+2020-06-24T21:43:19: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T21:43:19: PM2 log: pid=10769 msg=process killed
+2020-06-24T21:43:19: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T21:43:19: PM2 log: App [index:0] online
+2020-06-24T21:49:05: PM2 log: Stopping app:index id:0
+2020-06-24T21:49:05: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T21:49:06: PM2 log: pid=11295 msg=process killed
+2020-06-24T21:49:06: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T21:49:06: PM2 log: App [index:0] online
+2020-06-24T21:56:43: PM2 log: Stopping app:index id:0
+2020-06-24T21:56:43: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T21:56:44: PM2 log: pid=11465 msg=process killed
+2020-06-24T21:56:44: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T21:56:44: PM2 log: App [index:0] online
+2020-06-24T21:59:25: PM2 log: Stopping app:index id:0
+2020-06-24T21:59:25: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T21:59:25: PM2 log: pid=11618 msg=process killed
+2020-06-24T21:59:25: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T21:59:25: PM2 log: App [index:0] online
+2020-06-24T22:05:39: PM2 log: Stopping app:index id:0
+2020-06-24T22:05:39: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T22:05:39: PM2 log: pid=11752 msg=process killed
+2020-06-24T22:05:39: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T22:05:39: PM2 log: App [index:0] online
+2020-06-24T22:18:33: PM2 log: Stopping app:index id:0
+2020-06-24T22:18:33: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-24T22:18:33: PM2 log: pid=11901 msg=process killed
+2020-06-24T22:18:33: PM2 log: App [index:0] starting in -fork mode-
+2020-06-24T22:18:33: PM2 log: App [index:0] online
+2020-06-28T11:12:51: PM2 log: Stopping app:index id:0
+2020-06-28T11:12:51: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-28T11:12:51: PM2 log: pid=12065 msg=process killed
+2020-06-28T11:12:51: PM2 log: PM2 successfully stopped
+2020-06-28T11:13:31: PM2 log: ===============================================================================
+2020-06-28T11:13:31: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2020-06-28T11:13:31: PM2 log: Time                 : Sun Jun 28 2020 11:13:31 GMT+0000 (UTC)
+2020-06-28T11:13:31: PM2 log: PM2 version          : 4.4.0
+2020-06-28T11:13:31: PM2 log: Node.js version      : 8.10.0
+2020-06-28T11:13:31: PM2 log: Current arch         : x64
+2020-06-28T11:13:31: PM2 log: PM2 home             : /home/ubuntu/.pm2
+2020-06-28T11:13:31: PM2 log: PM2 PID file         : /home/ubuntu/.pm2/pm2.pid
+2020-06-28T11:13:31: PM2 log: RPC socket file      : /home/ubuntu/.pm2/rpc.sock
+2020-06-28T11:13:31: PM2 log: BUS socket file      : /home/ubuntu/.pm2/pub.sock
+2020-06-28T11:13:31: PM2 log: Application log path : /home/ubuntu/.pm2/logs
+2020-06-28T11:13:31: PM2 log: Worker Interval      : 30000
+2020-06-28T11:13:31: PM2 log: Process dump file    : /home/ubuntu/.pm2/dump.pm2
+2020-06-28T11:13:31: PM2 log: Concurrent actions   : 2
+2020-06-28T11:13:31: PM2 log: SIGTERM timeout      : 1600
+2020-06-28T11:13:31: PM2 log: ===============================================================================
+2020-06-28T11:13:31: PM2 log: App [index:0] starting in -fork mode-
+2020-06-28T11:13:31: PM2 log: App [index:0] online
+2020-06-28T11:18:48: PM2 log: Stopping app:index id:0
+2020-06-28T11:18:48: PM2 log: App [index:0] exited with code [0] via signal [SIGINT]
+2020-06-28T11:18:49: PM2 log: pid=1178 msg=process killed
+2020-06-28T11:18:49: PM2 log: App [index:0] starting in -fork mode-
+2020-06-28T11:18:49: PM2 log: App [index:0] online

@@ -45,11 +45,11 @@ N_PRACTICE_TRIALS = 8 # in digit and afact
 #Task audio data manager 
 
 PROCESSED_AUDIO_DF = 'processed_audio_df.xlsx' # file name containing audio data after processing ready for dct-stp task
-AUDIO_FILES_DIRECTORY = 'audio_files_wav'
+AUDIO_FILES_DIRECTORY = 'audio_files'
 
 # sentences excel column names
 LENGTH_COL = 'length'
-SENTENCE_TEXT = 'sentContent'
+SENTENCE_TEXT = 'SentContent'
 SENTENCE_VALENCE = 'SentenceType'
 SENTENCE_NUM = 'TAPlistNumber'
 SENTENCE = 'sentence'
