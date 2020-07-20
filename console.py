@@ -60,7 +60,8 @@ def main():
 							"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
 							"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
 							}
-	
+	##pashes_relation_Tomer
+
 	data_manager = MainAudioProcessor(
 										phases_names=phases_names,
 										n_trials_by_phase={

@@ -3,6 +3,13 @@
 
 ##TODO - to add desctiption 
 
+
+ALLOCATION_TOMER = r'Sentences_Allocation_Tomer.xlsx'
+ALLOCATION_OMER = r'Sentences_Allocation_Omer.xlsx'
+
+#ALLOCATION = ALLOCATION_TOMER
+ALLOCATION = ALLOCATION_OMER
+
 #Console
 
 AUDIOPATH = r'Subjects'

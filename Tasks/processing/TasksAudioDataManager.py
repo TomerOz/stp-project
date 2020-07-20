@@ -20,7 +20,6 @@ class MainAudioProcessor(object):
 						n_block_per_phase=None,
 						dichotic_phases=None,
 						phases_relations=None,
-						
 						):
 						
 		self.phases_names = phases_names # A list of strings representing phases names
@@ -30,7 +29,7 @@ class MainAudioProcessor(object):
 		self.dichotic_phases = dichotic_phases
 		self.phases_relations = phases_relations				
 		self.first_phase = DIGIT_PRE
-		
+
 		if n_practice_trials == None:
 			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
 		else:
@@ -74,7 +73,7 @@ class MainAudioProcessor(object):
 		
 		self.trial_sentence_refetnce = None # later being created as a class instance of TrialsSentencesReff
 		
-	def __late_init__(self, menu):	
+	def __late_init__(self, menu):
 		self.menu = menu
 		# audio paths and df
 		self.audio_path = self.menu.updated_audio_path # path of dir containing audio dir of audio and audio df 
@@ -112,70 +111,66 @@ class MainAudioProcessor(object):
 	def _split_senteces_to_phases(self):
 		'''the function gets a matrix for sentecnes per task and phase, and 80 subject data,
 			and allocate the sentences for each session'''
-		
+
 		SUBJECT_DATA = self.audio_path + '\\' + r'audio_data.xlsx'
-		ALLOCATION_PLAN =  r'Sentences_Allocation_Omer.xlsx'
-
-
 		#read files
 		subject_data = pd.read_excel(SUBJECT_DATA)
-		allocation_plan = pd.read_excel(ALLOCATION_PLAN)
+		allocation_plan = pd.read_excel(ALLOCATION)
 
-		#read allocation plan
-		Digit_before = allocation_plan.iloc[0, 2]
-		Digit_after = allocation_plan.iloc[0, 3]
-		Digit_before_after = allocation_plan.iloc[0, 4]
+		if ALLOCATION == ALLOCATION_OMER:
+			#read allocation plan
+			Digit_before = allocation_plan.iloc[0, 2]
+			Digit_after = allocation_plan.iloc[0, 3]
+			Digit_before_after = allocation_plan.iloc[0, 4]
 
-		Dichotic_before = allocation_plan.iloc[1, 2]
-		Dichotic_after = allocation_plan.iloc[1, 3]
-		Dichotic_before_after = allocation_plan.iloc[1, 4]
+			Dichotic_before = allocation_plan.iloc[1, 2]
+			Dichotic_after = allocation_plan.iloc[1, 3]
+			Dichotic_before_after = allocation_plan.iloc[1, 4]
 
-		#split data to neg/neu
-		data_neg = subject_data[subject_data['SentenceType'] == 'neg']
-		data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
-		
-		dic_phases_number = {}
-		n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
-		
-		# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
-		n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
-		
-		for i in range(len(n_list)):
-			dic_phases_number[n_str_list[i]]= n_list[i]
+			#split data to neg/neu
+			data_neg = subject_data[subject_data['SentenceType'] == 'neg']
+			data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
 
-		print(dic_phases_number)
-		for c,data in enumerate([data_neg, data_ntr]):
-			index_list = list(range(len(data)))
-			for k in dic_phases_number.keys():				
-				sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
-				print(sample_index_list)
-				for i in sample_index_list:
-					index_list.remove(i)
-					if c==1:
-						subject_data.at[i,'Phases'] = k
-					else:
-						subject_data.at[i+40,'Phases'] = k
+			dic_phases_number = {}
+			n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
 
-		print(subject_data['Phases'])
-		
-		
-		sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
-		
-		for sentence in self.sentences:
-			sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
-			if sentence_phase in self.phases_relations:
-				# a sentence that repeats on before and after
-				for phase in self.phases_relations[sentence_phase]:
-					self.sentences_by_phase.setdefault(phase, []).append(sentence)
-					sentence_valence_dicts[sentence.valence].setdefault(phase, []).append(sentence)
-			else:
-				# an exclusive by phase and task sentence
-				self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
-				sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
-		
-		##self._create_trials_pointers_by_phase(phase)
-		# AT this point i have unique neus and negs per phase
-	
+			# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
+			n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
+
+			for i in range(len(n_list)):
+				dic_phases_number[n_str_list[i]]= n_list[i]
+
+			for data in [data_neg, data_ntr]:
+				index_list = list(data.index) #[0,...,39] / [40,...79]
+				for k in dic_phases_number.keys():
+					sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
+					for i in sample_index_list:
+						index_list.remove(i)
+						subject_data.at[i, 'Phases'] = k
+
+
+			print(subject_data['Phases'])
+
+
+			sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
+
+			for sentence in self.sentences:
+				sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
+				if sentence_phase in self.phases_relations:
+					# a sentence that repeats on before and after
+					for phase in self.phases_relations[sentence_phase]:
+						self.sentences_by_phase.setdefault(phase, []).append(sentence)
+						sentence_valence_dicts[sentence.valence].setdefault(phase, []).append(sentence)
+				else:
+					# an exclusive by phase and task sentence
+					self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
+					sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
+
+			##self._create_trials_pointers_by_phase(phase)
+			# AT this point i have unique neus and negs per phase
+		else:
+			pass
+
 	def _create_trials_pointers_by_phase(self):
 		for phase in self.phases_names:
 			if phase not in self.dichotic_phases:
