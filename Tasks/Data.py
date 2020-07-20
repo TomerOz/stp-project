@@ -198,7 +198,7 @@ class DichoticSubjectData(object):
 				self.sentence_ids	    ,
 				]
 
-		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), + " session-" + self.session[0] + Dichotic")
+		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), + " session-" + self.session[0] + "Dichotic")
 		self.insert_responses(df)
 	
 	def insert_responses(self, df):
