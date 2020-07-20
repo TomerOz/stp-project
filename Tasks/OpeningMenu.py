@@ -28,9 +28,7 @@ class Menu(object):
 		self.exp.create_label('menu_label_2', 'menu_frame', label_bg = BACKGROUND)
 		self.exp.create_label('menu_label_3', 'menu_frame', label_bg = BACKGROUND)
 		self.exp.create_label('menu_label_4', 'menu_frame', label_bg = BACKGROUND)
-		self.exp.create_label('button_label', 'menu_frame', label_bg = BACKGROUND)
 		
-		self.exp.create_button('menu_frame', 'button_label', 'Start', self.start_button_callback)
 		
 		self.exp.create_question('menu_frame', 'menu_label_1', gender, u'  מגדר ')
 		self.exp.create_question('menu_frame', 'menu_label_2', group, u'  קבוצה')
@@ -43,13 +41,13 @@ class Menu(object):
 		'menu_label_2':(self.exp.cx, self.exp.cy),
 		'menu_label_3':(self.exp.cx, self.exp.cy+dy),
 		'menu_label_4':(self.exp.cx, self.exp.cy+(2*dy)),
-		'button_label':(self.exp.cx, self.exp.cy+dy*4),
 		}
 	def show(self):
 		self.gui.unbind("<space>")
-		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'menu_label_4', 'button_label'], use_place = self.places)
+		self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'menu_label_4'], use_place = self.places)
+		self.gui.bind("<space>", self.start_space_callback)
 		
-	def start_button_callback(self):
+	def start_space_callback(self, event=None):
 		self.menu_data[gender] = type(self.exp).ALL_ENTRIES[gender].get()
 		self.menu_data[group] = type(self.exp).ALL_ENTRIES[group].get()
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
@@ -58,5 +56,7 @@ class Menu(object):
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
 		self.ap.process_audio(self.updated_audio_path) # process this subject audio files
 		self.data_manager.__late_init__(self)
+		self.gui.unbind("<space>")
+		self.exp.hide_cursor()
 		self.flow.next()
 		

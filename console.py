@@ -133,8 +133,9 @@ def main():
 	flow.add_tasks(tasks)
 	
 	gui.bind("<space>", flow.next)
-	gui.state('zoomed')
-	#exp._full_screen_creator(gui) # for running in a complete full screen
+	#gui.state('zoomed')
+	exp._full_screen_creator(gui) # for running in a complete full screen
+	
 	exp.run()
 	
 if __name__ == "__main__":

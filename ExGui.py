@@ -12,7 +12,7 @@ class Experiment(object):
 	
 	EXPERIMENT_GUI = tk.Tk() # main window of this experiment
 	EXPERIMENT_GUI.configure(background ='black')
-	
+
 	ALL_FRAMES = {} # contains all frames to be later packed, unpacked or refference in any other way
 	LABELS_BY_FRAMES = {} # shaped as {fame_name: {label_name1 : label_1, ..., labeln_name : labeln}...} 
 	ALL_SCALES = {}
@@ -36,6 +36,9 @@ class Experiment(object):
 		tk_object.overrideredirect(False)
 		tk_object.attributes('-fullscreen',True)
 	
+	def hide_cursor(self):
+		type(self).EXPERIMENT_GUI.config(cursor="none")
+		
 	def craete_smart_image_label(
 									self,
 									label_name,
@@ -45,7 +48,7 @@ class Experiment(object):
 									label_text=None, 
 									label_fg='black',
 									label_bg='white',
-									label_font='david 28 bold',
+									label_font='Courier 28 bold',
 									label_justify='right',
 									blank_label_width=160,
 									blank_label_height=10,
@@ -147,7 +150,7 @@ class Experiment(object):
 					label_text=None, 
 					label_fg='black', # letters color
 					label_bg='gray', # background color
-					label_font='david 28 bold',
+					label_font='Courier 28 bold',
 					label_justify='right',
 					label_width=None,
 					label_height=None,
@@ -248,7 +251,7 @@ class Experiment(object):
 							activebackground = "green", 
 							relief = "raised", 
 							cursor = "cross", 
-							font = 'david', 
+							font = 'Courier', 
 							bg = "white", 
 							text = button_text, 
 							fg = "black", 

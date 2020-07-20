@@ -104,11 +104,14 @@ BLOCK_CHANGE_WAIT_TIME = 3000
 CATCH_TRIAL_RESPONSE_DELAY = 500
 DCT_STIMULI = u'XXX'
 CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
-DCT_STIMULI_FONT = "david 50 bold"
+DCT_STIMULI_FONT = "Courier 50 bold"
 RIGHT ='r'
 LEFT = 'l'
 RIGHT_RESPONSE_KEY = "<Shift_R>" #even
 LEFT_RESPONSE_KEY = "<Shift_L>" #odd
+
+CATCH_RIGHT_RESPONSE_KEY = "<Alt_R>" # identical
+CATCH_LEFT_RESPONSE_KEY = "<Alt_L>" # not identical
 
 #DCT gui properties 
 BACKGROUND = "black"

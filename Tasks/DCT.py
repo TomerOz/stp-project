@@ -114,6 +114,8 @@ class DctTask(object):
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 				
 	def _bind_keyboard(self):
+		self.gui.unbind(CATCH_RIGHT_RESPONSE_KEY)
+		self.gui.unbind(CATCH_LEFT_RESPONSE_KEY)
 		self.gui.bind(RIGHT_RESPONSE_KEY, lambda eff: self._getresponse(eff, key=RIGHT))
 		self.gui.bind(LEFT_RESPONSE_KEY, lambda eff: self._getresponse(eff,key=LEFT))
 		
@@ -140,10 +142,16 @@ class DctTask(object):
 	def _count_down(self, num=None):
 		self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=str(num))
 	
+	def _catch_keyboard_bind(self):
+		self.gui.unbind(RIGHT_RESPONSE_KEY)
+		self.gui.unbind(LEFT_RESPONSE_KEY)
+		self.gui.bind(CATCH_RIGHT_RESPONSE_KEY, lambda eff: self._getresponse(eff, key=RIGHT))
+		self.gui.bind(CATCH_LEFT_RESPONSE_KEY, lambda eff: self._getresponse(eff,key=LEFT))
+		
 	def catch_trial(self):
 		self.stimulus_live_text = CATCH_SENTENCEE_QUESTION + "\n"  +  self.td.current_sentence.text
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
-		self.gui.after(CATCH_TRIAL_RESPONSE_DELAY,self._bind_keyboard)
+		self.gui.after(CATCH_TRIAL_RESPONSE_DELAY,self._catch_keyboard_bind)
 		
 	def _trial(self):
 		'''This function is being called after response to last trial took place.

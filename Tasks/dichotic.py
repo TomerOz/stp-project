@@ -373,7 +373,6 @@ class DichoticTaskData(object):
 
 	 
 def main():
-	from ExGui import Experiment
 	from processing.TasksAudioDataManager import MainAudioProcessor
 	from processing.DichoticDataManager import DichoticTrialsManager
 	from processing.wav_lengh import AudioProcessor

@@ -178,7 +178,7 @@ def main():
 			bias-=0.05
 		afact_gui.create_feedback(bias)
 	
-	from ExGui import Experiment
+	
 	from processing.TasksAudioDataManager import MainAudioProcessor
 	from processing.wav_lengh import AudioProcessor
 	from Data import SubjectData
