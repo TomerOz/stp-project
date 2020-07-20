@@ -141,8 +141,19 @@ class SubjectData(object):
 			os.mkdir(subject_dir) 
 		subject_df.to_excel(subject_dir + '\\data.xlsx')
 		return subject_df
-			
-			
+
+def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
+	subject_df = pd.DataFrame()
+	for i, r in enumerate(rows):
+		subject_df[cols[i]] = pd.Series(r)
+
+	subject_dir = os.path.join(destination)
+	if not os.path.exists(subject_dir):
+		os.mkdir(subject_dir)
+	subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx')
+	return subject_df
+
+
 class DichoticSubjectData(object):
 	def __init__(self):
 		
@@ -198,7 +209,8 @@ class DichoticSubjectData(object):
 				self.sentence_ids	    ,
 				]
 
-		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0]), + " session-" + self.session[0] + "Dichotic")
+
+		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0])," session-" + self.session[0] +" Dichotic")
 		self.insert_responses(df)
 	
 	def insert_responses(self, df):
@@ -276,14 +288,3 @@ class DichoticSubjectData(object):
 		self.blocks					.append(td.block)
 		self.sentence_ids			.append(sentence.num)
 
-def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
-		subject_df = pd.DataFrame()
-		for i,r in enumerate(rows):
-			subject_df[cols[i]] = pd.Series(r)
-		
-		subject_dir = os.path.join(destination)
-		if not os.path.exists(subject_dir):
-			os.mkdir(subject_dir) 
-		subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx')
-		return subject_df
-	

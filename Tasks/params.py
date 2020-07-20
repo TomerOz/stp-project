@@ -11,8 +11,11 @@ IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
 
-IMAGEPATH_DICHOTIC_END = r"C:\Users\HP\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
-IMAGEPATH_DIGIT_END =  r"C:\Users\HP\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
+# IMAGEPATH_DICHOTIC_END = r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
+# IMAGEPATH_DIGIT_END =  r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
+
+IMAGEPATH_DICHOTIC_END = r'Instructions_Pictures\Dichotic\EndOfTask'
+IMAGEPATH_DIGIT_END =  r'Instructions_Pictures\Digitnew\DigitInstTomerOmer'
 
 IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
