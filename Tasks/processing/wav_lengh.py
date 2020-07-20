@@ -15,7 +15,7 @@ import librosa
 import random
 import ipdb
 
-AUDIO_FILES_DIRECTORY = 'audio_files_wav'
+AUDIO_FILES_DIRECTORY = 'audio_files'
 
 class AudioProcessor(object):
 	
