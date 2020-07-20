@@ -21,28 +21,6 @@ from Tasks.dichotic import DichoticOneBack, DichoticTaskData
 
 from Tasks.params import *
 
-# AUDIOPATH = r'Subjects'
-# IMAGEPATH = r'Instructions_Pictures'
-# IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
-# IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
-# IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
-
-# IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
-# IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
-# IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
-# IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
-	
-# PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-# AFACT_PHASE = "afact_phase"
-# DICHOTIC_PHASE_STR = 'dichotic_phase'
-
-# N_BASELINE_TRIALS = 10
-# N_POST_TRIALS = 10
-# N_AFACT_TRIALS = 20
-# N_DICHOTIC_TRIALS = 20
-# N_PRACTICE_TRIALS = 8
-
 def main():
 	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
 	exp = Experiment() # A class instance of experiments buildind
@@ -52,31 +30,67 @@ def main():
 	instructions = Instructions(gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
 	
-	
+	# Omer
 	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)
-	phases_names = [DIGIT_PRE, DIGIT_POST, DICHOTIC_PRE, DICHOTIC_POST]
+	#phases_names = [DIGIT_PRE, DIGIT_POST, DICHOTIC_PRE, DICHOTIC_POST]
+	#
+	#phases_relations = {
+	#						"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
+	#						"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
+	#						}
+	# dichotic_phases = [DICHOTIC_PRE, DICHOTIC_POST]
+	# phases_without_catch_trials = [] + dichotic_phases
+	#n_trials_by_phase = {
+	#														DIGIT_PRE: 			80, # 40 neutrals and 40 negtaives
+	#														DIGIT_POST:			80,
+	#														DICHOTIC_PRE:		120, # unrelevant - because the code deletes it 	
+	#														DICHOTIC_POST: 		120,
+	#														}
+	#
+	# Tomer:
+	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)	
 	
+	phases_names = [
+						DIGIT_PRE,
+						DIGIT_POST,           
+						AFACT_PHASE,
+						MAB_PHASE,
+						DICHOTIC_PHASE,
+					]
 	phases_relations = {
+							"Digit_before_and_AFACT":
+							"MAB_and_AFACT":
+							"MAB_and_Digit_after":
+							"Dichotic_and_AFACT":
 							"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
 							"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
 							}
-	##pashes_relation_Tomer
+							
+	dichotic_phases = [DICHOTIC]
+	phases_without_catch_trials = [] + dichotic_phases + [MAB_PHASE, AFACT_PHASE]
+	n_trials_by_phase = {
+															DIGIT_PRE: 			20, # Each n of trials trepresent only one type of valence
+															DIGIT_POST:			20,
+															AFACT_PHASE:		80, 
+															MAB_PHASE: 			30,
+															DICHOTIC_PHASE: 	80, # 	Unrelevant because it is beeing set in the DichoticDataManager 
+																					# procedure of building blocks and chuncks - Thus, it is a direct 
+																					# function of n of blocks, n of chunks and n trials per chunk
+															}
+
+
+	#####################################################################################################################
 
 	data_manager = MainAudioProcessor(
 										phases_names=phases_names,
-										n_trials_by_phase={
-															DIGIT_PRE: 			80, # 40 neutrals and 40 negtaives
-															DIGIT_POST:			80,
-															DICHOTIC_PRE:		120, # unrelevant - because the code deletes it 	
-															DICHOTIC_POST: 		120,
-															}, 
+										n_trials_by_phase=n_trials_by_phase, 
 										n_practice_trials=N_PRACTICE_TRIALS,
-										phases_without_catch_trials = [DICHOTIC_PRE, DICHOTIC_POST, AFACT_PHASE],
-										dichotic_phases = [DICHOTIC_PRE, DICHOTIC_POST],
+										phases_without_catch_trials = phases_without_catch_trials,
+										dichotic_phases = dichotic_phases,
 										phases_relations = phases_relations,
 										#n_block_per_phase = {"Baseline" : 2},
-										# define --> n_block_per_phase = {phase_name : n_of_blocks}
-										# in order to control ammount of blocks for a specific phase
+										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}
+										# 		in order to control ammount of blocks for a specific phase
 										)
 	
 	dichotic_task_gui = DichoticOneBack(gui, exp)
@@ -95,7 +109,11 @@ def main():
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	
 	# maybe duplicate it for pre and post - AT THE MOMENT ITS ONLY "PRE"
-	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE)
+	# Omer:
+	#dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE,)
+	# Tomer:
+	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE, n_blocks=2)
+	
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
 	
 	td_trainig = TaskData(menu, data_manager, sd, phase=DIGIT_PRE) # A class intance that organizes the data for the DCT task

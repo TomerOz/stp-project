@@ -116,6 +116,11 @@ class MainAudioProcessor(object):
 		#read files
 		subject_data = pd.read_excel(SUBJECT_DATA)
 		allocation_plan = pd.read_excel(ALLOCATION)
+		
+		data_neg = subject_data[subject_data['SentenceType'] == 'neg']
+		data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
+
+		dic_phases_number = {}
 
 		if ALLOCATION == ALLOCATION_OMER:
 			#read allocation plan
@@ -126,54 +131,74 @@ class MainAudioProcessor(object):
 			Dichotic_before = allocation_plan.iloc[1, 2]
 			Dichotic_after = allocation_plan.iloc[1, 3]
 			Dichotic_before_after = allocation_plan.iloc[1, 4]
-
 			#split data to neg/neu
-			data_neg = subject_data[subject_data['SentenceType'] == 'neg']
-			data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
-
-			dic_phases_number = {}
 			n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
-
 			# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
 			n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
 
-			for i in range(len(n_list)):
-				dic_phases_number[n_str_list[i]]= n_list[i]
-
-			for data in [data_neg, data_ntr]:
-				index_list = list(data.index) #[0,...,39] / [40,...79]
-				for k in dic_phases_number.keys():
-					sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
-					for i in sample_index_list:
-						index_list.remove(i)
-						subject_data.at[i, 'Phases'] = k
-
-
-			print(subject_data['Phases'])
-
-
-			sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
-
-			for sentence in self.sentences:
-				sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
-				if sentence_phase in self.phases_relations:
-					# a sentence that repeats on before and after
-					for phase in self.phases_relations[sentence_phase]:
-						self.sentences_by_phase.setdefault(phase, []).append(sentence)
-						sentence_valence_dicts[sentence.valence].setdefault(phase, []).append(sentence)
-				else:
-					# an exclusive by phase and task sentence
-					self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
-					sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
-
-			##self._create_trials_pointers_by_phase(phase)
-			# AT this point i have unique neus and negs per phase
 		else:
-			pass
+			Digit_before            = allocation_plan.iloc[0, 2]
+			Digit_after             = allocation_plan.iloc[1, 2]
+			AFACT		        	= allocation_plan.iloc[2, 2]
+			MAB 		        	= allocation_plan.iloc[3, 2]
+			Dichotic		        = allocation_plan.iloc[4, 2]
+			Digit_before_and_AFACT  = allocation_plan.iloc[2, 3]
+			MAB_and_AFACT           = allocation_plan.iloc[3, 4]
+			MAB_and_Digit_after     = allocation_plan.iloc[3, 5]
+			Dichotic_and_AFACT      = allocation_plan.iloc[4, 4]
+			
+			ipdb.set_trace()
+			
+			n_list= [
+						Digit_before,
+						Digit_after,           
+						AFACT,
+						MAB,
+						Dichotic,
+						Digit_before_and_AFACT,
+						MAB_and_AFACT,
+						MAB_and_Digit_after,
+						Dichotic_and_AFACT,  
+					] # Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
+			n_str_list = self.phases_names + [
+												"Digit_before_and_AFACT",
+												"MAB_and_AFACT",
+												"MAB_and_Digit_after",
+												"Dichotic_and_AFACT",
+													] # adding only those with before and after
+
+		for i in range(len(n_list)):
+			dic_phases_number[n_str_list[i]]= n_list[i]
+
+		for data in [data_neg, data_ntr]:
+			index_list = list(data.index) #[0,...,39] / [40,...79]
+			for k in dic_phases_number.keys():
+				sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
+				for i in sample_index_list:
+					index_list.remove(i)
+					subject_data.at[i, 'Phases'] = k
+
+		sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
+
+		for sentence in self.sentences:
+			sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
+			if sentence_phase in self.phases_relations:
+				# a sentence that repeats on before and after
+				for phase in self.phases_relations[sentence_phase]:
+					self.sentences_by_phase.setdefault(phase, []).append(sentence)
+					sentence_valence_dicts[sentence.valence].setdefault(phase, []).append(sentence)
+			else:
+				# an exclusive by phase and task sentence
+				self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
+				sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
+
+		
+		# AT this point i have unique neus and negs per phase
+		
 
 	def _create_trials_pointers_by_phase(self):
 		for phase in self.phases_names:
-			if phase not in self.dichotic_phases:
+			if phase not in self.dichotic_phases: # skipps dichitc because it has its own way of handeling trials
 				# rounded_multplying_factor by using it I know how many repetition per sentence
 				ammount_unique_sentences = len(self.sentences_by_phase[phase])
 				rounded_multplying_factor = int(round(1.0*self.n_trials_by_phase[phase]/ammount_unique_sentences))
@@ -243,25 +268,11 @@ class MainAudioProcessor(object):
 				# creating new instances with deep copy for practice trials
 				practice_trials_sentences = [] + practice_trials_pointers
 				
-				#for i, prac_sentence in enumerate(practice_trials_pointers):
-				#	#dc = copy.deepcopy(prac_sentence)
-				#	#if i < self.n_practice_trials/2:
-				#	#	# making sure first four have feedback and the rest doesn't
-				#	#	dc.is_practice = True
-				#	#	dc.trial_phase = "practice 1"
-				#	#else:
-				#	#	dc.is_practice = False
-				#	#	dc.trial_phase = "practice 2"
-				#	practice_trials_sentences.append(dc)
-				
-				# Saving final values
 				
 				prac_neu_or_neg = {
 								PRACTICE_SENTENCE: practice_trials_pointers, 
 								NEUTRAL_SENTENCE : neus_pointers, 
 								NEGATIVE_SENTENCE: negs_pointers}
-				
-				#trials = [] + [practice_1]*self.n_practice_trials + [neu]*self.n_start_neutral_trials + trials
 				
 				# Adding sentences to the TrialType instances
 				for p in prac_neu_or_neg[NEGATIVE_SENTENCE]:
@@ -317,7 +328,7 @@ class MainAudioProcessor(object):
 		random.shuffle(additional_pointers) # to avoid consectuive is not mixed with the rest of trials
 		prac_neu_or_neg[NEUTRAL_SENTENCE] = additional_pointers + prac_neu_or_neg[NEUTRAL_SENTENCE]
 		
-		# smpelinG initial ntr trials pointer to be added IN FEW LINES AHEAD
+		# smpeling initial ntr trials pointers to be added IN FEW LINES AHEAD
 		neu.sentences = []  # deleting existing sentences
 		neus_pointers = list(range(len(self.neu_sentences_by_phase[phase])))
 		ntr_pointers_for_initial_trials = random.sample(neus_pointers, self.n_start_neutral_trials)

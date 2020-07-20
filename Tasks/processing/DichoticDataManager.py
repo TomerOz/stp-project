@@ -3,19 +3,13 @@ import ipdb
 
 from ..params import *
 
-# To Params:
-# DEFAULT_NUMBER_OF_BLOCKS = 3
-# DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
-# DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
-# DEFAULT_NUMBER_OF_N_BACK = 2
-# N_TRIALS_PRACTICE_ONE = 7
-# N_TRIALS_PRACTICE_TWO = 6
-
 class DichoticTrialsManager(object):
 	def __init__(
 					self, gui, flow, data_manager, dichotic_name_str, 
 					n_of_chunks=None, n_of_unique_sentnces=None,
-					n_trials_practice_one=N_TRIALS_PRACTICE_ONE, n_trials_practice_two=N_TRIALS_PRACTICE_TWO,
+					n_trials_practice_one=N_TRIALS_PRACTICE_ONE, 
+					n_trials_practice_two=N_TRIALS_PRACTICE_TWO,
+					n_blocks = None,
 					):
 		
 		self.data_manager = data_manager
@@ -25,7 +19,10 @@ class DichoticTrialsManager(object):
 		
 		# Task properties:
 		self.n_one_back = DEFAULT_NUMBER_OF_N_BACK
-		self.n_blocks = DEFAULT_NUMBER_OF_BLOCKS
+		if n_blocks == None:
+			self.n_blocks = DEFAULT_NUMBER_OF_BLOCKS
+		else:
+			self.n_blocks = n_blocks
 		
 		if n_of_chunks==None:
 			self.n_of_chunks = DEFAULT_NUMBER_OF_CHUNCKS
@@ -33,7 +30,7 @@ class DichoticTrialsManager(object):
 			self.n_of_chunks = n_of_chunks
 		
 		if n_of_unique_sentnces==None:
-			self.n_of_unique_sentnces = DEFAULT_NUMBER_OF_UNIQUE_SENTENCES
+			self.n_of_unique_sentnces = DEFAULT_NUMBER_OF_UNIQUE_SENTENCES # represents n of trials per chunk for neutral and negatives seprately
 		else:
 			self.n_of_unique_sentnces = n_of_unique_sentnces
 			

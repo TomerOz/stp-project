@@ -71,6 +71,7 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
 AFACT_PHASE = "afact_phase"			# in console we must use these contants
 DICHOTIC_PHASE = "dichotic_phase"
+MAB_PHASE = "MAB_phase"
 
 DIGIT_PRE = "DIGIT_PRE"
 DIGIT_POST = "DIGIT_POST" 
@@ -171,7 +172,7 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 #DichoticDataManager 
 DEFAULT_NUMBER_OF_BLOCKS = 3
 DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
-DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 6 # SHOULD BE 10
+DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 # SHOULD BE 10 - trials per chunk
 DEFAULT_NUMBER_OF_N_BACK = 2
 N_TRIALS_PRACTICE_ONE = 7
 N_TRIALS_PRACTICE_TWO = 6
