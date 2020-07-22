@@ -29,6 +29,8 @@ class Experiment(object):
 		self.y = self.screensize[1] #screen height
 		self.cx = int(self.screensize[0]*0.5) #screen width center
 		self.cy = int(self.screensize[1]*0.5) #screen hight center
+		
+		self.tk_refference = tk
 	
 	def _full_screen_creator(self, tk_object):
 
@@ -122,7 +124,7 @@ class Experiment(object):
 						frame_name, # a string of frame name to save refference
 						parent=None,
 						full_screen=True,
-						background_color='gray'
+						background_color='black'
 				):
 	
 		''' frame_name should be a string.
@@ -148,8 +150,8 @@ class Experiment(object):
 					label_name, # a string of label name to save its refference
 					frame_name, 
 					label_text=None, 
-					label_fg='black', # letters color
-					label_bg='gray', # background color
+					label_fg='white', # letters color
+					label_bg='black', # background color
 					label_font='Courier 28 bold',
 					label_justify='right',
 					label_width=None,

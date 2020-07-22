@@ -37,6 +37,8 @@ class AfactGui(object):
 			self.max_bias_z_score = 3.0
 		else:
 			self.max_bias_z_score = max_bias_z_score
+		
+		self.create_feedback_canvas()
 	
 	def create_feedback_canvas(self):
 		'''creates the template background of the feedback object'''
@@ -45,7 +47,7 @@ class AfactGui(object):
 		self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
 		feedback_label_ref = self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL]
 		
-		self.feedback_canvas = self.exp.tk.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black", highlightbackground="black")
+		self.feedback_canvas = self.exp.tk_refference.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black", highlightbackground="black")
 		
 		tick_area = self.height*0.8333333333333334
 		self.top_space = int((self.height - tick_area)/2)
@@ -109,8 +111,8 @@ class AfactGui(object):
 		for_animation()
 					
 class AfactTaskData(TaskData):
-	def __init__(self, menu, data_manager, subject_data, phase=None, n_blocks=None):
-		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase, n_blocks=n_blocks)
+	def __init__(self, menu, data_manager, subject_data, phase=None):
+		super(AfactTaskData, self).__init__(menu, data_manager, subject_data, phase=phase)
 		
 		self.neutral_running_mean = [] #  holds last 4 neutral RT's, updated throughout the experiment
 		self.last_trial_bias = None # holding running mean of n last neutrals, to be changed after every neg trial
@@ -131,24 +133,24 @@ class AfactTaskData(TaskData):
 				self.last_trial_bias = bias
 	
 class AfactTask(DctTask):
-	def __init__(self, gui, exp, td, flow, afact_gui):
+	def __init__(self, gui, exp, td, flow):
 		super(AfactTask, self).__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
-		self.afact_gui = afact_gui
+		self.afact_gui = AfactGui(gui, exp)
 		
 	def show_AFACT_frame(self, bias):
 		self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))						
 		self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
-		self.gui.after(100, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
-		self.gui.after(200, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
-		self.gui.after(300, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
-		self.gui.after(400, lambda:self.exp.hide_frame(MAIN_FRAME))
-		self.gui.after(400, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
-		self.gui.after(600, self._continue)
+		self.gui.after(0, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
+		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
+		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
+		self.gui.after(3100, lambda:self.exp.hide_frame(MAIN_FRAME))
+		self.gui.after(4500, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+		self.gui.after(4500, self._continue)
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
 	
-		self.td.current_trial > -1:# ignores first trial
+		if self.td.current_trial > -1:# ignores first trial
 			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance) 
 			self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance)
 		

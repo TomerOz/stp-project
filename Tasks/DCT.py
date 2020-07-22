@@ -275,7 +275,9 @@ class TaskData(object):
 		self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
 		self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
 		self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
-		self.catch_trials_and_non_catch = self.data_manager.catch_and_non_catch_trials_list_by_phase[self.phase] # contains 0, "c" or "w" - means no cathc, correct catch, wrong ctach
+		
+		# To be deleted 22.7.2020
+		#self.catch_trials_and_non_catch = self.data_manager.catch_and_non_catch_trials_list_by_phase[self.phase] # contains 0, "c" or "w" - means no cathc, correct catch, wrong ctach
 		
 		self.trials_types_by_phase 					= self.data_manager.trials_types_by_phase[self.phase]
 		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[self.phase]

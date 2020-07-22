@@ -147,8 +147,6 @@ class MainAudioProcessor(object):
 			MAB_and_Digit_after     = allocation_plan.iloc[3, 5]
 			Dichotic_and_AFACT      = allocation_plan.iloc[4, 4]
 			
-			ipdb.set_trace()
-			
 			n_list= [
 						Digit_before,
 						Digit_after,           
@@ -192,9 +190,7 @@ class MainAudioProcessor(object):
 				self.sentences_by_phase.setdefault(sentence_phase, []).append(sentence)
 				sentence_valence_dicts[sentence.valence].setdefault(sentence_phase, []).append(sentence)
 
-		
 		# AT this point i have unique neus and negs per phase
-		
 
 	def _create_trials_pointers_by_phase(self):
 		for phase in self.phases_names:
