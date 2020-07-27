@@ -11,9 +11,8 @@ from PIL import Image, ImageTk
 import winsound
 import numpy as np
 
-from .Data import SubjectData
 from .DCT import DctTask, TaskData
-from .OpeningMenu import Menu
+from .params import *
 
 ## Afact specific constants
 MAIN_FRAME = 'afact_frame'
@@ -38,8 +37,40 @@ class AfactGui(object):
 		else:
 			self.max_bias_z_score = max_bias_z_score
 		
-		self.create_feedback_canvas()
+		#self.create_feedback_canvas()
+		self.create_feedback_canvas_orginal()
 	
+	def create_feedback_canvas_orginal(self):
+		self.exp.create_frame(MAIN_FRAME)
+		self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
+		feedback_label_ref = self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL]
+		
+		self.feedback_canvas = self.exp.tk_refference.Canvas(feedback_label_ref, width=self.width, height=self.height, bg="Black", highlightbackground="black")
+		tick_area = self.height*0.8333333333333334
+		self.top_space = int((self.height - tick_area)/2)
+		bottom_space = tick_area + self.top_space
+
+		self.tick_space = int(tick_area/self.ammount_of_ticks)
+		tick_middle = int(self.height/2) # inorder ti nake it 0 to 100
+		self.x_middle = int(self.width/2.0)
+		
+		# load the .gif image file
+		self.feesback_scale = self.exp.tk_refference.PhotoImage(file=r'Tasks\AFACTStimuliPictures\FeedbackScale.png')
+		# put gif image on canvas
+		# pic's upper left corner (NW) on the canvas is at x=50 y=10
+		self.feedback_canvas.create_image(0, 0, image=self.feesback_scale, anchor=self.exp.tk_refference.NW)
+		
+		self.gif1 = self.exp.tk_refference.PhotoImage(file=r'Tasks\AFACTStimuliPictures\FeedbackArrow.png')
+		self.feedback_canvas.create_image(10, 10, image=self.gif1, anchor=self.exp.tk_refference.NW, tags='FeedbackArrow')
+		# pack the canvas into a frame/form
+		ipdb.set_trace()
+		# configure images
+		# understad coordinates
+		# center stimuli
+		self.feedback_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
+		
+	
+		
 	def create_feedback_canvas(self):
 		'''creates the template background of the feedback object'''
 		
@@ -96,6 +127,26 @@ class AfactGui(object):
 		self.feedback_canvas.coords(1, self.x_middle-50, self.height-y_feedback-self.top_space, self.x_middle+50, self.height-self.tick_space)
 		self.feedback_canvas.itemconfig(1, fill=color)
 	
+	def create_feedback_original(self, gui, bias_z_score):
+		self.feedback_canvas.pack_forget()
+		self.length_of_feedback = 40
+		if bias_z_score <=0:
+			bias_z_score = 1
+		
+		relative_bias = bias_z_score/self.max_bias_z_score
+		if relative_bias >= 1.0:
+			relative_bias = 1.0
+			
+		elif relative_bias < 0.0:
+			relative_bias = 0.0	
+		y_feedback = int(relative_bias*self.length_of_feedback)
+		self.feedback_canvas.delete("FeedbackArrow")
+		self.feedback_canvas.create_image(20, random.randint(0,100), image=self.gif1, anchor=self.exp.tk_refference.NW, tags="FeedbackArrow")
+		#self.feedback_canvas.create_image(0, 0, image=self.feesback_scale, anchor=self.exp.tk_refference.NW)
+		# pack the canvas into a frame/form
+		#self.feedback_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
+		self.feedback_canvas.pack()
+	
 	def show_feedback_animated(self, gui, bias_z_score):
 		if bias_z_score <=0:
 			bias_z_score = 1
@@ -138,8 +189,9 @@ class AfactTask(DctTask):
 		self.afact_gui = AfactGui(gui, exp)
 		
 	def show_AFACT_frame(self, bias):
-		self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))						
-		self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
+		#self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))						
+		#self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
+		self.gui.after(0, lambda:self.afact_gui.create_feedback_original(self.gui,bias))
 		self.gui.after(0, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
 		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
 		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
@@ -185,35 +237,64 @@ def main():
 	from processing.wav_lengh import AudioProcessor
 	from Data import SubjectData
 	from ExpFlow import Flow
+	from ExGuiTempAfact import Experiment
+	from OpeningMenu import Menu
+
+		
+	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF) # processing audio files data
+	exp = Experiment() # A class instance of experiments buildind
+	gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class
+	flow = Flow() # A class instance that controls the experiment flow
+	sd = SubjectData()	# 
 	
-	PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-	PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-	SUBJECT = 'subject'
-	GROUP = 'group'
-	GENDER = 'gender'
-	AUDIOPATH = r'Subjects'
 	
-	ap = AudioProcessor(PRE_PROCESSED_AUDIO_DF, PROCESSED_AUDIO_DF)
-	exp = Experiment()
-	gui = exp.gui
-	sd = SubjectData(full_data_path=r"C:\Users\HP\Documents\GitHub\stp-project")
-	flow = Flow()
+	phases_names = [
+						DIGIT_PRE,
+						DIGIT_POST,           
+						AFACT_PHASE,
+						MAB_PHASE,
+						DICHOTIC_PHASE,
+					]
+	phases_relations = {
+							"Digit_before_and_AFACT": [DIGIT_PRE, AFACT_PHASE],
+							"MAB_and_AFACT": [MAB_PHASE, AFACT_PHASE],
+							"MAB_and_Digit_after": [MAB_PHASE, DIGIT_POST],
+							"Dichotic_and_AFACT": [DICHOTIC_PHASE, AFACT_PHASE],
+							}
+							
+	dichotic_phases = [DICHOTIC_PHASE]
+	phases_without_catch_trials = [] + dichotic_phases + [MAB_PHASE, AFACT_PHASE]
+	n_trials_by_phase = {
+															DIGIT_PRE: 			20, # Each n of trials trepresent only one type of valence
+															DIGIT_POST:			20,
+															AFACT_PHASE:		80, 
+															MAB_PHASE: 			30,
+															DICHOTIC_PHASE: 	80, # 	Unrelevant because it is beeing set in the DichoticDataManager 
+																					# procedure of building blocks and chuncks - Thus, it is a direct 
+																					# function of n of blocks, n of chunks and n trials per chunk
+															}
+
+
+	#####################################################################################################################
 	
+	# GENERAL DATA MANAGER:
 	data_manager = MainAudioProcessor(
-										phases_names=[
-														AFACT_PHASE, 
-														'Post'
-														], 
-										
-										n_trials_by_phase={
-															AFACT_PHASE: 4,
-															'Post': 40
-															}, 
-										
-										n_practice_trials=1,
+										phases_names=phases_names,
+										n_trials_by_phase=n_trials_by_phase, 
+										n_practice_trials=1, #N_PRACTICE_TRIALS,
+										phases_without_catch_trials = phases_without_catch_trials,
+										dichotic_phases = dichotic_phases,
+										phases_relations = phases_relations,
+										n_block_per_phase = {AFACT_PHASE : 2},
 										n_start_neutral_trials=4,
-										) #  phases_names=None, n_trials_by_phase=None, n_practice_trials=None):
+										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}
+										# 		in order to control ammount of blocks for a specific phase
+										)
 	
+	
+	
+
+	# MENU:
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	menu.menu_data[SUBJECT] = 1 
 	menu.menu_data[GROUP] = 1 
@@ -221,7 +302,7 @@ def main():
 	
 	
 	# lab
-	menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
+	#menu.updated_audio_path  = r"C:\Users\user\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	# mine
 	menu.updated_audio_path  = r"C:\Users\HP\Documents\GitHub\stp-project" + "\\" + menu.audiopath + '\\' + 'subject ' + str(menu.menu_data[SUBJECT])	
 	
@@ -229,13 +310,10 @@ def main():
 	menu.ap.process_audio(menu.updated_audio_path) # process this subject audio files
 	data_manager.__late_init__(menu)
 	
+	# AFACT:
+	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE)
+	afact_task = AfactTask(gui, exp, atd, flow)
 	
-	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE, n_blocks=2)
-	atd.event_timed_init()
-	afact_gui = AfactGui(gui, exp)
-	afact_gui.create_feedback_canvas()
-	
-	afact_task = AfactTask(gui, exp, atd, flow, afact_gui)
 	#gui.bind("<Right>", change_feedback)	
 	#gui.bind("<Left>", change_feedback)	
 	afact_task.start_task()

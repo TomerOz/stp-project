@@ -84,11 +84,17 @@ def main():
 	data_manager = MainAudioProcessor(
 										phases_names=phases_names,
 										n_trials_by_phase=n_trials_by_phase, 
-										n_practice_trials=N_PRACTICE_TRIALS,
 										phases_without_catch_trials = phases_without_catch_trials,
 										dichotic_phases = dichotic_phases,
 										phases_relations = phases_relations,
 										n_block_per_phase = {AFACT_PHASE : 2},
+										#####################################################################################################################
+										## FOR DEBUG ONLY - LATER RETURN COMMENTED VALUES
+										n_practice_trials=1,#N_PRACTICE_TRIALS,
+										n_start_neutral_trials=1,#4,
+										afact_debug=True,
+										#####################################################################################################################
+										
 										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}
 										# 		in order to control ammount of blocks for a specific phase
 										)

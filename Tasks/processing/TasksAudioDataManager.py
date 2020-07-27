@@ -5,7 +5,7 @@ import ipdb
 import copy
 import numpy as np
 
-from Tasks.params import *
+from ..params import *
 
 class MainAudioProcessor(object):
 	
@@ -20,6 +20,7 @@ class MainAudioProcessor(object):
 						n_block_per_phase=None,
 						dichotic_phases=None,
 						phases_relations=None,
+						afact_debug=False,
 						):
 						
 		self.phases_names = phases_names # A list of strings representing phases names
@@ -29,6 +30,7 @@ class MainAudioProcessor(object):
 		self.dichotic_phases = dichotic_phases
 		self.phases_relations = phases_relations				
 		self.first_phase = DIGIT_PRE
+		self.afact_debug = afact_debug
 
 		if n_practice_trials == None:
 			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
@@ -102,7 +104,8 @@ class MainAudioProcessor(object):
 		self._create_trials_pointers_by_phase()
 		self.create_catch_trials()
 		self.fill_sentence_trial_refferences()
-		self.insert_catch_trials_trial_types()
+		if not self.afact_debug:
+			self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
 		self.insert_instructions_trial_types()
@@ -430,7 +433,6 @@ class MainAudioProcessor(object):
 					catch.is_normal_trial = False
 					self.trials_types_by_phase[phase].insert(prac_catch_index+1+catch_counter, catch)
 					# Ctach sentence is currently always the one before catch trials - thus always correct
-					#catch_sentence = self.trials_types_by_phase[phase][0].sentences[prac_catch_index] # zero for grabbing the just one instance of TrialType
 					catch_sentence = self.trials_types_by_phase[phase][prac_catch_index+catch_counter].sentences[i + 2] # first two sentences of practice two have no catch
 					catch.catch_type = True # stands for correct catch trials
 					

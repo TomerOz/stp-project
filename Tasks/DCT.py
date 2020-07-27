@@ -10,7 +10,7 @@ from playsound import playsound
 from PIL import Image, ImageTk
 import winsound
 
-from .Data import SubjectData
+#from .Data import SubjectData
 from .params import *
 
 #moved to params
