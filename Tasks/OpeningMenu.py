@@ -59,4 +59,3 @@ class Menu(object):
 		self.gui.unbind("<space>")
 		self.exp.hide_cursor()
 		self.flow.next()
-		
