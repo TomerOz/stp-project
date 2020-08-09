@@ -9,7 +9,7 @@ import typing
 import numpy as np
 from skimage.util import img_as_ubyte
 import cv2
-import params
+from Tasks.bodymap import params
 
 
 def segment_areas(

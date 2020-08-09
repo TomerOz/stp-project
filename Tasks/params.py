@@ -7,8 +7,8 @@
 ALLOCATION_TOMER = r'Sentences_Allocation_Tomer.xlsx'
 ALLOCATION_OMER = r'Sentences_Allocation_Omer.xlsx'
 
-ALLOCATION = ALLOCATION_TOMER
-#ALLOCATION = ALLOCATION_OMER
+#ALLOCATION = ALLOCATION_TOMER
+ALLOCATION = ALLOCATION_OMER
 
 #Console
 
@@ -41,12 +41,14 @@ DICHOTIC_PHASE_STR = 'dichotic_phase'
 
 
 # controls ammount of truals of the different phases
+# should be deleted :
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 N_BASELINE_TRIALS = 10 # in digit baseline
 N_POST_TRIALS = 10 # in digit post intervention
 N_AFACT_TRIALS = 20
 N_DICHOTIC_TRIALS = 20 
 N_PRACTICE_TRIALS = 8 # in digit and afact
-
+# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #Task audio data manager 
@@ -170,8 +172,8 @@ BETWEEN_SENTENCES_DELAY = 300
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 
 #DichoticDataManager 
-DEFAULT_NUMBER_OF_BLOCKS = 3
-DEFAULT_NUMBER_OF_CHUNCKS = 2 # SHOULD BE 4
+DEFAULT_NUMBER_OF_BLOCKS = 3 # In Tomer's should be 2 --- difined via console in n_blocks argument
+DEFAULT_NUMBER_OF_CHUNCKS = 4 # SHOULD BE 4
 DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 # SHOULD BE 10 - trials per chunk
 DEFAULT_NUMBER_OF_N_BACK = 2
 N_TRIALS_PRACTICE_ONE = 7

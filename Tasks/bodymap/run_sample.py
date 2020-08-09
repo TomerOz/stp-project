@@ -4,17 +4,19 @@
 from psychopy import visual, event, core
 import ctypes
 
-import classes
-from registration_menu import registration
-from play_stp import stp
-from emotions_ratings import emotion_rating
+from Tasks.bodymap import classes
+from Tasks.bodymap.play_stp import stp
+from Tasks.bodymap.emotions_ratings import emotion_rating
 
 class ConsoleBodyMap(object):
-    def __init__(self, menu, flow):
+    def __init__(self, menu, flow, gui):
         self.flow = flow
         self.menu = menu
+        self.gui = gui
 
     def start_body_map_flow(self):
+        print("start")
+
         user32 = ctypes.windll.user32
         screen_size = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
 
@@ -32,7 +34,9 @@ class ConsoleBodyMap(object):
         cluster2 = classes.SensationsCluster(win=win)
         mouse = event.Mouse(win=win)
 
-        while True:
+        while_bool = True
+
+        while while_bool:
             keys = event.getKeys()
             if keys:
                 # q quits the experiment
@@ -47,6 +51,8 @@ class ConsoleBodyMap(object):
             #     )
             # bmt_baseline.run_task()
 
+            print("a")
+
             #Neutral
             block = 'neu'
             additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
@@ -57,20 +63,32 @@ class ConsoleBodyMap(object):
                 additional_info=additional_info, block=block
             )
 
+            #print("b")
+
             bmt_neutral.run_task(block)
             # core.quit()
 
+            #print("c")
+            while_bool = False
+        win.close()
+        # core.quit()
+        self.gui.after(100, self.flow.next)
+
+        #print("d")
+
             #Negative
-            block = 'neg'
+            # block = 'neg'
             #stp(win,block)
-            additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
-            bmt_negative = classes.BodyMapTask(
-                win=win, scene=gscn, cluster=cluster2, mouse=mouse,
-                additional_info=additional_info, block=block
-                )
+            #emotion_rating(win,block, additional_info)
+
+            # additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
+            # bmt_negative = classes.BodyMapTask(
+            #     win=win, scene=gscn, cluster=cluster2, mouse=mouse,
+            #     additional_info=additional_info, block=block
+            #     )
             #emotion_rating(win,block, additional_info)
             # bmt_negative.run_task(block)
 
-            core.quit()
-            self.flow.next()
+            #core.quit()
 
+            #

@@ -4,6 +4,7 @@ from psychopy import visual, event, gui, core
 import ctypes
 import pandas as pd
 
+path_tovana = './Tasks/bodymap'
 
 #@#@ read the comments about the function "find_30rect_responses_pos(win,background_image)"
 def window():##I don't use this function when I run it from run_sample.py
@@ -14,13 +15,13 @@ def window():##I don't use this function when I run it from run_sample.py
     return win
 
 def background_emotions(win):
-    path = "./input/graphics/instructions/emotions_ratings/1.jpg"
+    path = path_tovana+"/input/graphics/instructions/emotions_ratings/1.jpg"
     background_image = visual.ImageStim(win=win,image=path, units='norm')
     # background_image.autoDraw = True
     return background_image
 
 def endButton(win):
-    path = "./input/graphics/instructions/emotions_ratings/finish_green.png"
+    path = path_tovana+"/input/graphics/instructions/emotions_ratings/finish_green.png"
     endButton_image = visual.ImageStim(win=win, image=path, units='norm', pos=[-0.9,-0.85], size=[0.2,0.3])
     # endButton_image.autoDraw = True
     return endButton_image
@@ -135,7 +136,7 @@ def rating(win,dic_rect,background_image, block, additional_info):
     df = pd.DataFrame(dic_data, index=[0]) #save the dic_data ad Padnas data frame.
     str_ID = str(additional_info['participant_id'])
     str_cond = str(additional_info['cond'])
-    df.to_csv(f"./output/"+'ID'+str_ID+'cond'+str_cond+block+'_emotions_rating.csv', index=False) #+str(additional_info[cond])
+    df.to_csv(path_tovana+"/output/"+'ID'+str_ID+'cond'+str_cond+block+'_emotions_rating.csv', index=False) #+str(additional_info[cond])
 
 def emotion_rating(win,block,additional_info):
     '''run the main functions in the task.'''

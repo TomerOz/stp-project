@@ -11,7 +11,7 @@ import os
 import numpy as np
 from psychopy.constants import PLAYING
 
-
+path_tovana = './Tasks/bodymap'
 ##TO DELETE WHEN I'll run it from run_sample?
 def window():
     user32 = ctypes.windll.user32
@@ -21,24 +21,24 @@ def window():
     return win
 
 def instructions(win):
-    str_inst_stp= "./input/graphics/instructions/Slide2.JPG"
+    str_inst_stp= path_tovana+"/input/graphics/instructions/Slide2.JPG"
     inst_stp = visual.ImageStim(win=win,image=str_inst_stp, units='pix')
     return inst_stp
 
 def end_button(win):
-    str_end_button = './input/graphics/Buttons/end_instructions_button.png'
+    str_end_button = path_tovana+'/input/graphics/Buttons/end_instructions_button.png'
     end_button = visual.ImageStim(win=win,image=str_end_button, units='norm', pos= (-0.003125, -0.8305555555555556))
     return end_button
 
 def background_stp(win):
-    str_cross = "./input/graphics/instructions/Slide3.JPG"
+    str_cross = path_tovana+"/input/graphics/instructions/Slide3.JPG"
     cross = visual.ImageStim(win=win,image=str_cross, units='pix')
     return cross
 
 def play_stp(win, neuORneg, additional_info):
     str_ID = str(additional_info['participant_id'])
     # str_cond = str(additional_info['cond'])
-    sound_path = "input/Audio/"+str_ID
+    sound_path = path_tovana+"/input/Audio/"+str_ID
     dir_audio = sorted(os.listdir(sound_path))
     playlist = []
     # player = pg.media.Player()
@@ -47,8 +47,8 @@ def play_stp(win, neuORneg, additional_info):
         s,f=0,half_stp
     else: #neg
         s,f=half_stp,len(dir_audio)
-    for index_str_audio in range(s, f):
-    #for index_str_audio in range(s, s+2): #only for debuging
+    # for index_str_audio in range(s, f):
+    for index_str_audio in range(s, s+2): #only for debuging
     # index_str_audio = 0 #only for yoga and psychopterapy.
         music = sound.Sound(sound_path + '/' + dir_audio[index_str_audio])
         playlist.append(music)

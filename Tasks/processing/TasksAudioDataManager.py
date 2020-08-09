@@ -61,14 +61,14 @@ class MainAudioProcessor(object):
 			for phase in self.phases_names:
 				if not phase in self.n_block_per_phase:
 					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of two phases
-		
-		if False:
-			if self.dichotic_phases != None: # a dichotic task is requested by user
-				for dichotic_phase in self.dichotic_phases:
-					self.n_dichotic_trials = self.n_trials_by_phase[dichotic_phase] # saving a refference to the requsted n
-					# removing dichotic from lists and dicts that are unrelevant for further process
-					self.phases_names.remove(dichotic_phase)
-					self.n_trials_by_phase.pop(dichotic_phase, None)
+
+		# if False:
+		# 	if self.dichotic_phases != None: # a dichotic task is requested by user
+		# 		for dichotic_phase in self.dichotic_phases:
+		# 			self.n_dichotic_trials = self.n_trials_by_phase[dichotic_phase] # saving a refference to the requsted n
+		# 			# removing dichotic from lists and dicts that are unrelevant for further process
+		# 			self.phases_names.remove(dichotic_phase)
+		# 			self.n_trials_by_phase.pop(dichotic_phase, None)
 			
 		
 		self.pre_defined_distribution_dict = pre_defined_distribution_dict
@@ -400,6 +400,7 @@ class MainAudioProcessor(object):
 				
 	def insert_catch_trials_trial_types(self):
 		for phase in self.phases_names:
+			print(phase)
 			catch_trials_insertion_counter = 0 # makes sure that pushing (insert) catch trials into the list in 
 			if not phase in self.phases_without_catch_trials:							# in various i's (in the following for) is aimed at the original place
 				for i, trial in enumerate(self.catch_and_non_catch_trials_list_by_phase[phase]):

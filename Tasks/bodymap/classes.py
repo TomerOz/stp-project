@@ -19,8 +19,8 @@ from psychopy.visual.text import TextStim
 from skimage import io, transform
 
 # Our project modules
-import params
-import utils
+from Tasks.bodymap import params
+from Tasks.bodymap import utils
 
 
 class GraphicalScene:
@@ -108,7 +108,7 @@ class GraphicalScene:
         # located in the bottom, while PsychoPy assumes it is located in
         # the top.
         img_ar = np.flipud(
-            io.imread('./input/graphics/BodyMap-0{}{}.png'.format(
+            io.imread('./Tasks/bodymap/input/graphics/BodyMap-0{}{}.png'.format(
                 img_lab, {False: '', True: ' - Reference'}[reference])))
         # You need to flip the size specification as resize is expecting the
         # YX size of the output
@@ -137,7 +137,7 @@ class GraphicalScene:
                                            * params.ACTION_BUTTON_OFFSET * img_offset_sign
                                            - (
                                                    params.ACTION_BUTTON_SIZE * self.win.size * img_offset_sign),
-            image=f"./input/graphics/buttons/{img_lab}.png",
+            image=f"./Tasks/bodymap/input/graphics/buttons/{img_lab}.png",
             size=self.win.size * params.ACTION_BUTTON_SIZE)
 
     def _gen_confirm_objects(self) -> typing.Tuple[
@@ -152,12 +152,12 @@ class GraphicalScene:
             pos=np.array(
                 [-1, 1]) * self.win.size * params.CONFIRM_BAR_BUTTON_POS,
             size=self.win.size * params.CONFIRM_BAR_BUTTON_SIZE,
-            image='./input/graphics/buttons/no.png')
+            image='./Tasks/bodymap/input/graphics/buttons/no.png')
         confirm_button_yes = visual.ImageStim(
             win=self.win, units='pix',
             pos=self.win.size * params.CONFIRM_BAR_BUTTON_POS,
             size=self.win.size * params.CONFIRM_BAR_BUTTON_SIZE,
-            image='./input/graphics/buttons/yes.png')
+            image='./Tasks/bodymap/input/graphics/buttons/yes.png')
 
         return confirm_bar, confirm_button_no, confirm_button_yes
 
@@ -256,7 +256,7 @@ class GraphicalScene:
         """
         return visual.ImageStim(
             win=self.win, units='pix',
-            image='input/graphics/buttons/intensity_scale.png',
+            image='./Tasks/bodymap/input/graphics/buttons/intensity_scale.png',
             pos=self.win.size * params.INTENSITY_SCALE_POS,
             size=self.win.size * params.INTENSITY_SCALE_SIZE)
 
@@ -265,7 +265,7 @@ class GraphicalScene:
         """
         return visual.ImageStim(
             win=self.win, units='pix',
-            image='input/graphics/buttons/colors_mouse_key.png',
+            image='./Tasks/bodymap/input/graphics/buttons/colors_mouse_key.png',
             pos=self.win.size * params.COLORS_MOUSE_KEY_POS,
             size=self.win.size * params.COLORS_MOUSE_KEY_SIZE)
 
@@ -701,18 +701,18 @@ class BodyMapTask:
                 self.phase, params.INST_ACCEPT_BUTTON_POS))
         # Select and set the relevant slide
         if block == 'neg':
-            inst_str = "./input/graphics/instructions/Slide" \
+            inst_str = "./Tasks/bodymap/input/graphics/instructions/Slide" \
                        f"{['4', '7', '11'][self.phase]}.JPG"
             self.scene.inst_img.setImage(inst_str)
         else:
-            inst_str = "./input/graphics/instructions/Slide" \
+            inst_str = "./Tasks/bodymap/input/graphics/instructions/Slide" \
                        f"{['4', '7'][self.phase]}.JPG"
             self.scene.inst_img.setImage(inst_str)
 
         # Select and set the relevant confirmation bar for ending a rating
         # routine.
         if self.phase < 2:
-            inst_str = "./input/graphics/buttons/AreYouSure" \
+            inst_str = "./Tasks/bodymap/input/graphics/buttons/AreYouSure" \
                        f"{self.phase + 1}.png"
             self.scene.confirm_bar.setImage(inst_str)
 
@@ -1109,14 +1109,14 @@ class BodyMapTask:
 
         # Add output directory in case it is missing.
         for d in ['actions', 'cluster']:
-            if not os.path.exists(f'./output/{d}'):
+            if not os.path.exists(f'./Tasks/bodymap/output/{d}'):
                 os.makedirs(f'./output/{d}')
 
         # Save the currently existing sensations
         self.cluster.sensations.drop(columns=['object', 'frame']).to_csv(
-            f"./output/cluster/cluster_{fstub}",
+            f"./Tasks/bodymap/output/cluster/cluster_{fstub}",
             index=False)
         # Save a detailed log of the do and undo events that took place.
         self.actions_log.drop(columns=['frame']).to_csv(
-            f"./output/actions/actions_{fstub}.csv",
+            f"./Tasks/bodymap/output/actions/actions_{fstub}.csv",
             index=False)
