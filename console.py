@@ -90,8 +90,9 @@ def main():
 										n_block_per_phase = {AFACT_PHASE : 2},
 										#####################################################################################################################
 										## FOR DEBUG ONLY - LATER RETURN COMMENTED VALUES
-										n_practice_trials=1,#N_PRACTICE_TRIALS,
+										n_practice_trials=3,#N_PRACTICE_TRIALS,
 										n_start_neutral_trials=1,#4,
+										n_afact_practice_trials = 0, #8 or 4? N_PRACTICE_TRIALS?
 										afact_debug=True,
 										#####################################################################################################################
 										
@@ -136,6 +137,9 @@ def main():
 	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE)
 	afact_task = AfactTask(gui, exp, atd, flow)
 	
+	instructions_afact = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_1) # change to correct path
+	instructions_afact_after_practice = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_2) # change to correct path
+	
 	# FLOW OF TASKS LIST:
 	tasks = [
 				lambda: menu.show(),
@@ -143,7 +147,10 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
 				# Afact:
+				lambda: instructions_afact.start_instrunctions(),
 				lambda: afact_task.start_task(),
+				#lambda: instructions_afact_after_practice.start_instrunctions(),
+				#lambda: afact_task.start_task(),
 				
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
