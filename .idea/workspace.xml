@@ -30,7 +30,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.run_sample">
+  <component name="RunManager" selected="Python.console_Omer">
     <configuration name="Tovana" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="stp-project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -117,8 +117,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.run_sample" />
         <item itemvalue="Python.console_Omer" />
+        <item itemvalue="Python.run_sample" />
         <item itemvalue="Python.Tovana" />
         <item itemvalue="Python.console" />
       </list>

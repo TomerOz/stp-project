@@ -26,7 +26,9 @@ class ConsoleBodyMap(object):
                                    color='white', monitor=0)
 
         # ID, condition = registration()
-        ID, condition = 2, 1
+        # ID, condition = 1, 1
+        ID = self.menu.menu_data['subject']
+        condition = self.menu.menu_data['session']
         # # The buttons, avatars, etc.
         gscn = classes.GraphicalScene(win=win)
         # # An object to hold the drawn sensations
