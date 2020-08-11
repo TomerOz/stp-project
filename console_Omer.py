@@ -87,16 +87,16 @@ def main():
 	instructions_end_of_experiment = Instructions(gui, exp, flow, IMAGEPATH_END_OF_EXPERIMENT)# controls instructions gui and flow
 	
 	# MENU:
-	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
+	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager, reduced_for_omer=True) # controls menu gui and imput fields
 	
 	# DICHOTIC
 	# maybe duplicate the following three lines
 	dichotic_task_gui = DichoticOneBack(gui, exp)
-	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE)
+	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, menu, DICHOTIC_PRE, sessions_names=[DICHOTIC_PRE, DICHOTIC_POST])
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
 	
 	# DCT-STP PRE AND POST:
-	td_trainig = TaskData(menu, data_manager, sd, phase=DIGIT_PRE) # A class intance that organizes the data for the DCT task
+	td_trainig = TaskData(menu, data_manager, sd, phase=DIGIT_PRE, sessions_names=[DIGIT_PRE, DIGIT_POST]) # A class intance that organizes the data for the DCT task
 	td_post_training = TaskData(menu, data_manager, sd, phase=DIGIT_POST) # A class intance that organizes the data for the DCT task
 	dct_training = DctTask(gui, exp, td_trainig, flow) # A class intance that runs the DCT task
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
@@ -110,7 +110,7 @@ def main():
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				
-				lambda: body_map.start_body_map_flow(),
+				#lambda: body_map.start_body_map_flow(),
 				
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),

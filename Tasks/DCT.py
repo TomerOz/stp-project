@@ -230,13 +230,14 @@ class DctTask(object):
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
-	def __init__(self, menu, data_manager, subject_data, phase=None):
+	def __init__(self, menu, data_manager, subject_data, phase=None, sessions_names=None ):
 		
 		# user data
 		self.menu = menu # contains gender, subject subject's path and group
 		self.phase=phase # base-line \ training \ post trainig \ mab \ dichotic
 		self.data_manager = data_manager # All tasks data manager
 		self.sd = subject_data
+		self.sessions_names = sessions_names
 		
 		# RT live data
 		self.t0 = 0 # first time point - digit shown
@@ -270,22 +271,29 @@ class TaskData(object):
 		self.audio_files_path = 	self.data_manager.audio_files_path
 		self.sentence_inittial_path =  self.data_manager.sentence_inittial_path
 		self.audio_files_list = 	self.data_manager.audio_files_list
-		
+
+		if self.sessions_names == None:
+			session_phase_name = self.phase
+		else:
+			session_phase_name = self.sessions_names[self.menu.menu_data["session"]-1] # expecting "session" field in menu to be 0 or 1
+
+
+
 		# adresss according to instructinos
-		self.sentences 					= self.data_manager.sentences_by_phase[self.phase] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
-		self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[self.phase] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
-		self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[self.phase] # the same but negative contain all neutral sentences
+		self.sentences 					= self.data_manager.sentences_by_phase[session_phase_name] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase
+		self.neutral_sentences 			= self.data_manager.neu_sentences_by_phase[session_phase_name] # A dictionary that holds unique neutral sentences of each phase, number of phases is predetermined by console.py user.
+		self.negatives_sentences 		= self.data_manager.neg_sentences_by_phase[session_phase_name] # the same but negative contain all neutral sentences
 		
 		# To be deleted 22.7.2020
-		#self.catch_trials_and_non_catch = self.data_manager.catch_and_non_catch_trials_list_by_phase[self.phase] # contains 0, "c" or "w" - means no cathc, correct catch, wrong ctach
+		#self.catch_trials_and_non_catch = self.data_manager.catch_and_non_catch_trials_list_by_phase[session_phase_name] # contains 0, "c" or "w" - means no cathc, correct catch, wrong ctach
 		
-		self.trials_types_by_phase 					= self.data_manager.trials_types_by_phase[self.phase]
-		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[self.phase]
+		self.trials_types_by_phase 					= self.data_manager.trials_types_by_phase[session_phase_name]
+		self.sentences_instances_by_type_by_phase 	= self.data_manager.sentences_instances_by_type_by_phase[session_phase_name]
 		
 		self.ammount_of_experimental_trials = len(self.trials_types_by_phase) - self.data_manager.n_practice_trials # excluding practice trials
 		self.total_ammount_of_trials =  len(self.trials_types_by_phase) # including practice
 		if self.phase in self.data_manager.change_block_trials_by_phase:
-			self.change_block_trial = self.data_manager.change_block_trials_by_phase[self.phase]
+			self.change_block_trial = self.data_manager.change_block_trials_by_phase[session_phase_name]
 		else: # in case of onlu one block
 			self.change_block_trial = None
 		# sd is a subject data instance

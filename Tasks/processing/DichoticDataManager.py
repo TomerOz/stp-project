@@ -1,22 +1,25 @@
 import random
 import ipdb
-
+import pandas as pd
 from ..params import *
 
 class DichoticTrialsManager(object):
 	def __init__(
-					self, gui, flow, data_manager, dichotic_name_str, 
+					self, gui, flow, data_manager, menu, dichotic_name_str,
 					n_of_chunks=None, n_of_unique_sentnces=None,
 					n_trials_practice_one=N_TRIALS_PRACTICE_ONE, 
 					n_trials_practice_two=N_TRIALS_PRACTICE_TWO,
-					n_blocks = None,
+					n_blocks=None,
+					sessions_names=None,
 					):
 		
 		self.data_manager = data_manager
 		self.flow = flow
 		self.gui = gui
 		self.dichotic_name_str = dichotic_name_str
-		
+		self.menu = menu
+		self.sessions_names = sessions_names
+
 		# Task properties:
 		self.n_one_back = DEFAULT_NUMBER_OF_N_BACK
 		if n_blocks == None:
@@ -39,8 +42,13 @@ class DichoticTrialsManager(object):
 		
 		
 	def __late_init__(self):
-		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[self.dichotic_name_str]
-		self.neg_dichotics_sentences = self.data_manager.neg_sentences_by_phase[self.dichotic_name_str]
+		if self.sessions_names == None:
+			session_name = self.dichotic_name_str
+		else:
+			session_name = self.sessions_names[self.menu.menu_data["session"]-1] # expecting "session" field in menu to be 0 or 1
+
+		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[session_name]
+		self.neg_dichotics_sentences = self.data_manager.neg_sentences_by_phase[session_name]
 		
 		# some more shuffeling
 		random.shuffle(self.neu_dichotics_sentences)
@@ -52,8 +60,27 @@ class DichoticTrialsManager(object):
 		self.blocks_dicts = []
 		self.create_blocks_of_sentneces_instances()
 		self.prepare_sentences_for_practice()
+		self.debug_trials()
 		self.gui.after(100, self.flow.next)
 		
+	def debug_trials(self):
+		if self.sessions_names == None:
+			session_name = self.dichotic_name_str
+		else:
+			session_name = self.sessions_names[self.menu.menu_data["session"] - 1]  # expecting "session" field in menu to be 0 or 1
+
+		debug_data = {"neu": [], "neg": [], "chunck": [], "block": []}
+
+		for block_counter, block in enumerate(self.blocks_dicts):
+			for chunck_num in block:
+				for valence in block[chunck_num]:
+					for sent in block[chunck_num][valence]:
+						debug_data[valence].append(sent)
+				debug_data["block"] = debug_data["block"] + [block_counter]*12
+				debug_data["chunck"] = debug_data["chunck"] + [chunck_num]*12
+		df = pd.DataFrame(debug_data)
+		df.to_excel("Debug Output/debug_trials_dichotic_session_{}.xlsx".format(session_name), index=False)
+
 	def prepare_sentences_for_practice(self):
 		practice_one_sents = random.sample(self.neu_dichotics_sentences, self.n_trials_practice_one)
 		p1_left_sentences = random.sample(practice_one_sents, int(round(len(practice_one_sents)/2)))

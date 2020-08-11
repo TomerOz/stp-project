@@ -109,77 +109,105 @@ class MainAudioProcessor(object):
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
 		self.insert_instructions_trial_types()
-		
-	
+
+		self.debug_trials()
+
+	def debug_trials(self):
+		dubg_data = {"Sentence":[], "Phase":[]}
+		for phase in self.trials_types_by_phase:
+			trial_type_counter = {}
+			sents = []
+			for trial_type in self.trials_types_by_phase[phase]:
+				trial_type_name = trial_type.__str__()
+				trial_type_counter.setdefault(trial_type_name, 0)
+				if len(trial_type.sentences) > 0 :
+					sents.append(trial_type.sentences[trial_type_counter[trial_type_name]])
+					trial_type_counter[trial_type_name] += 1
+
+			dubg_data["Sentence"] = dubg_data["Sentence"] + sents
+			dubg_data["Phase"] = dubg_data["Phase"] + [phase]*len(sents)
+
+		df = pd.DataFrame(dubg_data)
+		df.to_excel(r"Debug Output/dubg_trials.xlsx", index=False)
+
+
+
 	def _split_senteces_to_phases(self):
 		'''the function gets a matrix for sentecnes per task and phase, and 80 subject data,
 			and allocate the sentences for each session'''
 
-		SUBJECT_DATA = self.audio_path + '\\' + r'audio_data.xlsx'
-		#read files
-		subject_data = pd.read_excel(SUBJECT_DATA)
-		allocation_plan = pd.read_excel(ALLOCATION)
-		
-		data_neg = subject_data[subject_data['SentenceType'] == 'neg']
-		data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
+		SUBJECT_AUDIO_DATA = self.audio_path + '\\' + r'audio_data.xlsx'
+		if self.menu.menu_data["session"] != 2:
+			#read files
+			subject_data = pd.read_excel(SUBJECT_AUDIO_DATA)
+			allocation_plan = pd.read_excel(ALLOCATION)
 
-		dic_phases_number = {}
+			data_neg = subject_data[subject_data['SentenceType'] == 'neg']
+			data_ntr = subject_data[subject_data['SentenceType'] == 'ntr']
 
-		if ALLOCATION == ALLOCATION_OMER:
-			#read allocation plan
-			Digit_before = allocation_plan.iloc[0, 2]
-			Digit_after = allocation_plan.iloc[0, 3]
-			Digit_before_after = allocation_plan.iloc[0, 4]
+			dic_phases_number = {}
 
-			Dichotic_before = allocation_plan.iloc[1, 2]
-			Dichotic_after = allocation_plan.iloc[1, 3]
-			Dichotic_before_after = allocation_plan.iloc[1, 4]
-			#split data to neg/neu
-			n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
-			# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
-			n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
+			if ALLOCATION == ALLOCATION_OMER:
+				#read allocation plan
+				Digit_before = allocation_plan.iloc[0, 2]
+				Digit_after = allocation_plan.iloc[0, 3]
+				Digit_before_after = allocation_plan.iloc[0, 4]
+
+				Dichotic_before = allocation_plan.iloc[1, 2]
+				Dichotic_after = allocation_plan.iloc[1, 3]
+				Dichotic_before_after = allocation_plan.iloc[1, 4]
+				#split data to neg/neu
+				n_list= [Digit_before, Digit_after, Dichotic_before, Dichotic_after, Digit_before_after, Dichotic_before_after]
+				# Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
+				n_str_list = self.phases_names + ['Digit_before_after', 'Dichotic_before_after'] # adding only those with before and after
+
+			else: # Allocation Tomer
+				Digit_before            = allocation_plan.iloc[0, 2]
+				Digit_after             = allocation_plan.iloc[1, 2]
+				AFACT		        	= allocation_plan.iloc[2, 2]
+				MAB 		        	= allocation_plan.iloc[3, 2]
+				Dichotic		        = allocation_plan.iloc[4, 2]
+				Digit_before_and_AFACT  = allocation_plan.iloc[2, 3]
+				MAB_and_AFACT           = allocation_plan.iloc[3, 4]
+				MAB_and_Digit_after     = allocation_plan.iloc[3, 5]
+				Dichotic_and_AFACT      = allocation_plan.iloc[4, 4]
+
+				n_list= [
+					Digit_before,
+					Digit_after,
+					AFACT,
+					MAB,
+					Dichotic,
+					Digit_before_and_AFACT,
+					MAB_and_AFACT,
+					MAB_and_Digit_after,
+					Dichotic_and_AFACT,
+				] # Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
+				n_str_list = self.phases_names + [
+					"Digit_before_and_AFACT",
+					"MAB_and_AFACT",
+					"MAB_and_Digit_after",
+					"Dichotic_and_AFACT",
+				] # adding only those with before and after
+
+			for i in range(len(n_list)):
+				dic_phases_number[n_str_list[i]]= n_list[i]
+
+			for data in [data_neg, data_ntr]:
+				index_list = list(data.index) #[0,...,39] / [40,...79]
+				for k in dic_phases_number.keys():
+					sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
+					for i in sample_index_list:
+						index_list.remove(i)
+						subject_data.at[i, 'Phases'] = k
+
+			subject_data.to_excel(SUBJECT_AUDIO_DATA, index=False)
 
 		else:
-			Digit_before            = allocation_plan.iloc[0, 2]
-			Digit_after             = allocation_plan.iloc[1, 2]
-			AFACT		        	= allocation_plan.iloc[2, 2]
-			MAB 		        	= allocation_plan.iloc[3, 2]
-			Dichotic		        = allocation_plan.iloc[4, 2]
-			Digit_before_and_AFACT  = allocation_plan.iloc[2, 3]
-			MAB_and_AFACT           = allocation_plan.iloc[3, 4]
-			MAB_and_Digit_after     = allocation_plan.iloc[3, 5]
-			Dichotic_and_AFACT      = allocation_plan.iloc[4, 4]
-			
-			n_list= [
-						Digit_before,
-						Digit_after,           
-						AFACT,
-						MAB,
-						Dichotic,
-						Digit_before_and_AFACT,
-						MAB_and_AFACT,
-						MAB_and_Digit_after,
-						Dichotic_and_AFACT,  
-					] # Dependent on the "Sentences_Allocation_Omer.xlsx" that sitts in -> r"stp-project\Tasks\processing"
-			n_str_list = self.phases_names + [
-												"Digit_before_and_AFACT",
-												"MAB_and_AFACT",
-												"MAB_and_Digit_after",
-												"Dichotic_and_AFACT",
-													] # adding only those with before and after
+			subject_data = pd.read_excel(SUBJECT_AUDIO_DATA)
 
-		for i in range(len(n_list)):
-			dic_phases_number[n_str_list[i]]= n_list[i]
-
-		for data in [data_neg, data_ntr]:
-			index_list = list(data.index) #[0,...,39] / [40,...79]
-			for k in dic_phases_number.keys():
-				sample_index_list = random.sample(index_list, int(dic_phases_number[k]))
-				for i in sample_index_list:
-					index_list.remove(i)
-					subject_data.at[i, 'Phases'] = k
-
-		sentence_valence_dicts = {'ntr' : self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
+		################################# Runs in Session one and two (Omer) #################################
+		sentence_valence_dicts = {'ntr': self.neu_sentences_by_phase, 'neg': self.neg_sentences_by_phase}
 
 		for sentence in self.sentences:
 			sentence_phase = subject_data.loc[subject_data["TAPlistNumber"]==sentence.num_in_excel, "Phases"].values[0]
