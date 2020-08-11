@@ -10,6 +10,7 @@ class Flow(object):
 				
 		def next(self, start_event=None):
 			if self.current_index < len(self.tasks_lambdas_list):
+				print("Flow continues")
 				self.tasks_lambdas_list[self.current_index]()
 				self.current_index += 1
 			else:

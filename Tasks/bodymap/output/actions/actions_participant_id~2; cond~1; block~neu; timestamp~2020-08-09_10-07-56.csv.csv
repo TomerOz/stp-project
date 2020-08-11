@@ -1,0 +1,4 @@
+time,x,y,event_type,undo_action,intensity_result,tone_result,time_sensation_created,action_cancelled,phase,event_num,undo_trigger,participant_id,cond,block,timestamp,experiment_ended,monitor_resolution_x,monitor_resolution_y,front_x_pos,front_y_pos,front_x_size,front_y_size,back_x_pos,back_y_pos,back_x_size,back_y_size,identifier
+0.8982691999990493,298.0,203.0,generate,False,1,grey,0.8982691999990493,False,0,0,,2,1,neu,2020-08-09_10-07-56,2020-08-09_10-08-05,1280,720,-256.0,18.0,486.0,687.0,256.0,18.0,486.0,687.0,0
+1.4481530000921339,217.0,135.0,generate,False,1,grey,1.4481530000921339,False,0,1,,2,1,neu,2020-08-09_10-07-56,2020-08-09_10-08-05,1280,720,-256.0,18.0,486.0,687.0,256.0,18.0,486.0,687.0,1
+1.7646294001024216,311.0,122.0,generate,False,1,grey,1.7646294001024216,False,0,2,,2,1,neu,2020-08-09_10-07-56,2020-08-09_10-08-05,1280,720,-256.0,18.0,486.0,687.0,256.0,18.0,486.0,687.0,2
