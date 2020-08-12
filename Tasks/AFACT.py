@@ -82,7 +82,6 @@ class AfactGui(object):
 		self.scale_y_location = self.y_middle-scale_half_hight
 		self.feedback_canvas.create_image(nw_scale_anchor_x, self.scale_y_location, image=self.feesback_scale, anchor=self.exp.tk_refference.NW)
 		
-		#self.feedback_arrow = self.exp.tk_refference.PhotoImage(file=self.feedback_arrow_pic)
 		self.feedback_arrow = Image.open(self.feedback_arrow_pic)
 		self.feedback_arrow = self.feedback_arrow.resize(
 														(int(self.feedback_arrow.width*self.arrow_resize_factor),
@@ -204,7 +203,7 @@ class AfactTaskData(TaskData):
 				running_std = np.std(self.neutral_running_mean)
 				bias = (rt - running_mean)/(1.0*running_std)
 				self.last_trial_bias = bias
-	
+				
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
 		super(AfactTask, self).__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
@@ -223,7 +222,6 @@ class AfactTask(DctTask):
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
-	
 		if self.td.current_trial > -1:# ignores first trial
 			self.td.copmute_running_nutral_mean(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance) 
 			self.td.compute_AFACT_bias_z_score(self.td.last_RT, self.td.current_sentence, self.td.current_trial_type_intance)

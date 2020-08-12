@@ -20,6 +20,7 @@ class MainAudioProcessor(object):
 						n_block_per_phase=None,
 						dichotic_phases=None,
 						phases_relations=None,
+						n_afact_practice_trials=None,
 						afact_debug=False,
 						):
 						
@@ -36,7 +37,12 @@ class MainAudioProcessor(object):
 			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
 		else:
 			self.n_practice_trials = n_practice_trials
-		
+			
+		if n_afact_practice_trials == None:
+			self.n_afact_practice_trials = DEFAULT_N_PRACTICE_TRIALS
+		else:
+			self.n_afact_practice_trials = n_afact_practice_trials
+			
 		if precent_of_catch_trials==None:
 			self.precent_of_catch_trials = DEFAULT_CATCH_TRIALS_RATIO
 		else:
@@ -326,7 +332,6 @@ class MainAudioProcessor(object):
 																	practice_2: practice_2.sentences
 																	}
 				self.trials_types_by_phase[phase] = trials
-				
 				# re arranging trial types according to AFACT demands:
 				if phase == AFACT_PHASE:
 					self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
@@ -346,7 +351,7 @@ class MainAudioProcessor(object):
 			
 		'''
 		# index of sentences to rearrage	
-		i_to_rearrange = self.n_start_neutral_trials + self.n_practice_trials
+		i_to_rearrange =  self.n_practice_trials + self.n_start_neutral_trials
 
 		#		The following dubles by 1.5 the ammount of neutral trials, this to sumulate
 		# 	a random choise of either 1 or 2 consecutive trials after an ntr
@@ -375,8 +380,25 @@ class MainAudioProcessor(object):
 			trials.append(neg)
 			trials = trials + [neu]*c
 			
-		# saving afact trials
-		self.trials_types_by_phase[phase] = self.trials_types_by_phase[phase][:i_to_rearrange] + trials
+		# Seleting  former practice and saving only the n start neutral trials
+		self.trials_types_by_phase[phase] = self.trials_types_by_phase[phase][i_to_rearrange-self.n_start_neutral_trials:i_to_rearrange] + trials
+		
+		# Creating training practice trials
+		if self.n_afact_practice_trials > 0:
+			PRACTICE_SENTENCE = "training practice"
+			training_practice = TrialType(PRACTICE_SENTENCE)
+			training_practice.is_practice = True # Controls for feedback -  on prac 1 --> providing feedback
+			training_practice.trial_phase = "Training practice"
+			afact_trainng_sentences = random.sample(neu.sentences,self.n_afact_practice_trials) 		
+			training_practice = []
+			for sentence in afact_trainng_sentences:
+				training_practice.add_sentence(sentence)
+			
+			# saving afact trials
+			self.trials_types_by_phase[phase] = [training_practice] + self.trials_types_by_phase[phase]
+		
+		# insrt instructions
+		ipdb.set_trace()
 	
 	def fill_sentence_trial_refferences(self):
 		for phase in self.phases_names:
@@ -477,6 +499,8 @@ class MainAudioProcessor(object):
 		instructions.is_instructions = True
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_1, instructions)
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_2, instructions)
+		if self.afact_phase in self.phases_names > 0:
+			self.trials_types_by_phase[self.afact_phase].insert(self.n_afact_practice_trials, instructions)
 						
 	def create_catch_trials(self):
 		for phase in self.phases_names:
