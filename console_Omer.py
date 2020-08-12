@@ -19,7 +19,7 @@ from Tasks.Data import SubjectData
 from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
-# from Tasks.bodymap.run_sample import ConsoleBodyMap
+from Tasks.bodymap.run_sample import ConsoleBodyMap
 
 from Tasks.params import *
 
@@ -102,7 +102,7 @@ def main():
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 	
 	# Body map:
-	#body_map = ConsoleBodyMap(menu, flow, gui)
+	body_map = ConsoleBodyMap(menu, flow, gui)
 	
 	# FLOW OF TASKS LIST:
 	tasks = [
@@ -110,7 +110,7 @@ def main():
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				
-				#lambda: body_map.start_body_map_flow(),
+				lambda: body_map.start_body_map_flow(),
 				
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
