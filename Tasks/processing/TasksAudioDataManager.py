@@ -21,7 +21,6 @@ class MainAudioProcessor(object):
 						dichotic_phases=None,
 						phases_relations=None,
 						n_afact_practice_trials=None,
-						afact_debug=False,
 						):
 						
 		self.phases_names = phases_names # A list of strings representing phases names
@@ -31,7 +30,6 @@ class MainAudioProcessor(object):
 		self.dichotic_phases = dichotic_phases
 		self.phases_relations = phases_relations				
 		self.first_phase = DIGIT_PRE
-		self.afact_debug = afact_debug
 
 		if n_practice_trials == None:
 			self.n_practice_trials= DEFAULT_N_PRACTICE_TRIALS
@@ -110,8 +108,7 @@ class MainAudioProcessor(object):
 		self._create_trials_pointers_by_phase()
 		self.create_catch_trials()
 		self.fill_sentence_trial_refferences()
-		if not self.afact_debug:
-			self.insert_catch_trials_trial_types()
+		self.insert_catch_trials_trial_types()
 		self.insert_feedback_trialtypes_on_afact_phase()
 		self.define_change_block_trials_per_phase()
 		self.insert_instructions_trial_types()
@@ -386,16 +383,15 @@ class MainAudioProcessor(object):
 		# Creating training practice trials
 		if self.n_afact_practice_trials > 0:
 			PRACTICE_SENTENCE = "training practice"
-			training_practice = TrialType(PRACTICE_SENTENCE)
-			training_practice.is_practice = True # Controls for feedback -  on prac 1 --> providing feedback
-			training_practice.trial_phase = "Training practice"
+			training_practice_trial_type = TrialType(PRACTICE_SENTENCE)
+			training_practice_trial_type.is_practice = True # Controls for feedback -  on prac 1 --> providing feedback
+			training_practice_trial_type.trial_phase = "Training practice"
 			afact_trainng_sentences = random.sample(neu.sentences,self.n_afact_practice_trials) 		
-			training_practice = []
 			for sentence in afact_trainng_sentences:
-				training_practice.add_sentence(sentence)
+				training_practice_trial_type.add_sentence(sentence)
 			
 			# saving afact trials
-			self.trials_types_by_phase[phase] = [training_practice] + self.trials_types_by_phase[phase]
+			self.trials_types_by_phase[phase] = [training_practice_trial_type]*self.n_afact_practice_trials + self.trials_types_by_phase[phase]
 		
 		# insrt instructions
 		ipdb.set_trace()
@@ -450,7 +446,6 @@ class MainAudioProcessor(object):
 				
 	def insert_catch_trials_trial_types(self):
 		for phase in self.phases_names:
-			print(phase)
 			catch_trials_insertion_counter = 0 # makes sure that pushing (insert) catch trials into the list in 
 			if not phase in self.phases_without_catch_trials:							# in various i's (in the following for) is aimed at the original place
 				for i, trial in enumerate(self.catch_and_non_catch_trials_list_by_phase[phase]):
@@ -499,7 +494,7 @@ class MainAudioProcessor(object):
 		instructions.is_instructions = True
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_1, instructions)
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_2, instructions)
-		if self.afact_phase in self.phases_names > 0:
+		if self.afact_phase in self.phases_names and self.n_afact_practice_trials>0:
 			self.trials_types_by_phase[self.afact_phase].insert(self.n_afact_practice_trials, instructions)
 						
 	def create_catch_trials(self):

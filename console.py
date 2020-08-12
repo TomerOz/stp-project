@@ -90,10 +90,12 @@ def main():
 										n_block_per_phase = {AFACT_PHASE : 2},
 										#####################################################################################################################
 										## FOR DEBUG ONLY - LATER RETURN COMMENTED VALUES
-										n_practice_trials=3,#N_PRACTICE_TRIALS,
-										n_start_neutral_trials=1,#4,
-										n_afact_practice_trials = 0, #8 or 4? N_PRACTICE_TRIALS?
-										afact_debug=True,
+										n_practice_trials= N_PRACTICE_TRIALS,
+										n_start_neutral_trials= 4,
+										# following controls whther to put practice or not 
+										# - if pracrticen, plwase insert to tasks flow Instructions lambda 
+										#  between two "afact_task.start_task()"
+										n_afact_practice_trials = 0,#4, #8 or 4? N_PRACTICE_TRIALS?
 										#####################################################################################################################
 										
 										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}

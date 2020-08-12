@@ -232,6 +232,8 @@ class AfactTask(DctTask):
 		
 		if self.td.current_trial_type_intance.is_change_block_trial:
 			self.change_block_frame()
+		elif self.td.current_trial_type_intance.is_instructions:
+			self.flow.next()
 		elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		elif self.td.current_trial_type_intance.is_afact_feedback:
