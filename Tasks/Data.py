@@ -136,7 +136,7 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
-		subject_dir = os.path.join(self.full_data_path, r'Data\Subject_' + '_' + str(self.subject))
+		subject_dir = os.path.join(self.full_data_path, r'.\\Data\\Subject_' + '_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
 		subject_df.to_excel(os.path.join(subject_dir, self.experimental_phase[0] + " session-" + self.session_col[0] + '\\data.xlsx'), index=False)
@@ -210,7 +210,7 @@ class DichoticSubjectData(object):
 				]
 
 
-		df = create_generic_row_cols_data_frame(rows, columns, r'Data\Subject_' + str(self.subject[0])," session-" + self.session[0] +" Dichotic")
+		df = create_generic_row_cols_data_frame(rows, columns, r'.\\Data\\Subject_' + str(self.subject[0])," session-" + self.session[0] +" Dichotic")
 		self.insert_responses(df)
 	
 	def insert_responses(self, df):
