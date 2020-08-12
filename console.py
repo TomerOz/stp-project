@@ -124,7 +124,7 @@ def main():
 	#dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE,)
 	# Tomer:
 	dichotic_task_gui = DichoticOneBack(gui, exp)
-	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PHASE, n_blocks=2)
+	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, menu, DICHOTIC_PHASE, n_blocks=2)
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
 	
 	# DCT-STP PRE AND POST:
