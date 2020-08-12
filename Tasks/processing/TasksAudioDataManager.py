@@ -499,7 +499,7 @@ class MainAudioProcessor(object):
 		instructions.is_instructions = True
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_1, instructions)
 		self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_2, instructions)
-		if self.n_afact_practice_trials > 0:
+		if self.afact_phase in self.phases_names > 0:
 			self.trials_types_by_phase[self.afact_phase].insert(self.n_afact_practice_trials, instructions)
 						
 	def create_catch_trials(self):
