@@ -134,7 +134,7 @@ class MainAudioProcessor(object):
 			dubg_data["Phase"] = dubg_data["Phase"] + [phase]*len(sents)
 
 		df = pd.DataFrame(dubg_data)
-		df.to_excel(r"Debug Output/dubg_trials.xlsx", index=False)
+		df.to_excel(r".\\Debug Output\\dubg_trials.xlsx", index=False)
 
 
 

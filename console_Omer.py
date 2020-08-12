@@ -111,7 +111,7 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				
 				lambda: body_map.start_body_map_flow(),
-				
+
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),

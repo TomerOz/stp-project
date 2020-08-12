@@ -4,32 +4,32 @@
 ##TODO - to add desctiption 
 
 
-ALLOCATION_TOMER = r'Sentences_Allocation_Tomer.xlsx'
-ALLOCATION_OMER = r'Sentences_Allocation_Omer.xlsx'
+ALLOCATION_TOMER = r'.\\Sentences_Allocation_Tomer.xlsx'
+ALLOCATION_OMER = r'.\\Sentences_Allocation_Omer.xlsx'
 
 #ALLOCATION = ALLOCATION_TOMER
 ALLOCATION = ALLOCATION_OMER
 
 #Console
 
-AUDIOPATH = r'Subjects'
-IMAGEPATH = r'Instructions_Pictures'
-IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'Instructions_Pictures\Dichotic\DichoticInst1'
-IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'Instructions_Pictures\Dichotic\DichoticInst2'
-IMAGEPATH_DICHOTIC = r'Instructions_Pictures\Dichotic\DichoticInst3'
+AUDIOPATH = r'.\\Subjects'
+IMAGEPATH = r'.\\Instructions_Pictures'
+IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
+IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
+IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
 
 # IMAGEPATH_DICHOTIC_END = r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
 # IMAGEPATH_DIGIT_END =  r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
 
-IMAGEPATH_DICHOTIC_END = r'Instructions_Pictures\Dichotic\EndOfTask'
-IMAGEPATH_DIGIT_END =  r'Instructions_Pictures\Digitnew\DigitInstTomerOmer'
+IMAGEPATH_DICHOTIC_END = r'.\\Instructions_Pictures\\Dichotic\\EndOfTask'
+IMAGEPATH_DIGIT_END =  r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer'
 
 IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
-IMAGEPATH_DCT_PRACTICE_1 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit1'
-IMAGEPATH_DCT_PRACTICE_2 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit2'
-IMAGEPATH_DCT_PRACTICE_3 = r'Instructions_Pictures\Digitnew\DigitInstTomerOmer\digit3'
-IMAGEPATH_DICHOTIC_BREAK = r'Instructions_Pictures\Dichotic\DichoticInst4'
+IMAGEPATH_DCT_PRACTICE_1 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit1'
+IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit2'
+IMAGEPATH_DCT_PRACTICE_3 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit3'
+IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
 
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
