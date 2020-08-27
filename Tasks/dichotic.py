@@ -11,29 +11,7 @@ from .Data import DichoticSubjectData
 import random
 
 from .params import *
-#*#*#*#moved to params 
-# MAIN_FRAME = 'm_frame'
-# BACKGROUND_COLOR = 'black'
-# FIXATION_LABEL = 'fixation_label'
-# FOREGROUND_COLOR = 'white'
 
-# NEGATIVE_SENTENCE = 'neg'			# According to audio df excel file
-# NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
-# AFACT_PHASE = "afact_phase"
-# FIXATION_STIMULI = '+'
-
-
-# FIXATION_FONT = 'david 64 bold'
-# BLOCK_BREAK_TIME = 10000
-# CHUNK_NEU_START_DELAY	= 0
-# CHUNK_NEG_START_DELAY	= 500
-# CHUNCK_BLOCK_CHANGE_WAIT_TIME = 1000
-# BLOCK_CHANGE_WAIT_TIME_ADDITION = 1000
-# BETWEEN_SENTENCES_DELAY = 300
-
-# PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
-# PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
-# #*#*#*#
 
 class DichoticOneBack(object):
 	def __init__(self, gui, exp):
@@ -291,7 +269,7 @@ class DichoticTaskData(object):
 				self.instructions_dichotic_break.get_task_continue_function(self.start_chunk)
 				self.instructions_dichotic_break.present_simple_picture_frame(block_break, message_text=u"עברו 30 שניות, ניתן ללחוץ על מקש רווח על מנת להמשיך")
 			
-			elif self.block == self.n_blocks-1: # Task is finished
+			elif self.chunk == self.dichotic_data_manager.n_of_chunks+1 and self.block == self.n_blocks-1: # Task is finished
 				self.dst.create_df()
 				self.flow.next()
 			

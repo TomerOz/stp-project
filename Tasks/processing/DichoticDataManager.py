@@ -45,7 +45,7 @@ class DichoticTrialsManager(object):
 		if self.sessions_names == None:
 			session_name = self.dichotic_name_str
 		else:
-			session_name = self.sessions_names[self.menu.menu_data["session"]-1] # expecting "session" field in menu to be 0 or 1
+			session_name = self.sessions_names[int(self.menu.menu_data["session"])-1] # expecting "session" field in menu to be 0 or 1?? 1or 2?
 
 		self.neu_dichotics_sentences = self.data_manager.neu_sentences_by_phase[session_name]
 		self.neg_dichotics_sentences = self.data_manager.neg_sentences_by_phase[session_name]
@@ -67,7 +67,7 @@ class DichoticTrialsManager(object):
 		if self.sessions_names == None:
 			session_name = self.dichotic_name_str
 		else:
-			session_name = self.sessions_names[self.menu.menu_data["session"] - 1]  # expecting "session" field in menu to be 0 or 1
+			session_name = self.sessions_names[int(self.menu.menu_data["session"]) - 1]  # expecting "session" field in menu to be 0 or 1
 
 		debug_data = {"neu": [], "neg": [], "chunck": [], "block": []}
 

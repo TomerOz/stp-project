@@ -7,12 +7,13 @@ FOREGROUND = "white"
 
 
 class Instructions(object):
-	def __init__(self, gui, exp, flow, imagepath):
+	def __init__(self, gui, exp, flow, imagepath, is_end_screen=False):
 		self.current_pic = 0
 		self.exp = exp
 		self.gui = gui
 		self.flow = flow
 		self.imagepath = imagepath
+		self.is_end_screen = is_end_screen
 		self.instruction_pics = os.listdir(self.imagepath)
 		
 		
@@ -72,10 +73,10 @@ class Instructions(object):
 			self.exp.display_frame("instructions_f", ["instructions_l"])
 		else:
 			self.gui.unbind("<space>")
-			if self.break_time == 0:
+			if self.break_time == 0 and not self.is_end_screen:
 				self.exp.hide_frame("instructions_f")
 				self.flow.next()
-			else:
+			elif not self.is_end_screen:
 				self.gui.after(self.break_time, lambda: self.gui.bind("<space>", self.flow.next))
 				self.gui.after(self.break_time, lambda: self.exp.hide_frame("instructions_f"))
 				

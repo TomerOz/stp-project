@@ -31,6 +31,11 @@ IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerO
 IMAGEPATH_DCT_PRACTICE_3 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit3'
 IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
 
+IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\AFACT_main_instructions'
+IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\AFACT_after_practice_instructions'
+IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_main_instructions'
+IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_after_practice_instructions'
+
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 

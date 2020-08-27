@@ -22,6 +22,8 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
 FRAME_1 = "first"
 LABEL_1 = "label_1"
+ALTERNATIVE_TASK_FRAME = "alternative_task_frame"
+ALTERNATIVE_TASK_LABEL = "alternative_task_label"
 
 class AfactGui(object):
 	
@@ -51,6 +53,32 @@ class AfactGui(object):
 		
 		self.create_feedback_canvas_orginal()
 		#self.create_feedback_canvas()
+		#self.create_alternative_task_canvas()
+		
+		self.alternative_task_canvas_width = 400
+		self.alternative_task_canvas_hight = 100
+	
+	def create_alternative_task_canvas(self):
+		self.exp.create_frame(ALTERNATIVE_TASK_FRAME)
+		self.exp.create_label(ALTERNATIVE_TASK_LABEL, ALTERNATIVE_TASK_FRAME)
+		label_ref = self.exp.LABELS_BY_FRAMES[ALTERNATIVE_TASK_FRAME][ALTERNATIVE_TASK_LABEL]
+		
+		self.alternative_task_canvas = self.exp.tk_refference.Canvas(label_ref, 
+								width=self.alternative_task_canvas_width, 
+								height=self.alternative_task_canvas_hight, 
+								bg="black", highlightbackground="black")
+		self.alternative_task_canvas.create_rectangle(0,0,40,40, fill="white")
+		self.alternative_task_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
+	def create_n_shapes(self, n):
+		self.alternative_task_canvas.delete("all")
+		width = 40
+		height = 40
+		space = 10
+		start = round((self.alternative_task_canvas_width - ((n*(width+space))-space))/2)
+		y_start = self.alternative_task_canvas_hight/2 - height/2
+		for n_shapes in range(n):
+			self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start,start+n_shapes*(width+space)+width,height+y_start, fill="white")
+		
 		
 	def create_feedback_canvas_orginal(self):
 
@@ -219,6 +247,19 @@ class AfactTask(DctTask):
 		self.gui.after(3100, lambda:self.exp.hide_frame(MAIN_FRAME))
 		self.gui.after(4500, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
 		self.gui.after(4500, self._continue)
+	
+	def start_task(self, user_event=None):
+		'''Overritten from DctTask'''
+		super(AfactTask, self).start_task(user_event)
+		self.afact_gui.create_alternative_task_canvas()
+	
+	def show_digit(self):
+		'''Overritten from DctTask'''
+		self.shown_num = random.randint(3,6)						########   PREFERABLEY THIS WILL BE TAKEN FROM A PRE EXISTING + PRE READ LIST OF NUMBERS  ##########
+		self.afact_gui.create_n_shapes(self.shown_num)
+		self.exp.display_frame(ALTERNATIVE_TASK_FRAME,[ALTERNATIVE_TASK_LABEL])
+		#self.stimulus_live_text = 'X' + str(self.shown_num) +'X'
+		#self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''
@@ -228,8 +269,10 @@ class AfactTask(DctTask):
 		
 		self.td.current_trial += 1 # raising trial by 1 
 		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
-		# trial flow control:
 		
+		self.exp.display_frame(FRAME_1,[LABEL_1])
+
+		# trial flow control:
 		if self.td.current_trial_type_intance.is_change_block_trial:
 			self.change_block_frame()
 		elif self.td.current_trial_type_intance.is_instructions:

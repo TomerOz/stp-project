@@ -13,7 +13,6 @@ import winsound
 #from .Data import SubjectData
 from .params import *
 
-
 class DctTask(object):
 	
 	def __init__(self, gui, exp, td, flow):
@@ -234,9 +233,8 @@ class TaskData(object):
 		if self.sessions_names == None:
 			session_phase_name = self.phase
 		else:
-			session_phase_name = self.sessions_names[self.menu.menu_data["session"]-1] # expecting "session" field in menu to be 0 or 1
-
-
+			session_phase_name = self.sessions_names[int(self.menu.menu_data["session"])-1] # expecting "session" field in menu to be 0 or 1
+			self.phase = session_phase_name
 
 		# adresss according to instructinos
 		self.sentences 					= self.data_manager.sentences_by_phase[session_phase_name] # sentences by phase after shuffeling, and multplying ammount of sentences accordind to desired ammount of trials by phase

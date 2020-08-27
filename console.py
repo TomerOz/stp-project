@@ -95,7 +95,7 @@ def main():
 										# following controls whther to put practice or not 
 										# - if pracrticen, plwase insert to tasks flow Instructions lambda 
 										#  between two "afact_task.start_task()"
-										n_afact_practice_trials = 0,#4, #8 or 4? N_PRACTICE_TRIALS?
+										n_afact_practice_trials = 4,#4, #8 or 4? N_PRACTICE_TRIALS?
 										#####################################################################################################################
 										
 										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}
@@ -139,8 +139,12 @@ def main():
 	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE)
 	afact_task = AfactTask(gui, exp, atd, flow)
 	
-	instructions_afact = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_1) # change to correct path
-	instructions_afact_after_practice = Instructions(gui, exp, flow, IMAGEPATH_DCT_PRACTICE_2) # change to correct path
+	instructions_afact = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS) 
+	instructions_afact_after_practice = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE) 
+	
+	# MAB: 
+	instructions_mab = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS)
+	instructions_mab_after_practice = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC)
 	
 	# FLOW OF TASKS LIST:
 	tasks = [
@@ -151,8 +155,8 @@ def main():
 				# Afact:
 				lambda: instructions_afact.start_instrunctions(),
 				lambda: afact_task.start_task(),
-				#lambda: instructions_afact_after_practice.start_instrunctions(),
-				#lambda: afact_task.start_task(),
+				lambda: instructions_afact_after_practice.start_instrunctions(),
+				lambda: afact_task.start_task(),
 				
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),

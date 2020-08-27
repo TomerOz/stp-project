@@ -8,6 +8,9 @@ gui  = exp.EXPERIMENT_GUI # the gui object the above mentioned class
 MAIN_FRAME = "af"
 FEEDBACK_LABEL = "al"
 
+ALTERNATIVE_TASK_FRAME = "alternative_task_frame"
+ALTERNATIVE_TASK_LABEL = "alternative_task_label"
+
 class DummyClass(object):
 	def __init__(self, gui, exp, width=500, height=600, max_bias_z_score=None):
 		self.gui = gui
@@ -31,7 +34,17 @@ class DummyClass(object):
 		self.length_of_feedback = self.scale_bottom_tick - self.scale_top_tick
 		
 		self.create_feedback_canvas_orginal()
+		self.create_alternative_task_canvas()
 
+	def create_alternative_task_canvas(self):
+		self.exp.create_frame(ALTERNATIVE_TASK_FRAME)
+		self.exp.create_label(ALTERNATIVE_TASK_LABEL, ALTERNATIVE_TASK_FRAME)
+		label_ref = self.exp.LABELS_BY_FRAMES[ALTERNATIVE_TASK_FRAME][ALTERNATIVE_TASK_LABEL]
+		
+		self.alternative_task_canvas = self.exp.tk_refference.Canvas(label_ref, width=400, height=100, bg="white", highlightbackground="black")
+		self.alternative_task_canvas.create_rectangle(0,0,40,40, fill="grey")
+		self.alternative_task_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
+	
 	def create_feedback_canvas_orginal(self):
 
 		self.exp.create_frame(MAIN_FRAME)
@@ -96,7 +109,8 @@ class DummyClass(object):
 
 dc = DummyClass(gui, exp)
 #dc.create_feedback_canvas_orginal()
-exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+#exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL])
+exp.display_frame(ALTERNATIVE_TASK_FRAME, [ALTERNATIVE_TASK_LABEL])
 gui.state('zoomed')
 import random
 def x(e):

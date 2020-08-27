@@ -77,7 +77,7 @@ class Menu(object):
 		self.menu_data[gender] = type(self.exp).ALL_ENTRIES[gender].get()
 		self.menu_data[group] = type(self.exp).ALL_ENTRIES[group].get()
 		self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
-		self.menu_data[session] = int(type(self.exp).ALL_ENTRIES[session].get())
+		self.menu_data[session] = type(self.exp).ALL_ENTRIES[session].get()
 		
 		self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])	
 		self.ap.process_audio(self.updated_audio_path) # process this subject audio files

@@ -136,10 +136,10 @@ class SubjectData(object):
 		for i,r in enumerate(rows):
 			subject_df[columns[i]] = pd.Series(r)
 		
-		subject_dir = os.path.join(self.full_data_path, r'.\\Data\\Subject_' + '_' + str(self.subject))
+		subject_dir = os.path.join(self.full_data_path, r'.\\Data\\Subject_' + str(self.subject))
 		if not os.path.exists(subject_dir):
 			os.mkdir(subject_dir) 
-		subject_df.to_excel(os.path.join(subject_dir, self.experimental_phase[0] + " session-" + self.session_col[0] + '\\data.xlsx'), index=False)
+		subject_df.to_excel(os.path.join(subject_dir, self.experimental_phase[0] + "_session-" + self.session_col[0] + '_data.xlsx'), index=False)
 		return subject_df
 
 def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
@@ -150,7 +150,7 @@ def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 	subject_dir = os.path.join(destination)
 	if not os.path.exists(subject_dir):
 		os.mkdir(subject_dir)
-	subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx', index=False)
+	#subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx', index=False)
 	return subject_df
 
 
@@ -210,8 +210,8 @@ class DichoticSubjectData(object):
 				]
 
 
-		df = create_generic_row_cols_data_frame(rows, columns, r'.\\Data\\Subject_' + str(self.subject[0])," session-" + self.session[0] +" Dichotic")
-		self.insert_responses(df)
+		df = create_generic_row_cols_data_frame(rows, columns, r'.\\Data\\Subject_' + str(self.subject[0]),"session-" + self.session[0] +"Dichotic")
+		self.insert_responses(df) ###save the output
 	
 	def insert_responses(self, df):
 		
@@ -231,7 +231,8 @@ class DichoticSubjectData(object):
 				df.loc[(df.trial_start_time<=response_t) & (df.trial_end_time>=response_t), "Response_Right_time"] = response_t
 				
 				
-		df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\Dichotic.xlsx")
+		# df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\Dichotic.xlsx")
+		df.to_excel(r'Data\Subject_' + str(self.subject[0]) + "\\" + "session-" + self.session[0] + "_Dichotic.xlsx") ##the final output
 
 	def get_response(self, event=None):
 		self.trial_response_time.append(time.time())
