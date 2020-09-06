@@ -23,6 +23,7 @@ class MainAudioProcessor(object):
 						digit_phases=None,
 						afact_debug=False,
 						n_afact_practice_trials=None,
+						n_mab_practice_trials=None,
 						):
 						
 		self.phases_names = phases_names # A list of strings representing phases names
@@ -40,6 +41,11 @@ class MainAudioProcessor(object):
 		else:
 			self.n_practice_trials = n_practice_trials
 		
+		if n_mab_practice_trials == None:
+			self.n_mab_practice_trials = DEFAULT_N_PRACTICE_TRIALS
+		else:
+			self.n_mab_practice_trials = n_mab_practice_trials
+			
 		if n_afact_practice_trials == None:
 			self.n_afact_practice_trials = DEFAULT_N_PRACTICE_TRIALS
 		else:
@@ -70,15 +76,6 @@ class MainAudioProcessor(object):
 				if not phase in self.n_block_per_phase:
 					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of two phases
 
-		# if False:
-		# 	if self.dichotic_phases != None: # a dichotic task is requested by user
-		# 		for dichotic_phase in self.dichotic_phases:
-		# 			self.n_dichotic_trials = self.n_trials_by_phase[dichotic_phase] # saving a refference to the requsted n
-		# 			# removing dichotic from lists and dicts that are unrelevant for further process
-		# 			self.phases_names.remove(dichotic_phase)
-		# 			self.n_trials_by_phase.pop(dichotic_phase, None)
-			
-		
 		self.pre_defined_distribution_dict = pre_defined_distribution_dict
 		
 		self.trial_sentence_refetnce = None # later being created as a class instance of TrialsSentencesReff
@@ -138,8 +135,6 @@ class MainAudioProcessor(object):
 
 		df = pd.DataFrame(dubg_data)
 		df.to_excel(r".\\Debug Output\\dubg_trials.xlsx", index=False)
-
-
 
 	def _split_senteces_to_phases(self):
 		'''the function gets a matrix for sentecnes per task and phase, and 80 subject data,
@@ -348,10 +343,25 @@ class MainAudioProcessor(object):
 				if phase == AFACT_PHASE:
 					self._afact_trials_rearrange(phase, ammount_of_neutral_trials, prac_neu_or_neg, neu, neg)
 				
-				elif phase == DICHOTIC_PHASE:
-				#OMER
-					pass
+				elif phase == MAB_PHASE:
+					self._rearange_mab_practice_trials()
 	
+	def _rearange_mab_practice_trials(self):
+		# Deleting the defalut dct practice trials
+		self.trials_types_by_phase[MAB_PHASE] = self.trials_types_by_phase[MAB_PHASE][self.n_practice_trials:]
+		# Creating MAB practice trials
+		if self.n_mab_practice_trials > 0:
+			PRACTICE_SENTENCE = "mab practice"
+			training_practice_trial_type = TrialType(PRACTICE_SENTENCE)
+			training_practice_trial_type.is_practice = False # Controls for feedback -  on prac 1 --> providing feedback
+			training_practice_trial_type.trial_phase = "MAB practice"
+			mab_practice_sentences = random.sample(self.neu_sentences_by_phase[MAB_PHASE],self.n_mab_practice_trials) 		
+			
+			for sentence in mab_practice_sentences:
+				training_practice_trial_type.add_sentence(sentence)
+			
+			self.trials_types_by_phase[MAB_PHASE] = [training_practice_trial_type]*self.n_mab_practice_trials + self.trials_types_by_phase[MAB_PHASE]
+
 	def _afact_trials_rearrange(self, phase, 
 								ammount_of_neutral_trials, 
 								prac_neu_or_neg, 
@@ -407,9 +417,7 @@ class MainAudioProcessor(object):
 				
 			# saving afact trials
 			self.trials_types_by_phase[phase] = [training_practice_trial_type]*self.n_afact_practice_trials + self.trials_types_by_phase[phase]
-					
-
-	
+						
 	def fill_sentence_trial_refferences(self):
 		for phase in self.phases_names:
 			if phase not in self.dichotic_phases:

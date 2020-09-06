@@ -14,10 +14,10 @@ ALLOCATION = ALLOCATION_TOMER
 
 AUDIOPATH = r'.\\Subjects'
 IMAGEPATH = r'.\\Instructions_Pictures'
+WORDS_PATH = r'.\\Tasks\\processing\\AfactWordsAlternative'
 IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
 IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
-
 # IMAGEPATH_DICHOTIC_END = r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
 # IMAGEPATH_DIGIT_END =  r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
 
@@ -150,7 +150,19 @@ MAX_DIGIT = 8
 BLOCK_CHANGE_WAIT_TIME = 3000
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+# AFACT:
+GREATER_X = "more_then_4"
+SMALLER_X = "less_then_4"
+ALIVE = "ALIVE"
+STILL = "STILL"
+RESPONSE_LABELS_AFACT_ALTERNATIVE_1 = {RIGHT : GREATER_X, LEFT: SMALLER_X} 
+RESPONSE_LABELS_AFACT_ALTERNATIVE_2 = {RIGHT : ALIVE, LEFT: STILL}
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+# MAB
+MAB_RESONSE_KEY = "<space>"
+MAB_PRACTICE_FEEDBACK_DURATAION = 1000
 
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 #Dichotic
 MAIN_FRAME = 'm_frame'
 BACKGROUND_COLOR = 'black'

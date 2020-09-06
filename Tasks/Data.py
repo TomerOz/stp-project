@@ -153,7 +153,6 @@ def create_generic_row_cols_data_frame(rows, cols, destination, file_name):
 	#subject_df.to_excel(subject_dir + '\\' + file_name + '.xlsx', index=False)
 	return subject_df
 
-
 class DichoticSubjectData(object):
 	def __init__(self):
 		
@@ -289,3 +288,57 @@ class DichoticSubjectData(object):
 		self.blocks					.append(td.block)
 		self.sentence_ids			.append(sentence.num)
 
+class MABSubjectData(SubjectData):
+	def __init__(self, full_data_path=""):
+		super(MABSubjectData, self).__init__(full_data_path=full_data_path)
+		
+		self.self_caught_in_trial = [] # will contain the last button press in each trial
+		self.self_caught_list = [] # in each trial will conatin a python growing list
+									# good for cases of multiple presses
+		
+	def create_data_frame(self):
+		subject_df = pd.DataFrame()
+		
+		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
+					'block', 'is correct', 'key pressed', 'RT', 'valence',
+					'text', 'duration', 'path', 'sentence num',
+					'num shown', 'gender', 'group', 'session', 'trials_phases',
+					'self_caught_in_trial','self_caught_list',]
+					
+		rows = [
+					self.subject_col			,
+					self.trials_nums			,
+					self.experimental_phase		,
+					self.trials_types			,
+					self.catch_trial_types      ,
+					self.blocks					,
+					self.categorization_scores	,
+					self.pressed_keys			,
+					self.RTs					,
+					self.sentences_valence		,
+					self.sentences_texts		,
+					self.sentences_duration		,
+					self.sentences_paths		,
+					self.sentences_nums			,
+					self.nums_shown_types		,
+					self.gender_col				,
+					self.group_col				,
+					self.session_col			,
+					self.trials_phases			,
+					self.self_caught_in_trial	,
+					self.self_caught_list		,
+				]
+				
+		for i,r in enumerate(rows):
+			subject_df[columns[i]] = pd.Series(r)
+		
+		subject_dir = os.path.join(self.full_data_path, r'.\\Data\\Subject_' + str(self.subject))
+		if not os.path.exists(subject_dir):
+			os.mkdir(subject_dir) 
+		subject_df.to_excel(os.path.join(subject_dir, self.experimental_phase[0] + "_session-" + self.session_col[0] + '_data.xlsx'), index=False)
+		return subject_df
+	
+	def push_data_packge(self, package):
+		super(MABSubjectData, self).push_data_packge(package)
+		self.self_caught_in_trial.append(package.self_caught_in_trial)
+		self.self_caught_list.append(package.self_caught_list)

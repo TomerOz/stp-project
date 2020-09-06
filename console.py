@@ -11,6 +11,7 @@ from PIL import Image, ImageTk
 from ExGui import Experiment
 from Tasks.instructions import Instructions
 from Tasks.DCT import DctTask, TaskData
+from Tasks.MAB import MABTask, MABTaskData
 from Tasks.AFACT import AfactTask, AfactTaskData
 from Tasks.OpeningMenu import Menu
 from Tasks.processing.wav_lengh import AudioProcessor
@@ -19,6 +20,7 @@ from Tasks.Data import SubjectData
 from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
+from Tasks.processing.AfactWordsAlternative.words_to_list import get_words_objects
 
 from Tasks.params import *
 
@@ -30,24 +32,6 @@ def main():
 	sd = SubjectData()	# 
 	instructions = Instructions(gui, exp, flow, IMAGEPATH)# controls instructions gui and flow
 	
-	
-	# Omer
-	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)
-	#phases_names = [DIGIT_PRE, DIGIT_POST, DICHOTIC_PRE, DICHOTIC_POST]
-	#
-	#phases_relations = {
-	#						"Digit_before_after" : [DIGIT_PRE,DIGIT_POST], # match phases names
-	#						"Dichotic_before_after" : [DICHOTIC_PRE,DICHOTIC_POST], # match phases names
-	#						}
-	# dichotic_phases = [DICHOTIC_PRE, DICHOTIC_POST]
-	# phases_without_catch_trials = [] + dichotic_phases
-	#n_trials_by_phase = {
-	#														DIGIT_PRE: 			80, # 40 neutrals and 40 negtaives
-	#														DIGIT_POST:			80,
-	#														DICHOTIC_PRE:		120, # unrelevant - because the code deletes it 	
-	#														DICHOTIC_POST: 		120,
-	#														}
-	#
 	# Tomer:
 	# Has to match to "n_list" in TaksAudioDataManager in _split_senteces_to_phases (line ~151)	
 	
@@ -136,13 +120,16 @@ def main():
 	dct_post_training = DctTask(gui, exp, td_post_training, flow) # A class intance that runs the DCT task
 	
 	# AFACT:
+	afact_alternative = "shapes" # original/shapes/words
 	atd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE)
-	afact_task = AfactTask(gui, exp, atd, flow)
+	afact_task = AfactTask(gui, exp, atd, flow, afact_alternative=afact_alternative, words_objects=get_words_objects(WORDS_PATH))
 	
 	instructions_afact = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS) 
 	instructions_afact_after_practice = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE) 
 	
-	# MAB: 
+	# MAB:
+	mab_task_data = MABTaskData(menu, data_manager, sd, phase=MAB_PHASE) # A class intance that organizes the data for the DCT task
+	mab_task = MABTask(gui, exp, mab_task_data, flow) # A class intance that runs the DCT task
 	instructions_mab = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS)
 	instructions_mab_after_practice = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC)
 	
@@ -152,12 +139,15 @@ def main():
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
+				# MAB:
+				lambda: mab_task.start_task(),
+				#
 				# Afact:
 				lambda: instructions_afact.start_instrunctions(),
 				lambda: afact_task.start_task(),
 				lambda: instructions_afact_after_practice.start_instrunctions(),
 				lambda: afact_task.start_task(),
-				
+				#
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
 				lambda: dct_training.start_task(),

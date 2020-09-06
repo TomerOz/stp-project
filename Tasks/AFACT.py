@@ -25,6 +25,7 @@ LABEL_1 = "label_1"
 ALTERNATIVE_TASK_FRAME = "alternative_task_frame"
 ALTERNATIVE_TASK_LABEL = "alternative_task_label"
 
+
 class AfactGui(object):
 	
 	def __init__(self, gui, exp, width=500, height=600, max_bias_z_score=None):
@@ -52,8 +53,6 @@ class AfactGui(object):
 		self.length_of_feedback = self.scale_bottom_tick - self.scale_top_tick
 		
 		self.create_feedback_canvas_orginal()
-		#self.create_feedback_canvas()
-		#self.create_alternative_task_canvas()
 		
 		self.alternative_task_canvas_width = 400
 		self.alternative_task_canvas_hight = 100
@@ -69,6 +68,7 @@ class AfactGui(object):
 								bg="black", highlightbackground="black")
 		self.alternative_task_canvas.create_rectangle(0,0,40,40, fill="white")
 		self.alternative_task_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
+	
 	def create_n_shapes(self, n):
 		self.alternative_task_canvas.delete("all")
 		width = 40
@@ -217,6 +217,15 @@ class AfactTaskData(TaskData):
 		self.neutral_running_mean = [] #  holds last 4 neutral RT's, updated throughout the experiment
 		self.last_trial_bias = None # holding running mean of n last neutrals, to be changed after every neg trial
 
+	def set_classify_num_function(self, afact_alternative):
+		if afact_alternative != "original":
+			if afact_alternative == "shapes":
+				self._classify_type_of_num = self._classify_type_of_num_shapes
+			elif afact_alternative == "words":
+				self._classify_type_of_num = self._classify_type_of_num_words
+		else:
+			self._classify_type_of_num = super()._classify_type_of_num
+	
 	def copmute_running_nutral_mean(self, rt, sentence_instance, current_trial_type_intance):
 		if current_trial_type_intance.is_normal_trial: # Avoids; feedbacks, catches, change blocks 
 			if sentence_instance.valence == NEUTRAL_SENTENCE:
@@ -232,10 +241,43 @@ class AfactTaskData(TaskData):
 				bias = (rt - running_mean)/(1.0*running_std)
 				self.last_trial_bias = bias
 				
+	def _classify_type_of_num_shapes(self, num):
+		if num > 4:
+			return GREATER_X
+		else:
+			return SMALLER_X
+	
+	def _classify_type_of_num_words(self, word_object):
+		if word_object.type == ALIVE:
+			return ALIVE
+		else:
+			return STILL	
+			
 class AfactTask(DctTask):
-	def __init__(self, gui, exp, td, flow):
-		super(AfactTask, self).__init__(gui, exp, td, flow) # inheriting from the dct class the basic structure and properties
+	def __init__(self, gui, exp, td, flow, 
+				response_labels=None, afact_alternative="original", 
+				words_objects=None):
+		
+		self.afact_alternative = afact_alternative
+		self.words_objects = words_objects
+		
+		if self.afact_alternative != "original":
+			if self.afact_alternative == "shapes":
+				response_labels = RESPONSE_LABELS_AFACT_ALTERNATIVE_1 # sets this and task data response_labels
+				self.possible_nums = [3,5]
+				self.digit_func = self._digit_func_shapes
+			elif self.afact_alternative == "words":
+				self.digit_func = self._digit_func_words
+				ipdb.set_trace()
+				response_labels = RESPONSE_LABELS_AFACT_ALTERNATIVE_2 # sets this and task data response_labels
+		else:
+			self.digit_func = super().show_digit
+		
+		self.show_digit = self.digit_func
+		super(AfactTask, self).__init__(gui, exp, td, flow, response_labels=response_labels) # inheriting from the dct class the basic structure and properties
+		self.td.set_classify_num_function(self.afact_alternative)
 		self.afact_gui = AfactGui(gui, exp)
+		
 		
 	def show_AFACT_frame(self, bias):
 		#self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))						
@@ -251,15 +293,22 @@ class AfactTask(DctTask):
 	def start_task(self, user_event=None):
 		'''Overritten from DctTask'''
 		super(AfactTask, self).start_task(user_event)
-		self.afact_gui.create_alternative_task_canvas()
-	
-	def show_digit(self):
-		'''Overritten from DctTask'''
-		self.shown_num = random.randint(3,6)						########   PREFERABLEY THIS WILL BE TAKEN FROM A PRE EXISTING + PRE READ LIST OF NUMBERS  ##########
+		if self.afact_alternative == "shapes":
+			self.afact_gui.create_alternative_task_canvas()
+		
+	def _digit_func_shapes(self):
+		i_sampled = random.randint(0,len(self.possible_nums)-1)						########   PREFERABLEY THIS WILL BE TAKEN FROM A PRE EXISTING + PRE READ LIST OF NUMBERS  ##########
+		self.shown_num = self.possible_nums[i_sampled]
 		self.afact_gui.create_n_shapes(self.shown_num)
 		self.exp.display_frame(ALTERNATIVE_TASK_FRAME,[ALTERNATIVE_TASK_LABEL])
-		#self.stimulus_live_text = 'X' + str(self.shown_num) +'X'
-		#self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)
+	
+	def _digit_func_words(self):
+		i_sampled = random.randint(0,len(self.words_objects)-1)
+		self.shown_word = self.words_objects[i_sampled]
+		self.stimulus_live_text = u'' + self.shown_word.word
+		self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)
+		self.shown_num = self.shown_word
+		
 		
 	def _continue(self): 
 		''' overridded from the parent dct task'''

@@ -15,7 +15,7 @@ from .params import *
 
 class DctTask(object):
 	
-	def __init__(self, gui, exp, td, flow):
+	def __init__(self, gui, exp, td, flow, response_labels=None):
 		self.gui = gui
 		self.exp = exp
 		self.td = td
@@ -24,15 +24,21 @@ class DctTask(object):
 		self.shown_num = None # last number on screen
 		self.key_pressed = None
 		self.block_changed = False # keeps track if lasts block change occured
-	
+		
+		if response_labels == None:
+			self.response_labels = RESPONSE_LABELS
+			self.td.response_labels = RESPONSE_LABELS
+		else:
+			self.response_labels = response_labels
+			self.td.response_labels = response_labels
+			
 	def _getresponse(self, eff=None, key=None):
 		self.td.t1 = time.time()													## END OF TIME RECORD
 		self.td.record_time()		
 		self.key_pressed = key
 		
 		# unbinding keyboard - to not allow overriding sentences
-		self.gui.unbind(RIGHT_RESPONSE_KEY)
-		self.gui.unbind(LEFT_RESPONSE_KEY)
+		self._unbind_keyboard()
 		self.td.record_trial(self.shown_num, self.key_pressed)
 
 		# Practice feedback decision
@@ -41,7 +47,7 @@ class DctTask(object):
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
 		else:
 			self._continue()
-		
+	
 	def _continue(self):
 		self.td.current_trial += 1 # raising trial by 1 
 		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
@@ -59,7 +65,7 @@ class DctTask(object):
 	def _give_feedback(self, key):
 		num_type = self.td._classify_type_of_num(self.shown_num)
 		# if correct
-		if RESPONSE_LABELS[key] == num_type:
+		if self.response_labels[key] == num_type:
 			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = CORRECT))
 			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))  ### color feedback
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "Correct"))
@@ -70,13 +76,18 @@ class DctTask(object):
 			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text = "Wrong"))
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
+		self.exp.display_frame(FRAME_1, [LABEL_1])
 				
 	def _bind_keyboard(self):
 		self.gui.unbind(CATCH_RIGHT_RESPONSE_KEY)
 		self.gui.unbind(CATCH_LEFT_RESPONSE_KEY)
 		self.gui.bind(RIGHT_RESPONSE_KEY, lambda eff: self._getresponse(eff, key=RIGHT))
 		self.gui.bind(LEFT_RESPONSE_KEY, lambda eff: self._getresponse(eff,key=LEFT))
-		
+			
+	def _unbind_keyboard(self):
+		self.gui.unbind(RIGHT_RESPONSE_KEY)
+		self.gui.unbind(LEFT_RESPONSE_KEY)
+	
 	def _start_audio(self):
 		playsound(self.td.current_sentence_path, block=False) 						# audio is taken every trial from an updating filename 
 		
@@ -131,7 +142,10 @@ class DctTask(object):
 			# get data frame from sd
 			self.td.sd.create_data_frame()
 			# raise flag of completion
-			self.flow.next()
+			self.end_task()
+	
+	def end_task(self):
+		self.flow.next()
 	
 	def destroy_change_block_frame_and_continue(self):
 		self.exp.hide_frame(CHANGE_BLOCK_FRAME)
@@ -188,7 +202,7 @@ class DctTask(object):
 				
 class TaskData(object):
 	''' the data manager of the dct task'''
-	def __init__(self, menu, data_manager, subject_data, phase=None, sessions_names=None ):
+	def __init__(self, menu, data_manager, subject_data, phase=None, sessions_names=None):
 		
 		# user data
 		self.menu = menu # contains gender, subject subject's path and group
@@ -277,7 +291,7 @@ class TaskData(object):
 		if self.current_trial_type_intance.is_normal_trial: # on regular and practice trials			
 			# Checking the subject Digit Classification answer:
 			num_shown_type = self._classify_type_of_num(num_shown)
-			answer_type = RESPONSE_LABELS[key_pressed]   #what did the subject answer based on --> #RESPONSE_LABELS = {RIGHT : 'even', LEFT: 'odd'} 	# should be changed at some point
+			answer_type = self.response_labels[key_pressed]   #what did the subject answer based on --> #RESPONSE_LABELS = {RIGHT : 'even', LEFT: 'odd'} 	# should be changed at some point
 			if answer_type == num_shown_type:
 				was_correct = True
 			else:
