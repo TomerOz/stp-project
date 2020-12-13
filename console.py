@@ -140,7 +140,7 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
 				# MAB:
-				lambda: mab_task.start_task(),
+				#lambda: mab_task.start_task(),
 				#
 				# Afact:
 				lambda: instructions_afact.start_instrunctions(),
