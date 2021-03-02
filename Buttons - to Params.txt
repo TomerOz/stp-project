@@ -1,0 +1,13 @@
+Digit
+- probes - Alt
+- Odd/even - Shift
+
+Dichotic 
+- Left/right ear - R/L arrows
+
+Rectangels 
+- more/less than 5 - Up/Down arrows
+
+BMM?
+MAB?
+AFACT?
