@@ -36,6 +36,9 @@ IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT 
 IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_main_instructions'
 IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_after_practice_instructions'
 
+# BMM INSTRUCTINOS"
+IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions'
+
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 

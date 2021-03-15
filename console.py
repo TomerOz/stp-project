@@ -133,6 +133,11 @@ def main():
 	instructions_mab = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS)
 	instructions_mab_after_practice = Instructions(gui, exp, flow, IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC)
 	
+	# BMM:
+	instructions_BMM = Instructions(gui, exp, flow, IMAGEPATH_BMM_INSTRUCTIONS)
+	bmmtd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE) # intentionally this uses the AFACT task data
+	bmm_task = AfactTask(gui, exp, atd, flow, afact_alternative=afact_alternative, words_objects=get_words_objects(WORDS_PATH))
+	
 	# FLOW OF TASKS LIST:
 	tasks = [
 				lambda: menu.show(),
