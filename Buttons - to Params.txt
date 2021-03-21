@@ -1,13 +1,17 @@
 Digit
 - probes - Alt
-- Odd/even - Shift
+- Odd/even - R/L Shifts
 
 Dichotic 
-- Left/right ear - R/L arrows
+- Left/right ear -  R/L Shifts (previously R/L arrows)
 
 Rectangels 
 - more/less than 5 - Up/Down arrows
 
 BMM?
+-  Space for "button presses"
 MAB?
+- Space for the self caught
+
 AFACT?
+ - Odd/even - R/L Shifts

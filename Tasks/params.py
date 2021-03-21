@@ -177,8 +177,8 @@ NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 AFACT_PHASE = "afact_phase"
 FIXATION_STIMULI = '+'
 
-DICHOTIC_RIGHT_KEY = "<Right>"
-DICHOTIC_LEFT_KEY = "<Left>"
+DICHOTIC_RIGHT_KEY = "<Shift_R>" #"<Right>"
+DICHOTIC_LEFT_KEY = "<Shift_L>" #"<Left>"
 
 FIXATION_FONT = 'david 64 bold'
 BLOCK_BREAK_TIME = 10000
