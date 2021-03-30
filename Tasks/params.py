@@ -38,7 +38,7 @@ IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & M
 
 # BMM INSTRUCTINOS"
 IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions'
-
+BMM_RESPONSE_KEY = "<space>"
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 
