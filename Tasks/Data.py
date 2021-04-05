@@ -26,6 +26,7 @@ class SubjectData(object):
 		self.categorization_scores = [] # 0 or 1
 		self.pressed_keys = [] # l or r
 		self.RTs = []
+		self.t0s = []
 		self.nums_shown_types = []
 		self.catch_trial_types = []
 		self.sentence_instances = [] # valence, text, path, duration etc....
@@ -56,6 +57,7 @@ class SubjectData(object):
 		last_key = package.last_key_pressed # last key press
 		was_correct = package.last_trial_classification # was last trial correct or not
 		last_rt = package.last_RT # last trial rt
+		t0 = package.t0
 		num_shown_type = package.num_shown_type
 		phase = package.phase
 		
@@ -65,6 +67,7 @@ class SubjectData(object):
 		self.categorization_scores.append(was_correct)
 		self.pressed_keys.append(last_key)
 		self.RTs.append(last_rt)
+		self.t0s.append(t0)
 		self.nums_shown_types.append(num_shown_type)
 		self.experimental_phase.append(phase)
 		self.subject_col.append(self.subject)
@@ -107,7 +110,7 @@ class SubjectData(object):
 		subject_df = pd.DataFrame()
 		
 		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
-					'block', 'is correct', 'key pressed', 'RT', 'valence',
+					'block', 'is correct', 'key pressed', 'RT', 't0', 'valence',
 					'text', 'duration', 'path', 'sentence num',
 					'num shown', 'gender', 'group', 'session', 'trials_phases']
 					
@@ -121,6 +124,7 @@ class SubjectData(object):
 					self.categorization_scores	,
 					self.pressed_keys			,
 					self.RTs					,
+					self.t0s					,
 					self.sentences_valence		,
 					self.sentences_texts		,
 					self.sentences_duration		,

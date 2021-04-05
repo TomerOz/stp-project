@@ -230,7 +230,7 @@ class TaskData(object):
 		self.current_trial_type_intance = None # continan current TrialType instace
 		self.current_sentence = None # continan current Sentence instance
 		self.current_sentence_path = None # contain path of current sentence audio file
-			
+					
 	def event_timed_init(self):
 		'''
 			This is part of the regular initment process though it is evoked only when 
