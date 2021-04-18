@@ -13,6 +13,7 @@ from Tasks.instructions import Instructions
 from Tasks.DCT import DctTask, TaskData
 from Tasks.MAB import MABTask, MABTaskData
 from Tasks.AFACT import AfactTask, AfactTaskData
+from Tasks.BMM import BMMTask, BMMTaskData
 from Tasks.OpeningMenu import Menu
 from Tasks.processing.wav_lengh import AudioProcessor
 from Tasks.processing.TasksAudioDataManager import MainAudioProcessor
@@ -135,14 +136,17 @@ def main():
 	
 	# BMM:
 	instructions_BMM = Instructions(gui, exp, flow, IMAGEPATH_BMM_INSTRUCTIONS)
-	bmmtd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE) # intentionally this uses the AFACT task data
-	bmm_task = AfactTask(gui, exp, atd, flow, afact_alternative=afact_alternative, words_objects=get_words_objects(WORDS_PATH))
+	bmmtd = BMMTaskData(menu, data_manager, sd, phase=AFACT_PHASE) # intentionally this uses the AFACT phase name, so the same STPs allocation is done
+	bmm_task = BMMTask(gui, exp, bmmtd, flow)
 	
 	# FLOW OF TASKS LIST:
 	tasks = [
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
+				#
+				#BMM:
+				lambda: bmm_task.start_task(),
 				#
 				# MAB:
 				#lambda: mab_task.start_task(),
