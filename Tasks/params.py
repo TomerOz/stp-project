@@ -98,8 +98,8 @@ AFTER_PRACTICE_2  = 11
 # THE FOLLOWINGS SPECIFIES "DEFAULTS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
 DEFAULT_N_BLOCK_PER_PHASE = 1
 DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0 ########### on runing = 0.25 or 1.0/8.0 ??? ###########
-DEFAULT_N_PRACTICE_TRIALS = 8
-DEFAULT_N_START_NEUTRAL_TRIALS = 4
+DEFAULT_N_PRACTICE_TRIALS = 8 ########### on runing = 8 ###########
+DEFAULT_N_START_NEUTRAL_TRIALS = 4 
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
@@ -128,8 +128,10 @@ LEFT = 'l'
 RIGHT_RESPONSE_KEY = "<Shift_R>" #even
 LEFT_RESPONSE_KEY = "<Shift_L>" #odd
 
-CATCH_RIGHT_RESPONSE_KEY = "<Alt_R>" # identical
-CATCH_LEFT_RESPONSE_KEY = "<Alt_L>" # not identical
+# CATCH_RIGHT_RESPONSE_KEY = "<Alt_R>" # identical
+# CATCH_LEFT_RESPONSE_KEY = "<Alt_L>" # not identical
+CATCH_RIGHT_RESPONSE_KEY = "f" # identical
+CATCH_LEFT_RESPONSE_KEY = "k" # not identical
 
 PRACTICE_FEEDBACK_CORRECT = "נכון"
 PRACTICE_FEEDBACK_WRONG = "לא נכון"
@@ -197,7 +199,7 @@ BETWEEN_SENTENCES_DELAY = 300
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 
 #DichoticDataManager 
-DEFAULT_NUMBER_OF_BLOCKS = 3 # In Tomer's should be 2 --- difined via console in n_blocks argument
+DEFAULT_NUMBER_OF_BLOCKS = 2 # In Tomer's should be 2 --- difined via console in n_blocks argument
 DEFAULT_NUMBER_OF_CHUNCKS = 4 ########### on runing = 4 ###########
 DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 ########### on runing = 10 ########### = trials per chunk
 DEFAULT_NUMBER_OF_N_BACK = 2

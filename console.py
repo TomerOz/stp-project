@@ -102,10 +102,6 @@ def main():
 	menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager) # controls menu gui and imput fields
 	
 	# DICHOTIC
-	# maybe duplicate it for pre and post - AT THE MOMENT ITS ONLY "PRE"
-	# Omer:
-	#dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, DICHOTIC_PRE,)
-	# Tomer:
 	dichotic_task_gui = DichoticOneBack(gui, exp)
 	dichotic_data_manager = DichoticTrialsManager(gui, flow, data_manager, menu, DICHOTIC_PHASE, n_blocks=2)
 	dichotic_task_data = DichoticTaskData(exp, flow, dichotic_task_gui, dichotic_data_manager, data_manager, gui, menu, instructions_dichotic_break)
@@ -141,25 +137,36 @@ def main():
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
+				# DCT-STP
+				lambda: instructions_dct_1.start_instrunctions(),
+				lambda: dct_training.start_task(), # practice 1 trials
+				lambda: instructions_dct_2.start_instrunctions(),
+				lambda: dct_training.start_task(), # practice 2 trials
+				lambda: instructions_dct_3.start_instrunctions(),
+				lambda: dct_training.start_task(), # real trials
+				#
 				#BMM:
 				#lambda: bmm_task.start_task(),
 				#
 				# MAB:
-				#lambda: mab_task.start_task(),
+				lambda: instructions_mab.start_instrunctions(),
+				lambda: mab_task.start_task(),
+				lambda: instructions_mab_after_practice.start_instrunctions(),
+				lambda: mab_task.start_task(),
 				#
 				# Afact:
 				lambda: instructions_afact.start_instrunctions(),
-				lambda: afact_task.start_task(),
+				lambda: afact_task.start_task(), # practice trials
 				lambda: instructions_afact_after_practice.start_instrunctions(),
-				lambda: afact_task.start_task(),
+				lambda: afact_task.start_task(), # real trials
 				#
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
-				lambda: dct_training.start_task(),
+				lambda: dct_training.start_task(), # practice 1 trials
 				lambda: instructions_dct_2.start_instrunctions(),
-				lambda: dct_training.start_task(),
+				lambda: dct_training.start_task(), # practice 2 trials
 				lambda: instructions_dct_3.start_instrunctions(),
-				lambda: dct_training.start_task(),
+				lambda: dct_training.start_task(), # real trials
 				#
 				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				

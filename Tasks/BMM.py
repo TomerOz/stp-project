@@ -44,6 +44,7 @@ class BMMTask(DctTask):
 		self.is_stp_practice_finished = False
 		self.current_sentence_responses = []
 		self.stimulus_live_text = "+"
+		self.original_stimulus_live_text = "+"
 	
 	def _get_instructions_audio_files(self):
 		instructions_paths = []

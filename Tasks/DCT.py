@@ -20,6 +20,7 @@ class DctTask(object):
 		self.td = td
 		self.flow = flow
 		self.stimulus_live_text = DCT_STIMULI # to be later updated
+		self.original_stimulus_live_text = DCT_STIMULI # kept untouched
 		self.shown_num = None # last number on screen
 		self.key_pressed = None
 		self.block_changed = False # keeps track if lasts block change occured
@@ -122,7 +123,7 @@ class DctTask(object):
 				First, it records last trial,
 				Second, it start the next trial'''
 
-		self.stimulus_live_text = self.stimulus_live_text # reconfiguring fixation stimulus
+		self.stimulus_live_text = self.original_stimulus_live_text # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
 		# Checking if experiment ended:
