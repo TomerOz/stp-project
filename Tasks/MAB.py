@@ -13,7 +13,7 @@ class MABTask(DctTask):
 		self.td.self_caught_in_trial = self_caught # will contain the last button press in each trial
 		self.td.self_caught_list.append(self_caught)
 		if self.td.current_trial_type_intance.trial_phase == "MAB practice":
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "הרגשת שמחשבתך מוטת"))
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=MAB_FEEDBACK_TEXT))
 			self.gui.after(MAB_PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)) # text feedback
 
 	def start_task(self, user_event=None):

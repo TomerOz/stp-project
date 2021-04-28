@@ -74,13 +74,9 @@ def main():
 										phases_relations = phases_relations,
 										n_block_per_phase = {AFACT_PHASE : 2},
 										#####################################################################################################################
-										## FOR DEBUG ONLY - LATER RETURN COMMENTED VALUES
-										n_practice_trials= N_PRACTICE_TRIALS,
-										n_start_neutral_trials= 4,
-										# following controls whther to put practice or not 
-										# - if pracrticen, plwase insert to tasks flow Instructions lambda 
-										#  between two "afact_task.start_task()"
-										n_afact_practice_trials = 4,#4, #8 or 4? N_PRACTICE_TRIALS?
+										n_practice_trials=N_PRACTICE_TRIALS,
+										n_start_neutral_trials=DEFAULT_N_START_NEUTRAL_TRIALS, #### on running = 4, DEFAULT_N_START_NEUTRAL_TRIALS supposed to be 4 ####
+										n_afact_practice_trials=N_PRACTICE_TRIALS, #### on running = 8, N_PRACTICE_TRIALS supposed to be 8 ####
 										#####################################################################################################################
 										
 										# 		define --> n_block_per_phase = {phase_name : n_of_blocks}
@@ -146,7 +142,7 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
 				#BMM:
-				lambda: bmm_task.start_task(),
+				#lambda: bmm_task.start_task(),
 				#
 				# MAB:
 				#lambda: mab_task.start_task(),

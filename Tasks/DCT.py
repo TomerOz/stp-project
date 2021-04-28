@@ -10,7 +10,6 @@ from playsound import playsound
 from PIL import Image, ImageTk
 import winsound
 
-#from .Data import SubjectData
 from .params import *
 
 class DctTask(object):
@@ -33,7 +32,7 @@ class DctTask(object):
 			self.td.response_labels = response_labels
 			
 	def _getresponse(self, eff=None, key=None):
-		self.td.t1 = time.time()													## END OF TIME RECORD
+		self.td.t1 = time.time()				## END OF TIME RECORD
 		self.td.record_time()		
 		self.key_pressed = key
 		
@@ -44,7 +43,7 @@ class DctTask(object):
 		# Practice feedback decision
 		if self.td.current_trial_type_intance.is_practice:
 			self._give_feedback(self.key_pressed)		
-			self.gui.after(PRACTICE_FEEDBACK_DURATAION, self._continue) # TOMER - PAY ATTENTION TO THIS TIME
+			self.gui.after(PRACTICE_FEEDBACK_DURATAION, self._continue)
 		else:
 			self._continue()
 	
@@ -66,15 +65,11 @@ class DctTask(object):
 		num_type = self.td._classify_type_of_num(self.shown_num)
 		# if correct
 		if self.response_labels[key] == num_type:
-			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = CORRECT))
-			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))  ### color feedback
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text= "Correct"))
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=PRACTICE_FEEDBACK_CORRECT))
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)) # text feedback
 		#if wrong
 		else:
-			#self.gui.after(0, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = WRONG))
-			#self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.ALL_FRAMES[FRAME_1].config(bg = BACKGROUND))
-			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text = "Wrong"))
+			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=PRACTICE_FEEDBACK_WRONG))
 			self.gui.after(PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		self.exp.display_frame(FRAME_1, [LABEL_1])
 				
@@ -96,7 +91,7 @@ class DctTask(object):
 		self.gui.after(self.td.current_sentence.digit_que, self.td.start_time_record)  ## START OF TIME RECORD 	- this format makes it happen before digit delay presentation *self.td.t0 = time.time()*
 			
 	def show_digit(self):
-		self.shown_num = random.randint(MIN_DIGIT,MAX_DIGIT)						########   PREFERABLEY THIS WILL BE TAKEN FROM A PRE EXISTING + PRE READ LIST OF NUMBERS  ##########
+		self.shown_num = random.randint(MIN_DIGIT,MAX_DIGIT)						
 		self.stimulus_live_text = 'X' + str(self.shown_num) +'X'
 		self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text)
 	
@@ -106,7 +101,7 @@ class DctTask(object):
 								full_screen=True,
 								background_color=BACKGROUND
 								)
-		self.exp.create_label(LABEL_1, FRAME_1, label_text=DCT_STIMULI, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
+		self.exp.create_label(LABEL_1, FRAME_1, label_text=self.stimulus_live_text, label_fg=FOREGROUND, label_bg=BACKGROUND, label_font=DCT_STIMULI_FONT, label_justify="center")
 		
 	def _count_down(self, num=None):
 		self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=str(num))
@@ -127,7 +122,7 @@ class DctTask(object):
 				First, it records last trial,
 				Second, it start the next trial'''
 
-		self.stimulus_live_text = DCT_STIMULI # reconfiguring fixation stimulus
+		self.stimulus_live_text = self.stimulus_live_text # reconfiguring fixation stimulus
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=self.stimulus_live_text))
 		
 		# Checking if experiment ended:
@@ -322,15 +317,14 @@ class TaskData(object):
 		sent = trial_type.get_current_sentence()
 		trial_type.next()
 		
-		print("#--------------#")
+		print("#<>---<>-v-<>---<>#")
 		print("Current Trial: ", self.current_trial)
-		print("Change Block Trial is on: ", self.change_block_trial)
 		print("Total ammount of Trials is : ", self.total_ammount_of_trials)
+		print("Change Block Trial is on: ", self.change_block_trial)
 		print(trial_type)
 		print(trial_type.index)
 		print("Is it practice: ", self.current_trial_type_intance.is_practice)
 		print("Trial phase: ", self.current_trial_type_intance.trial_phase)
-		
 		print("------END--------")
 		
 		return sent
@@ -340,7 +334,6 @@ class TaskData(object):
 		return trial_type.get_current_sentence()
 	
 	def updata_current_sentence(self):
-		#print self.total_ammount_of_trials
 		if self.current_trial < self.total_ammount_of_trials: # Task is still running
 			trial_type = self.trials_types_by_phase[self.current_trial]
 			# saving in TaskData object a refferece to the current TrialType instance

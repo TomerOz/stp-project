@@ -36,7 +36,7 @@ IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT 
 IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_main_instructions'
 IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_after_practice_instructions'
 
-# BMM INSTRUCTINOS"
+# BMM INSTRUCTINOS
 IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions'
 BMM_RESPONSE_KEY = "<space>"
 ##temporary - for allocation -
@@ -97,7 +97,7 @@ AFTER_PRACTICE_2  = 11
 
 # THE FOLLOWINGS SPECIFIES "DEFAULTS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
 DEFAULT_N_BLOCK_PER_PHASE = 1
-DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0
+DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0 ########### on runing = 0.25 or 1.0/8.0 ??? ###########
 DEFAULT_N_PRACTICE_TRIALS = 8
 DEFAULT_N_START_NEUTRAL_TRIALS = 4
 
@@ -112,14 +112,14 @@ GROUP = 'group'
 GENDER = 'gender'
 SESSION = 'session'
 
-FIXATION_TIME = 100 																			########### CHANGE WHENR OPERATING TO 1000 ###########
-PRACTICE_FEEDBACK_DURATAION = 300
 ONE_SECOND = 1000
-MILISECONDS_BEFORE_END = 500
+FIXATION_TIME = 1000 	########### on runing = 1000 ###########
+MILISECONDS_BEFORE_END = 500 ########### on runing = 500 ###########
+BLOCK_CHANGE_WAIT_TIME = 3000
+PRACTICE_FEEDBACK_DURATAION = 300
+CATCH_TRIAL_RESPONSE_DELAY = 500
 MIN_DIGIT = 1
 MAX_DIGIT = 8
-BLOCK_CHANGE_WAIT_TIME = 3000
-CATCH_TRIAL_RESPONSE_DELAY = 500
 DCT_STIMULI = u'XXX'
 CATCH_SENTENCEE_QUESTION = u":האם המשפט האחרון ששמעת היה"
 DCT_STIMULI_FONT = "Courier 50 bold"
@@ -130,6 +130,9 @@ LEFT_RESPONSE_KEY = "<Shift_L>" #odd
 
 CATCH_RIGHT_RESPONSE_KEY = "<Alt_R>" # identical
 CATCH_LEFT_RESPONSE_KEY = "<Alt_L>" # not identical
+
+PRACTICE_FEEDBACK_CORRECT = "נכון"
+PRACTICE_FEEDBACK_WRONG = "לא נכון"
 
 #DCT gui properties 
 BACKGROUND = "black"
@@ -148,9 +151,6 @@ CORRECT_SENTENCE = 1
 NOT_CORRECT_SENTENCE = 0
 RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
 RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
-MIN_DIGIT = 1
-MAX_DIGIT = 8
-BLOCK_CHANGE_WAIT_TIME = 3000
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 # AFACT:
@@ -160,12 +160,17 @@ ALIVE = "ALIVE"
 STILL = "STILL"
 RESPONSE_LABELS_AFACT_ALTERNATIVE_1 = {RIGHT : GREATER_X, LEFT: SMALLER_X} 
 RESPONSE_LABELS_AFACT_ALTERNATIVE_2 = {RIGHT : ALIVE, LEFT: STILL}
-#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
-# MAB
-MAB_RESONSE_KEY = "<space>"
-MAB_PRACTICE_FEEDBACK_DURATAION = 1000
+AFACT_FEEDBACK_TIME = 3000
+AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME = AFACT_FEEDBACK_TIME + 1400
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+
+# MAB
+MAB_RESONSE_KEY = "<space>"
+MAB_PRACTICE_FEEDBACK_DURATAION = 2000
+MAB_FEEDBACK_TEXT = "הרגשת שמחשבתך מוטת"
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
+
 #Dichotic
 MAIN_FRAME = 'm_frame'
 BACKGROUND_COLOR = 'black'
@@ -193,8 +198,8 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 
 #DichoticDataManager 
 DEFAULT_NUMBER_OF_BLOCKS = 3 # In Tomer's should be 2 --- difined via console in n_blocks argument
-DEFAULT_NUMBER_OF_CHUNCKS = 4 # SHOULD BE 4
-DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 # SHOULD BE 10 - trials per chunk
+DEFAULT_NUMBER_OF_CHUNCKS = 4 ########### on runing = 4 ###########
+DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 ########### on runing = 10 ########### = trials per chunk
 DEFAULT_NUMBER_OF_N_BACK = 2
 N_TRIALS_PRACTICE_ONE = 7
 N_TRIALS_PRACTICE_TWO = 6

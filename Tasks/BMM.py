@@ -22,7 +22,10 @@ INSTRUCTION_2_DELAY = 1000
 INSTRUCTION_3_DELAY = 1000
 INSTRUCTION_4_DELAY = 1000
 INSTRUCTION_5_DELAY = 1000
-MIN_PRACTICE_RESPONSES = 0 # should be ~4
+BETWEEN_INSTRUCTIONS_DELAY = 1000
+MIN_PRACTICE_RESPONSES = 4 # should be ~4
+BETWEEN_STPS_RANDOM_DELAY = [400, 600, 1000, 1200, 1400, 1800, 2000]
+RANDOM_RESPONSES_TO_CONTINUE = [2, 3, 4] # how many responses should be given for moving toward next stp trial
 
 class BMMTask(DctTask):
 	def __init__(self, gui, exp, td, flow):
@@ -38,8 +41,9 @@ class BMMTask(DctTask):
 		self.min_practice_responses = MIN_PRACTICE_RESPONSES 
 		self.last_practice_response_times = []
 		self.is_practice_finished = False
-		self.is_stp_practice_finished = True
+		self.is_stp_practice_finished = False
 		self.current_sentence_responses = []
+		self.stimulus_live_text = "+"
 	
 	def _get_instructions_audio_files(self):
 		instructions_paths = []
@@ -83,18 +87,13 @@ class BMMTask(DctTask):
 		self.td.record_trial()
 		
 		self.current_sentence_responses.append(self.td.t1)
-		## TODO: write another td child class that handels such record time
-		## TODO: manage data saving
-		
+		self.last_practice_response_times.append(self.td.t1)
 		if self.is_practice_finished:
 			# check if we can continue
-			if len(self.current_sentence_responses) > 3:
+			if len(self.current_sentence_responses) > random.choice(RANDOM_RESPONSES_TO_CONTINUE):
 				self.current_sentence_responses = []
-				self._continue()
+				self.gui.after(random.choice(BETWEEN_STPS_RANDOM_DELAY), self._continue)
 				
-		else:
-			self.last_practice_response_times.append(self.td.t1)
-	
 	def _continue(self):
 		self.td.current_trial += 1 # raising trial by 1 
 		self.td.updata_current_sentence() # updatind sentence - loading everything nedded
@@ -102,19 +101,15 @@ class BMMTask(DctTask):
 		self.current_sentence_responses = [] # clearing for next sentence
 		
 		if self.td.current_trial_type_intance.is_change_block_trial:
-			# pause on change block
-			#self.change_block_frame()
 			pass
 		
 		elif self.td.current_trial_type_intance.is_instructions:
-			# next audio instructions
-			#self.flow.next()
 			pass
 		
 		elif self.td.current_trial == 5 and not self.is_stp_practice_finished: # end of practice stps back to instructions
 			self.is_practice_finished = False
 			self._unbind_keyboard()
-			self.gui.after(1000, self.next_audio_instructions)
+			self.gui.after(BETWEEN_INSTRUCTIONS_DELAY, self.next_audio_instructions)
 		else:
 			self._trial() # continues to next trial	
 	
@@ -193,31 +188,30 @@ class BMMTask(DctTask):
 		elif self.instructions_audio_index == 4: # audio_phase ended
 			self.is_practice_finished = True
 			self.is_stp_practice_finished = True
-			self.td.current_trial -=1 #giving back the lost trial that was the stp practice end marker
+			self.td.current_trial -= 1 #giving back the lost trial that was the stp practice end marker
 			self._continue() # experiment starts
 		else:
 			self._on_invalidated_phase()
 			# some message - repeat - inform experimenter				
 			
+	def _finish_pratice_for_stp_practice(self):
+		#  to enable getting into the stps practice
+		self.is_practice_finished = True
+		
 	def start_audio_instructions(self):
 		self.play_instructions_audio(self.instructions_audio_index)
 		self.gui.after(self._get_input_delay_time(), self._bind_keyboard)
 		if self.instructions_audio_index < self.n_instruction_audios:
 			if self.instructions_audio_index == 3: # continue to stps practice:
-				self.is_practice_finished = True # temporary
+				
+				self.gui.after(self.current_instruction_duration, self._finish_pratice_for_stp_practice) # allowing input in delay
 				self.gui.after(self.current_instruction_duration, self._continue) # experiment starts
 			
 			else: # continue to next instructions
 				self.current_instruction_duration = self.get_duration_of_audio(self.instructions_audio_index)
 				self.gui.after(self.current_instruction_duration, self.next_audio_instructions)
-		# else:
-			# self.is_practice_finished = True
-			# self.gui.after(self.current_instruction_duration, self._continue) # experiment starts
 			
 	def start_task(self, user_event=None):
-		# mind the differen inttruction phases
-		# mind the different functions of pressing Space throughout the instructions/task
-		
 		# On task first initiation
 		if self.td.current_trial == -1:
 			self.td.event_timed_init() # user dependet initment of the dct data class
@@ -230,7 +224,6 @@ class BMMTask(DctTask):
 			self._unbind_keyboard()
 			t1 = 0
 			self.gui.after(t1, self.start_audio_instructions)
-			#self.gui.after(t1, self._continue) # experiment was started
 		
 		# after instruction phase within this task
 		elif self.is_practice_finished:
@@ -261,8 +254,8 @@ class BMMTaskData(TaskData):
 		super(BMMTaskData, self).event_timed_init()
 		# filttering our instructions,change block and feefback trials
 		self.trials_types_by_phase = self.filter_td_trial_types_for_BMM()
-		ipdb.set_trace()
-	
+		self.total_ammount_of_trials =  len(self.trials_types_by_phase)
+		
 	def filter_td_trial_types_for_BMM(self):
 		filtered_trial_types = [tp for tp in self.trials_types_by_phase \
 									if not tp.is_instructions \

@@ -55,7 +55,7 @@ class AfactGui(object):
 		self.create_feedback_canvas_orginal()
 		
 		self.alternative_task_canvas_width = 400
-		self.alternative_task_canvas_hight = 100
+		self.alternative_task_canvas_hight = 150
 	
 	def create_alternative_task_canvas(self):
 		self.exp.create_frame(ALTERNATIVE_TASK_FRAME)
@@ -74,10 +74,25 @@ class AfactGui(object):
 		width = 40
 		height = 40
 		space = 10
-		start = round((self.alternative_task_canvas_width - ((n*(width+space))-space))/2)
-		y_start = self.alternative_task_canvas_hight/2 - height/2
-		for n_shapes in range(n):
-			self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start,start+n_shapes*(width+space)+width,height+y_start, fill="white")
+		#start = round((self.alternative_task_canvas_width - ((n*(width+space))-space))/2)
+		#y_start = self.alternative_task_canvas_hight/2 - height/2
+		#for n_shapes in range(n):
+		#	self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start,start+n_shapes*(width+space)+width,height+y_start, fill="white")
+		
+		n_in_row = 3
+		start = round((self.alternative_task_canvas_width - ((n_in_row*(width+space))-space))/2)
+		y_start_row_2 = self.alternative_task_canvas_hight/2 - height/2
+		y_start_row_1 = y_start_row_2 - height - space
+		y_start_row_3 = y_start_row_2 + height + space
+		colors = ["white"]*9
+		for i in random.sample(list(range(9)), n):
+			colors[i]="black"
+		for n_shapes in range(n_in_row):
+			self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start_row_1,start+n_shapes*(width+space)+width,height+y_start_row_1, fill=colors[n_shapes], outline='white')
+		for n_shapes in range(n_in_row):
+			self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start_row_2,start+n_shapes*(width+space)+width,height+y_start_row_2, fill=colors[n_shapes+3], outline='white')
+		for n_shapes in range(n_in_row):
+			self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start_row_3,start+n_shapes*(width+space)+width,height+y_start_row_3, fill=colors[n_shapes+6], outline='white')
 		
 		
 	def create_feedback_canvas_orginal(self):
@@ -277,6 +292,7 @@ class AfactTask(DctTask):
 		super(AfactTask, self).__init__(gui, exp, td, flow, response_labels=response_labels) # inheriting from the dct class the basic structure and properties
 		self.td.set_classify_num_function(self.afact_alternative)
 		self.afact_gui = AfactGui(gui, exp)
+		self.stimulus_live_text = "+"
 		
 		
 	def show_AFACT_frame(self, bias):
@@ -284,11 +300,11 @@ class AfactTask(DctTask):
 		#self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
 		self.gui.after(0, lambda:self.afact_gui.create_feedback_original(bias))
 		self.gui.after(0, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
-		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
-		self.gui.after(3100, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="XXX"))
-		self.gui.after(3100, lambda:self.exp.hide_frame(MAIN_FRAME))
-		self.gui.after(4500, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
-		self.gui.after(4500, self._continue)
+		self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
+		self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="+"))
+		self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.hide_frame(MAIN_FRAME))
+		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, self._continue)
 	
 	def start_task(self, user_event=None):
 		'''Overritten from DctTask'''
