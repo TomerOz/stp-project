@@ -45,6 +45,7 @@ class BMMTask(DctTask):
 		self.current_sentence_responses = []
 		self.stimulus_live_text = "+"
 		self.original_stimulus_live_text = "+"
+		self.sentence_start_time = 0
 	
 	def _get_instructions_audio_files(self):
 		instructions_paths = []
@@ -73,6 +74,7 @@ class BMMTask(DctTask):
 	def _start_audio(self):
 		playsound(self.td.current_sentence_path, block=False) 						# audio is taken every trial from an updating filename 
 		self.td.start_time_record() # saves t0 - when sentence starts
+		self.sentence_start_time = time.time()
 		
 		if False:
 			# In case we want senetnces to follow each other automatically:
@@ -81,7 +83,14 @@ class BMMTask(DctTask):
 			interval_between_sentences = random_noise + FIXED_BMM_INTERVAL
 			time_of_next_sentence = self.td.current_sentence.sentence_length + interval_between_sentences
 			self.gui.after(time_of_next_sentence, self._continue)
+	
+	def is_senetence_finished(self):
+		if time.time() >= self.td.current_sentence.sentence_length/1000 + self.sentence_start_time:
+			return True
+		else:
+			return False
 		
+	
 	def _getresponse(self, eff=None):
 		self.td.t1 = time.time() # recording rt								## END OF TIME RECORD
 		self.td.record_time()
@@ -91,7 +100,7 @@ class BMMTask(DctTask):
 		self.last_practice_response_times.append(self.td.t1)
 		if self.is_practice_finished:
 			# check if we can continue
-			if len(self.current_sentence_responses) > random.choice(RANDOM_RESPONSES_TO_CONTINUE):
+			if len(self.current_sentence_responses) > random.choice(RANDOM_RESPONSES_TO_CONTINUE) and self.is_senetence_finished():
 				self.current_sentence_responses = []
 				self.gui.after(random.choice(BETWEEN_STPS_RANDOM_DELAY), self._continue)
 				

@@ -115,7 +115,7 @@ SESSION = 'session'
 ONE_SECOND = 1000
 FIXATION_TIME = 1000 	########### on runing = 1000 ###########
 MILISECONDS_BEFORE_END = 500 ########### on runing = 500 ###########
-BLOCK_CHANGE_WAIT_TIME = 3000
+BLOCK_CHANGE_WAIT_TIME = 30000 ########### on runing = 30000 or 300000 ########### 30 seconds or 3 minutes
 PRACTICE_FEEDBACK_DURATAION = 300
 CATCH_TRIAL_RESPONSE_DELAY = 500
 MIN_DIGIT = 1
@@ -188,7 +188,7 @@ DICHOTIC_RIGHT_KEY = "<Shift_R>" #"<Right>"
 DICHOTIC_LEFT_KEY = "<Shift_L>" #"<Left>"
 
 FIXATION_FONT = 'david 64 bold'
-BLOCK_BREAK_TIME = 10000
+BLOCK_BREAK_TIME = 30000 ########### on runing = 30000 ########### 30 seconds
 CHUNK_NEU_START_DELAY	= 0
 CHUNK_NEG_START_DELAY	= 0 #no delay
 CHUNK_INITIAL_SILENCE  	= 0 # TODO - chekc if it is also in Iftach's
