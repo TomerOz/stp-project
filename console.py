@@ -21,6 +21,7 @@ from Tasks.Data import SubjectData
 from Tasks.ExpFlow import Flow
 from Tasks.processing.DichoticDataManager import DichoticTrialsManager
 from Tasks.dichotic import DichoticOneBack, DichoticTaskData
+from Tasks.bodymap.run_sample import ConsoleBodyMap
 from Tasks.processing.AfactWordsAlternative.words_to_list import get_words_objects
 
 from Tasks.params import *
@@ -131,22 +132,28 @@ def main():
 	bmmtd = BMMTaskData(menu, data_manager, sd, phase=AFACT_PHASE) # intentionally this uses the AFACT phase name, so the same STPs allocation is done
 	bmm_task = BMMTask(gui, exp, bmmtd, flow)
 	
+	# Body map & Emotions Raitings:
+	body_map = ConsoleBodyMap(menu, flow, gui)
+	
 	# FLOW OF TASKS LIST:
 	tasks = [
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
 				#
+				#Body Maps & Emotions Raitings - Pre:
+				#lambda: body_map.start_body_map_flow(),
+				#
 				# DCT-STP
-				lambda: instructions_dct_1.start_instrunctions(),
-				lambda: dct_training.start_task(), # practice 1 trials
-				lambda: instructions_dct_2.start_instrunctions(),
-				lambda: dct_training.start_task(), # practice 2 trials
-				lambda: instructions_dct_3.start_instrunctions(),
-				lambda: dct_training.start_task(), # real trials
+				# lambda: instructions_dct_1.start_instrunctions(),
+				# lambda: dct_training.start_task(), # practice 1 trials
+				# lambda: instructions_dct_2.start_instrunctions(),
+				# lambda: dct_training.start_task(), # practice 2 trials
+				# lambda: instructions_dct_3.start_instrunctions(),
+				# lambda: dct_training.start_task(), # real trials
 				#
 				#BMM:
-				#lambda: bmm_task.start_task(),
+				lambda: bmm_task.start_task(),
 				#
 				# MAB:
 				lambda: instructions_mab.start_instrunctions(),
@@ -162,14 +169,14 @@ def main():
 				#
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
-				lambda: dct_training.start_task(), # practice 1 trials
+				lambda: dct_post_training.start_task(), # practice 1 trials
 				lambda: instructions_dct_2.start_instrunctions(),
-				lambda: dct_training.start_task(), # practice 2 trials
+				lambda: dct_post_training.start_task(), # practice 2 trials
 				lambda: instructions_dct_3.start_instrunctions(),
-				lambda: dct_training.start_task(), # real trials
+				lambda: dct_post_training.start_task(), # real trials
 				#
 				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
-				
+				#
 				# Dichotic:
 				lambda:instructions_dichotic_1.start_instrunctions(),
 				lambda: dichotic_task_data.first_practice(side="Left"),				
@@ -179,6 +186,11 @@ def main():
 				lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
 				lambda: instructions_end_of_experiment.start_instrunctions(),
+				#
+				#Body Maps & Emotions Raitings - Pre:
+				#lambda: body_map.start_body_map_flow(),
+				#
+				
 				]
 	
 	# EXPERIMENT FLOW HANDLER:
