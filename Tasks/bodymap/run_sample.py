@@ -45,16 +45,6 @@ class ConsoleBodyMap(object):
                 if keys[0] == 'q':
                     core.quit()
 
-            # ###baseline
-            # phase = 'baseline_or_practice'
-            # bmt_baseline = classes.BodyMapTask(
-            #     win=win, scene=gscn, cluster=cluster1, mouse=mouse,
-            #     additional_info=additional_info
-            #     )
-            # bmt_baseline.run_task()
-
-            print("a")
-
             #Neutral
             block = 'neu'
             additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative

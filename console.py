@@ -140,10 +140,10 @@ def main():
 				lambda: menu.show(),
 				lambda: dichotic_data_manager.__late_init__()   ,
 				lambda: dichotic_task_data.__late_init__()      ,
-				#
-				#Body Maps & Emotions Raitings - Pre:
-				#lambda: body_map.start_body_map_flow(),
-				#
+				
+				# Body Maps & Emotions Raitings - Pre:
+				lambda: body_map.start_body_map_flow(),
+				
 				# DCT-STP
 				# lambda: instructions_dct_1.start_instrunctions(),
 				# lambda: dct_training.start_task(), # practice 1 trials
@@ -151,21 +151,21 @@ def main():
 				# lambda: dct_training.start_task(), # practice 2 trials
 				# lambda: instructions_dct_3.start_instrunctions(),
 				# lambda: dct_training.start_task(), # real trials
-				#
-				#BMM:
-				lambda: bmm_task.start_task(),
+				
+				# BMM:
+				# lambda: bmm_task.start_task(),
+				
+				# Afact:
+				# lambda: instructions_afact.start_instrunctions(),
+				# lambda: afact_task.start_task(), # practice trials
+				# lambda: instructions_afact_after_practice.start_instrunctions(),
+				# lambda: afact_task.start_task(), # real trials
 				#
 				# MAB:
 				lambda: instructions_mab.start_instrunctions(),
 				lambda: mab_task.start_task(),
 				lambda: instructions_mab_after_practice.start_instrunctions(),
 				lambda: mab_task.start_task(),
-				#
-				# Afact:
-				lambda: instructions_afact.start_instrunctions(),
-				lambda: afact_task.start_task(), # practice trials
-				lambda: instructions_afact_after_practice.start_instrunctions(),
-				lambda: afact_task.start_task(), # real trials
 				#
 				# DCT-STP
 				lambda: instructions_dct_1.start_instrunctions(),
@@ -185,6 +185,7 @@ def main():
 				lambda: dichotic_task_data.second_practice(),
 				lambda:instructions_dichotic_3.start_instrunctions(),
 				lambda: dichotic_task_data.start_chunk(),
+                # End Screen
 				lambda: instructions_end_of_experiment.start_instrunctions(),
 				#
 				#Body Maps & Emotions Raitings - Pre:

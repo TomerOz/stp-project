@@ -4,7 +4,8 @@ from psychopy import visual, event, gui, core
 import ctypes
 import pandas as pd
 
-path_tovana = './Tasks/bodymap'
+####to change the path_background, path_button when we build the zip!
+#to change the output path
 
 #@#@ read the comments about the function "find_30rect_responses_pos(win,background_image)"
 def window():##I don't use this function when I run it from run_sample.py
@@ -15,14 +16,14 @@ def window():##I don't use this function when I run it from run_sample.py
     return win
 
 def background_emotions(win):
-    path = path_tovana+"/input/graphics/instructions/emotions_ratings/1.jpg"
-    background_image = visual.ImageStim(win=win,image=path, units='norm')
+    path_background = "./Tasks/bodymap/input/graphics/Instructions/emotions_ratings/1.jpg"
+    background_image = visual.ImageStim(win=win,image=path_background, units='norm')
     # background_image.autoDraw = True
     return background_image
 
 def endButton(win):
-    path = path_tovana+"/input/graphics/instructions/emotions_ratings/finish_green.png"
-    endButton_image = visual.ImageStim(win=win, image=path, units='norm', pos=[-0.9,-0.85], size=[0.2,0.3])
+    path_button = "./Tasks/bodymap/input/graphics/Instructions/emotions_ratings/finish_green.png"
+    endButton_image = visual.ImageStim(win=win, image=path_button, units='norm', pos=[-0.9,-0.85], size=[0.2,0.3])
     # endButton_image.autoDraw = True
     return endButton_image
 
@@ -39,8 +40,16 @@ def build_rect(win,position):
     return rect
 
 ##this list was returned from 'find_30rect_responses_pos(win,background_image)' for specific background image.
-#the locations are using Norm units (0-1, wile (0,0) is the center of the screen).
+#the locations are using Norm units (0-1, wihle (0,0) is the center of the screen). t
+#this list should be normalise again by the specific computer resolution by the list comprehension below
+
+##Normalise the red rectangels to the specific screen size.
+user32 = ctypes.windll.user32
+screen_size = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
+DISPSIZE = [1280/screen_size[0],720/screen_size[1]] ## The size screen / resolution of the origin compter - [1280,720]
 list_NormPos_rect = [(0.5484375, 0.6055555555555555), (0.2765625, 0.5972222222222222), (0.0, 0.6027777777777777), (-0.2703125, 0.6027777777777777), (-0.540625, 0.6083333333333333), (0.5453125, 0.33611111111111114), (0.2765625, 0.33611111111111114), (0.0, 0.33611111111111114), (-0.2703125, 0.3388888888888889), (-0.54375, 0.3388888888888889), (0.546875, 0.07222222222222222), (0.2703125, 0.06666666666666667), (0.0, 0.06944444444444445), (-0.26875, 0.06944444444444445), (-0.5453125, 0.06944444444444445), (0.546875, -0.20277777777777778), (0.2734375, -0.2), (0.0015625, -0.2), (-0.2671875, -0.20277777777777778), (-0.540625, -0.19444444444444445), (0.5484375, -0.46944444444444444), (0.271875, -0.4666666666666667), (0.0015625, -0.4638888888888889), (-0.2671875, -0.4666666666666667), (-0.5421875, -0.46944444444444444), (0.5484375, -0.7388888888888889), (0.2703125, -0.7361111111111112), (0.0015625, -0.7333333333333333), (-0.2734375, -0.7361111111111112), (-0.540625, -0.7361111111111112)]
+list_NormPos_rect = [(x * DISPSIZE[0], y * DISPSIZE[1]) for x, y in list_NormPos_rect]
+
 def build_dic_rect(win, list_NormPos_rect):
     '''this function gets the list_NormPos_Rect and build a dictionaries inside dictionary,
       the outer dict contains the emotions list, and the inner dicts contains the response number as keys and the rect images (psychopy rect) of each response as values
@@ -136,7 +145,7 @@ def rating(win,dic_rect,background_image, block, additional_info):
     df = pd.DataFrame(dic_data, index=[0]) #save the dic_data ad Padnas data frame.
     str_ID = str(additional_info['participant_id'])
     str_cond = str(additional_info['cond'])
-    df.to_csv(path_tovana+"/output/"+'ID'+str_ID+'cond'+str_cond+block+'_emotions_rating.csv', index=False) #+str(additional_info[cond])
+    df.to_csv(f"./Tasks/bodymap/output/"+'ID'+str_ID+'cond'+str_cond+block+'_emotions_rating.csv', index=False) #+str(additional_info[cond])
 
 def emotion_rating(win,block,additional_info):
     '''run the main functions in the task.'''
@@ -148,15 +157,14 @@ def emotion_rating(win,block,additional_info):
     # win.close()
 
 
-# emotion_rating('neutral')
 
 #
 def find_30rect_responses_pos(win,background_image):
     '''TO USE ONLY -if I  need to find the locations again due to resolution problems in different screens or change with the background image.
-    the function enables to find 30 (6 emotions/lines X 5 responses) rectangles center positions (x,y) on the background image.
+    the function enables to find 30 (6 emotions/lines X 5 responses) rectangles' center positions (x,y) on the background image.
     it gets the background image and then save each discrete mouse clicks.
      for building rect Psychopy object on each rect
-     it returns list_pose with the poses (x,y) of 30 rects'''
+     it returns a list_pose with the poses (x,y) of 30 rects'''
     background_image.draw()
     win.flip()
     list_pose = []
@@ -181,6 +189,10 @@ def find_30rect_responses_pos(win,background_image):
     # print(list_pose)
     return list_pose
     build_dic_rect(list_pose)
+
+
+
 # win = window()
 # background_image = background_emotions(win)
 # list = find_30rect_responses_pos(win,background_image)
+# emotion_rating(win,block='neutral',additional_info={'participant_id':1,'cond':1})
