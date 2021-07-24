@@ -74,7 +74,7 @@ class MainAudioProcessor(object):
 			self.n_block_per_phase = n_block_per_phase 
 			for phase in self.phases_names:
 				if not phase in self.n_block_per_phase:
-					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of two phases
+					self.n_block_per_phase[phase] = DEFAULT_N_BLOCK_PER_PHASE # means that all phases that where not specified, are of 1 phase
 
 		self.pre_defined_distribution_dict = pre_defined_distribution_dict
 		

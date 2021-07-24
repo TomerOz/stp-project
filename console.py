@@ -73,7 +73,6 @@ def main():
 										phases_without_catch_trials = phases_without_catch_trials,
 										dichotic_phases = dichotic_phases,
 										phases_relations = phases_relations,
-										n_block_per_phase = {AFACT_PHASE : 2},
 										#####################################################################################################################
 										n_practice_trials=N_PRACTICE_TRIALS,
 										n_start_neutral_trials=DEFAULT_N_START_NEUTRAL_TRIALS, #### on running = 4, DEFAULT_N_START_NEUTRAL_TRIALS supposed to be 4 ####
@@ -120,6 +119,15 @@ def main():
 	
 	instructions_afact = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS) 
 	instructions_afact_after_practice = Instructions(gui, exp, flow, IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE) 
+    
+    # control:
+	control_alternative = "shapes" # original/shapes/words
+	ctd = AfactTaskData(menu, data_manager, sd, phase=AFACT_PHASE)
+	control_task = AfactTask(gui, exp, ctd, flow, afact_alternative=control_alternative, words_objects=get_words_objects(WORDS_PATH), is_control=True)
+	
+	instructions_control = Instructions(gui, exp, flow, IMAGEPATH_CONTROL_INSTRUCTIONS) 
+	instructions_control_after_practice = Instructions(gui, exp, flow, IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE) 
+    
 	
 	# MAB:
 	mab_task_data = MABTaskData(menu, data_manager, sd, phase=MAB_PHASE) # A class intance that organizes the data for the DCT task
@@ -142,7 +150,7 @@ def main():
 				lambda: dichotic_task_data.__late_init__()      ,
 				
 				# Body Maps & Emotions Raitings - Pre:
-				lambda: body_map.start_body_map_flow(),
+				#lambda: body_map.start_body_map_flow(),
 				
 				# DCT-STP
 				# lambda: instructions_dct_1.start_instrunctions(),
@@ -151,15 +159,21 @@ def main():
 				# lambda: dct_training.start_task(), # practice 2 trials
 				# lambda: instructions_dct_3.start_instrunctions(),
 				# lambda: dct_training.start_task(), # real trials
-				
 				# BMM:
-				# lambda: bmm_task.start_task(),
-				
+                lambda: instructions_BMM.start_instrunctions()
+                lambda: bmm_task.start_task(),
+				#
 				# Afact:
 				# lambda: instructions_afact.start_instrunctions(),
 				# lambda: afact_task.start_task(), # practice trials
 				# lambda: instructions_afact_after_practice.start_instrunctions(),
 				# lambda: afact_task.start_task(), # real trials
+				#
+                # Control:
+				# lambda: instructions_control.start_instrunctions(),
+				# lambda: control_task.start_task(), # practice trials
+				# lambda: instructions_control_after_practice.start_instrunctions(),
+				# lambda: control_task.start_task(), # real trials
 				#
 				# MAB:
 				lambda: instructions_mab.start_instrunctions(),
@@ -175,7 +189,7 @@ def main():
 				lambda: instructions_dct_3.start_instrunctions(),
 				lambda: dct_post_training.start_task(), # real trials
 				#
-				lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
+				#lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
 				#
 				# Dichotic:
 				lambda:instructions_dichotic_1.start_instrunctions(),
@@ -188,8 +202,8 @@ def main():
                 # End Screen
 				lambda: instructions_end_of_experiment.start_instrunctions(),
 				#
-				#Body Maps & Emotions Raitings - Pre:
-				#lambda: body_map.start_body_map_flow(),
+				#Body Maps & Emotions Raitings - Post:
+				#lambda: body_map.start_body_map_flow(), ########## will it really save two seperate files?
 				#
 				
 				]

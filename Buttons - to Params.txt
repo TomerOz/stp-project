@@ -3,10 +3,10 @@ Digit
 - Odd/even - R/L Shifts
 
 Dichotic 
-- Left/right ear -  R/L Shifts (previously R/L arrows)
+- Left/right ear -  R/L Shifts
 
 Rectangels 
-- more/less than 5 - Up/Down arrows 9 (changeת -> Shifts R/L)
+- more/less than 5 - Shifts R/L
 
 BMM?
 -  Space for "button presses"

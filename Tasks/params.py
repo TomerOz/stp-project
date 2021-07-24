@@ -35,9 +35,12 @@ IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructi
 IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\AFACT_after_practice_instructions'
 IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_main_instructions'
 IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_after_practice_instructions'
+IMAGEPATH_CONTROL_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\\Control_main_instructions'
+IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\\Control_after_practice_instructions'
 
+# BMM:
 # BMM INSTRUCTINOS
-IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions'
+IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\BMM_pre_recordings'
 BMM_RESPONSE_KEY = "<space>"
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
@@ -46,7 +49,7 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'
-
+RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [4000, 5500, 7000, 8500, 10000]
 
 # controls ammount of truals of the different phases
 # should be deleted :
@@ -152,18 +155,20 @@ ODD = 'odd'
 CORRECT_SENTENCE = 1
 NOT_CORRECT_SENTENCE = 0
 RESPONSE_LABELS = {RIGHT : EVEN, LEFT: ODD} 	# should be changed at some point???
-RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE} 	# should be changed at some point???
+RESPONSE_LABELS_ON_CATCH_TRIALS = {RIGHT : CORRECT_SENTENCE, LEFT: NOT_CORRECT_SENTENCE}
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 # AFACT:
-GREATER_X = "more_then_4"
-SMALLER_X = "less_then_4"
+CRITICAL_NUMBER = 5 # The number of squares that more or less then it will be presented
+GREATER_X = "more_then_5"
+SMALLER_X = "less_then_5"
 ALIVE = "ALIVE"
 STILL = "STILL"
 RESPONSE_LABELS_AFACT_ALTERNATIVE_1 = {RIGHT : GREATER_X, LEFT: SMALLER_X} 
 RESPONSE_LABELS_AFACT_ALTERNATIVE_2 = {RIGHT : ALIVE, LEFT: STILL}
 AFACT_FEEDBACK_TIME = 3000
 AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME = AFACT_FEEDBACK_TIME + 1400
+POSSIBLE_FILLED_RECTANGLES = [1,2,3,4,6,7,8,9] # the random n squares to be classigied as more or less then 5
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
@@ -207,7 +212,8 @@ N_TRIALS_PRACTICE_ONE = 7
 N_TRIALS_PRACTICE_TWO = 6
 
 #Data 
-#builds on the response key to be right/left arrows. (keysym - TK)
-DICHOTIC_LEFT_KEYSYM = 'Left'
-DICHOTIC_RIGHT_KEYSYM = 'Right'
+#builds on the response key to be right/left Shifts. (keysym - TK)
+DICHOTIC_LEFT_KEYSYM = 'Shift_L'
+DICHOTIC_RIGHT_KEYSYM = 'Shift_R'
 
+BMM_DEBUG_MODE = True

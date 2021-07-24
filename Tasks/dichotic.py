@@ -248,8 +248,8 @@ class DichoticTaskData(object):
 		self.dichotic_data_manager.create_list_of_chanks_ears_volumes()	
 	
 	def bind_keyboard(self):
-		self.gui.bind("<Right>", self.dst.get_response)	
-		self.gui.bind("<Left>", self.dst.get_response)		
+		self.gui.bind(DICHOTIC_RIGHT_KEY, self.dst.get_response)	
+		self.gui.bind(DICHOTIC_LEFT_KEY, self.dst.get_response)		
 		
 	def next_chunck_and_or_block(self):
 		self.chunck_channels_completed_counter += 1

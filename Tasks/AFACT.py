@@ -257,7 +257,7 @@ class AfactTaskData(TaskData):
 				self.last_trial_bias = bias
 				
 	def _classify_type_of_num_shapes(self, num):
-		if num > 4:
+		if num > CRITICAL_NUMBER:
 			return GREATER_X
 		else:
 			return SMALLER_X
@@ -271,15 +271,16 @@ class AfactTaskData(TaskData):
 class AfactTask(DctTask):
 	def __init__(self, gui, exp, td, flow, 
 				response_labels=None, afact_alternative="original", 
-				words_objects=None):
+				words_objects=None, is_control=False):
 		
 		self.afact_alternative = afact_alternative
 		self.words_objects = words_objects
+        self.is_control = is_control
 		
 		if self.afact_alternative != "original":
 			if self.afact_alternative == "shapes":
 				response_labels = RESPONSE_LABELS_AFACT_ALTERNATIVE_1 # sets this and task data response_labels
-				self.possible_nums = [3,5]
+				self.possible_nums = POSSIBLE_FILLED_RECTANGLES
 				self.digit_func = self._digit_func_shapes
 			elif self.afact_alternative == "words":
 				self.digit_func = self._digit_func_words
@@ -306,7 +307,14 @@ class AfactTask(DctTask):
 		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
 		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, self._continue)
 	
-	def start_task(self, user_event=None):
+    def show_control_frame(self):
+        self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="+"))
+		self.gui.after(0, lambda:self.exp.hide_frame(MAIN_FRAME))
+		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, lambda:self.exp.display_frame(FRAME_1, [LABEL_1]))
+		self.gui.after(AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME, self._continue)
+	
+    
+    def start_task(self, user_event=None):
 		'''Overritten from DctTask'''
 		super(AfactTask, self).start_task(user_event)
 		if self.afact_alternative == "shapes":
@@ -345,8 +353,11 @@ class AfactTask(DctTask):
 		elif self.td.current_trial_type_intance.is_catch: # checks if this trial is catch
 			self.catch_trial() # intiate catch trial
 		elif self.td.current_trial_type_intance.is_afact_feedback:
-			bias = self.td.last_trial_bias
-			self.show_AFACT_frame(bias)
+			if not self.is_control:
+                bias = self.td.last_trial_bias
+                self.show_AFACT_frame(bias)
+            else:
+                self.show_control_frame()
 		else:
 			self._trial() # continues to next trial	
 
