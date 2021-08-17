@@ -11,7 +11,8 @@ import winsound
 
 from .params import *
 
-INSTRUCTIONS_AUDIO_PATH = r'.\\Tasks\\BMMRecordings'
+INSTRUCTIONS_AUDIO_PATH = r'Tasks\BMMRecordings'
+INSTRUCTIONS_AUDIO_PATH_MALE = r'Tasks\BMMRecordings\Male'
 
 if not BMM_DEBUG_MODE:
     INSTUCTIONS_AUDIO_1 = "BMM_1.wav"
@@ -25,11 +26,11 @@ if not BMM_DEBUG_MODE:
     INSTRUCTION_4_DELAY = 83000
     INSTRUCTION_5_DELAY = 72000 # before the recorded silence
 else: # on Debug mode
-    INSTUCTIONS_AUDIO_1 = r".\old-BMM-Recordings\BMM_1-try.wav"
-    INSTUCTIONS_AUDIO_2 = r".\old-BMM-Recordings\BMM_2-try.wav"
-    INSTUCTIONS_AUDIO_3 = r".\old-BMM-Recordings\BMM_3-try.wav"
-    INSTUCTIONS_AUDIO_4 = r".\old-BMM-Recordings\BMM_4-try.wav"
-    INSTUCTIONS_AUDIO_5 = r".\old-BMM-Recordings\BMM_5-try.wav"
+    INSTUCTIONS_AUDIO_1 = "old-BMM-Recordings\BMM_1-try.wav"
+    INSTUCTIONS_AUDIO_2 = "old-BMM-Recordings\BMM_2-try.wav"
+    INSTUCTIONS_AUDIO_3 = "old-BMM-Recordings\BMM_3-try.wav"
+    INSTUCTIONS_AUDIO_4 = "old-BMM-Recordings\BMM_4-try.wav"
+    INSTUCTIONS_AUDIO_5 = "old-BMM-Recordings\BMM_5-try.wav"
     INSTRUCTION_1_DELAY = 1000
     INSTRUCTION_2_DELAY = 1000
     INSTRUCTION_3_DELAY = 1000
@@ -48,6 +49,8 @@ class BMMTask(DctTask):
         
         self.sentences_start_times = []
         
+        self.instructions_audio_path = INSTRUCTIONS_AUDIO_PATH
+        
         self.instructions_paths = self._get_instructions_audio_files()
         self.n_instruction_audios = len(self.instructions_paths)
         self.instructions_input_delay_times = [INSTRUCTION_1_DELAY, INSTRUCTION_2_DELAY, INSTRUCTION_3_DELAY, INSTRUCTION_4_DELAY, INSTRUCTION_5_DELAY]
@@ -61,16 +64,22 @@ class BMMTask(DctTask):
         self.stimulus_live_text = "+"
         self.original_stimulus_live_text = "+"
         self.sentence_start_time = 0
+        
+        self.gender_instructions_paths = {"m": INSTRUCTIONS_AUDIO_PATH_MALE, "f": INSTRUCTIONS_AUDIO_PATH}
     
     def _get_instructions_audio_files(self):
         instructions_paths = []
-        instructions_paths.append(os.path.join(INSTRUCTIONS_AUDIO_PATH, INSTUCTIONS_AUDIO_1))
-        instructions_paths.append(os.path.join(INSTRUCTIONS_AUDIO_PATH, INSTUCTIONS_AUDIO_2))
-        instructions_paths.append(os.path.join(INSTRUCTIONS_AUDIO_PATH, INSTUCTIONS_AUDIO_3))
-        instructions_paths.append(os.path.join(INSTRUCTIONS_AUDIO_PATH, INSTUCTIONS_AUDIO_4))
-        instructions_paths.append(os.path.join(INSTRUCTIONS_AUDIO_PATH, INSTUCTIONS_AUDIO_5))
+        instructions_paths.append(os.path.join(self.instructions_audio_path, INSTUCTIONS_AUDIO_1))
+        instructions_paths.append(os.path.join(self.instructions_audio_path, INSTUCTIONS_AUDIO_2))
+        instructions_paths.append(os.path.join(self.instructions_audio_path, INSTUCTIONS_AUDIO_3))
+        instructions_paths.append(os.path.join(self.instructions_audio_path, INSTUCTIONS_AUDIO_4))
+        instructions_paths.append(os.path.join(self.instructions_audio_path, INSTUCTIONS_AUDIO_5))
         
         return instructions_paths
+    
+    def _change_gender_audio_path(self, gender_key):
+        self.instructions_audio_path = self.gender_instructions_paths[gender_key]
+        self.instructions_paths = self._get_instructions_audio_files()
     
     def change_text_on_screen(self, text):
         self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=text)
@@ -266,6 +275,9 @@ class BMMTask(DctTask):
         print("check")
         
     def start_task(self, user_event=None):
+        # update gender audio path
+        self._change_gender_audio_path(self.td.menu.menu_data["gender"])
+        
         # Just for allowing fast skipping over the instruciton phase
         if BMM_DEBUG_MODE:
             self.gui.bind("c", self.__check)

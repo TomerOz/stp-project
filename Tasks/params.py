@@ -15,32 +15,43 @@ ALLOCATION = ALLOCATION_TOMER
 AUDIOPATH = r'.\\Subjects'
 IMAGEPATH = r'.\\Instructions_Pictures'
 WORDS_PATH = r'.\\Tasks\\processing\\AfactWordsAlternative'
-IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
-IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
-IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
-# IMAGEPATH_DICHOTIC_END = r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Dichotic\EndOfTask"
-# IMAGEPATH_DIGIT_END =  r"C:\Users\psylab6027\Documents\GitHub\stp-project\Instructions_Pictures\Digitnew\DigitInstTomerOmer"
 
-IMAGEPATH_DICHOTIC_END = r'.\\Instructions_Pictures\\Dichotic\\EndOfTask'
-IMAGEPATH_DIGIT_END =  r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer'
+# IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
+# IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
+# IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
+# IMAGEPATH_DICHOTIC_END = r'.\\Instructions_Pictures\\Dichotic\\EndOfTask'
+# IMAGEPATH_DCT_PRACTICE_1 = r'.\\Instructions_Pictures\\DCT\\digit1'
+# IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\DCT\\digit2'
+# IMAGEPATH_DCT_PRACTICE_3 = r'.\\Instructions_Pictures\\DCT\\digit3'
+# IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
+# IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT\\AFACT_main_instructions'
+# IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT\\AFACT_after_practice_instructions'
+# IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\MAB\\MAB_main_instructions'
+# IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\MAB\\MAB_after_practice_instructions'
+# IMAGEPATH_CONTROL_INSTRUCTIONS = r'.\\Instructions_Pictures\\Control\\\Control_main_instructions'
+# IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\Control\\\Control_after_practice_instructions'
+# IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\BMM_pre_recordings'
+# IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
-IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
+IMAGEPATH_DICHOTIC_PRACTICE_ONE = "IMAGEPATH_DICHOTIC_PRACTICE_ONE"
+IMAGEPATH_DICHOTIC_PRACTICE_TWO = "IMAGEPATH_DICHOTIC_PRACTICE_TWO"
+IMAGEPATH_DICHOTIC = "IMAGEPATH_DICHOTIC"
+IMAGEPATH_DICHOTIC_END = "IMAGEPATH_DICHOTIC_END"
+IMAGEPATH_DCT_PRACTICE_1 = "IMAGEPATH_DCT_PRACTICE_1"
+IMAGEPATH_DCT_PRACTICE_2 = "IMAGEPATH_DCT_PRACTICE_2"
+IMAGEPATH_DCT_PRACTICE_3 = "IMAGEPATH_DCT_PRACTICE_3"
+IMAGEPATH_DICHOTIC_BREAK = "IMAGEPATH_DICHOTIC_BREAK"
+IMAGEPATH_AFACT_INSTRUCTIONS = "IMAGEPATH_AFACT_INSTRUCTIONS"
+IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = "IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE"
+IMAGEPATH_MAB_INSTRUCTIONS = "IMAGEPATH_MAB_INSTRUCTIONS"
+IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = "IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC"
+IMAGEPATH_CONTROL_INSTRUCTIONS = "IMAGEPATH_CONTROL_INSTRUCTIONS"
+IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = "IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE"
+IMAGEPATH_BMM_INSTRUCTIONS = "IMAGEPATH_BMM_INSTRUCTIONS"
+IMAGEPATH_END_OF_EXPERIMENT = "IMAGEPATH_END_OF_EXPERIMENT"
 
-IMAGEPATH_DCT_PRACTICE_1 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit1'
-IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit2'
-IMAGEPATH_DCT_PRACTICE_3 = r'.\\Instructions_Pictures\\Digitnew\\DigitInstTomerOmer\\digit3'
-IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
 
-IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\AFACT_main_instructions'
-IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\AFACT_after_practice_instructions'
-IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_main_instructions'
-IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\MAB_after_practice_instructions'
-IMAGEPATH_CONTROL_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\\Control_main_instructions'
-IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT & MAB Instructions\\\Control_after_practice_instructions'
 
-# BMM:
-# BMM INSTRUCTINOS
-IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\BMM_pre_recordings'
 BMM_RESPONSE_KEY = "<space>"
 ##temporary - for allocation -
 PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
@@ -216,4 +227,4 @@ N_TRIALS_PRACTICE_TWO = 6
 DICHOTIC_LEFT_KEYSYM = 'Shift_L'
 DICHOTIC_RIGHT_KEYSYM = 'Shift_R'
 
-BMM_DEBUG_MODE = True
+BMM_DEBUG_MODE = False

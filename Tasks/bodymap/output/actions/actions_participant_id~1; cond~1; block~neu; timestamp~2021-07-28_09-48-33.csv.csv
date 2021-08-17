@@ -1,0 +1,3 @@
+time,x,y,event_type,undo_action,intensity_result,tone_result,time_sensation_created,action_cancelled,phase,event_num,undo_trigger,participant_id,cond,block,timestamp,experiment_ended,monitor_resolution_x,monitor_resolution_y,front_x_pos,front_y_pos,front_x_size,front_y_size,back_x_pos,back_y_pos,back_x_size,back_y_size,identifier
+1.184288500000548,-318.0,31.0,generate,False,1,grey,1.184288500000548,False,0,0,,1,1,neu,2021-07-28_09-48-33,2021-07-28_09-48-39,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,0
+1.38457219999691,-285.0,23.0,generate,False,1,grey,1.38457219999691,False,0,1,,1,1,neu,2021-07-28_09-48-33,2021-07-28_09-48-39,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,1
