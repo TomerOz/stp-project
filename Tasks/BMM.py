@@ -20,22 +20,14 @@ if not BMM_DEBUG_MODE:
     INSTUCTIONS_AUDIO_3 = "BMM_3.wav"
     INSTUCTIONS_AUDIO_4 = "BMM_4.wav"
     INSTUCTIONS_AUDIO_5 = "BMM_5.wav"
-    INSTRUCTION_1_DELAY = 0
-    INSTRUCTION_2_DELAY = 50000 # 50 seconds
-    INSTRUCTION_3_DELAY = 80000
-    INSTRUCTION_4_DELAY = 83000
-    INSTRUCTION_5_DELAY = 72000 # before the recorded silence
+        
+    
 else: # on Debug mode
     INSTUCTIONS_AUDIO_1 = "old-BMM-Recordings\BMM_1-try.wav"
     INSTUCTIONS_AUDIO_2 = "old-BMM-Recordings\BMM_2-try.wav"
     INSTUCTIONS_AUDIO_3 = "old-BMM-Recordings\BMM_3-try.wav"
     INSTUCTIONS_AUDIO_4 = "old-BMM-Recordings\BMM_4-try.wav"
     INSTUCTIONS_AUDIO_5 = "old-BMM-Recordings\BMM_5-try.wav"
-    INSTRUCTION_1_DELAY = 1000
-    INSTRUCTION_2_DELAY = 1000
-    INSTRUCTION_3_DELAY = 1000
-    INSTRUCTION_4_DELAY = 1000
-    INSTRUCTION_5_DELAY = 1000
 
 
 BETWEEN_INSTRUCTIONS_DELAY = 1000
@@ -53,7 +45,10 @@ class BMMTask(DctTask):
         
         self.instructions_paths = self._get_instructions_audio_files()
         self.n_instruction_audios = len(self.instructions_paths)
-        self.instructions_input_delay_times = [INSTRUCTION_1_DELAY, INSTRUCTION_2_DELAY, INSTRUCTION_3_DELAY, INSTRUCTION_4_DELAY, INSTRUCTION_5_DELAY]
+        self.instructions_input_delay_times = self._get_instructions_input_delay_times()
+        
+        
+        
         self.instructions_audio_index = 0
         self.current_instruction_duration = self.get_duration_of_audio(self.instructions_audio_index)
         self.min_practice_responses = MIN_PRACTICE_RESPONSES 
@@ -66,6 +61,15 @@ class BMMTask(DctTask):
         self.sentence_start_time = 0
         
         self.gender_instructions_paths = {"m": INSTRUCTIONS_AUDIO_PATH_MALE, "f": INSTRUCTIONS_AUDIO_PATH}
+    
+    def _get_instructions_input_delay_times(self):
+        sec = 1000
+        silence_lengths = [60*sec, 60*sec, 60*sec, 4*sec, 8*sec]
+        delays = []
+        for i in range(len(self.instructions_paths)):
+            duration = get_duration_of_audio(i)
+            delays.append(duration-silence_lengths[i])
+        return delays
     
     def _get_instructions_audio_files(self):
         instructions_paths = []
@@ -80,7 +84,8 @@ class BMMTask(DctTask):
     def _change_gender_audio_path(self, gender_key):
         self.instructions_audio_path = self.gender_instructions_paths[gender_key]
         self.instructions_paths = self._get_instructions_audio_files()
-    
+        self.instructions_input_delay_times = self._get_instructions_input_delay_times()
+        
     def change_text_on_screen(self, text):
         self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=text)
     
