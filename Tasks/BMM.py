@@ -32,8 +32,7 @@ else: # on Debug mode
 
 BETWEEN_INSTRUCTIONS_DELAY = 1000
 MIN_PRACTICE_RESPONSES = 4 # should be ~4
-BETWEEN_STPS_RANDOM_DELAY = [400, 600, 1000, 1200, 1400, 1800, 2000]
-RANDOM_RESPONSES_TO_CONTINUE = [2, 3, 4] # how many responses should be given for moving toward next stp trial
+# RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS - is a list that sets the random interval between sentences.
 
 class BMMTask(DctTask):
     def __init__(self, gui, exp, td, flow):
@@ -67,7 +66,7 @@ class BMMTask(DctTask):
         silence_lengths = [60*sec, 60*sec, 60*sec, 4*sec, 8*sec]
         delays = []
         for i in range(len(self.instructions_paths)):
-            duration = get_duration_of_audio(i)
+            duration = self.get_duration_of_audio(i)
             delays.append(duration-silence_lengths[i])
         return delays
     
@@ -120,19 +119,13 @@ class BMMTask(DctTask):
         
     
     def _getresponse(self, eff=None):
+        print("response")
         self.td.t1 = time.time() # recording rt                             ## END OF TIME RECORD
         self.td.record_time()
         self.td.record_trial()
         
         self.current_sentence_responses.append(self.td.t1)
         self.last_practice_response_times.append(self.td.t1)
-        
-        if False: # Following option is disabled -- it controls folw of trials with random pressess of breath cycles
-            if self.is_practice_finished:
-                # check if we can continue
-                if len(self.current_sentence_responses) > random.choice(RANDOM_RESPONSES_TO_CONTINUE) and self.is_senetence_finished():
-                    self.current_sentence_responses = []
-                    self.gui.after(random.choice(BETWEEN_STPS_RANDOM_DELAY), self._continue)
                 
     def _continue(self):
         self.td.current_trial += 1 # raising trial by 1 

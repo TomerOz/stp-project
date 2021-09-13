@@ -146,19 +146,19 @@ def main():
     
     
     tasks_pre = [
-                # lambda: dichotic_data_manager.__late_init__()   ,
-                # lambda: dichotic_task_data.__late_init__()      ,
+                lambda: dichotic_data_manager.__late_init__()   ,
+                lambda: dichotic_task_data.__late_init__()      ,
                 
                 # Body Maps & Emotions Raitings - Pre:
-                # lambda: body_map.start_body_map_flow(),
+                lambda: body_map.start_body_map_flow(),
                 
                 # DCT-STP
-                # lambda: instructions_dct_1.start_instrunctions(),
-                # lambda: dct_training.start_task(), # practice 1 trials
-                # lambda: instructions_dct_2.start_instrunctions(),
-                # lambda: dct_training.start_task(), # practice 2 trials
-                # lambda: instructions_dct_3.start_instrunctions(),
-                # lambda: dct_training.start_task(), # real trials
+                lambda: instructions_dct_1.start_instrunctions(),
+                lambda: dct_training.start_task(), # practice 1 trials
+                lambda: instructions_dct_2.start_instrunctions(),
+                lambda: dct_training.start_task(), # practice 2 trials
+                lambda: instructions_dct_3.start_instrunctions(),
+                lambda: dct_training.start_task(), # real trials
                 ]
     tasks_post = [
             
@@ -191,8 +191,8 @@ def main():
                 lambda: instructions_end_of_experiment.start_instrunctions(),
                 #
                 #Body Maps & Emotions Raitings - Post:
-                #lambda: body_map.start_body_map_flow(), ########## will it really save two seperate files?
-                #
+                # lambda: body_map.start_body_map_flow(), 
+                
                 ]
     
     bmm_tasks = [

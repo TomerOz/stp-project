@@ -64,7 +64,6 @@ class DctTask(object):
                             
     def _give_feedback(self, key):
         num_type = self.td._classify_type_of_num(self.shown_num)
-        ipdb.set_trace()
         # if correct
         if self.response_labels[key] == num_type:
             self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text=PRACTICE_FEEDBACK_CORRECT))

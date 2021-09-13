@@ -188,4 +188,3 @@ class Instructions(object):
     def define_instructions_path(self):
         self.imagepath = self.imagepaths.phases_instructions[self.phase_key]
         self.instruction_pics = os.listdir(self.imagepath)
-        ipdb.set_trace()

@@ -1,3 +1,0 @@
-TAP number 
-Ntr >> 110-119
-Neg >> 120-139
