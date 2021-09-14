@@ -150,7 +150,7 @@ def main():
                 lambda: dichotic_task_data.__late_init__()      ,
                 
                 # Body Maps & Emotions Raitings - Pre:
-                lambda: body_map.start_body_map_flow(),
+                lambda: body_map.start_body_map_flow(session=1),
                 
                 # DCT-STP
                 lambda: instructions_dct_1.start_instrunctions(),
@@ -191,7 +191,7 @@ def main():
                 lambda: instructions_end_of_experiment.start_instrunctions(),
                 #
                 #Body Maps & Emotions Raitings - Post:
-                # lambda: body_map.start_body_map_flow(), 
+                # lambda: body_map.start_body_map_flow(session=2), 
                 
                 ]
     

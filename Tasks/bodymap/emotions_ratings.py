@@ -144,7 +144,7 @@ def rating(win,dic_rect,background_image, block, additional_info):
         # win.close()
     df = pd.DataFrame(dic_data, index=[0]) #save the dic_data ad Padnas data frame.
     str_ID = str(additional_info['participant_id'])
-    str_cond = str(additional_info['cond'])
+    str_cond = str(additional_info['session'])
     df.to_csv(f"./Tasks/bodymap/output/"+'ID'+str_ID+'cond'+str_cond+block+'_emotions_rating.csv', index=False) #+str(additional_info[cond])
 
 def emotion_rating(win,block,additional_info):

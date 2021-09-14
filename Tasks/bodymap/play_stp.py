@@ -38,18 +38,14 @@ def background_stp(win):
 def play_stp(win, neuORneg, additional_info):
     str_ID = str(additional_info['participant_id'])
     # str_cond = str(additional_info['cond'])
-    sound_path = path_tovana+"/input/Audio/"+str_ID
-    dir_audio = sorted(os.listdir(sound_path))
+    sound_path = path_tovana+"/input/Audio/"+str_ID+"/"+neuORneg
+
+    dir_audio = sorted(os.listdir(sound_path),reverse=True)
+    print(dir_audio)
     playlist = []
-    # player = pg.media.Player()
-    half_stp = int(len(dir_audio)/2)
-    if neuORneg=='neu':
-        s,f=0,half_stp
-    else: #neg
-        s,f=half_stp,len(dir_audio)
-    # for index_str_audio in range(s, f):
-    for index_str_audio in range(s, s+2): #only for debuging
-    # index_str_audio = 0 #only for yoga and psychopterapy.
+    # if neuORneg == 'neu':
+    for index_str_audio in range(0, len(dir_audio)):
+        # index_str_audio = 0 #only for yoga and psychopterapy.
         music = sound.Sound(sound_path + '/' + dir_audio[index_str_audio])
         playlist.append(music)
     cross = background_stp(win)
@@ -58,6 +54,17 @@ def play_stp(win, neuORneg, additional_info):
         while playlist[i].status == PLAYING:
             cross.draw()
             win.flip()
+    # else:  # neg
+    #     for index_str_audio in range(0, 20):  # only for debuging
+    #         # index_str_audio = 0 #only for yoga and psychopterapy.
+    #         music = sound.Sound(sound_path_neg + '/' + dir_audio_neg[index_str_audio])
+    #         playlist.append(music)
+    #     cross = background_stp(win)
+    #     for i in range(0, len(playlist)):
+    #         playlist[i].play()
+    #         while playlist[i].status == PLAYING:
+    #             cross.draw()
+    #             win.flip()
     win.flip()
 
 def stp(win,block,additional_info):

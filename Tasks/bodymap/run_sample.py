@@ -14,8 +14,10 @@ class ConsoleBodyMap(object):
         self.menu = menu
         self.gui = gui
 
-    def start_body_map_flow(self):
+    def start_body_map_flow(self, session=None):
         print("start")
+        if session == None:
+            session = 1
 
         user32 = ctypes.windll.user32
         screen_size = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
@@ -28,7 +30,7 @@ class ConsoleBodyMap(object):
         # ID, condition = registration()
         # ID, condition = 1, 1
         ID = self.menu.menu_data['subject']
-        condition = self.menu.menu_data['session']
+        session = session
         # # The buttons, avatars, etc.
         gscn = classes.GraphicalScene(win=win)
         # # An object to hold the drawn sensations
@@ -45,42 +47,36 @@ class ConsoleBodyMap(object):
                 if keys[0] == 'q':
                     core.quit()
 
+            # ###baseline
+            # phase = 'baseline_or_practice'
+            # bmt_baseline = classes.BodyMapTask(
+            #     win=win, scene=gscn, cluster=cluster1, mouse=mouse,
+            #     additional_info=additional_info
+            #     )
+            # bmt_baseline.run_task()
             #Neutral
             block = 'neu'
-            additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
+            additional_info = {'participant_id': ID, 'session': session, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
             stp(win,block,additional_info)
             emotion_rating(win,block, additional_info)
             bmt_neutral = classes.BodyMapTask(
                 win=win, scene=gscn, cluster=cluster1, mouse=mouse,
                 additional_info=additional_info, block=block
             )
-
-            #print("b")
-
             bmt_neutral.run_task(block)
-            # core.quit()
 
-            #print("c")
+            # Negative
+            block = 'neg'
+            additional_info = {'participant_id': ID, 'session': session, 'block': block}
+            stp(win, block, additional_info)
+            emotion_rating(win, block, additional_info)
+            bmt_negative = classes.BodyMapTask(
+                win=win, scene=gscn, cluster=cluster2, mouse=mouse,
+                additional_info=additional_info, block=block
+            )
+            bmt_negative.run_task(block)
+
             while_bool = False
         win.close()
         # core.quit()
         self.gui.after(100, self.flow.next)
-
-        #print("d")
-
-            #Negative
-            # block = 'neg'
-            #stp(win,block)
-            #emotion_rating(win,block, additional_info)
-
-            # additional_info = {'participant_id': ID, 'cond': condition, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
-            # bmt_negative = classes.BodyMapTask(
-            #     win=win, scene=gscn, cluster=cluster2, mouse=mouse,
-            #     additional_info=additional_info, block=block
-            #     )
-            #emotion_rating(win,block, additional_info)
-            # bmt_negative.run_task(block)
-
-            #core.quit()
-
-            #

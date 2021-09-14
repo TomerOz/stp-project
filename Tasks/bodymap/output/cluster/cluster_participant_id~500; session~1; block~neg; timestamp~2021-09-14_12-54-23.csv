@@ -1,0 +1,3 @@
+time,x,y,intensity,tone,participant_id,session,block,timestamp,experiment_ended,monitor_resolution_x,monitor_resolution_y,front_x_pos,front_y_pos,front_x_size,front_y_size,back_x_pos,back_y_pos,back_x_size,back_y_size,identifier
+0.5978632000042126,-275.0,180.0,1,red,500,1,neg,2021-09-14_12-54-23,2021-09-14_12-54-31,1536,864,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,0
+1.011378800001694,303.0,32.0,1,grey,500,1,neg,2021-09-14_12-54-23,2021-09-14_12-54-31,1536,864,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,1
