@@ -75,8 +75,8 @@ def main():
                                         phases_relations = phases_relations,
                                         #####################################################################################################################
                                         n_practice_trials=N_PRACTICE_TRIALS,
-                                        n_start_neutral_trials=DEFAULT_N_START_NEUTRAL_TRIALS, #### on running = 4, DEFAULT_N_START_NEUTRAL_TRIALS supposed to be 4 ####
-                                        n_afact_practice_trials=N_PRACTICE_TRIALS, #### on running = 8, N_PRACTICE_TRIALS supposed to be 8 ####
+                                        n_start_neutral_trials=1, #DEFAULT_N_START_NEUTRAL_TRIALS, #### on running = 4, DEFAULT_N_START_NEUTRAL_TRIALS supposed to be 4 ####
+                                        n_afact_practice_trials=1, #N_PRACTICE_TRIALS, #### on running = 8, N_PRACTICE_TRIALS supposed to be 8 ####
                                         #####################################################################################################################
                                         
                                         #       define --> n_block_per_phase = {phase_name : n_of_blocks}
@@ -150,15 +150,15 @@ def main():
                 lambda: dichotic_task_data.__late_init__()      ,
                 
                 # Body Maps & Emotions Raitings - Pre:
-                lambda: body_map.start_body_map_flow(session=1),
+                #lambda: body_map.start_body_map_flow(session=1),
                 
                 # DCT-STP
-                lambda: instructions_dct_1.start_instrunctions(),
-                lambda: dct_training.start_task(), # practice 1 trials
-                lambda: instructions_dct_2.start_instrunctions(),
-                lambda: dct_training.start_task(), # practice 2 trials
-                lambda: instructions_dct_3.start_instrunctions(),
-                lambda: dct_training.start_task(), # real trials
+                # lambda: instructions_dct_1.start_instrunctions(),
+                # lambda: dct_training.start_task(), # practice 1 trials
+                # lambda: instructions_dct_2.start_instrunctions(),
+                # lambda: dct_training.start_task(), # practice 2 trials
+                # lambda: instructions_dct_3.start_instrunctions(),
+                # lambda: dct_training.start_task(), # real trials
                 ]
     tasks_post = [
             
@@ -202,9 +202,9 @@ def main():
                 ]
     afact_tasks = [
                 # Afact:
-                lambda: instructions_afact.start_instrunctions(),
+                #lambda: instructions_afact.start_instrunctions(),
                 lambda: afact_task.start_task(), # practice trials
-                lambda: instructions_afact_after_practice.start_instrunctions(),
+                #lambda: instructions_afact_after_practice.start_instrunctions(),
                 lambda: afact_task.start_task(), # real trials
                 ]
     control_tasks = [

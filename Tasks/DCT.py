@@ -342,7 +342,7 @@ class TaskData(object):
             self.current_sentence = self.get_next_sentence_instance(trial_type)
             
             if self.current_trial_type_intance.is_normal_trial: 
-                self.current_sentence_path = self.sentence_inittial_path + self.current_sentence.file_path
+                self.current_sentence_path = os.path.join(self.sentence_inittial_path, self.current_sentence.file_path)
             else:
                 self.current_sentence_path = None
         

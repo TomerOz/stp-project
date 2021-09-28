@@ -72,10 +72,10 @@ class InstructionsPaths(object):
         
     def change_gender(self, gender):
         if gender == "f":
-            self.IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
-            self.IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
-            self.IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
-            self.IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
+            self.IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\Female\\DichoticInst1'
+            self.IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\Female\\DichoticInst2'
+            self.IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\Female\\DichoticInst3'
+            self.IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\Female\\DichoticInst4'
             # DCT:
             self.IMAGEPATH_DCT_PRACTICE_1 = r'.\\Instructions_Pictures\\DCT\\Female\\digit1'
             self.IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\DCT\\Female\\digit2'
@@ -84,8 +84,8 @@ class InstructionsPaths(object):
             self.IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT\\\Female\\AFACT_main_instructions'
             self.IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT\\\Female\\AFACT_after_practice_instructions'
             # MAB:
-            self.IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\MAB\\MAB_main_instructions'
-            self.IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\MAB\\MAB_after_practice_instructions'
+            self.IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\MAB\\Female\\MAB_main_instructions'
+            self.IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\MAB\\Female\\MAB_after_practice_instructions'
             # Control:
             self.IMAGEPATH_CONTROL_INSTRUCTIONS = r'.\\Instructions_Pictures\\Control\\Female\\Control_main_instructions'
             self.IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\Control\\Female\\Control_after_practice_instructions'
@@ -158,6 +158,7 @@ class Instructions(object):
         self.continue_function()
 
     def present_simple_picture_frame(self, delay_time=None, message_text=None):
+        self.define_instructions_path()
         self.exp.create_frame("instructions_f", 
                 full_screen=True,
                 background_color=BACKGROUND)

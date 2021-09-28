@@ -43,11 +43,11 @@ class AfactGui(object):
         self.feedback_scale_pic = r'Tasks\AFACTStimuliPictures\FeedbackScale_2.png'
         self.feedback_arrow_pic = r'Tasks\AFACTStimuliPictures\FeedbackArrow.png'
                 
-        self.scale_resize_factor = 1.8
+        self.scale_resize_factor = 1.2
         self.arrow_resize_factor = 0.8
         
-        self.scale_top_tick = 23*self.scale_resize_factor # in px, extracted from microspft "paint" and referrs to this file -> feedback_scale_pic
-        self.scale_bottom_tick = 252*self.scale_resize_factor # in px
+        self.scale_top_tick = 40*self.scale_resize_factor # in px, extracted from microspft "paint" and referrs to this file -> feedback_scale_pic
+        self.scale_bottom_tick = 408*self.scale_resize_factor # in px
         
         self.scale_y_location = 0
         self.length_of_feedback = self.scale_bottom_tick - self.scale_top_tick
@@ -95,7 +95,7 @@ class AfactGui(object):
             self.alternative_task_canvas.create_rectangle(start+n_shapes*(width+space),y_start_row_3,start+n_shapes*(width+space)+width,height+y_start_row_3, fill=colors[n_shapes+6], outline='white')
         
         
-    def create_feedback_canvas_orginal(self):
+    def create_feedback_canvas_orginal(self, y_feedback=0):
 
         self.exp.create_frame(MAIN_FRAME)
         self.exp.create_label(FEEDBACK_LABEL, MAIN_FRAME)
@@ -136,8 +136,8 @@ class AfactGui(object):
         
         self.arrow_y = self.scale_y_location + self.scale_top_tick - feedback_arrow_height/2.0 # equvalent to no bias at all
         self.arrow_x = scale_width+nw_scale_anchor_x
-        self.feedback_canvas.create_image(self.arrow_x, self.arrow_y, image=self.feedback_arrow, anchor=self.exp.tk_refference.NW, tags='FeedbackArrow')
-
+        
+        self.feedback_canvas.create_image(self.arrow_x, self.arrow_y+y_feedback, image=self.feedback_arrow, anchor=self.exp.tk_refference.NW, tags='FeedbackArrow')
         self.feedback_canvas.pack(expand=self.exp.tk_refference.YES, fill=self.exp.tk_refference.BOTH)
     
     def create_feedback_original(self, bias_z_score):
@@ -150,10 +150,12 @@ class AfactGui(object):
         
         if relative_bias >= 1.0:
             relative_bias = 1.0
-            
+        
+        self.length_of_feedback = self.scale_bottom_tick - self.scale_top_tick
         y_feedback = relative_bias*self.length_of_feedback
-        self.feedback_canvas.delete("FeedbackArrow")
         self.feedback_canvas.create_image(self.arrow_x, self.arrow_y+y_feedback, image=self.feedback_arrow, anchor=self.exp.tk_refference.NW, tags="FeedbackArrow")
+        self.create_feedback_canvas_orginal(y_feedback=y_feedback)
+        
             
     def create_feedback_canvas(self):
         '''creates the template background of the feedback object'''
@@ -299,8 +301,8 @@ class AfactTask(DctTask):
     def show_AFACT_frame(self, bias):
         #self.gui.after(0, lambda:self.afact_gui.create_feedback(bias))                     
         #self.gui.after(0, lambda:self.afact_gui.show_feedback_animated(self.gui,bias))
-        self.gui.after(0, lambda:self.afact_gui.create_feedback_original(bias))
-        self.gui.after(0, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
+        self.gui.after(10, lambda:self.afact_gui.create_feedback_original(bias))
+        self.gui.after(100, lambda: self.exp.display_frame(MAIN_FRAME, [FEEDBACK_LABEL]))
         self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.LABELS_BY_FRAMES[MAIN_FRAME][FEEDBACK_LABEL].pack_forget())
         self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][LABEL_1].config(text="+"))
         self.gui.after(AFACT_FEEDBACK_TIME, lambda:self.exp.hide_frame(MAIN_FRAME))

@@ -34,9 +34,9 @@ class Menu(object):
         self.exp.create_label('Button_label', 'menu_frame', label_bg = BACKGROUND)
 
 
-        self.exp.create_question('menu_frame', 'menu_label_1', gender, u'  מגדר ', default_value="f")
-        self.exp.create_question('menu_frame', 'menu_label_2', group, u'  קבוצה', default_value=1)
-        self.exp.create_question('menu_frame', 'menu_label_3', subject, u'  נבדק', default_value=1)
+        self.exp.create_question('menu_frame', 'menu_label_1', gender, u'  מגדר ', default_value="m")
+        self.exp.create_question('menu_frame', 'menu_label_2', group, u'  קבוצה', default_value=0)
+        self.exp.create_question('menu_frame', 'menu_label_3', subject, u'  נבדק', default_value=500)
         self.exp.create_question('menu_frame', 'menu_label_4', session, u'  סשן', default_value=1)
         self.exp.create_button('menu_frame', 'Button_label', "Start", self.start_space_callback, button_name="Start Experiment")
 

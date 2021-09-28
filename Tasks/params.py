@@ -8,30 +8,12 @@ ALLOCATION_TOMER = r'.\\Sentences_Allocation_Tomer.xlsx'
 ALLOCATION_OMER = r'.\\Sentences_Allocation_Omer.xlsx'
 
 ALLOCATION = ALLOCATION_TOMER
-#ALLOCATION = ALLOCATION_OMER
 
 #Console
 
 AUDIOPATH = r'.\\Subjects'
 IMAGEPATH = r'.\\Instructions_Pictures'
 WORDS_PATH = r'.\\Tasks\\processing\\AfactWordsAlternative'
-
-# IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst1'
-# IMAGEPATH_DICHOTIC_PRACTICE_TWO = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst2'
-# IMAGEPATH_DICHOTIC = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst3'
-# IMAGEPATH_DICHOTIC_END = r'.\\Instructions_Pictures\\Dichotic\\EndOfTask'
-# IMAGEPATH_DCT_PRACTICE_1 = r'.\\Instructions_Pictures\\DCT\\digit1'
-# IMAGEPATH_DCT_PRACTICE_2 = r'.\\Instructions_Pictures\\DCT\\digit2'
-# IMAGEPATH_DCT_PRACTICE_3 = r'.\\Instructions_Pictures\\DCT\\digit3'
-# IMAGEPATH_DICHOTIC_BREAK = r'.\\Instructions_Pictures\\Dichotic\\DichoticInst4'
-# IMAGEPATH_AFACT_INSTRUCTIONS = r'.\\Instructions_Pictures\\AFACT\\AFACT_main_instructions'
-# IMAGEPATH_AFACT_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\AFACT\\AFACT_after_practice_instructions'
-# IMAGEPATH_MAB_INSTRUCTIONS = r'.\\Instructions_Pictures\\MAB\\MAB_main_instructions'
-# IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = r'.\\Instructions_Pictures\\MAB\\MAB_after_practice_instructions'
-# IMAGEPATH_CONTROL_INSTRUCTIONS = r'.\\Instructions_Pictures\\Control\\\Control_main_instructions'
-# IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\Control\\\Control_after_practice_instructions'
-# IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\BMM_pre_recordings'
-# IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
 
 IMAGEPATH_DICHOTIC_PRACTICE_ONE = "IMAGEPATH_DICHOTIC_PRACTICE_ONE"
 IMAGEPATH_DICHOTIC_PRACTICE_TWO = "IMAGEPATH_DICHOTIC_PRACTICE_TWO"

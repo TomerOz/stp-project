@@ -1,0 +1,6 @@
+time,x,y,event_type,undo_action,intensity_result,tone_result,time_sensation_created,action_cancelled,phase,event_num,undo_trigger,participant_id,session,block,timestamp,experiment_ended,monitor_resolution_x,monitor_resolution_y,front_x_pos,front_y_pos,front_x_size,front_y_size,back_x_pos,back_y_pos,back_x_size,back_y_size,identifier
+0.7655334000010043,-364.0,-138.0,generate,False,1,grey,0.7655334000010043,False,0,0,,500,1,neu,2021-09-28_08-51-38,2021-09-28_08-51-48,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,0
+1.3816428999998607,-310.0,88.0,generate,False,1,grey,1.3816428999998607,False,0,1,,500,1,neu,2021-09-28_08-51-38,2021-09-28_08-51-48,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,1
+1.7156019000103697,263.0,207.0,generate,False,1,grey,1.7156019000103697,False,0,2,,500,1,neu,2021-09-28_08-51-38,2021-09-28_08-51-48,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,2
+2.4590996999759227,294.0,-17.0,generate,False,1,grey,2.4590996999759227,False,0,3,,500,1,neu,2021-09-28_08-51-38,2021-09-28_08-51-48,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,3
+1.7477091000182554,-310.0,88.0,colorize,False,1,red,1.3816428999998607,False,1,4,,500,1,neu,2021-09-28_08-51-38,2021-09-28_08-51-48,1920,1080,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,1

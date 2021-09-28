@@ -5,14 +5,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Debug Output/debug_trials_dichotic_session_dichotic_phase.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Debug Output/debug_trials_dichotic_session_dichotic_phase.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Debug Output/dubg_trials.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Debug Output/dubg_trials.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old/new emotions raiting - to implement/1.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old/new emotions raiting - to implement/emotions_ratings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Old/new emotions raiting - to implement/finish_green.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Subjects/subject 500/audio_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Subjects/subject 500/audio_data.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Subjects/subject 500/processed_audio_df.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Subjects/subject 500/processed_audio_df.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tasks/bodymap/emotions_ratings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/bodymap/emotions_ratings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tasks/bodymap/play_stp.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/bodymap/play_stp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tasks/bodymap/run_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/bodymap/run_sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tasks/DCT.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/DCT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tasks/bodymap/output/ID500cond1neg_emotions_rating.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/bodymap/output/ID500cond1neg_emotions_rating.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tasks/bodymap/output/ID500cond1neu_emotions_rating.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Tasks/bodymap/output/ID500cond1neu_emotions_rating.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/console.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,22 +153,22 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1631612864704">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1631621473267">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1631612864704" />
-    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1631612864704">
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1631621473267" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1631621473266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1631612864704" />
-    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1631612864704">
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1631621473266" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1631621473266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1631612864704" />
-    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1631612864704">
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1631621473266" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1631621473266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1631612864704" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1631621473266" />
     <state x="277" y="57" key="SettingsEditor" timestamp="1631610475182">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
