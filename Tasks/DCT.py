@@ -6,7 +6,7 @@ import time
 import random
 import os
 import pandas as pd
-from playsound import playsound
+import playsound
 from PIL import Image, ImageTk
 import winsound
 
@@ -85,7 +85,8 @@ class DctTask(object):
         self.gui.unbind(LEFT_RESPONSE_KEY)
     
     def _start_audio(self):
-        playsound(self.td.current_sentence_path, block=False)                       # audio is taken every trial from an updating filename 
+        #playsound.playsound(self.td.current_sentence_path, False)                       # audio is taken every trial from an updating filename 
+        winsound.PlaySound(self.td.current_sentence_path, winsound.SND_ASYNC | winsound.SND_ALIAS )
         
         self.gui.after(self.td.current_sentence.digit_que, self.show_digit)
         self.gui.after(self.td.current_sentence.digit_que, self._bind_keyboard)     # ensures that binding ocurs with digit
