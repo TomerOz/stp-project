@@ -1,0 +1,2 @@
+time,x,y,intensity,tone,participant_id,session,block,timestamp,experiment_ended,monitor_resolution_x,monitor_resolution_y,front_x_pos,front_y_pos,front_x_size,front_y_size,back_x_pos,back_y_pos,back_x_size,back_y_size,identifier
+1.2552703000001202,-357.0,53.0,1,[0.00392157 0.00392157 0.00392157],995,1,neg,2021-11-02_15-30-10,2021-11-02_15-30-17,1536,864,-307.0,21.0,583.0,825.0,307.0,21.0,583.0,825.0,0

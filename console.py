@@ -221,7 +221,7 @@ def main():
 
     # SCREEN PROPERTIES:
     gui.state('zoomed')
-    #exp._full_screen_creator(gui) # for running in a complete full screen
+    exp._full_screen_creator(gui) # for running in a complete full screen
 
     # EXECUTION OF THE PROGRAM
     menu.show()
