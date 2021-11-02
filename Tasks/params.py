@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-##TODO - to add desctiption 
+##TODO - to add desctiption
 
 
 ALLOCATION_TOMER = r'.\\Sentences_Allocation_Tomer.xlsx'
@@ -42,7 +42,7 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'
-RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [4000, 5500, 7000, 8500, 10000]
+RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [9000, 9500, 10000, 10500, 11000]
 
 # controls ammount of truals of the different phases
 # should be deleted :
@@ -50,12 +50,12 @@ RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [4000, 5500, 7000, 8500, 10000]
 N_BASELINE_TRIALS = 10 # in digit baseline
 N_POST_TRIALS = 10 # in digit post intervention
 N_AFACT_TRIALS = 20
-N_DICHOTIC_TRIALS = 20 
+N_DICHOTIC_TRIALS = 20
 N_PRACTICE_TRIALS = 8 # in digit and afact
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
-#Task audio data manager 
+#Task audio data manager
 
 PROCESSED_AUDIO_DF = 'processed_audio_df.xlsx' # file name containing audio data after processing ready for dct-stp task
 AUDIO_FILES_DIRECTORY = 'audio_files'
@@ -70,8 +70,8 @@ SENTENCE = 'sentence'
 ONE_SECOND = 1000
 MILISECONDS_BEFORE_END = 500
 
-##TODO - check whith tomer why is it parallel to params from digit? maybe we should delete it? 
-# task properties 
+##TODO - check whith tomer why is it parallel to params from digit? maybe we should delete it?
+# task properties
 NEGATIVE_SENTENCE = 'neg' 			# According to audio df excel file
 NEUTRAL_SENTENCE = 'ntr'			# According to audio df excel file
 
@@ -80,7 +80,7 @@ DICHOTIC_PHASE = "dichotic_phase"
 MAB_PHASE = "MAB_phase"
 
 DIGIT_PRE = "DIGIT_PRE"
-DIGIT_POST = "DIGIT_POST" 
+DIGIT_POST = "DIGIT_POST"
 
 DICHOTIC_PRE = "DICHOTIC_PRE"
 DICHOTIC_POST = "DICHOTIC_POST"
@@ -93,14 +93,14 @@ AFTER_PRACTICE_2  = 11
 
 # THE FOLLOWINGS SPECIFIES "DEFAULTS" - IT MEANS THAT IT WAS NOT SPEIFIED FROM CONSOLE
 DEFAULT_N_BLOCK_PER_PHASE = 1
-DEFAULT_CATCH_TRIALS_RATIO = 1.0/8.0 ########### on runing = 0.25 or 1.0/8.0 ??? ###########
+DEFAULT_CATCH_TRIALS_RATIO = 0.25 ########### on runing = 0.25 based on Iftach's internal attention paper
 DEFAULT_N_PRACTICE_TRIALS = 8 ########### on runing = 8 ###########
-DEFAULT_N_START_NEUTRAL_TRIALS = 4 
+DEFAULT_N_START_NEUTRAL_TRIALS = 4
 
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 #DCT
-DEFAULS_N_BLOCK_PER_PHASE = 1 #for AFACT. 
+DEFAULS_N_BLOCK_PER_PHASE = 1 #for AFACT.
 # sentences directories and files names
 SENTENCE_NAME_COL = 'sentence_name'
 SUBJECT = 'subject'
@@ -108,6 +108,7 @@ GROUP = 'group'
 GENDER = 'gender'
 SESSION = 'session'
 
+DCT_INTER_TRIAL_INTERVAL = 0
 ONE_SECOND = 1000
 FIXATION_TIME = 1000 	########### on runing = 1000 ###########
 MILISECONDS_BEFORE_END = 500 ########### on runing = 500 ###########
@@ -132,7 +133,7 @@ CATCH_LEFT_RESPONSE_KEY = "k" # not identical
 PRACTICE_FEEDBACK_CORRECT = "נכון"
 PRACTICE_FEEDBACK_WRONG = "לא נכון"
 
-#DCT gui properties 
+#DCT gui properties
 BACKGROUND = "black"
 FOREGROUND = "white"
 CORRECT = "green"
@@ -157,7 +158,7 @@ GREATER_X = "more_then_5"
 SMALLER_X = "less_then_5"
 ALIVE = "ALIVE"
 STILL = "STILL"
-RESPONSE_LABELS_AFACT_ALTERNATIVE_1 = {RIGHT : GREATER_X, LEFT: SMALLER_X} 
+RESPONSE_LABELS_AFACT_ALTERNATIVE_1 = {RIGHT : GREATER_X, LEFT: SMALLER_X}
 RESPONSE_LABELS_AFACT_ALTERNATIVE_2 = {RIGHT : ALIVE, LEFT: STILL}
 AFACT_FEEDBACK_TIME = 3000
 AFACT_BLACK_SCREEN_POST_FEEDBACK_TIME = AFACT_FEEDBACK_TIME + 1400
@@ -166,9 +167,12 @@ POSSIBLE_FILLED_RECTANGLES = [1,2,3,4,6,7,8,9] # the random n squares to be clas
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 # MAB
+MAB_INTER_TRIAL_INTERVAL = 1500 # ITI is 1500ms, based on liad internal paper underreviw
 MAB_RESONSE_KEY = "<space>"
-MAB_PRACTICE_FEEDBACK_DURATAION = 2000
+MAB_PRACTICE_FEEDBACK_DURATAION = 1000
+MAB_FEEDBACK_DURATAION = 500
 MAB_FEEDBACK_TEXT = "הרגשת שמחשבתך מוטת"
+MAB_FEEDBACK_LABEL = "MAB_FEEDBACK_LABEL"
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
 #Dichotic
@@ -196,7 +200,7 @@ BETWEEN_SENTENCES_DELAY = 300
 
 PRE_PROCESSED_AUDIO_DF = 'audio_data.xlsx'
 
-#DichoticDataManager 
+#DichoticDataManager
 DEFAULT_NUMBER_OF_BLOCKS = 2 # In Tomer's should be 2 --- difined via console in n_blocks argument
 DEFAULT_NUMBER_OF_CHUNCKS = 4 ########### on runing = 4 ###########
 DEFAULT_NUMBER_OF_UNIQUE_SENTENCES = 10 ########### on runing = 10 ########### = trials per chunk
@@ -204,7 +208,7 @@ DEFAULT_NUMBER_OF_N_BACK = 2
 N_TRIALS_PRACTICE_ONE = 7
 N_TRIALS_PRACTICE_TWO = 6
 
-#Data 
+#Data
 #builds on the response key to be right/left Shifts. (keysym - TK)
 DICHOTIC_LEFT_KEYSYM = 'Shift_L'
 DICHOTIC_RIGHT_KEYSYM = 'Shift_R'
