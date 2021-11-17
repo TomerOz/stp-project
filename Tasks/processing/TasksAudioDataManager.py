@@ -518,9 +518,11 @@ class MainAudioProcessor(object):
 			for digit_phase in self.digit_phases:
 				self.trials_types_by_phase[digit_phase].insert(AFTER_PRACTICE_1, instructions)
 				self.trials_types_by_phase[digit_phase].insert(AFTER_PRACTICE_2, instructions)
-		else: # in Tome's
+		else: # in Tomer's
 			self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_1, instructions)
 			self.trials_types_by_phase[self.first_phase].insert(AFTER_PRACTICE_2, instructions)
+			self.trials_types_by_phase[DIGIT_POST].insert(AFTER_PRACTICE_1, instructions)
+			self.trials_types_by_phase[DIGIT_POST].insert(AFTER_PRACTICE_2, instructions)
 		if self.afact_phase in self.phases_names and self.n_afact_practice_trials>0:
 			self.trials_types_by_phase[self.afact_phase].insert(self.n_afact_practice_trials, instructions)
 		if "MAB_phase" in self.phases_names and self.n_mab_practice_trials>0:

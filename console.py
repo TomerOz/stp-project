@@ -91,6 +91,10 @@ def main():
     instructions_dct_2 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_2)
     instructions_dct_3 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_3)
 
+    instructions_dct_post_1 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_1)
+    instructions_dct_post_2 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_2)
+    instructions_dct_post_3 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_3)
+
     instructions_dichotic_1 = Instructions(gui, exp, flow, instructions_paths,IMAGEPATH_DICHOTIC_PRACTICE_ONE)# controls instructions gui and flow
     instructions_dichotic_2 = Instructions(gui, exp, flow, instructions_paths,IMAGEPATH_DICHOTIC_PRACTICE_TWO)# controls instructions gui and flow
     instructions_dichotic_3 = Instructions(gui, exp, flow, instructions_paths,IMAGEPATH_DICHOTIC)# controls instructions gui and flow
@@ -163,11 +167,11 @@ def main():
     tasks_post = [
 
                 # DCT-STP
-                lambda: instructions_dct_1.start_instrunctions(),
+                lambda: instructions_dct_post_1.start_instrunctions(),
                 lambda: dct_post_training.start_task(), # practice 1 trials
-                lambda: instructions_dct_2.start_instrunctions(),
+                lambda: instructions_dct_post_2.start_instrunctions(),
                 lambda: dct_post_training.start_task(), # practice 2 trials
-                lambda: instructions_dct_3.start_instrunctions(),
+                lambda: instructions_dct_post_3.start_instrunctions(),
                 lambda: dct_post_training.start_task(), # real trials
                 #
                 # MAB:
@@ -187,11 +191,12 @@ def main():
                 lambda: dichotic_task_data.second_practice(),
                 lambda:instructions_dichotic_3.start_instrunctions(),
                 lambda: dichotic_task_data.start_chunk(),
-                # End Screen
-                lambda: instructions_end_of_experiment.start_instrunctions(),
                 #
                 #Body Maps & Emotions Raitings - Post:
-                 lambda: body_map.start_body_map_flow(session=2),
+                lambda: body_map.start_body_map_flow(session=2),
+                #
+                # End Screen
+                lambda: instructions_end_of_experiment.start_instrunctions(),
 
                 ]
 
@@ -217,7 +222,14 @@ def main():
 
     intervention_tasks = [afact_tasks, bmm_tasks, control_tasks]
 
+    # real running:
     menu.add_tasks_options(tasks_pre, intervention_tasks, tasks_post)
+
+    # debug runnig:
+    # menu.add_tasks_options(
+    #                         [lambda: dichotic_data_manager.__late_init__(),
+    #                         lambda: dichotic_task_data.__late_init__()] + tasks_post,
+    #                         intervention_tasks,[])
 
     # SCREEN PROPERTIES:
     gui.state('zoomed')
