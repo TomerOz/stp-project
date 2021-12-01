@@ -153,6 +153,14 @@ def main():
                 lambda: dichotic_data_manager.__late_init__()   ,
                 lambda: dichotic_task_data.__late_init__()      ,
 
+                ### debug
+                lambda: instructions_mab.start_instrunctions(),
+                lambda: mab_task.start_task(),
+                lambda: instructions_mab_after_practice.start_instrunctions(),
+                lambda: mab_task.start_task(),
+                ### debug end
+
+
                 # Body Maps & Emotions Raitings - Pre:
                 lambda: body_map.start_body_map_flow(session=1),
 

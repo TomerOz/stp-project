@@ -23,11 +23,11 @@ class MABTask(DctTask):
 		self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][MAB_FEEDBACK_LABEL].pack())
 		if self.td.current_trial_type_intance.trial_phase == "MAB practice":
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][MAB_FEEDBACK_LABEL].config(text="\n" +MAB_FEEDBACK_TEXT + "\n" + "___",font=("Courier", 30)))
-			self.gui.after(0, lambda:self.exp.display_frame(FRAME_1, [LABEL_1, MAB_FEEDBACK_LABEL], use_place={MAB_FEEDBACK_LABEL: [self.exp.cx,self.exp.cy+55]}))
+			self.gui.after(0, lambda:self.exp.display_frame(FRAME_1, [LABEL_1, MAB_FEEDBACK_LABEL], use_place={MAB_FEEDBACK_LABEL: [self.exp.cx,int(self.exp.y*0.75)]}))
 			self.gui.after(MAB_PRACTICE_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][MAB_FEEDBACK_LABEL].config(text=""))
 		else:
 			self.gui.after(0, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][MAB_FEEDBACK_LABEL].config(text="___"))
-			self.gui.after(0, lambda:self.exp.display_frame(FRAME_1, [LABEL_1, MAB_FEEDBACK_LABEL], use_place={MAB_FEEDBACK_LABEL: [self.exp.cx,self.exp.cy+30]}))
+			self.gui.after(0, lambda:self.exp.display_frame(FRAME_1, [LABEL_1, MAB_FEEDBACK_LABEL], use_place={MAB_FEEDBACK_LABEL: [self.exp.cx,int(self.exp.y*0.75)]}))
 			self.gui.after(MAB_FEEDBACK_DURATAION, lambda:self.exp.LABELS_BY_FRAMES[FRAME_1][MAB_FEEDBACK_LABEL].config(text=""))
 
 	def start_task(self, user_event=None):
