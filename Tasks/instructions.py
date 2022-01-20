@@ -21,6 +21,7 @@ IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRACTIC = "IMAGEPATH_MAB_INSTRUCTIONS_AFTER_PRA
 IMAGEPATH_CONTROL_INSTRUCTIONS = "IMAGEPATH_CONTROL_INSTRUCTIONS"
 IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = "IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE"
 IMAGEPATH_BMM_INSTRUCTIONS = "IMAGEPATH_BMM_INSTRUCTIONS"
+IMAGEPATH_Post_BMM_INSTRUCTIONS = "IMAGEPATH_Post_BMM_INSTRUCTIONS"
 IMAGEPATH_END_OF_EXPERIMENT = "IMAGEPATH_END_OF_EXPERIMENT"
 
 
@@ -46,11 +47,12 @@ class InstructionsPaths(object):
         self.IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\Control\\\Control_after_practice_instructions'
         # BMM:
         self.IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\BMM_pre_recordings'
-        
+        self.IMAGEPATH_Post_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\Post_BMM'
+
         # General:
         self.IMAGEPATH_DICHOTIC_END = r'.\\Instructions_Pictures\\Dichotic\\EndOfTask'
         self.IMAGEPATH_END_OF_EXPERIMENT = r'Instructions_Pictures\EndOfExperiment'
-        
+
         self.phases_instructions = {
             IMAGEPATH_DICHOTIC_PRACTICE_ONE: self.IMAGEPATH_DICHOTIC_PRACTICE_ONE,
             IMAGEPATH_DICHOTIC_PRACTICE_TWO: self.IMAGEPATH_DICHOTIC_PRACTICE_TWO,
@@ -66,10 +68,11 @@ class InstructionsPaths(object):
             IMAGEPATH_CONTROL_INSTRUCTIONS: self.IMAGEPATH_CONTROL_INSTRUCTIONS,
             IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE: self.IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE,
             IMAGEPATH_BMM_INSTRUCTIONS: self.IMAGEPATH_BMM_INSTRUCTIONS,
+            IMAGEPATH_Post_BMM_INSTRUCTIONS: self.IMAGEPATH_Post_BMM_INSTRUCTIONS,
             IMAGEPATH_DICHOTIC_END: self.IMAGEPATH_DICHOTIC_END,
             IMAGEPATH_END_OF_EXPERIMENT: self.IMAGEPATH_END_OF_EXPERIMENT,
         }
-        
+
     def change_gender(self, gender):
         if gender == "f":
             self.IMAGEPATH_DICHOTIC_PRACTICE_ONE = r'.\\Instructions_Pictures\\Dichotic\\Female\\DichoticInst1'
@@ -91,7 +94,8 @@ class InstructionsPaths(object):
             self.IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE = r'.\\Instructions_Pictures\\Control\\Female\\Control_after_practice_instructions'
             # BMM
             self.IMAGEPATH_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\Female\\BMM_pre_recordings'
-        
+            self.IMAGEPATH_Post_BMM_INSTRUCTIONS = r'.\\Instructions_Pictures\\BMM_Instructions\\Female\\Post_BMM'
+
         self.phases_instructions = {
             IMAGEPATH_DICHOTIC_PRACTICE_ONE: self.IMAGEPATH_DICHOTIC_PRACTICE_ONE,
             IMAGEPATH_DICHOTIC_PRACTICE_TWO: self.IMAGEPATH_DICHOTIC_PRACTICE_TWO,
@@ -107,15 +111,16 @@ class InstructionsPaths(object):
             IMAGEPATH_CONTROL_INSTRUCTIONS: self.IMAGEPATH_CONTROL_INSTRUCTIONS,
             IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE: self.IMAGEPATH_CONTROL_INSTRUCTIONS_AFTER_PRACTICE,
             IMAGEPATH_BMM_INSTRUCTIONS: self.IMAGEPATH_BMM_INSTRUCTIONS,
+            IMAGEPATH_Post_BMM_INSTRUCTIONS: self.IMAGEPATH_Post_BMM_INSTRUCTIONS,
             IMAGEPATH_DICHOTIC_END: self.IMAGEPATH_DICHOTIC_END,
             IMAGEPATH_END_OF_EXPERIMENT: self.IMAGEPATH_END_OF_EXPERIMENT,
         }
-            
+
 
 
 
 class Instructions(object):
-    def __init__(self, gui, exp, flow, imagepaths, phase_key, is_end_screen=False):
+    def __init__(self, gui, exp, flow, imagepaths, phase_key, next_button=None, is_end_screen=False):
         self.current_pic = 0
         self.exp = exp
         self.gui = gui
@@ -123,7 +128,11 @@ class Instructions(object):
         self.imagepaths = imagepaths
         self.is_end_screen = is_end_screen
         self.phase_key = phase_key
-        
+        if next_button == None:
+            self.next_button = "<space>"
+        else:
+            self.next_button = next_button
+
     def start_instrunctions(self, break_time=None):
         self.define_instructions_path()
         # defining break time
@@ -131,45 +140,45 @@ class Instructions(object):
             self.break_time = 0
         else:
             self.break_time = break_time
-            
+
         self.current_pic = 0 # for reset
-        self.gui.bind("<space>", self.next_pic)
-        self.gui.bind("<space>", self.next_pic)
-        self.exp.create_frame("instructions_f", 
+        self.gui.bind(self.next_button, self.next_pic)
+        self.gui.bind(self.next_button, self.next_pic)
+        self.exp.create_frame("instructions_f",
                 full_screen=True,
                 background_color=BACKGROUND)
-                
+
         img_path = self.imagepath +'\\' + self.instruction_pics[self.current_pic]
         self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
-        
+
         self.exp.display_frame("instructions_f", ["instructions_l"])
-            
+
     def show_message(self, text):
-        self.exp.LABELS_BY_FRAMES["instructions_f"]["instructions_l"].destroy() 
+        self.exp.LABELS_BY_FRAMES["instructions_f"]["instructions_l"].destroy()
         self.exp.create_label("instructions_l", "instructions_f", label_text=text)
         self.exp.display_frame("instructions_f", ["instructions_l"])
-    
+
     def get_task_continue_function(self, continue_function):
         self.continue_function = continue_function
-        
+
     def destroy_frame_after_delay(self, gui_event=None):
-        self.exp.LABELS_BY_FRAMES["instructions_f"]["instructions_l"].destroy() 
-        self.gui.unbind("<space>")
+        self.exp.LABELS_BY_FRAMES["instructions_f"]["instructions_l"].destroy()
+        self.gui.unbind(self.next_button)
         self.continue_function()
 
     def present_simple_picture_frame(self, delay_time=None, message_text=None):
         self.define_instructions_path()
-        self.exp.create_frame("instructions_f", 
+        self.exp.create_frame("instructions_f",
                 full_screen=True,
                 background_color=BACKGROUND)
-                
+
         img_path = self.imagepath +'\\' + self.instruction_pics[self.current_pic]
         self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
-        
+
         self.gui.after(0, lambda: self.exp.display_frame("instructions_f", ["instructions_l"]))
         self.gui.after(delay_time, lambda: self.show_message(message_text))
-        self.gui.after(delay_time, lambda: self.gui.bind("<space>", self.destroy_frame_after_delay))
-        
+        self.gui.after(delay_time, lambda: self.gui.bind(self.next_button, self.destroy_frame_after_delay))
+
     def next_pic(self, eff):
         self.current_pic+=1
         if self.current_pic < len(self.instruction_pics):
@@ -178,14 +187,14 @@ class Instructions(object):
             self.exp.craete_smart_image_label("instructions_l", "instructions_f", img_path)
             self.exp.display_frame("instructions_f", ["instructions_l"])
         else:
-            self.gui.unbind("<space>")
+            self.gui.unbind(self.next_button)
             if self.break_time == 0 and not self.is_end_screen:
                 self.exp.hide_frame("instructions_f")
                 self.flow.next()
             elif not self.is_end_screen:
-                self.gui.after(self.break_time, lambda: self.gui.bind("<space>", self.flow.next))
+                self.gui.after(self.break_time, lambda: self.gui.bind(self.next_button, self.flow.next))
                 self.gui.after(self.break_time, lambda: self.exp.hide_frame("instructions_f"))
-                
+
     def define_instructions_path(self):
         self.imagepath = self.imagepaths.phases_instructions[self.phase_key]
         self.instruction_pics = os.listdir(self.imagepath)

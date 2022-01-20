@@ -163,6 +163,10 @@ class BMMTask(DctTask):
             self._unbind_keyboard()
             self.td.sd.create_data_frame()
             # raise flag of completion
+
+            # audio saying task is over:
+            winsound.PlaySound(r'Tasks\BMMRecordings\End\BMM_END.wav', winsound.SND_ASYNC | winsound.SND_ALIAS )
+
             self.end_task()
 
     def _unbind_keyboard(self):
@@ -285,6 +289,12 @@ class BMMTask(DctTask):
         # On task first initiation
         if self.td.current_trial == -1:
             self.td.event_timed_init() # user dependet initment of the dct data class
+
+            if BMM_DEBUG_MODE:
+                self.td.trials_types_by_phase = self.td.trials_types_by_phase[:10]
+                self.td.total_ammount_of_trials = len(self.td.trials_types_by_phase)
+                RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [500, 500]
+            #ipdb.set_trace()
 
             self._create_task_label() # creating the main frame
             self.display_main_frame(text="+") # displaying main frame and setting text to fixation cross

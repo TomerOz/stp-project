@@ -140,6 +140,8 @@ def main():
 
     # BMM:
     instructions_BMM = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_BMM_INSTRUCTIONS)
+    instructions_Post_BMM = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_Post_BMM_INSTRUCTIONS, next_button="<Return>")
+
     bmmtd = BMMTaskData(menu, data_manager, sd, phase=AFACT_PHASE) # intentionally this uses the AFACT phase name, so the same STPs allocation is done
     bmm_task = BMMTask(gui, exp, bmmtd, flow)
 
@@ -153,14 +155,6 @@ def main():
                 lambda: dichotic_data_manager.__late_init__()   ,
                 lambda: dichotic_task_data.__late_init__()      ,
 
-                ### debug
-                lambda: instructions_mab.start_instrunctions(),
-                lambda: mab_task.start_task(),
-                lambda: instructions_mab_after_practice.start_instrunctions(),
-                lambda: mab_task.start_task(),
-                ### debug end
-
-
                 # Body Maps & Emotions Raitings - Pre:
                 lambda: body_map.start_body_map_flow(session=1),
 
@@ -173,6 +167,8 @@ def main():
                 lambda: dct_training.start_task(), # real trials
                 ]
     tasks_post = [
+                #Body Maps & Emotions Raitings - Post:
+                lambda: body_map.start_body_map_flow(session=2),
 
                 # DCT-STP
                 lambda: instructions_dct_post_1.start_instrunctions(),
@@ -200,9 +196,6 @@ def main():
                 lambda:instructions_dichotic_3.start_instrunctions(),
                 lambda: dichotic_task_data.start_chunk(),
                 #
-                #Body Maps & Emotions Raitings - Post:
-                lambda: body_map.start_body_map_flow(session=2),
-                #
                 # End Screen
                 lambda: instructions_end_of_experiment.start_instrunctions(),
 
@@ -212,6 +205,7 @@ def main():
                 # BMM:
                 lambda: instructions_BMM.start_instrunctions(),
                 lambda: bmm_task.start_task(),
+                lambda: instructions_Post_BMM.start_instrunctions(),
                 ]
     afact_tasks = [
                 # Afact:
