@@ -156,7 +156,33 @@ def main():
                 lambda: dichotic_task_data.__late_init__()      ,
 
                 lambda: instructions_BMM.start_instrunctions(),
-                
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+
+                lambda: instructions_afact.start_instrunctions(),
+                lambda: instructions_afact_after_practice.start_instrunctions(),
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+
+                lambda: instructions_control.start_instrunctions(),
+                lambda: instructions_control_after_practice.start_instrunctions(),
+
+                lambda:instructions_dichotic_1.start_instrunctions(),
+                lambda:instructions_dichotic_2.start_instrunctions(),
+                lambda:instructions_dichotic_3.start_instrunctions(),
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+
+                lambda: instructions_dct_1.start_instrunctions(),
+                lambda: instructions_dct_2.start_instrunctions(),
+                lambda: instructions_dct_3.start_instrunctions(),
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+
+                lambda: instructions_dct_post_1.start_instrunctions(),
+                lambda: instructions_dct_post_2.start_instrunctions(),
+                lambda: instructions_dct_post_3.start_instrunctions(),
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+
+                lambda: instructions_mab.start_instrunctions(),
+                lambda: instructions_mab_after_practice.start_instrunctions(),
+
                 ]
     tasks_post = [
                 # Dichotic:
