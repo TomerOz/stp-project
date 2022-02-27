@@ -165,7 +165,10 @@ class BMMTask(DctTask):
             # raise flag of completion
 
             # audio saying task is over:
-            winsound.PlaySound(r'Tasks\BMMRecordings\End\BMM_END.wav', winsound.SND_ASYNC | winsound.SND_ALIAS )
+            if self.td.menu.menu_data["gender"] == "m":
+                winsound.PlaySound(r'Tasks\BMMRecordings\Male\End\BMM_END.wav', winsound.SND_ASYNC | winsound.SND_ALIAS )
+            else:
+                winsound.PlaySound(r'Tasks\BMMRecordings\End\BMM_END.wav', winsound.SND_ASYNC | winsound.SND_ALIAS )
 
             self.end_task()
 
