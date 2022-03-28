@@ -9,6 +9,7 @@ from playsound import playsound
 from PIL import Image, ImageTk
 
 from ExGui import Experiment
+from GetSubjectData import OutputOrganizer
 from Tasks.instructions import Instructions, InstructionsPaths
 from Tasks.DCT import DctTask, TaskData
 from Tasks.MAB import MABTask, MABTaskData
@@ -148,6 +149,9 @@ def main():
     # Body map & Emotions Raitings:
     body_map = ConsoleBodyMap(menu, flow, gui)
 
+    # Output organizer:
+    op = OutputOrganizer(menu)
+
     # FLOW OF TASKS LIST:
 
 
@@ -197,6 +201,7 @@ def main():
                 lambda: dichotic_task_data.start_chunk(),
                 #
                 # End Screen
+                lambda: op.organize_output(),
                 lambda: instructions_end_of_experiment.start_instrunctions(),
 
                 ]
