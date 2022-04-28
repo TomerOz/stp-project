@@ -32,6 +32,7 @@ class SubjectData(object):
 		self.sentence_instances = [] # valence, text, path, duration etc....
 		self.experimental_phase = []
 		self.trials_phases = [] # practice or real trials
+		self.sentence_num_in_excel = [] # TAPlistNumber
 
 		# unpacked sentence properties:
 		self.sentences_valence = []
@@ -76,6 +77,7 @@ class SubjectData(object):
 		self.session_col.append(self.session)
 
 		self.trials_phases.append(package.trial_phase)
+		self.sentence_num_in_excel.append(package.current_sentence.num_in_excel)
 
 
 
@@ -112,7 +114,7 @@ class SubjectData(object):
 		columns = ['subject', 'trial num', 'experimental_phase', 'trial type', 'catch trial type',
 					'block', 'is correct', 'key pressed', 'RT', 't0', 'valence',
 					'text', 'duration', 'path', 'sentence num',
-					'num shown', 'gender', 'group', 'session', 'trials_phases']
+					'num shown', 'gender', 'group', 'session', 'trials_phases', 'sentence_num_in_excel']
 
 		rows = [
 					self.subject_col			,
@@ -135,6 +137,7 @@ class SubjectData(object):
 					self.group_col				,
 					self.session_col			,
 					self.trials_phases			,
+					self.sentence_num_in_excel	,
 				]
 
 		for i,r in enumerate(rows):

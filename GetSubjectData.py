@@ -1,7 +1,6 @@
 import os
 import shutil
 
-
 class OutputOrganizer(object):
     def __init__(self, menu):
         self.menu = menu
@@ -16,3 +15,12 @@ class OutputOrganizer(object):
             print("Subject "+ subject + " already has folder named bodymap, check its content")
         os.makedirs(os.path.join(source, "actions"))
         os.makedirs(os.path.join(source, "cluster"))
+
+        # Adding also the audio data file
+        source = os.path.join(r'Subjects\subject ' + subject, "audio_data.xlsx")
+        destination = os.path.join(r'Data\Subject_' + subject, "audio_data")
+        if not os.path.exists(destination):
+            os.mkdir(destination)
+            shutil.move(source, destination)
+        else:
+            print("Subject "+ subject + " already has folder of audio data")

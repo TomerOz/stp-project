@@ -171,9 +171,6 @@ def main():
                 lambda: dct_training.start_task(), # real trials
                 ]
     tasks_post = [
-                #Body Maps & Emotions Raitings - Post:
-                lambda: body_map.start_body_map_flow(session=2),
-
                 # DCT-STP
                 lambda: instructions_dct_post_1.start_instrunctions(),
                 lambda: dct_post_training.start_task(), # practice 1 trials
@@ -200,8 +197,12 @@ def main():
                 lambda:instructions_dichotic_3.start_instrunctions(),
                 lambda: dichotic_task_data.start_chunk(),
                 #
-                # End Screen
+                #Body Maps & Emotions Raitings - Post:
+                lambda: body_map.start_body_map_flow(session=2),
+                #
+                # Organizing output folders
                 lambda: op.organize_output(),
+                # End Screen
                 lambda: instructions_end_of_experiment.start_instrunctions(),
 
                 ]

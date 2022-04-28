@@ -317,7 +317,6 @@ class TaskData(object):
         self.last_trial_classification = was_correct
         self.last_key_pressed = key_pressed
         self.trial_phase = self.current_trial_type_intance.trial_phase
-
         # saving data
         self.sd.push_data_packge(self)
 

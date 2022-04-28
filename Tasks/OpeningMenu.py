@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import tkinter as tk
-import ipdb 
+import ipdb
 
 BACKGROUND = "black"
 FOREGROUND = "white"
@@ -71,16 +71,31 @@ class Menu(object):
             self.exp.display_frame('menu_frame', ['menu_label_3', 'menu_label_4',"Button_label"], use_place = self.places)
         else:
             self.exp.display_frame('menu_frame', ['menu_label_1', 'menu_label_2', 'menu_label_3', 'menu_label_4',"Button_label"], use_place = self.places)
-        
+    def get_decoded_group(self, group_code):
+        key = {
+                "L12": "0",
+                "G56": "1",
+                "V27": "2",
+                "K45": "0",
+                "T21": "1",
+                "Y87": "2",
+                "E33": "0",
+                "W90": "1",
+                "S20": "2",
+        }
+
+        return key[group_code]
+
+
     def start_space_callback(self, event=None):
         type(self.exp).BUTTONS["Start Experiment"].config(state="disabled")
         type(self.exp).BUTTONS["Start Experiment"].destroy()
         self.menu_data[gender] = type(self.exp).ALL_ENTRIES[gender].get()
-        self.menu_data[group] = type(self.exp).ALL_ENTRIES[group].get()
+        self.menu_data[group] = self.get_decoded_group(type(self.exp).ALL_ENTRIES[group].get())
         self.menu_data[subject] = type(self.exp).ALL_ENTRIES[subject].get()
         self.menu_data[session] = type(self.exp).ALL_ENTRIES[session].get()
-        
-        self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])    
+
+        self.updated_audio_path  = self.audiopath + '\\' + 'subject ' + str(self.menu_data[subject])
         self.ap.process_audio(self.updated_audio_path) # process this subject audio files
         self.data_manager.__late_init__(self)
         self.exp.hide_cursor()
@@ -89,11 +104,8 @@ class Menu(object):
         self.flow.add_tasks(tasks)
         self.instructions_paths.change_gender(self.menu_data[gender])
         self.flow.next()
-    
+
     def add_tasks_options(self, tasks_pre, intervention_tasks, tasks_post):
         self.tasks_pre = tasks_pre
         self.tasks_post = tasks_post
         self.intervention_tasks = intervention_tasks
-        
-        
-        
