@@ -161,46 +161,46 @@ def main():
                 lambda: dichotic_data_manager.__late_init__()   ,
                 lambda: dichotic_task_data.__late_init__()      ,
 
-                # Body Maps & Emotions Raitings - Pre:
-                lambda: body_map.start_body_map_flow(session=1),
-
-                # DCT-STP
-                lambda: instructions_dct_1.start_instrunctions(),
-                lambda: dct_training.start_task(), # practice 1 trials
-                lambda: instructions_dct_2.start_instrunctions(),
-                lambda: dct_training.start_task(), # practice 2 trials
-                lambda: instructions_dct_3.start_instrunctions(),
-                lambda: dct_training.start_task(), # real trials
+                # # Body Maps & Emotions Raitings - Pre:
+                # lambda: body_map.start_body_map_flow(session=1),
+                #
+                # # DCT-STP
+                # lambda: instructions_dct_1.start_instrunctions(),
+                # lambda: dct_training.start_task(), # practice 1 trials
+                # lambda: instructions_dct_2.start_instrunctions(),
+                # lambda: dct_training.start_task(), # practice 2 trials
+                # lambda: instructions_dct_3.start_instrunctions(),
+                # lambda: dct_training.start_task(), # real trials
                 ]
     tasks_post = [
-                # DCT-STP
-                lambda: instructions_dct_post_1.start_instrunctions(),
-                lambda: dct_post_training.start_task(), # practice 1 trials
-                lambda: instructions_dct_post_2.start_instrunctions(),
-                lambda: dct_post_training.start_task(), # practice 2 trials
-                lambda: instructions_dct_post_3.start_instrunctions(),
-                lambda: dct_post_training.start_task(), # real trials
-                #
-                # MAB:
-                lambda: instructions_mab.start_instrunctions(),
-                lambda: mab_task.start_task(),
-                lambda: instructions_mab_after_practice.start_instrunctions(),
-                lambda: mab_task.start_task(),
-                #
-                #
-                #lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
-                #
-                # Dichotic:
-                lambda:instructions_dichotic_1.start_instrunctions(),
-                lambda: dichotic_task_data.first_practice(side="Left"),
-                lambda: dichotic_task_data.first_practice(side="Right"),
-                lambda:instructions_dichotic_2.start_instrunctions(),
-                lambda: dichotic_task_data.second_practice(),
-                lambda:instructions_dichotic_3.start_instrunctions(),
-                lambda: dichotic_task_data.start_chunk(),
-                #
-                #Body Maps & Emotions Raitings - Post:
-                lambda: body_map.start_body_map_flow(session=2),
+                # # DCT-STP
+                # lambda: instructions_dct_post_1.start_instrunctions(),
+                # lambda: dct_post_training.start_task(), # practice 1 trials
+                # lambda: instructions_dct_post_2.start_instrunctions(),
+                # lambda: dct_post_training.start_task(), # practice 2 trials
+                # lambda: instructions_dct_post_3.start_instrunctions(),
+                # lambda: dct_post_training.start_task(), # real trials
+                # #
+                # # MAB:
+                # lambda: instructions_mab.start_instrunctions(),
+                # lambda: mab_task.start_task(),
+                # lambda: instructions_mab_after_practice.start_instrunctions(),
+                # lambda: mab_task.start_task(),
+                # #
+                # #
+                # #lambda: instructions_dichotic_end.start_instrunctions(break_time=3000),
+                # #
+                # # Dichotic:
+                # lambda:instructions_dichotic_1.start_instrunctions(),
+                # lambda: dichotic_task_data.first_practice(side="Left"),
+                # lambda: dichotic_task_data.first_practice(side="Right"),
+                # lambda:instructions_dichotic_2.start_instrunctions(),
+                # lambda: dichotic_task_data.second_practice(),
+                # lambda:instructions_dichotic_3.start_instrunctions(),
+                # lambda: dichotic_task_data.start_chunk(),
+                # #
+                # #Body Maps & Emotions Raitings - Post:
+                #lambda: body_map.start_body_map_flow(session=2),
                 #
                 # identification and similarity questionss
                 lambda: lq.pre_run(),
@@ -215,23 +215,23 @@ def main():
 
     bmm_tasks = [
                 # BMM:
-                lambda: instructions_BMM.start_instrunctions(),
-                lambda: bmm_task.start_task(),
-                lambda: instructions_Post_BMM.start_instrunctions(),
+                # lambda: instructions_BMM.start_instrunctions(),
+                # lambda: bmm_task.start_task(),
+                # lambda: instructions_Post_BMM.start_instrunctions(),
                 ]
     afact_tasks = [
                 # Afact:
-                lambda: instructions_afact.start_instrunctions(),
-                lambda: afact_task.start_task(), # practice trials
-                lambda: instructions_afact_after_practice.start_instrunctions(),
-                lambda: afact_task.start_task(), # real trials
+                # lambda: instructions_afact.start_instrunctions(),
+                # lambda: afact_task.start_task(), # practice trials
+                # lambda: instructions_afact_after_practice.start_instrunctions(),
+                # lambda: afact_task.start_task(), # real trials
                 ]
     control_tasks = [
                 # Control:
-                lambda: instructions_control.start_instrunctions(),
-                lambda: control_task.start_task(), # practice trials
-                lambda: instructions_control_after_practice.start_instrunctions(),
-                lambda: control_task.start_task(), # real trials
+                # lambda: instructions_control.start_instrunctions(),
+                # lambda: control_task.start_task(), # practice trials
+                # lambda: instructions_control_after_practice.start_instrunctions(),
+                # lambda: control_task.start_task(), # real trials
                 ]
 
     intervention_tasks = [afact_tasks, bmm_tasks, control_tasks]
