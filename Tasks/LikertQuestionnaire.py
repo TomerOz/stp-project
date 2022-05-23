@@ -52,7 +52,7 @@ class LikertQuestion(object):
 	def _end_task(self):
 		output_path = r'Tasks\bodymap\output'
 		pd.DataFrame(self.answers).to_excel(os.path.join(output_path,"Identification.xlsx"), index=False)
-		self.flow.next()
+		self.gui.after(100, self.flow.next)
 
 	def _choose_likert_number(self,question, num):
 		self.answers[self.answers_names[question]] = [num]

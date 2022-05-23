@@ -151,7 +151,7 @@ def main():
     body_map = ConsoleBodyMap(menu, flow, gui)
 
     # Output organizer:
-    op = OutputOrganizer(menu)
+    op = OutputOrganizer(menu, flow, gui)
 
     # identificaiton and similarity quesitons
     lq = LikertQuestion(gui, exp, flow)
@@ -203,8 +203,8 @@ def main():
                 #lambda: body_map.start_body_map_flow(session=2),
                 #
                 # identification and similarity questionss
-                # lambda: lq.pre_run(),
-    			# lambda: lq.run_task(),
+                lambda: lq.pre_run(),
+    			lambda: lq.run_task(),
                 #
                 # Organizing output folders
                 lambda: op.organize_output(),
@@ -215,9 +215,9 @@ def main():
 
     bmm_tasks = [
                 # BMM:
-                lambda: instructions_BMM.start_instrunctions(),
-                lambda: bmm_task.start_task(),
-                lambda: instructions_Post_BMM.start_instrunctions(),
+                # lambda: instructions_BMM.start_instrunctions(),
+                # lambda: bmm_task.start_task(),
+                # lambda: instructions_Post_BMM.start_instrunctions(),
                 ]
     afact_tasks = [
                 # Afact:

@@ -2,8 +2,10 @@ import os
 import shutil
 
 class OutputOrganizer(object):
-    def __init__(self, menu):
+    def __init__(self, menu, flow, gui):
         self.menu = menu
+        self.flow = flow
+        self.gui = gui
     def organize_output(self):
         subject = str(self.menu.menu_data["subject"])
         source = r'Tasks\bodymap\output'
@@ -21,6 +23,7 @@ class OutputOrganizer(object):
         destination = os.path.join(r'Data\Subject_' + subject, "audio_data")
         if not os.path.exists(destination):
             os.mkdir(destination)
-            shutil.copyfile(source, destination)
+            shutil.copyfile(source, os.path.join(destination, "audio_data.xlsx"))
         else:
             print("Subject "+ subject + " already has folder of audio data")
+        self.gui.after(100, self.flow.next)

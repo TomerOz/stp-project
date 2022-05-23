@@ -151,7 +151,7 @@ def main():
     body_map = ConsoleBodyMap(menu, flow, gui)
 
     # Output organizer:
-    op = OutputOrganizer(menu)
+    op = OutputOrganizer(menu, flow, gui)
 
     # identificaiton and similarity quesitons
     lq = LikertQuestion(gui, exp, flow) #
