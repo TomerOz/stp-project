@@ -325,13 +325,10 @@ class TaskData(object):
         sent = trial_type.get_current_sentence()
         trial_type.next()
 
-        print("#<>---<>-v-<>---<>#")
+        print("#<>---<>-New Below-<>---<>#")
+        print(trial_type)
         print("Current Trial: ", self.current_trial)
         print("Total ammount of Trials is : ", self.total_ammount_of_trials)
-        print("Change Block Trial is on: ", self.change_block_trial)
-        print(trial_type)
-        print(trial_type.index)
-        print("Is it practice: ", self.current_trial_type_intance.is_practice)
         print("Trial phase: ", self.current_trial_type_intance.trial_phase)
         print("------END--------")
 

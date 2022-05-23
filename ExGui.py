@@ -40,7 +40,8 @@ class Experiment(object):
 
     def hide_cursor(self):
         type(self).EXPERIMENT_GUI.config(cursor="none")
-
+    def un_hide_cursor(self):
+        type(self).EXPERIMENT_GUI.config(cursor='')
     def craete_smart_image_label(
                                     self,
                                     label_name,

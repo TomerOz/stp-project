@@ -94,6 +94,7 @@ class LikertQuestion(object):
 		self._update_label_positions_according_to_button("q0b_1", "ll0", -1)
 		self._update_label_positions_according_to_button("q1b_10", "lh1", 1)
 		self._update_label_positions_according_to_button("q1b_1", "ll1", -1)
+		self.exp.un_hide_cursor()
 
 
 def main():

@@ -21,6 +21,6 @@ class OutputOrganizer(object):
         destination = os.path.join(r'Data\Subject_' + subject, "audio_data")
         if not os.path.exists(destination):
             os.mkdir(destination)
-            shutil.move(source, destination)
+            shutil.copyfile(source, destination)
         else:
             print("Subject "+ subject + " already has folder of audio data")
