@@ -154,7 +154,7 @@ def main():
     op = OutputOrganizer(menu)
 
     # identificaiton and similarity quesitons
-    lq = LikertQuestion(gui, exp, flow)
+    lq = LikertQuestion(gui, exp, flow) #
 
     # FLOW OF TASKS LIST:
     tasks_pre = [
