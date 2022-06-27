@@ -23,11 +23,11 @@ if not BMM_DEBUG_MODE:
 
 
 else: # on Debug mode
-    INSTUCTIONS_AUDIO_1 = "old-BMM-Recordings\BMM_1-try.wav"
-    INSTUCTIONS_AUDIO_2 = "old-BMM-Recordings\BMM_2-try.wav"
-    INSTUCTIONS_AUDIO_3 = "old-BMM-Recordings\BMM_3-try.wav"
-    INSTUCTIONS_AUDIO_4 = "old-BMM-Recordings\BMM_4-try.wav"
-    INSTUCTIONS_AUDIO_5 = "old-BMM-Recordings\BMM_5-try.wav"
+    INSTUCTIONS_AUDIO_1 = r"old-BMM-Recordings\1.wav"
+    INSTUCTIONS_AUDIO_2 = r"old-BMM-Recordings\2.wav"
+    INSTUCTIONS_AUDIO_3 = r"old-BMM-Recordings\3.wav"
+    INSTUCTIONS_AUDIO_4 = r"old-BMM-Recordings\4.wav"
+    INSTUCTIONS_AUDIO_5 = r"old-BMM-Recordings\5.wav"
 
 
 BETWEEN_INSTRUCTIONS_DELAY = 1000
@@ -294,9 +294,13 @@ class BMMTask(DctTask):
             self.td.event_timed_init() # user dependet initment of the dct data class
 
             if BMM_DEBUG_MODE:
-                self.td.trials_types_by_phase = self.td.trials_types_by_phase[:10]
+                # self.td.trials_types_by_phase = self.td.trials_types_by_phase[:10]
                 self.td.total_ammount_of_trials = len(self.td.trials_types_by_phase)
                 RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [500, 500]
+
+                self.td.current_trial = 6
+                self.is_stp_practice_finished = True
+                self.is_practice_finished = True
             #ipdb.set_trace()
 
             self._create_task_label() # creating the main frame

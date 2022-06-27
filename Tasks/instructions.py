@@ -143,7 +143,7 @@ class Instructions(object):
 
         self.current_pic = 0 # for reset
         self.gui.bind(self.next_button, self.next_pic)
-        self.gui.bind(self.next_button, self.next_pic)
+        # self.gui.bind(self.next_button, self.next_pic)
         self.exp.create_frame("instructions_f",
                 full_screen=True,
                 background_color=BACKGROUND)

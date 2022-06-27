@@ -10,6 +10,8 @@ from PIL import Image, ImageTk
 
 from ExGui import Experiment
 from GetSubjectData import OutputOrganizer
+from BeforeRunning import BeforeRunnigPreparation
+from RunCheck import PreRunChecker
 from Tasks.instructions import Instructions, InstructionsPaths
 from Tasks.DCT import DctTask, TaskData
 from Tasks.MAB import MABTask, MABTaskData
@@ -85,8 +87,14 @@ def main():
                                         #       in order to control ammount of blocks for a specific phase
                                         )
 
+    # Before Running:
+    brp = BeforeRunnigPreparation("Subjects")
+
+    # check running
+    prc = PreRunChecker()
+
     # MENU:
-    menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager, instructions_paths) # controls menu gui and imput fields
+    menu = Menu(exp, gui, flow, ap, AUDIOPATH, data_manager, instructions_paths, brp.run_for_all_subjects_for_IA_Tasks, prc.run_check) # controls menu gui and imput fields
 
     # INSTUCTIONS:
     instructions_dct_1 = Instructions(gui, exp, flow, instructions_paths, IMAGEPATH_DCT_PRACTICE_1)
@@ -155,6 +163,17 @@ def main():
 
     # identificaiton and similarity quesitons
     lq = LikertQuestion(gui, exp, flow) #
+
+    # Pre Run Check Flow:
+    check_flow = [
+                lambda: dichotic_data_manager.__late_init__()   ,
+                lambda: dichotic_task_data.__late_init__()      ,
+                # Body Maps & Emotions Raitings - Pre:
+                lambda: body_map.start_body_map_flow(session=1),
+                # End Screen
+                lambda: instructions_end_of_experiment.start_instrunctions(),
+                lambda: prc.restore_bodymap(),
+                    ]
 
     # FLOW OF TASKS LIST:
     tasks_pre = [
@@ -238,6 +257,7 @@ def main():
 
     # real running:
     menu.add_tasks_options(tasks_pre, intervention_tasks, tasks_post)
+    menu.check_flow = check_flow
 
     # debug runnig:
     # menu.add_tasks_options(

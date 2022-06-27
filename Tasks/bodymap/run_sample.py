@@ -24,19 +24,18 @@ class ConsoleBodyMap(object):
 
 
          # To draw our objects in
-        win = visual.window.Window(units='pix', fullscr=True, size=screen_size,
-                                   color='white', monitor=0)
+        self.win = visual.window.Window(units='pix', fullscr=True, size=screen_size, color='white', monitor=0)
 
         # ID, condition = registration()
         # ID, condition = 1, 1
         ID = self.menu.menu_data['subject']
         session = session
         # # The buttons, avatars, etc.
-        gscn = classes.GraphicalScene(win=win)
+        gscn = classes.GraphicalScene(win=self.win)
         # # An object to hold the drawn sensations
-        cluster1 = classes.SensationsCluster(win=win)
-        cluster2 = classes.SensationsCluster(win=win)
-        mouse = event.Mouse(win=win)
+        cluster1 = classes.SensationsCluster(win=self.win)
+        cluster2 = classes.SensationsCluster(win=self.win)
+        mouse = event.Mouse(win=self.win)
 
         while_bool = True
 
@@ -57,10 +56,10 @@ class ConsoleBodyMap(object):
             #Neutral
             block = 'neu'
             additional_info = {'participant_id': ID, 'session': session, 'block': block} #Participant_number, cond=pre/post, phase = baseline/neutral/negative
-            stp(win,block,additional_info)
-            emotion_rating(win,block, additional_info)
+            stp(self.win,block,additional_info)
+            emotion_rating(self.win,block, additional_info)
             bmt_neutral = classes.BodyMapTask(
-                win=win, scene=gscn, cluster=cluster1, mouse=mouse,
+                win=self.win, scene=gscn, cluster=cluster1, mouse=mouse,
                 additional_info=additional_info, block=block
             )
             bmt_neutral.run_task(block)
@@ -68,15 +67,15 @@ class ConsoleBodyMap(object):
             # Negative
             block = 'neg'
             additional_info = {'participant_id': ID, 'session': session, 'block': block}
-            stp(win, block, additional_info)
-            emotion_rating(win, block, additional_info)
+            stp(self.win, block, additional_info)
+            emotion_rating(self.win, block, additional_info)
             bmt_negative = classes.BodyMapTask(
-                win=win, scene=gscn, cluster=cluster2, mouse=mouse,
+                win=self.win, scene=gscn, cluster=cluster2, mouse=mouse,
                 additional_info=additional_info, block=block
             )
             bmt_negative.run_task(block)
 
             while_bool = False
-        win.close()
+        self.win.close()
         # core.quit()
         self.gui.after(100, self.flow.next)

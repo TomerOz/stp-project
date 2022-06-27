@@ -14,7 +14,7 @@ from Tasks.instructions import Instructions, InstructionsPaths
 from Tasks.DCT import DctTask, TaskData
 from Tasks.MAB import MABTask, MABTaskData
 from Tasks.AFACT import AfactTask, AfactTaskData
-from Tasks.BMM2 import BMMTask, BMMTaskData
+from Tasks.BMM import BMMTask, BMMTaskData
 from Tasks.LikertQuestionnaire import LikertQuestion
 from Tasks.OpeningMenu import Menu
 from Tasks.processing.wav_lengh import AudioProcessor
@@ -215,9 +215,9 @@ def main():
 
     bmm_tasks = [
                 # BMM:
-                # lambda: instructions_BMM.start_instrunctions(),
-                # lambda: bmm_task.start_task(),
-                # lambda: instructions_Post_BMM.start_instrunctions(),
+                lambda: instructions_BMM.start_instrunctions(),
+                lambda: bmm_task.start_task(),
+                lambda: instructions_Post_BMM.start_instrunctions(),
                 ]
     afact_tasks = [
                 # Afact:

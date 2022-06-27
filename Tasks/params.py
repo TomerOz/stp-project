@@ -43,7 +43,7 @@ PRE_PROCESSED_AUDIO_DF = 'audio_data_80sentences.xlsx'
 PROCESSED_AUDIO_DF = 'audio_data_digit.xlsx' # file name containing audio data after processing ready for dct-stp task
 AFACT_PHASE = "afact_phase"
 DICHOTIC_PHASE_STR = 'dichotic_phase'
-RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [9000, 9500, 10000, 10500, 11000]
+RANDOM_TIME_LAPSE_BETWEEN_BMM_TRIALS = [10000, 11000, 12000, 13000]
 
 # controls ammount of truals of the different phases
 # should be deleted :
