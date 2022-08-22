@@ -32,13 +32,16 @@ class PreRunChecker(object):
             matches = 0
             tap_list = audio_df["TAPlistNumber"].values.tolist()
             missing_sentences = []
+            already_matched = []
             for tap_sentece in tap_list:
                 tap_exist = False
                 for f in files:
                     if not "silence_recording" in f:
-                        if int(f.split("sentence")[1].split("_")[0]) == tap_sentece:
+                        rec_num = int(f.split("sentence")[1].split("_")[0])
+                        if rec_num == tap_sentece and not rec_num in already_matched:
                             matches+=1
                             tap_exist = True
+                            already_matched.append(rec_num)
                 if not tap_exist:
                     missing_sentences.append(tap_sentece)
 
